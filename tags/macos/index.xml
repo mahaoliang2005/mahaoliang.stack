@@ -22,11 +22,29 @@
 &lt;p&gt;macOS的Safari插件直接在App Store安装。&lt;/p&gt;
 &lt;p&gt;iOS上插件的安装请参考：&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/getting-started-safari-ios/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Get to know 1Password for Safari on your iPhone or iPad&lt;/a&gt;&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231710181.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Open Safari to any website and tap &lt;!-- raw HTML omitted --&gt; in  the address bar.&lt;/p&gt;
+&lt;p&gt;Open Safari to any website and tap &lt;img src=&#34;https://cdn.mazhen.tech/images/202206231702042.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt; in  the address bar.&lt;/p&gt;
 &lt;p&gt;If you&amp;rsquo;re using an iPad, tap &lt;img src=&#34;https://cdn.mazhen.tech/images/202206231703369.svg&#34;
 	
 	
@@ -78,15 +96,33 @@
 &lt;li&gt;Tap AutoFill Passwords.&lt;/li&gt;
 &lt;li&gt;Turn off iCloud Keychain.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231707380.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;ios上app的支持&#34;&gt;iOS上App的支持&lt;/h2&gt;
 &lt;p&gt;iOS上app使用 1Password 的体验和 Safari 是一致的，只要app使用iOS系统标准键盘，在需要输入用户名和密码的地方，会自动出现钥匙图标，点击钥匙，会呼出1Password进行自动填充。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231708210.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;然而很多&lt;strong&gt;国产银行类app&lt;/strong&gt;，基本都不使用iOS内置键盘，所以没法呼出1Password。这时候只能自己进入1Password 进行拷贝密码或创建密码的操作。&lt;/p&gt;
 &lt;h2 id=&#34;universal-autofill&#34;&gt;Universal Autofill&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/mac-universal-autofill/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Universal Autofill &lt;/a&gt; 是 &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/1password-8-for-mac/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Universal Autofill&lt;/a&gt; 是 &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/1password-8-for-mac/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;1Password 8&lt;/a&gt;的一个重大升级功能。Universal Autofill  实现了真正的「全局填充」。你只要记住一个快捷键 &lt;strong&gt;Command + \&lt;/strong&gt; ，就可以在浏览器、应用程序、终端和系统提示等任何地方，让 1Password 帮你自动完成密码填充。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://blog.1password.com/posts/2022/1password-8-for-mac/universal-autofill-zoom.gif&#34;
 	
@@ -106,19 +142,55 @@
     &gt;官方文档&lt;/a&gt;已经说明。我选择了微软的&lt;a class=&#34;link&#34; href=&#34;https://www.microsoft.com/en-us/security/mobile-authenticator-app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Authenticator&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;微软的Authenticator可以备份和恢复，在换手机时非常方便。另外使用 Authenticator 登录微软账号时体验很好，不需要输入密码，只用在手机上确认即可，体验类似扫码登录，但又不用扫码:)&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231537685.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;管理ssh-keys&#34;&gt;管理SSH Keys&lt;/h2&gt;
 &lt;p&gt;1Password 可以保存你的 SSH keys，并作为 &lt;a class=&#34;link&#34; href=&#34;https://www.ssh.com/academy/ssh/agent&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;SSH agent&lt;/a&gt; ，无缝整合 SSH 和 Git工作流。同时，在GitHub等平台需要填写公钥的地方，自动帮你拷贝填充公钥。&lt;/p&gt;
 &lt;h3 id=&#34;生成或导入ssh-keys&#34;&gt;生成或导入SSH keys&lt;/h3&gt;
 &lt;p&gt;我们可以使用 &lt;code&gt;ssh-keygen&lt;/code&gt; 命令自己生成 SSH key，也可以在 1Password 中创建SSH key 项目时自动生成。
-&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081432280.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;开启1password-ssh-agent&#34;&gt;开启1Password SSH Agent&lt;/h3&gt;
 &lt;p&gt;1Password SSH Agent 使用你保存在1Password中的 SSH Key，与你的Git和SSH工作流程无缝集成。它可以验证你的Git和SSH客户端，而这些客户端永远无法读取你的私钥。&lt;/p&gt;
 &lt;p&gt;首先要打开 1Password SSH Agent ，让它在后台运行，为你的SSH客户端处理认证。打开 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 开发者&lt;/strong&gt;，勾选 “&lt;strong&gt;使用 SSH agent&lt;/strong&gt;” 和 “&lt;strong&gt;授权连接时显示密钥名称&lt;/strong&gt;”。
-&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081459057.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;为了确保 SSH Agent 在后台持续运行，需要在 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 通用&lt;/strong&gt; 中，勾选 “&lt;strong&gt;在菜单栏中保留1Password&lt;/strong&gt;”。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081511818.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h3 id=&#34;配置-ssh-客户端&#34;&gt;配置 SSH 客户端&lt;/h3&gt;
 &lt;p&gt;为了让 SSH 客户端能使用1Password SSH agent，需要将 &lt;strong&gt;IdentityAgent&lt;/strong&gt; 配置添加到 &lt;code&gt;~/.ssh/config&lt;/code&gt;文件中：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -172,7 +244,16 @@
 &lt;p&gt;我们需要使用某种方式，将 SSH 公钥发布到远程服务器，以便对方能利用公钥验证你的身份。&lt;/p&gt;
 &lt;p&gt;一种方式是把公钥上传到服务提供者的网站，将公钥和你的账号绑定。例如你可以在&lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/ssh/new&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;GitHub SSH key settings&lt;/a&gt;页面上传公钥。 腾讯云的管理控制台也可以上传你的公钥，然后将公钥和你购买的服务器绑定。在页面填写公钥时，1Password会像填充密码一样进行自动填充。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081602211.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;另一种方式就是使用 &lt;code&gt;ssh-copy-id&lt;/code&gt; 命令，直接将公钥拷贝到远程服务器。&lt;/p&gt;
 &lt;p&gt;不管使用哪种方式，一定要记住你发布的是公钥，千万不能不小心泄漏了私钥。&lt;/p&gt;
 &lt;h3 id=&#34;管理-github-signing-key&#34;&gt;管理 Github Signing Key&lt;/h3&gt;
@@ -184,13 +265,40 @@
 &lt;li&gt;在GitHub上生成Signing Key。访问&lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/keys&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://github.com/settings/keys&lt;/a&gt; ，选择 “New SSH Key”，选择key的类型为 “Signing Key”，然后填入 1Password 管理的 SSH 公钥。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291739050.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;配置本地的 &lt;code&gt;.gitconfig&lt;/code&gt;。在 1Password中，选择SSH Key，并在上面显示的横幅中选择 &amp;ldquo;配置 &amp;ldquo;选项：&lt;/li&gt;
 &lt;/ol&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291749782.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;按照提示，配置你的 &lt;code&gt;.gitconfig&lt;/code&gt;文件。这些设置选择了你的 SSH key，并在 git commit 的时候使用 SSH Key 签名。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291751352.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;sign-in-with-anything&#34;&gt;“Sign in with” anything&lt;/h2&gt;
 &lt;p&gt;1Password将记住用户使用的第三方登录服务（如 sign in with Google）。看&lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/sign-in-with-anything-browser-beta/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;官方消息&lt;/a&gt;，这个功能很快会上线。&lt;/p&gt;
@@ -204,7 +312,16 @@
         <guid>https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/</guid>
         <description>&lt;h2 id=&#34;基本设置&#34;&gt;基本设置&lt;/h2&gt;
 &lt;p&gt;打开终端的&lt;strong&gt;偏好设置&lt;/strong&gt;，点击&lt;strong&gt;描述文件&lt;/strong&gt;tab，将 &lt;strong&gt;Pro&lt;/strong&gt; 设置为默认描述文件。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206222053254.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;然后对 &lt;strong&gt;Pro&lt;/strong&gt; 进行配置。&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -319,6 +436,8 @@
 	
 	loading=&#34;lazy&#34;
 	
+		alt=&#34;img&#34;
+	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;如果你在使用&lt;strong&gt;VSCode&lt;/strong&gt;，需要在配置文件&lt;strong&gt;settings.json&lt;/strong&gt;中设置下面两个配置，你就可以让&lt;strong&gt;VSCode&lt;/strong&gt;的终端同样适配Powerlevel10k。&lt;/p&gt;
@@ -358,7 +477,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;在键入命令时，会有灰色的提示信息，按 &lt;code&gt;→&lt;/code&gt; 或 &lt;code&gt;ctrl-f&lt;/code&gt; 自动完成。是不是非常方便，用过后就完全离不开了。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206261907246.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;h2 id=&#34;命令别名配置&#34;&gt;命令别名配置&lt;/h2&gt;
 &lt;p&gt;使用命令行操作非常快速便捷，但有时候你不知道命令具体干了什么，例如我输入的 &lt;code&gt;rm *&lt;/code&gt;到底删除了哪些文件。&lt;/p&gt;
 &lt;p&gt;其实这些命令都有参数，详细的输出该命令影响的文件。但每次都输入这些参数实在太麻烦，我们可以在 Zsh 的配置文件 &lt;strong&gt;~/.zshrc&lt;/strong&gt; 中为这些命令设置别名：&lt;/p&gt;
@@ -398,16 +526,43 @@
 &lt;h2 id=&#34;词典配置&#34;&gt;词典配置&lt;/h2&gt;
 &lt;p&gt;在触控板设置中，勾选“三指轻点”触发查询与数据检查器。&lt;/p&gt;
 &lt;p&gt;在词典应用的偏好设置中，除了缺省选择的词典，建议增加勾选一个英英词典。用英语解释英语单词，就想我们查汉语词典一样，是一种更地道的学习英语方式。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231537712.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;在任何应用中，都可以通过“三指轻点”，触发词典。因为是系统原生支持，体验丝滑顺畅。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207042115889.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;p&gt;原生词典方便好用，但是没有单词本功能。网上找到一种&lt;a class=&#34;link&#34; href=&#34;https://hectorguo.com/zh/save-words-in-dictionary/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;利用“自动操作”生成单词本的方法&lt;/a&gt;，可以尝试。&lt;/p&gt;
 &lt;h2 id=&#34;系统偏好设置&#34;&gt;系统偏好设置&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;滚动条设置&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231457250.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;始终显示滚动条&lt;/li&gt;
 &lt;li&gt;跳至点按的位置&lt;/li&gt;
@@ -423,6 +578,8 @@
 	
 	
 	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
 	
 	
 &gt;&lt;/li&gt;
