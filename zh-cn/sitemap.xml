@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,11 +15,8 @@
                 href="https://mahaoliang.tech/"
                 />
   </url><url>
-    <loc>https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
-  </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -31,14 +28,17 @@
                 href="https://mahaoliang.tech/categories/"
                 />
   </url><url>
-    <loc>https://mahaoliang.tech/tags/macos/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+    <loc>https://mahaoliang.tech/tags/java/</loc>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -51,6 +51,12 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/tech/</loc>
+    <lastmod>2023-06-24T18:08:17+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
+    <lastmod>2022-09-29T22:06:18+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/macos/</loc>
     <lastmod>2022-09-29T22:06:18+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/page/</loc>

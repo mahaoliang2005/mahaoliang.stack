@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='1Password的最大优势是跨平台，不管是苹果系的iOS，macOS，还是Google的Android，微软的Windows，以及Linu'>
-<title>1Password在macOS和iOS上的使用技巧</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的Java版本列表 1'>
+<title>Sdkman的使用</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/'>
 
-<link rel="stylesheet" href="/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css"><meta property='og:title' content='1Password在macOS和iOS上的使用技巧'>
-<meta property='og:description' content='1Password的最大优势是跨平台，不管是苹果系的iOS，macOS，还是Google的Android，微软的Windows，以及Linu'>
-<meta property='og:url' content='https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/'>
+<link rel="stylesheet" href="/scss/style.min.8191399262444ab68b72a18c97392f5349be20a1615d77445be51e974c144cff.css"><meta property='og:title' content='Sdkman的使用'>
+<meta property='og:description' content='SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的Java版本列表 1'>
+<meta property='og:url' content='https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:published_time' content='2022-09-29T22:06:18&#43;08:00'/><meta property='article:modified_time' content='2022-09-29T22:06:18&#43;08:00'/>
-<meta name="twitter:title" content="1Password在macOS和iOS上的使用技巧">
-<meta name="twitter:description" content="1Password的最大优势是跨平台，不管是苹果系的iOS，macOS，还是Google的Android，微软的Windows，以及Linu">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='java' /><meta property='article:published_time' content='2023-06-24T18:08:17&#43;08:00'/><meta property='article:modified_time' content='2023-06-24T18:08:17&#43;08:00'/>
+<meta name="twitter:title" content="Sdkman的使用">
+<meta name="twitter:description" content="SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的Java版本列表 1">
     <link rel="shortcut icon" href="/favicon.png" />
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
@@ -322,52 +322,7 @@ if (!doNotTrack) {
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ol>
-    <li><a href="#安装">安装</a></li>
-    <li><a href="#关掉内置密码管理">关掉内置密码管理</a></li>
-    <li><a href="#ios上app的支持">iOS上App的支持</a></li>
-    <li><a href="#universal-autofill">Universal Autofill</a></li>
-    <li><a href="#两步认证">两步认证</a></li>
-    <li><a href="#管理ssh-keys">管理SSH Keys</a>
-      <ol>
-        <li><a href="#生成或导入ssh-keys">生成或导入SSH keys</a></li>
-        <li><a href="#开启1password-ssh-agent">开启1Password SSH Agent</a></li>
-        <li><a href="#配置-ssh-客户端">配置 SSH 客户端</a></li>
-        <li><a href="#发布-ssh-公钥">发布 SSH 公钥</a></li>
-        <li><a href="#管理-github-signing-key">管理 Github Signing Key</a></li>
-      </ol>
-    </li>
-    <li><a href="#sign-in-with-anything">“Sign in with” anything</a></li>
-  </ol>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="main-article">
@@ -386,7 +341,7 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">1Password在macOS和iOS上的使用技巧</a>
+            <a href="/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/">Sdkman的使用</a>
         </h2>
     
         
@@ -408,7 +363,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2022-09-29</time>
+                <time class="article-time--published">2023-06-24</time>
             </div>
         
 
@@ -423,7 +378,7 @@ if (!doNotTrack) {
 
 
                 <time class="article-time--reading">
-                    阅读时长: 5 分钟
+                    阅读时长: 1 分钟
                 </time>
             </div>
         
@@ -438,297 +393,111 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <p><a class="link" href="http://1password.com"  target="_blank" rel="noopener"
-    >1Password</a>的最大优势是<strong>跨平台</strong>，不管是苹果系的iOS，macOS，还是Google的Android，微软的Windows，以及Linux，都能完美支持。让你在macOS上使用Safari，在Windows上使用Edge，Android上使用Chrome时，都能无缝得到密码管理的支持。这是苹果自带的密码管理所不能满足的。</p>
-<p>如何使用好1Password，官方文档<a class="link" href="https://support.1password.com/explore/get-started/"  target="_blank" rel="noopener"
-    >Get started with 1Password</a>是最好的学习素材，快速浏览一遍，基本会使用完全没有问题。</p>
-<p>这篇文档我只重点介绍在 macOS 和 iOS 上使用1Password时的一些注意事项。</p>
-<h2 id="安装">安装</h2>
-<p>macOS和iOS上的Safari，都需要打开<strong>1Password插件</strong>。</p>
-<p>macOS的Safari插件直接在App Store安装。</p>
-<p>iOS上插件的安装请参考：<a class="link" href="https://support.1password.com/getting-started-safari-ios/"  target="_blank" rel="noopener"
-    >Get to know 1Password for Safari on your iPhone or iPad</a></p>
-<p><img src="https://cdn.mazhen.tech/images/202206231710181.png"
+    <p><a class="link" href="https://sdkman.io/"  target="_blank" rel="noopener"
+    >SDKMAN！</a>是用于管理多个软件开发工具包的并行版本的工具。</p>
+<p><img src="https://cdn.mahaoliang.tech/images/202306241814580.svg"
 	
 	
 	
 	loading="lazy"
 	
-		alt="img"
+		alt="sdkman"
 	
 	
 ></p>
-<blockquote>
-<ol>
-<li>
-<p>Open Safari to any website and tap <img src="https://cdn.mazhen.tech/images/202206231702042.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-> in  the address bar.</p>
-<p>If you&rsquo;re using an iPad, tap <img src="https://cdn.mazhen.tech/images/202206231703369.svg"
-	
-	
-	
-	loading="lazy"
-	
-		alt="the Extension button"
-	
-	
-> in the address bar.</p>
-</li>
-<li>
-<p>Tap Manage Extensions and turn on 1Password, then tap Done.</p>
-</li>
-</ol>
-</blockquote>
-<h2 id="关掉内置密码管理">关掉内置密码管理</h2>
-<p>由于Safari自带了密码管理，同时打开会和 1Password 有冲突，因此需要<strong>关闭内置的密码管理</strong>。</p>
-<p>具体操作参考官方文档<a class="link" href="https://support.1password.com/disable-browser-password-manager/"  target="_blank" rel="noopener"
-    >Turn off the built-in password manager in your browser</a>。</p>
+<p>可安装的<a class="link" href="https://sdkman.io/sdks"  target="_blank" rel="noopener"
+    >软件列表</a></p>
 <ul>
-<li><strong>macOS 上Safari的设置</strong></li>
+<li>列出当前可安装的软件列表</li>
 </ul>
-<blockquote>
-<p>To stop Safari from asking to save your passwords:</p>
-<ol>
-<li>Click the Safari menu and choose Preferences.</li>
-<li>Click the AutoFill icon.</li>
-<li>Turn off all the AutoFill web forms settings: “Using info from my contacts”, “User names and passwords”, “Credit cards”, and “Other forms”.</li>
-</ol>
-<p><img src="https://cdn.mazhen.tech/images/202206231705991.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="Turn off the AutoFill settings in Safari preferences"
-	
-	
-></p>
-</blockquote>
-<ul>
-<li><strong>iOS 上Safari的设置</strong></li>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk list
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>列出当前可安装的Java版本列表</li>
 </ul>
-<blockquote>
-<p>To stop Safari from asking to save your passwords:</p>
-<ol>
-<li>Open Settings, then tap Passwords &amp; Accounts.</li>
-<li>Tap AutoFill Passwords.</li>
-<li>Turn off iCloud Keychain.</li>
-</ol>
-<p><img src="https://cdn.mazhen.tech/images/202206231707380.jpg"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-</blockquote>
-<h2 id="ios上app的支持">iOS上App的支持</h2>
-<p>iOS上app使用 1Password 的体验和 Safari 是一致的，只要app使用iOS系统标准键盘，在需要输入用户名和密码的地方，会自动出现钥匙图标，点击钥匙，会呼出1Password进行自动填充。</p>
-<p><img src="https://cdn.mazhen.tech/images/202206231708210.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>然而很多<strong>国产银行类app</strong>，基本都不使用iOS内置键盘，所以没法呼出1Password。这时候只能自己进入1Password 进行拷贝密码或创建密码的操作。</p>
-<h2 id="universal-autofill">Universal Autofill</h2>
-<p><a class="link" href="https://support.1password.com/mac-universal-autofill/"  target="_blank" rel="noopener"
-    >Universal Autofill</a> 是 <a class="link" href="https://blog.1password.com/1password-8-for-mac/"  target="_blank" rel="noopener"
-    >1Password 8</a>的一个重大升级功能。Universal Autofill  实现了真正的「全局填充」。你只要记住一个快捷键 <strong>Command + \</strong> ，就可以在浏览器、应用程序、终端和系统提示等任何地方，让 1Password 帮你自动完成密码填充。</p>
-<p><img src="https://blog.1password.com/posts/2022/1password-8-for-mac/universal-autofill-zoom.gif"
-	
-	
-	
-	loading="lazy"
-	
-		alt="autofill"
-	
-	
-></p>
-<h2 id="两步认证">两步认证</h2>
-<p>对于已经支持1Password <a class="link" href="https://support.1password.com/one-time-passwords/"  target="_blank" rel="noopener"
-    >两步认证</a> 的<a class="link" href="https://2fa.directory"  target="_blank" rel="noopener"
-    >网站</a>，都已经迁移到了1Password。</p>
-<p>如果1Password本身开启了两步认证，它就需要一个第三方的Authenticator，因为它不可能自己保存自己的one-time password，<a class="link" href="https://support.1password.com/two-factor-authentication/"  target="_blank" rel="noopener"
-    >官方文档</a>已经说明。我选择了微软的<a class="link" href="https://www.microsoft.com/en-us/security/mobile-authenticator-app"  target="_blank" rel="noopener"
-    >Authenticator</a>。</p>
-<p>微软的Authenticator可以备份和恢复，在换手机时非常方便。另外使用 Authenticator 登录微软账号时体验很好，不需要输入密码，只用在手机上确认即可，体验类似扫码登录，但又不用扫码:)</p>
-<p><img src="https://cdn.mazhen.tech/images/202206231537685.JPG"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<h2 id="管理ssh-keys">管理SSH Keys</h2>
-<p>1Password 可以保存你的 SSH keys，并作为 <a class="link" href="https://www.ssh.com/academy/ssh/agent"  target="_blank" rel="noopener"
-    >SSH agent</a> ，无缝整合 SSH 和 Git工作流。同时，在GitHub等平台需要填写公钥的地方，自动帮你拷贝填充公钥。</p>
-<h3 id="生成或导入ssh-keys">生成或导入SSH keys</h3>
-<p>我们可以使用 <code>ssh-keygen</code> 命令自己生成 SSH key，也可以在 1Password 中创建SSH key 项目时自动生成。
-<img src="https://cdn.mazhen.tech/images/202207081432280.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<h3 id="开启1password-ssh-agent">开启1Password SSH Agent</h3>
-<p>1Password SSH Agent 使用你保存在1Password中的 SSH Key，与你的Git和SSH工作流程无缝集成。它可以验证你的Git和SSH客户端，而这些客户端永远无法读取你的私钥。</p>
-<p>首先要打开 1Password SSH Agent ，让它在后台运行，为你的SSH客户端处理认证。打开 <strong>1Password &gt; 偏好设置 &gt; 开发者</strong>，勾选 “<strong>使用 SSH agent</strong>” 和 “<strong>授权连接时显示密钥名称</strong>”。
-<img src="https://cdn.mazhen.tech/images/202207081459057.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>为了确保 SSH Agent 在后台持续运行，需要在 <strong>1Password &gt; 偏好设置 &gt; 通用</strong> 中，勾选 “<strong>在菜单栏中保留1Password</strong>”。</p>
-<p><img src="https://cdn.mazhen.tech/images/202207081511818.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<h3 id="配置-ssh-客户端">配置 SSH 客户端</h3>
-<p>为了让 SSH 客户端能使用1Password SSH agent，需要将 <strong>IdentityAgent</strong> 配置添加到 <code>~/.ssh/config</code>文件中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk list java
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>安装指定的版本</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk install java 17.0.7-tem
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>查看当前使用的版本</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host *
-</span></span><span class="line"><span class="cl">  IdentityAgent <span class="s2">&#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk current 
+</span></span><span class="line"><span class="cl">sdk current java
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>你也可以在 Shell 中设置 <strong>SSH_AUTH_SOCK</strong> 环境变量：</p>
+</div><ul>
+<li>设置缺失使用的版本</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span>~/Library/Group<span class="se">\ </span>Containers/2BUA8C4S2C.com.1password/t/agent.sock
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk default java 17.0.7-tem
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>如果觉得agent 路径过于复杂，可以先创建一个符号链接：</p>
+</div><ul>
+<li>设置当前shell session使用的版本</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir -p ~/.1password <span class="o">&amp;&amp;</span> ln -s ~/Library/Group<span class="se">\ </span>Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk use java 8.0.332-tem   
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>这样就可以在设置环境变量时直接引用符号链接：</p>
+</div><ul>
+<li>更新软件仓库</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.1password/agent.sock
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk update
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>现在 SSH 客户端就可以在登录远程主机时使用1Password SSH agent。</p>
-<p>可以使用下面的命令查看，1Password SSH agent 帮我们管理的SSH Keys：</p>
+</div><ul>
+<li>sdk软件本身的更新</li>
+</ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ssh-add -L
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk selfupdate
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="发布-ssh-公钥">发布 SSH 公钥</h3>
-<p>我们需要使用某种方式，将 SSH 公钥发布到远程服务器，以便对方能利用公钥验证你的身份。</p>
-<p>一种方式是把公钥上传到服务提供者的网站，将公钥和你的账号绑定。例如你可以在<a class="link" href="https://github.com/settings/ssh/new"  target="_blank" rel="noopener"
-    >GitHub SSH key settings</a>页面上传公钥。 腾讯云的管理控制台也可以上传你的公钥，然后将公钥和你购买的服务器绑定。在页面填写公钥时，1Password会像填充密码一样进行自动填充。</p>
-<p><img src="https://cdn.mazhen.tech/images/202207081602211.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>另一种方式就是使用 <code>ssh-copy-id</code> 命令，直接将公钥拷贝到远程服务器。</p>
-<p>不管使用哪种方式，一定要记住你发布的是公钥，千万不能不小心泄漏了私钥。</p>
-<h3 id="管理-github-signing-key">管理 Github Signing Key</h3>
-<p>Github 开始<a class="link" href="https://github.blog/changelog/2022-08-23-ssh-commit-verification-now-supported/"  target="_blank" rel="noopener"
-    >支持使用 SSH Key 来签名提交</a>，也就是说，我们可以用 1Password 管理的 SSH key 来签名 git commit。</p>
-<p>设置过程可以参考<a class="link" href="https://blog.1password.com/git-commit-signing/"  target="_blank" rel="noopener"
-    >Sign your Git commits with 1Password</a>，主要包含两个步骤：</p>
-<ol>
-<li>在GitHub上生成Signing Key。访问<a class="link" href="https://github.com/settings/keys"  target="_blank" rel="noopener"
-    >https://github.com/settings/keys</a> ，选择 “New SSH Key”，选择key的类型为 “Signing Key”，然后填入 1Password 管理的 SSH 公钥。</li>
-</ol>
-<p><img src="https://cdn.mazhen.tech/images/202209291739050.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<ol start="2">
-<li>配置本地的 <code>.gitconfig</code>。在 1Password中，选择SSH Key，并在上面显示的横幅中选择 &ldquo;配置 &ldquo;选项：</li>
-</ol>
-<p><img src="https://cdn.mazhen.tech/images/202209291749782.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>按照提示，配置你的 <code>.gitconfig</code>文件。这些设置选择了你的 SSH key，并在 git commit 的时候使用 SSH Key 签名。</p>
-<p><img src="https://cdn.mazhen.tech/images/202209291751352.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<h2 id="sign-in-with-anything">“Sign in with” anything</h2>
-<p>1Password将记住用户使用的第三方登录服务（如 sign in with Google）。看<a class="link" href="https://blog.1password.com/sign-in-with-anything-browser-beta/"  target="_blank" rel="noopener"
-    >官方消息</a>，这个功能很快会上线。</p>
-
+</div>
 </section>
 
 
@@ -736,7 +505,7 @@ if (!doNotTrack) {
     
     <section class="article-tags">
         
-            <a href="/tags/macos/">macos</a>
+            <a href="/tags/java/">java</a>
         
     </section>
 
@@ -770,6 +539,19 @@ if (!doNotTrack) {
             
                 
 <article class="">
+    <a href="/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1Password在macOS和iOS上的使用技巧</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/">
         
         
@@ -789,19 +571,6 @@ if (!doNotTrack) {
 
         <div class="article-details">
             <h2 class="article-title">macOS的系统建议设置</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Sdkman的使用</h2>
         </div>
     </a>
 </article>
