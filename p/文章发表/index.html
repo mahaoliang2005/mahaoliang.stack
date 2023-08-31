@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='基本设置 打开终端的偏好设置，点击描述文件tab，将 Pro 设置为默认描述文件。 然后对 Pro 进行配置。 Tab页 设置 文本 勾选“平滑文本”。可自定义背景透明'>
-<title>打造一个漂亮的命令行终端</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='生成新的文章 进入到本机网站目录 1 cd documents/works/mahaoliang/mahaoliang.stack.tech 在保存本机网站的目录下运行下面的命令，生成一篇文章 1 hugo new post/kubernetes-overview.md 编辑文章 使用 Typora 打开新建的文章，首先编辑文章的元'>
+<title>文章发表</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%96%87%E7%AB%A0%E5%8F%91%E8%A1%A8/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='打造一个漂亮的命令行终端'>
-<meta property='og:description' content='基本设置 打开终端的偏好设置，点击描述文件tab，将 Pro 设置为默认描述文件。 然后对 Pro 进行配置。 Tab页 设置 文本 勾选“平滑文本”。可自定义背景透明'>
-<meta property='og:url' content='https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='文章发表'>
+<meta property='og:description' content='生成新的文章 进入到本机网站目录 1 cd documents/works/mahaoliang/mahaoliang.stack.tech 在保存本机网站的目录下运行下面的命令，生成一篇文章 1 hugo new post/kubernetes-overview.md 编辑文章 使用 Typora 打开新建的文章，首先编辑文章的元'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%96%87%E7%AB%A0%E5%8F%91%E8%A1%A8/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:published_time' content='2022-07-23T15:26:12&#43;08:00'/><meta property='article:modified_time' content='2022-07-23T15:26:12&#43;08:00'/>
-<meta name="twitter:title" content="打造一个漂亮的命令行终端">
-<meta name="twitter:description" content="基本设置 打开终端的偏好设置，点击描述文件tab，将 Pro 设置为默认描述文件。 然后对 Pro 进行配置。 Tab页 设置 文本 勾选“平滑文本”。可自定义背景透明">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='article' /><meta property='article:published_time' content='2023-08-31T20:54:03&#43;08:00'/><meta property='article:modified_time' content='2023-08-31T20:54:03&#43;08:00'/>
+<meta name="twitter:title" content="文章发表">
+<meta name="twitter:description" content="生成新的文章 进入到本机网站目录 1 cd documents/works/mahaoliang/mahaoliang.stack.tech 在保存本机网站的目录下运行下面的命令，生成一篇文章 1 hugo new post/kubernetes-overview.md 编辑文章 使用 Typora 打开新建的文章，首先编辑文章的元">
     <link rel="shortcut icon" href="/favicon.png" />
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
@@ -356,12 +356,10 @@ if (!doNotTrack) {
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#基本设置">基本设置</a></li>
-    <li><a href="#安装xcode-command-line-tools">安装<strong>Xcode Command Line Tools</strong></a></li>
-    <li><a href="#安装oh-my-zsh">安装<strong>Oh My Zsh</strong></a></li>
-    <li><a href="#安装和配置-powerlevel10k">安装和配置 Powerlevel10k</a></li>
-    <li><a href="#安装-zsh-autosuggestions-插件">安装 zsh-autosuggestions 插件</a></li>
-    <li><a href="#命令别名配置">命令别名配置</a></li>
+    <li><a href="#生成新的文章">生成新的文章</a></li>
+    <li><a href="#编辑文章">编辑文章</a></li>
+    <li><a href="#将文章发布到github">将文章发布到GitHub</a></li>
+    <li><a href="#网站内容更新">网站内容更新</a></li>
   </ol>
 </nav>
         </div>
@@ -389,7 +387,7 @@ if (!doNotTrack) {
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/">打造一个漂亮的命令行终端</a>
+            <a href="/p/%E6%96%87%E7%AB%A0%E5%8F%91%E8%A1%A8/">文章发表</a>
         </h2>
     
         
@@ -411,7 +409,7 @@ if (!doNotTrack) {
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2022-07-23</time>
+                <time class="article-time--published">2023-08-31</time>
             </div>
         
 
@@ -426,7 +424,7 @@ if (!doNotTrack) {
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 1 分钟
                 </time>
             </div>
         
@@ -441,66 +439,27 @@ if (!doNotTrack) {
     <section class="article-content">
     
     
-    <h2 id="基本设置">基本设置</h2>
-<p>打开终端的<strong>偏好设置</strong>，点击<strong>描述文件</strong>tab，将 <strong>Pro</strong> 设置为默认描述文件。</p>
-<p><img src="https://cdn.mazhen.tech/images/202206222053254.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>然后对 <strong>Pro</strong> 进行配置。</p>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Tab页</th>
-<th>设置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>文本</td>
-<td>勾选“<strong>平滑文本</strong>”。可自定义背景透明度。</td>
-</tr>
-<tr>
-<td>窗口</td>
-<td><strong>窗口大小</strong>：行 120 列30</td>
-</tr>
-<tr>
-<td>窗口</td>
-<td>选择 <strong>将行数限制为</strong>：10000</td>
-</tr>
-<tr>
-<td>shell</td>
-<td><strong>当shell退出时</strong>，选择<strong>当shell完全退出后关闭</strong></td>
-</tr>
-<tr>
-<td>键盘</td>
-<td>勾选 <strong>将option键当Meta键</strong></td>
-</tr>
-<tr>
-<td>高级</td>
-<td>确认终端为 <strong>xterm-256 color</strong></td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="安装xcode-command-line-tools">安装<strong>Xcode Command Line Tools</strong></h2>
-<p><strong>Xcode Command Line Tools</strong> 包含了<strong>clang</strong>编译器，<strong>git</strong>客户端等命令行常用的工具。使用下面的命令安装：</p>
+    <h2 id="生成新的文章">生成新的文章</h2>
+<p>进入到本机网站目录</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">xcode-select --install
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd documents/works/mahaoliang/mahaoliang.stack.tech
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="安装oh-my-zsh">安装<strong>Oh My Zsh</strong></h2>
-<p>参照 <code>Oh My ZSH!</code> 的<a class="link" href="https://github.com/ohmyzsh/ohmyzsh/wiki"  target="_blank" rel="noopener"
-    >官方文档</a>进行安装。</p>
+</div><p>在保存本机网站的目录下运行下面的命令，生成一篇文章</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">hugo new post/kubernetes-overview.md
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="编辑文章">编辑文章</h2>
+<p>使用 Typora 打开新建的文章，首先编辑文章的元信息：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -510,134 +469,49 @@ if (!doNotTrack) {
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1">#确认zsh版本</span>
-</span></span><span class="line"><span class="cl">zsh --version
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1">#执行安装</span>
-</span></span><span class="line"><span class="cl">sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">title: &#34;Kubernetes工作原理概述&#34;
+</span></span><span class="line"><span class="cl">date: 2022-07-22T17:30:11+08:00
+</span></span><span class="line"><span class="cl">draft: false
+</span></span><span class="line"><span class="cl">tags: [docker,linux,kubernetes]
+</span></span><span class="line"><span class="cl">categories: [tech]
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>如出现连接问题，请在终端设置科学上网。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:7890 <span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:7890 <span class="nv">all_proxy</span><span class="o">=</span>socks5://127.0.0.1:7890
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="安装和配置-powerlevel10k">安装和配置 Powerlevel10k</h2>
-<p><a class="link" href="https://github.com/romkatv/powerlevel10k"  target="_blank" rel="noopener"
-    >powerlevel10k</a> 是一个Zsh的主题，具体很强的灵活性，并且非常美观。</p>
-<p>首先安装 Powerlevel10k 所推荐的字体 Meslo Nerd Font，可以在命令行终端显示一些特殊符号。下载并安装下列字体：</p>
-<ul>
-<li><a class="link" href="https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf"  target="_blank" rel="noopener"
-    >MesloLGS NF Regular.ttf</a></li>
-<li><a class="link" href="https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf"  target="_blank" rel="noopener"
-    >MesloLGS NF Bold.ttf</a></li>
-<li><a class="link" href="https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf"  target="_blank" rel="noopener"
-    >MesloLGS NF Italic.ttf</a></li>
-<li><a class="link" href="https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf"  target="_blank" rel="noopener"
-    >MesloLGS NF Bold Italic.ttf</a></li>
-</ul>
-<p>然后更改终端的字体，在终端的偏好设置的的描述文件中，选择我们使用的 Pro，设置字体为<code>MesloLGS NF</code>， 字体大小为 14。</p>
-<p>由于我们使用的是Oh My Zsh，可以把Powerlevel10k作为一个主题，安装到Oh My Zsh中：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone --depth<span class="o">=</span><span class="m">1</span> https://github.com/romkatv/powerlevel10k.git <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.oh-my-zsh/custom</span><span class="si">}</span>/themes/powerlevel10k
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果遇到网络问题，可以参考上面，设置终端科学上网代理。</p>
-<p>编辑Oh My Zsh 的配置文件 <strong>~/.zshrc</strong>，设置主题为Powerlevel10k</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;powerlevel10k/powerlevel10k&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>重新开启终端，按照提示进行Powerlevel10k的样式配置，完成后，我们漂亮的命令行终端配置就大功告成了。</p>
-<p><img src="https://cdn.mahaoliang.tech/images/202207231529094.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<p>如果你在使用<strong>VSCode</strong>，需要在配置文件<strong>settings.json</strong>中设置下面两个配置，你就可以让<strong>VSCode</strong>的终端同样适配Powerlevel10k。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> &#34;terminal.integrated.fontSize&#34;: 14, 
-</span></span><span class="line"><span class="cl"> &#34;terminal.integrated.fontFamily&#34;: &#34;MesloLGS NF&#34;
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="安装-zsh-autosuggestions-插件">安装 zsh-autosuggestions 插件</h2>
-<p>Oh My Zsh在安装完成后，已经自动配置了git插件。为了在命令行终端更快捷的工作，还可以为Oh My Zsh安装<a class="link" href="https://github.com/zsh-users/zsh-autosuggestions"  target="_blank" rel="noopener"
-    >zsh-autosuggestions</a> 插件。</p>
-<p><a class="link" href="https://github.com/zsh-users/zsh-autosuggestions"  target="_blank" rel="noopener"
-    >zsh-autosuggestions</a> 提供类似于<a class="link" href="https://fishshell.com"  target="_blank" rel="noopener"
-    >Fish shell</a> 自动建议功能，它会根据历史记录，在你键入命令的时候，提供非侵入式的自动建议。</p>
-<p>安装<a class="link" href="https://github.com/zsh-users/zsh-autosuggestions"  target="_blank" rel="noopener"
-    >zsh-autosuggestions</a> 的命令：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git clone https://github.com/zsh-users/zsh-autosuggestions <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-autosuggestions
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>在 <code>~/.zshrc</code> 中配置插件：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git zsh-autosuggestions<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>在键入命令时，会有灰色的提示信息，按 <code>→</code> 或 <code>ctrl-f</code> 自动完成。是不是非常方便，用过后就完全离不开了。</p>
-<p><img src="https://cdn.mazhen.tech/images/202206261907246.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="img"
-	
-	
-></p>
-<h2 id="命令别名配置">命令别名配置</h2>
-<p>使用命令行操作非常快速便捷，但有时候你不知道命令具体干了什么，例如我输入的 <code>rm *</code>到底删除了哪些文件。</p>
-<p>其实这些命令都有参数，详细的输出该命令影响的文件。但每次都输入这些参数实在太麻烦，我们可以在 Zsh 的配置文件 <strong>~/.zshrc</strong> 中为这些命令设置别名：</p>
+</div><p>然后编辑文章内容，图片使用 picGo 上传到图床。</p>
+<h2 id="将文章发布到github">将文章发布到GitHub</h2>
+<p>在保存本机网站的目录下运行下面的命令，将文章发布到GitHub</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mkdir</span><span class="o">=</span><span class="s1">&#39;mkdir -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mv</span><span class="o">=</span><span class="s1">&#39;mv -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">cp</span><span class="o">=</span><span class="s1">&#39;cp -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">rm</span><span class="o">=</span><span class="s1">&#39;rm -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ln</span><span class="o">=</span><span class="s1">&#39;ln -v&#39;</span>
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m &#34;kubernetes&#34;
+</span></span><span class="line"><span class="cl">git push
 </span></span></code></pre></td></tr></table>
 </div>
+</div><h2 id="网站内容更新">网站内容更新</h2>
+<p>登录到腾讯云主机，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ssh guangzhou-tencent
+</span></span></code></pre></td></tr></table>
 </div>
+</div><p>进入 <code>~/works/mahaoliang.stack</code> 目录，执行命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git pull
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完成</p>
+
 </section>
 
 
@@ -645,7 +519,7 @@ if (!doNotTrack) {
     
     <section class="article-tags">
         
-            <a href="/tags/macos/">macos</a>
+            <a href="/tags/article/">article</a>
         
     </section>
 
@@ -679,6 +553,19 @@ if (!doNotTrack) {
             
                 
 <article class="">
+    <a href="/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Sdkman的使用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
         
         
@@ -692,38 +579,25 @@ if (!doNotTrack) {
             
                 
 <article class="">
+    <a href="/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">打造一个漂亮的命令行终端</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/p/macos%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/">
         
         
 
         <div class="article-details">
             <h2 class="article-title">macOS的系统建议设置</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/%E6%96%87%E7%AB%A0%E5%8F%91%E8%A1%A8/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">文章发表</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Sdkman的使用</h2>
         </div>
     </a>
 </article>
