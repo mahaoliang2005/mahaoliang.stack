@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,17 +28,14 @@
                 href="https://mahaoliang.tech/categories/"
                 />
   </url><url>
-    <loc>https://mahaoliang.tech/tags/markdown/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+    <loc>https://mahaoliang.tech/categories/life/</loc>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -49,6 +46,18 @@
                 hreflang="zh-cn"
                 href="https://mahaoliang.tech/tags/"
                 />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/values/</loc>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/%E9%A9%AC%E7%9C%BC%E7%9C%8B%E4%B8%96%E7%95%8C/</loc>
+    <lastmod>2023-09-03T20:55:25+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/markdown/</loc>
+    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/</loc>
+    <lastmod>2023-09-03T19:58:18+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/categories/tech/</loc>
     <lastmod>2023-09-03T19:58:18+08:00</lastmod>
@@ -64,9 +73,6 @@
   </url><url>
     <loc>https://mahaoliang.tech/p/%E8%83%A1%E6%A1%83%E7%9A%84%E6%9C%80%E4%BC%98%E9%9D%A2%E6%9D%BF/</loc>
     <lastmod>2023-09-01T21:16:54+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/categories/life/</loc>
-    <lastmod>2023-09-01T19:23:19+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/military-training/</loc>
     <lastmod>2023-09-01T19:23:19+08:00</lastmod>
