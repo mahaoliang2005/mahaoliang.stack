@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2023-09-15T15:07:58+08:00</lastmod>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2023-09-15T15:07:58+08:00</lastmod>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,14 +28,14 @@
                 href="https://mahaoliang.tech/categories/"
                 />
   </url><url>
-    <loc>https://mahaoliang.tech/tags/math/</loc>
-    <lastmod>2023-09-15T15:07:58+08:00</lastmod>
+    <loc>https://mahaoliang.tech/tags/linux/</loc>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2023-09-15T15:07:58+08:00</lastmod>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2023-09-15T15:07:58+08:00</lastmod>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -48,6 +48,12 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/tech/</loc>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%88%97%E8%A1%A8/</loc>
+    <lastmod>2024-08-24T15:51:30+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/math/</loc>
     <lastmod>2023-09-15T15:07:58+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/p/%E5%A6%82%E4%BD%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%98%E5%88%B6%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0/</loc>
