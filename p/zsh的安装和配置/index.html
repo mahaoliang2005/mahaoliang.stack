@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='1. 文本部分 1.1 斜体和粗体，删除线 使用 * 和 ** 表示斜体和粗体。 示例：这是斜体，这是粗体。 使用 ~~ 表示删除线。 这是一段错误的文本。 1.2 分级标题 使用 === 表示'>
-<title>Markdown语法</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本'>
+<title>Zsh的安装和配置</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Markdown语法'>
-<meta property='og:description' content='1. 文本部分 1.1 斜体和粗体，删除线 使用 * 和 ** 表示斜体和粗体。 示例：这是斜体，这是粗体。 使用 ~~ 表示删除线。 这是一段错误的文本。 1.2 分级标题 使用 === 表示'>
-<meta property='og:url' content='https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Zsh的安装和配置'>
+<meta property='og:description' content='Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本'>
+<meta property='og:url' content='https://mahaoliang.tech/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='markdown' /><meta property='article:published_time' content='2023-09-03T19:58:18&#43;08:00'/><meta property='article:modified_time' content='2023-09-03T19:58:18&#43;08:00'/>
-<meta name="twitter:title" content="Markdown语法">
-<meta name="twitter:description" content="1. 文本部分 1.1 斜体和粗体，删除线 使用 * 和 ** 表示斜体和粗体。 示例：这是斜体，这是粗体。 使用 ~~ 表示删除线。 这是一段错误的文本。 1.2 分级标题 使用 === 表示">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='linux' /><meta property='article:published_time' content='2025-01-05T21:06:07&#43;08:00'/><meta property='article:modified_time' content='2025-01-05T21:06:07&#43;08:00'/>
+<meta name="twitter:title" content="Zsh的安装和配置">
+<meta name="twitter:description" content="Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -365,23 +365,12 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#1-文本部分">1. 文本部分</a>
-      <ol>
-        <li><a href="#11-斜体和粗体删除线">1.1 斜体和粗体，删除线</a></li>
-        <li><a href="#12-分级标题">1.2 分级标题</a></li>
-        <li><a href="#13-常用-emoji--font-awesome">1.3 常用 Emoji &amp; Font-Awesome</a></li>
-      </ol>
-    </li>
-    <li><a href="#20-常用布局">2.0 常用布局</a>
-      <ol>
-        <li><a href="#21-无序列表">2.1 无序列表</a></li>
-        <li><a href="#22-有序列表">2.2 有序列表</a></li>
-        <li><a href="#23-行内代码块">2.3 行内代码块</a></li>
-        <li><a href="#24-插入图像">2.4 插入图像</a></li>
-        <li><a href="#25-表格支持">2.5 表格支持</a></li>
-        <li><a href="#26常用数学符号">2.6常用数学符号</a></li>
-      </ol>
-    </li>
+    <li><a href="#安装-zsh">安装 Zsh</a></li>
+    <li><a href="#验证安装的-zsh-版本">验证安装的 Zsh 版本</a></li>
+    <li><a href="#设置-zsh-为缺省-shell">设置 Zsh 为缺省 shell</a></li>
+    <li><a href="#安装-oh-my-zsh">安装 Oh My Zsh</a></li>
+    <li><a href="#安装-zsh-autosuggestions">安装 zsh-autosuggestions</a></li>
+    <li><a href="#配置-oh-my-zsh">配置 Oh My Zsh</a></li>
   </ol>
 </nav>
         </div>
@@ -409,7 +398,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/markdown%E8%AF%AD%E6%B3%95/">Markdown语法</a>
+            <a href="/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">Zsh的安装和配置</a>
         </h2>
     
         
@@ -431,7 +420,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2023-09-03</time>
+                <time class="article-time--published">2025-01-05</time>
             </div>
         
 
@@ -446,7 +435,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 2 分钟
                 </time>
             </div>
         
@@ -461,149 +450,160 @@
     <section class="article-content">
     
     
-    <h2 id="1-文本部分">1. 文本部分</h2>
-<h3 id="11-斜体和粗体删除线">1.1 斜体和粗体，删除线</h3>
-<p>使用 * 和 ** 表示斜体和粗体。</p>
-<p>示例：这是<em>斜体</em>，这是<strong>粗体</strong>。</p>
-<p>使用 ~~ 表示删除线。</p>
-<p><del>这是一段错误的文本</del>。</p>
-<h3 id="12-分级标题">1.2 分级标题</h3>
-<p>使用 === 表示一级标题，使用 &mdash; 表示二级标题。</p>
-<p>效果图
-你也可以选择在行首加井号表示不同级别的标题 (H1-H6)，例如：# H1, ## H2, ### H3，#### H4。</p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032004153.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p>效果图</p>
-<h3 id="13-常用-emoji--font-awesome">1.3 常用 Emoji &amp; Font-Awesome</h3>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032008467.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032008945.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<h2 id="20-常用布局">2.0 常用布局</h2>
-<h3 id="21-无序列表">2.1 无序列表</h3>
-<p>使用 *，+，- 表示无序列表。</p>
-<p>示例：</p>
+    <p><a class="link" href="https://www.zsh.org/"  target="_blank" rel="noopener"
+    >Zsh</a> 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。</p>
+<p>本文将指导您在 macOS 和 Linux 系统上安装 Zsh、Oh My Zsh 以及其常用插件，并展示如何配置 Oh My Zsh，以打造一个高效的命令行工作环境。</p>
+<h2 id="安装-zsh">安装 Zsh</h2>
 <ul>
-<li>无序列表项 一</li>
-<li>无序列表项 二</li>
-<li>无序列表项 三</li>
+<li>macOS <code>brew install zsh</code></li>
+<li>Ubuntu <code>sudo apt install zsh</code></li>
+<li>RHEL <code>sudo yum update &amp;&amp; sudo yum -y install zsh</code></li>
 </ul>
-<h3 id="22-有序列表">2.2 有序列表</h3>
-<p>使用数字和点表示有序列表。
-示例：</p>
-<ol>
-<li>有序列表项 一</li>
-<li>有序列表项 二</li>
-<li>有序列表项 三</li>
-</ol>
-<h3 id="23-行内代码块">2.3 行内代码块</h3>
-<p>使用 <code>代码</code> 表示行内代码块。(就是这个``)</p>
-<h3 id="24-插入图像">2.4 插入图像</h3>
-<p>使用:</p>
-<p>! [描述]</p>
-<p>$+$</p>
-<p>( 图片链接地址 )</p>
-<p>$+$</p>
-<p>插入图像。</p>
-<h3 id="25-表格支持">2.5 表格支持</h3>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032021518.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>项目</th>
-<th style="text-align:right">价格</th>
-<th style="text-align:center">数量</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>计算机</td>
-<td style="text-align:right">$1600</td>
-<td style="text-align:center">5</td>
-</tr>
-<tr>
-<td>手机</td>
-<td style="text-align:right">$12</td>
-<td style="text-align:center">12</td>
-</tr>
-<tr>
-<td>管线</td>
-<td style="text-align:right">$1</td>
-<td style="text-align:center">234</td>
-</tr>
-<tr>
-<td>&gt;</td>
-<td style="text-align:right">ce</td>
-<td style="text-align:center">ce</td>
-</tr>
-</tbody>
-</table></div>
-<p>效果图</p>
-<h3 id="26常用数学符号">2.6常用数学符号</h3>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032024592.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032024591.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309032024590.webp"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-
+<h2 id="验证安装的-zsh-版本">验证安装的 Zsh 版本</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ zsh --version
+</span></span><span class="line"><span class="cl">zsh 5.8.1 <span class="o">(</span>x86_64-ubuntu-linux-gnu<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置-zsh-为缺省-shell">设置 Zsh 为缺省 shell</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>退出并重新登录。</p>
+<h2 id="安装-oh-my-zsh">安装 Oh My Zsh</h2>
+<p><a class="link" href="https://ohmyz.sh/"  target="_blank" rel="noopener"
+    >Oh My Zsh</a> 是一个开源、社区驱动的 Zsh 配置管理框架，，提供了 300 多个可选插件和 140 多个主题，并且内置了自动更新工具。</p>
+<p>使用下面的命令安装：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装-zsh-autosuggestions">安装 zsh-autosuggestions</h2>
+<p><a class="link" href="https://github.com/zsh-users/zsh-autosuggestions"  target="_blank" rel="noopener"
+    >zsh-autosuggestions</a> 为 zsh shell 提供了类似 Fish shell 的自动建议功能的插件，该插件可以根据历史记录和自动补全来为用户提供命令建议。</p>
+<p>将插件 clone 到 <code>$ZSH_CUSTOM/plugins</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git clone https://github.com/zsh-users/zsh-autosuggestions <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-autosuggestions
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在 <code>${HOME}/.zshrc</code> 启用插件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git zsh-autosuggestions<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在命令行输入命令时，zsh-autosuggestions 会根据命令历史或命令补全进行建议提示。那么如何接受建议呢？</p>
+<p>Bash 和 Zsh 这样的 Unix shell 提供了两种主要的编辑模式：Emacs 模式和 Vi 模式，也就是说可以使用 Emacs 或 Vi 的快捷键来编辑命令行。 Emacs 模式是缺省模式。</p>
+<p>在 zsh-autosuggestions 的<a class="link" href="https://github.com/zsh-users/zsh-autosuggestions/blob/master/src/config.zsh"  target="_blank" rel="noopener"
+    >缺省配置文件</a>中，定义接受建议的快捷键：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># Widgets that accept the entire suggestion</span>
+</span></span><span class="line"><span class="cl"><span class="o">((</span> ! <span class="si">${</span><span class="p">+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS</span><span class="si">}</span> <span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">typeset</span> -ga ZSH_AUTOSUGGEST_ACCEPT_WIDGETS
+</span></span><span class="line"><span class="cl">	<span class="nv">ZSH_AUTOSUGGEST_ACCEPT_WIDGETS</span><span class="o">=(</span>
+</span></span><span class="line"><span class="cl">		forward-char
+</span></span><span class="line"><span class="cl">		end-of-line
+</span></span><span class="line"><span class="cl">		vi-forward-char
+</span></span><span class="line"><span class="cl">		vi-end-of-line
+</span></span><span class="line"><span class="cl">		vi-add-eol
+</span></span><span class="line"><span class="cl">	<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果命令行处于Emacs 模式，那么：</p>
+<ul>
+<li><code>ctrl-f</code> 或 <code>ctrl-e</code> 跳到行尾接受当前的建议</li>
+<li><code>option-f</code> 向前前进一个单词并接受建议</li>
+</ul>
+<p>同样，如果命令行处于 vi 模式，那么就使用对应的 vi 键盘绑定接受建议。</p>
+<h2 id="配置-oh-my-zsh">配置 Oh My Zsh</h2>
+<p>Oh My Zsh 有非常多的<a class="link" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins"  target="_blank" rel="noopener"
+    >内置插件</a>，你也可以安装第三方插件，就像上面安装的 zsh-autosuggestions。</p>
+<p>Oh My Zsh 也内置了多个 <a class="link" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes"  target="_blank" rel="noopener"
+    >主题</a> 供你选择。</p>
+<p>我们可以编辑 <code>${HOME}/.zshrc</code>，配置 Oh My Zsh 的插件、主题，以及其他一些定制化设置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置主题</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;bira&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启用插件</span>
+</span></span><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git z zsh-autosuggestions<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 命令别名</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mkdir</span><span class="o">=</span><span class="s1">&#39;mkdir -v&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mv</span><span class="o">=</span><span class="s1">&#39;mv -v&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">cp</span><span class="o">=</span><span class="s1">&#39;cp -v&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">rm</span><span class="o">=</span><span class="s1">&#39;rm -v&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ln</span><span class="o">=</span><span class="s1">&#39;ln -v&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 配置zsh-autosuggestions</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE</span><span class="o">=</span><span class="s2">&#34;fg=#ff00ff,bg=cyan,bold,underline&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ZSH_AUTOSUGGEST_STRATEGY</span><span class="o">=(</span><span class="nb">history</span> completion<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
@@ -611,7 +611,9 @@
     
     <section class="article-tags">
         
-            <a href="/tags/markdown/">Markdown</a>
+            <a href="/tags/macos/">Macos</a>
+        
+            <a href="/tags/linux/">Linux</a>
         
     </section>
 
@@ -645,19 +647,6 @@
             
                 
 <article class="">
-    <a href="/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Zsh的安装和配置</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
     <a href="/p/%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%88%97%E8%A1%A8/">
         
         
@@ -671,38 +660,51 @@
             
                 
 <article class="">
+    <a href="/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">1Password在macOS和iOS上的使用技巧</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">打造一个漂亮的命令行终端</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/macos%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">macOS的系统建议设置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
     <a href="/p/%E5%A6%82%E4%BD%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%98%E5%88%B6%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0/">
         
         
 
         <div class="article-details">
             <h2 class="article-title">如何用命令行绘制数学函数</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">字符动画制作</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/%E5%9B%BE%E7%89%87%E8%BD%AC%E5%AD%97%E7%AC%A6%E7%BD%91%E7%AB%99%E5%88%86%E4%BA%AB/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">图片转字符网站分享</h2>
         </div>
     </a>
 </article>
