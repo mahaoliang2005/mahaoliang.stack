@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='视频逐帧提取 运用脚本来完成手动工作，即n秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end'>
-<title>字符动画制作</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='作为 Python 初学者，使用 pyenv 来管理多版本 Python 环境是一个明智的选择。pyenv 允许你轻松安装、切换和管理多个 Python 版本，同时保护系统自带的 Python 不被修改。本指南'>
+<title>在 macOS 上安装和使用 pyenv</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='字符动画制作'>
-<meta property='og:description' content='视频逐帧提取 运用脚本来完成手动工作，即n秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end'>
-<meta property='og:url' content='https://mahaoliang.tech/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='在 macOS 上安装和使用 pyenv'>
+<meta property='og:description' content='作为 Python 初学者，使用 pyenv 来管理多版本 Python 环境是一个明智的选择。pyenv 允许你轻松安装、切换和管理多个 Python 版本，同时保护系统自带的 Python 不被修改。本指南'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='photo' /><meta property='article:tag' content='image' /><meta property='article:tag' content='svg' /><meta property='article:published_time' content='2023-09-08T20:06:23&#43;08:00'/><meta property='article:modified_time' content='2023-09-08T20:06:23&#43;08:00'/>
-<meta name="twitter:title" content="字符动画制作">
-<meta name="twitter:description" content="视频逐帧提取 运用脚本来完成手动工作，即n秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='python' /><meta property='article:published_time' content='2025-07-14T13:18:30&#43;08:00'/><meta property='article:modified_time' content='2025-07-14T13:18:30&#43;08:00'/>
+<meta name="twitter:title" content="在 macOS 上安装和使用 pyenv">
+<meta name="twitter:description" content="作为 Python 初学者，使用 pyenv 来管理多版本 Python 环境是一个明智的选择。pyenv 允许你轻松安装、切换和管理多个 Python 版本，同时保护系统自带的 Python 不被修改。本指南">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -365,10 +365,31 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#视频逐帧提取">视频逐帧提取</a></li>
-    <li><a href="#png转svg再转png">png转svg，再转png</a></li>
-    <li><a href="#动画制作">动画制作</a></li>
-    <li><a href="#结尾">结尾</a></li>
+    <li><a href="#准备工作">准备工作</a>
+      <ol>
+        <li><a href="#检查-homebrew-安装">检查 Homebrew 安装</a></li>
+        <li><a href="#安装-xcode-命令行工具">安装 Xcode 命令行工具</a></li>
+      </ol>
+    </li>
+    <li><a href="#安装-pyenv">安装 pyenv</a>
+      <ol>
+        <li><a href="#使用-homebrew-安装-pyenv">使用 Homebrew 安装 pyenv</a></li>
+        <li><a href="#配置环境变量">配置环境变量</a></li>
+      </ol>
+    </li>
+    <li><a href="#管理-python-版本">管理 Python 版本</a>
+      <ol>
+        <li><a href="#查看可用-python-版本">查看可用 Python 版本</a></li>
+        <li><a href="#安装特定版本的-python">安装特定版本的 Python</a></li>
+        <li><a href="#查看已安装的-python-版本">查看已安装的 Python 版本</a></li>
+        <li><a href="#设置全局-python-版本">设置全局 Python 版本</a></li>
+        <li><a href="#设置局部-python-版本">设置局部 Python 版本</a></li>
+        <li><a href="#临时使用特定版本">临时使用特定版本</a></li>
+        <li><a href="#卸载-python-版本">卸载 Python 版本</a></li>
+      </ol>
+    </li>
+    <li><a href="#保护系统-python">保护系统 Python</a></li>
+    <li><a href="#总结">总结</a></li>
   </ol>
 </nav>
         </div>
@@ -396,7 +417,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/">字符动画制作</a>
+            <a href="/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/">在 macOS 上安装和使用 pyenv</a>
         </h2>
     
         
@@ -418,7 +439,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2023-09-08</time>
+                <time class="article-time--published">2025-07-14</time>
             </div>
         
 
@@ -433,7 +454,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 5 分钟
                 </time>
             </div>
         
@@ -448,75 +469,57 @@
     <section class="article-content">
     
     
-    <h2 id="视频逐帧提取">视频逐帧提取</h2>
-<ul>
-<li>运用脚本来完成手动工作，即n秒一次截屏</li>
-</ul>
+    <p>作为 Python 初学者，使用 <a class="link" href="https://github.com/pyenv/pyenv"  target="_blank" rel="noopener"
+    >pyenv</a> 来管理多版本 Python 环境是一个明智的选择。pyenv 允许你轻松安装、切换和管理多个 Python 版本，同时保护系统自带的 Python 不被修改。本指南将详细介绍在 macOS 上安装和使用 pyenv 的全过程，包括安装步骤、管理不同 Python 版本、保护系统 Python 等操作方法。</p>
+<h2 id="准备工作">准备工作</h2>
+<h3 id="检查-homebrew-安装">检查 Homebrew 安装</h3>
+<p>在开始安装 pyenv 之前，首先需要确保你已经安装了 Homebrew。Homebrew 是 macOS 上的包管理器，方便我们安装各种工具和依赖。可以在终端中运行以下命令检查：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tell application &#34;IINA&#34;
-</span></span><span class="line"><span class="cl"> reopen
-</span></span><span class="line"><span class="cl"> activate
-</span></span><span class="line"><span class="cl"> delay 0.5
-</span></span><span class="line"><span class="cl"> tell application &#34;System Events&#34;
-</span></span><span class="line"><span class="cl">  keystroke (ASCII character 32)
-</span></span><span class="line"><span class="cl">  delay 0.1
-</span></span><span class="line"><span class="cl"> end tell
-</span></span><span class="line"><span class="cl"> repeat
-</span></span><span class="line"><span class="cl">  tell application &#34;System Events&#34;
-</span></span><span class="line"><span class="cl">   keystroke &#34;s&#34; using {command down}
-</span></span><span class="line"><span class="cl">  end tell
-</span></span><span class="line"><span class="cl">  delay 0.5
-</span></span><span class="line"><span class="cl"> end repeat
-</span></span><span class="line"><span class="cl">end tell
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$ brew --version
+</span></span><span class="line"><span class="cl">Homebrew 4.5.8
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>
-<p>这里的第三个delay是来控制截屏间隙的，<code>delay 0.5</code>就是0.5秒截一次屏。</p>
-</li>
-<li>
-<p>这个脚本只试用于Mac电脑，因为command+s是Mac上的快捷键。</p>
-</li>
-</ul>
-<h2 id="png转svg再转png">png转svg，再转png</h2>
-<ul>
-<li>svg就是字符矢量图，但是它不能导入视频软件来制作视频，所以还要再转回png。</li>
-</ul>
-<ol>
-<li>copy pics to tencent server</li>
-</ol>
+</div><h3 id="安装-xcode-命令行工具">安装 Xcode 命令行工具</h3>
+<p>macOS 上编译安装 Python 需要一些开发工具，这些工具可以通过 Xcode 命令行工具提供。运行以下命令安装：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">scp $HOME/Pictures/Screenshots/*.png mahaoliang:/home/ubuntu/works/pics/
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ xcode-select --install
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>这里我是上传到服务器上搞的，</li>
-</ul>
-<ol start="2">
-<li>install app</li>
-</ol>
+</div><p>这会弹出一个安装窗口，按照提示完成安装即可。</p>
+<h2 id="安装-pyenv">安装 pyenv</h2>
+<h3 id="使用-homebrew-安装-pyenv">使用 Homebrew 安装 pyenv</h3>
+<p>在 macOS 上安装 pyenv 最简单的方法就是使用 Homebrew。在终端中运行以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ brew install pyenv
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这一步会下载并安装 pyenv 及其依赖。安装完成后，你可以通过以下命令验证安装是否成功：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv --version
+</span></span><span class="line"><span class="cl">pyenv 2.6.3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果看到版本号，说明安装成功。</p>
+<h3 id="配置环境变量">配置环境变量</h3>
+<p>安装完成后，需要将 pyenv 添加到你的 Shell 配置文件中，以便在任何终端会话中都能使用。根据你使用的 Shell 类型（zsh 或 bash），打开相应的配置文件。以 zsh 为例，打开 <code>${HOME}/.zshrc</code> 文件，在文件末尾添加以下内容：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -524,148 +527,345 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt-get install caca-utils
-</span></span><span class="line"><span class="cl">sudo apt-get install librsvg2-bin
-</span></span><span class="line"><span class="cl">sudo apt install imagemagick
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PYENV_ROOT</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.pyenv&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[[</span> -d <span class="nv">$PYENV_ROOT</span>/bin <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$PYENV_ROOT</span><span class="s2">/bin:</span><span class="nv">$PATH</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">eval</span> <span class="s2">&#34;</span><span class="k">$(</span>pyenv init - zsh<span class="k">)</span><span class="s2">&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="3">
-<li>run script</li>
+</div><p>这些配置将：</p>
+<ol>
+<li>设置 pyenv 的根目录</li>
+<li>将 pyenv 的二进制目录添加到系统 PATH 中</li>
+<li>初始化 pyenv 环境</li>
 </ol>
+<p>保存文件后，在终端中运行以下命令使配置生效：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./run.sh
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.zshrc
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>因为有很多张图片，所以写了一个脚本run.sh，就是将png-&gt;svg-&gt;png的动作重复，命令如下：</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># clean
-</span></span><span class="line"><span class="cl">mkdir -p &#34;${svg}&#34;
-</span></span><span class="line"><span class="cl">mkdir -p &#34;${output}&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 使用循环遍历目录中的每个文件
-</span></span><span class="line"><span class="cl">for file in &#34;${pics}&#34;/*.png; do
-</span></span><span class="line"><span class="cl">    # 检查文件是否是普通文件
-</span></span><span class="line"><span class="cl">    if [[ -f $file ]]; then
-</span></span><span class="line"><span class="cl">        filename=$(basename &#34;$file&#34;)
-</span></span><span class="line"><span class="cl">        filename=&#34;${filename%.*}&#34;
-</span></span><span class="line"><span class="cl">        echo &#34;processing $file&#34;
-</span></span><span class="line"><span class="cl">        # 这里可以添加你的处理逻辑
-</span></span><span class="line"><span class="cl">        img2txt -W 200 -f svg &#34;$file&#34; &gt;${svg}/&#34;${filename}&#34;.svg
-</span></span><span class="line"><span class="cl">    fi
-</span></span><span class="line"><span class="cl">done
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">for file in &#34;${svg}&#34;/*.svg; do
-</span></span><span class="line"><span class="cl">    # 检查文件是否是普通文件
-</span></span><span class="line"><span class="cl">    if [[ -f $file ]]; then
-</span></span><span class="line"><span class="cl">        filename=$(basename &#34;$file&#34;)
-</span></span><span class="line"><span class="cl">        filename=&#34;${filename%.*}&#34;
-</span></span><span class="line"><span class="cl">        echo &#34;processing $file&#34;
-</span></span><span class="line"><span class="cl">        # 这里可以添加你的处理逻辑
-</span></span><span class="line"><span class="cl">        rsvg-convert &#34;${file}&#34; &gt;${output}/&#34;${filename}&#34;.png
-</span></span><span class="line"><span class="cl">    fi
-</span></span><span class="line"><span class="cl">done
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">#convert ${output}/*.png  output.gif
-</span></span><span class="line"><span class="cl">tar -zcvf output-${timestamp}.tar.gz ${output}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>这里面<code>#convert ${output}/*.png  output.gif</code>,可以把#去掉，这样就可以直接制作字符动图了（gif）。</li>
-</ul>
-<ol start="4">
-<li>download</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">scp mahaoliang:/home/ubuntu/works/output.png .
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="动画制作">动画制作</h2>
-<ul>
-<li>我用的是苹果的final cut pro，试用期是90天，假如到期了话就可以输入一下代码，重置时限：</li>
-</ul>
+</div><h2 id="管理-python-版本">管理 Python 版本</h2>
+<h3 id="查看可用-python-版本">查看可用 Python 版本</h3>
+<p>安装 pyenv 后，你可以查看所有可用的 Python 版本：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd ~
-</span></span><span class="line"><span class="cl">cd Library/Application\ Support   
-</span></span><span class="line"><span class="cl">ll -a
-</span></span><span class="line"><span class="cl">rm .ffuserdata
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv install --list
+</span></span><span class="line"><span class="cl">Available versions:
+</span></span><span class="line"><span class="cl">  2.1.3
+</span></span><span class="line"><span class="cl">  2.2.3
+</span></span><span class="line"><span class="cl">  2.3.7
+</span></span><span class="line"><span class="cl">  2.4.0
+</span></span><span class="line"><span class="cl">  2.4.1
+</span></span><span class="line"><span class="cl">...
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>将所有图片依次导入软件，建立复合片段，再调整速度就好了。</li>
-</ul>
-<p><img src="https://cdn.mahaoliang.tech/images/202309082216720.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<h2 id="结尾">结尾</h2>
-<p>最后送大家一个GIF</p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309082257419.gif"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p>视频 <a class="link" href="https://cdn.mahaoliang.tech/images/202309082303161.mp4"  target="_blank" rel="noopener"
-    >https://cdn.mahaoliang.tech/images/202309082303161.mp4</a></p>
+</div><p>这会列出所有可通过 pyenv 安装的 Python 版本，包括最新版本和旧版本。</p>
+<h3 id="安装特定版本的-python">安装特定版本的 Python</h3>
+<p>要安装特定版本的 Python，使用以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv install &lt;version&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如，要安装 Python 3.13.5，可以运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv install 3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装过程可能需要一些时间，因为 pyenv 会从源代码编译 Python。你会看到类似以下的提示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python-build: use openssl@3 from homebrew
+</span></span><span class="line"><span class="cl">python-build: use readline from homebrew
+</span></span><span class="line"><span class="cl">Downloading Python-3.13.5.tar.xz...
+</span></span><span class="line"><span class="cl">-&gt; https://www.python.org/ftp/python/3.13.5/Python-3.13.5.tar.xz
+</span></span><span class="line"><span class="cl">Installing Python-3.13.5...
+</span></span><span class="line"><span class="cl">python-build: use readline from homebrew
+</span></span><span class="line"><span class="cl">python-build: use zlib from xcode sdk
+</span></span><span class="line"><span class="cl">Installed Python-3.13.5 to /Users/haoliangma/.pyenv/versions/3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看已安装的-python-版本">查看已安装的 Python 版本</h3>
+<p>安装完成后，可以使用 <code>pyenv versions</code> 查看已安装的 Python 版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">* 3.11.8 <span class="o">(</span><span class="nb">set</span> by /Users/haoliangma/.pyenv/version<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一行 <code>system</code> 表示系统自带的 Python 版本，通常由操作系统预装。当前未被激活（没有 * 标记）</p>
+<p>第二行 <code>2.7.18</code> 表示通过 pyenv 安装的 Python 2.7.18 版本。当前未被激活（没有 * 标记）。</p>
+<p>第三行 <code>* 3.11.8 (set by /Users/haoliangma/.pyenv/version)</code> 表示当前激活的 Python 版本，该版本是通过全局配置文件 <code>/Users/haoliangma/.pyenv/version</code> 设置的默认版本。</p>
+<p>第四行 <code>3.13.5</code> 表示通过 pyenv 安装的 Python 3.13.5 版本，同样没有被激活。</p>
+<h3 id="设置全局-python-版本">设置全局 Python 版本</h3>
+<p>要设置系统默认的 Python 版本，可以使用以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv global &lt;version&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如，要将 Python 3.13.5 设置为全局默认版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv global 3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再次使用 <code>pyenv versions</code> 查看已安装的版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">  3.11.8
+</span></span><span class="line"><span class="cl">* 3.13.5 <span class="o">(</span><span class="nb">set</span> by /Users/haoliangma/.pyenv/version<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>发现 3.13.5 版本已经被激活。</p>
+<p>可以通过以下命令验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python --version
+</span></span><span class="line"><span class="cl">Python 3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置局部-python-版本">设置局部 Python 版本</h3>
+<p>在项目目录中，你可以设置特定于该项目的 Python 版本。进入项目目录，运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv <span class="nb">local</span> &lt;version&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这会在当前目录下创建一个名为<code>.python-version</code>的文件，记录当前项目使用的 Python 版本。当你进入该目录时，pyenv 会自动切换到指定的 Python 版本。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">cd</span> pythonprojects
+</span></span><span class="line"><span class="cl">$ pyenv <span class="nb">local</span> 3.11.8
+</span></span><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">* 3.11.8 <span class="o">(</span><span class="nb">set</span> by /Users/haoliangma/works/pythonprojects/.python-version<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  3.13.5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">  3.11.8
+</span></span><span class="line"><span class="cl">* 3.13.5 <span class="o">(</span><span class="nb">set</span> by /Users/haoliangma/.pyenv/version<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="临时使用特定版本">临时使用特定版本</h3>
+<p>如果你只需要在当前终端会话中临时使用某个 Python 版本，可以使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv shell &lt;version&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">  3.11.8
+</span></span><span class="line"><span class="cl">* 3.13.5 <span class="o">(</span><span class="nb">set</span> by /Users/haoliangma/.pyenv/version<span class="o">)</span>
+</span></span><span class="line"><span class="cl">$ pyenv shell 3.11.8
+</span></span><span class="line"><span class="cl">$ pyenv versions
+</span></span><span class="line"><span class="cl">  system
+</span></span><span class="line"><span class="cl">  2.7.18
+</span></span><span class="line"><span class="cl">* 3.11.8 <span class="o">(</span><span class="nb">set</span> by PYENV_VERSION environment variable<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这会覆盖全局和局部设置，仅在当前终端会话中生效。要恢复到之前的设置，可以使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv shell --unset
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="卸载-python-版本">卸载 Python 版本</h3>
+<p>当你不再需要某个 Python 版本时，可以使用以下命令卸载：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pyenv uninstall &lt;version&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="保护系统-python">保护系统 Python</h2>
+<p>macOS 系统自带了一个 Python 解释器，通常位于<code>/usr/bin/python3</code>。这个 Python 版本是系统正常运行所必需的，修改或删除它可能导致系统不稳定或某些功能无法正常工作。因此，保护系统 Python 非常重要。</p>
+<p>pyenv 不会自动管理或修改系统 Python。当你安装新的 Python 版本时，它们会被安装在<code>~/.pyenv/versions</code>目录下，而不是系统路径中。这意味着系统 Python 始终保持不变，不会受到 pyenv 安装的版本的影响。</p>
+<p>你可以通过以下命令验证系统 Python 是否未被修改：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ which python
+</span></span><span class="line"><span class="cl">/Users/haoliangma/.pyenv/shims/python
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看出，你当前使用的是 pyenv 管理的 Python 版本。</p>
+<p>为了确保系统 Python 不被覆盖，你应该避免使用<code>sudo</code>安装或升级 Python。此外，在设置全局 Python 版本时，应确保不将系统 Python 设置为全局版本。</p>
+<p>如果你不小心覆盖了系统 Python 的某些行为，你可以通过重新安装 Xcode 命令行工具来恢复。运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ xcode-select --install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这会重新安装系统工具，包括系统 Python。</p>
+<h2 id="总结">总结</h2>
+<p>通过本指南，你应该已经掌握了在 macOS 上使用 pyenv 管理 Python 版本的基本技能。以下是关键点回顾：</p>
+<ol>
+<li>
+<p><strong>安装 pyenv</strong>：使用 Homebrew 安装 pyenv 和相关插件，确保正确配置环境变量。</p>
+</li>
+<li>
+<p><strong>管理 Python 版本</strong></p>
+</li>
+</ol>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pyenv install &ndash;list</td>
+<td>查看可安装版本</td>
+</tr>
+<tr>
+<td>pyenv install <!-- raw HTML omitted --></td>
+<td>安装指定版本</td>
+</tr>
+<tr>
+<td>pyenv versions</td>
+<td>查看已安装版本</td>
+</tr>
+<tr>
+<td>pyenv global  <!-- raw HTML omitted --></td>
+<td>设置全局默认版本</td>
+</tr>
+<tr>
+<td>pyenv local <!-- raw HTML omitted --></td>
+<td>为当前目录设置版本</td>
+</tr>
+<tr>
+<td>pyenv shell  <!-- raw HTML omitted --></td>
+<td>为当前 Shell 设置版本</td>
+</tr>
+<tr>
+<td>pyenv uninstall <!-- raw HTML omitted --></td>
+<td>卸载版本</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="3">
+<li><strong>保护系统 Python</strong>：pyenv 不会自动管理系统 Python，确保系统 Python 不被覆盖是使用 pyenv 的重要原则。</li>
+</ol>
+<p>通过使用 pyenv，你可以在保持系统 Python 完整的同时，灵活地管理多个 Python 版本，使你的 Python 开发更加高效和安全。</p>
 
 </section>
 
@@ -674,11 +874,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/photo/">Photo</a>
-        
-            <a href="/tags/image/">Image</a>
-        
-            <a href="/tags/svg/">Svg</a>
+            <a href="/tags/python/">Python</a>
         
     </section>
 
@@ -709,19 +905,6 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">在 macOS 上安装和使用 pyenv</h2>
-        </div>
-    </a>
-</article>
-
             
                 
 <article class="">
@@ -770,6 +953,19 @@
 
         <div class="article-details">
             <h2 class="article-title">如何用命令行绘制数学函数</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">字符动画制作</h2>
         </div>
     </a>
 </article>
