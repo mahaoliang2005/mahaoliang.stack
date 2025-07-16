@@ -390,7 +390,8 @@
     <li><a href="#vs-code-集成">VS Code 集成</a></li>
     <li><a href="#总结">总结</a>
       <ol>
-        <li><a href="#基本使用流程">基本使用流程</a></li>
+        <li><a href="#虚拟环境基本使用">虚拟环境基本使用</a></li>
+        <li><a href="#依赖管理基本使用">依赖管理基本使用</a></li>
         <li><a href="#最佳实践建议">最佳实践建议</a></li>
       </ol>
     </li>
@@ -458,7 +459,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 5 分钟
+                    阅读时长: 6 分钟
                 </time>
             </div>
         
@@ -810,24 +811,136 @@
 <p>当你创建新终端时，VS Code 会自动激活当前选择的虚拟环境，命令提示符前会显示环境名称。</p>
 <h2 id="总结">总结</h2>
 <p>在本文中，我们详细介绍了 Python 虚拟环境（venv）的使用方法和工作原理。</p>
-<h3 id="基本使用流程">基本使用流程</h3>
-<ul>
-<li>
-<p>创建虚拟环境 <code>python -m venv myenv</code></p>
-</li>
-<li>
-<p>激活虚拟环境：<code>source myenv/bin/activate</code>（macOS/Linux）或<code>myenv\Scripts\activate.bat</code>（Windows）</p>
-</li>
-<li>
-<p>安装依赖：<code>pip install package</code></p>
-</li>
-<li>
-<p>生成依赖列表：<code>pip freeze &gt; requirements.txt</code></p>
-</li>
-<li>
-<p>停用虚拟环境：<code>deactivate</code></p>
-</li>
-</ul>
+<h3 id="虚拟环境基本使用">虚拟环境基本使用</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>操作说明</th>
+<th>macOS/Linux 命令</th>
+<th>Windows（命令提示符）命令</th>
+<th>Windows（PowerShell）命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>创建虚拟环境</td>
+<td>创建一个新的虚拟环境，<code>myenv</code> 为虚拟环境名称，可按需修改</td>
+<td><code>python -m venv myenv</code></td>
+<td><code>python -m venv myenv</code></td>
+<td><code>python -m venv myenv</code></td>
+</tr>
+<tr>
+<td>激活虚拟环境</td>
+<td>激活虚拟环境后才能使用其中的 Python 和 pip 等</td>
+<td><code>source myenv/bin/activate</code></td>
+<td><code>myenv\Scripts\activate.bat</code></td>
+<td><code>myenv\Scripts\Activate.ps1</code></td>
+</tr>
+<tr>
+<td>停用虚拟环境</td>
+<td>完成工作后退出虚拟环境，回到系统全局 Python 环境</td>
+<td><code>deactivate</code></td>
+<td><code>deactivate</code></td>
+<td><code>deactivate</code></td>
+</tr>
+<tr>
+<td>验证 Python 版本</td>
+<td>查看虚拟环境中使用的 Python 版本</td>
+<td><code>python --version</code></td>
+<td><code>python --version</code></td>
+<td><code>python --version</code></td>
+</tr>
+<tr>
+<td>验证 Python 解释器路径</td>
+<td>确认使用的是虚拟环境中的 Python 解释器</td>
+<td><code>which python</code></td>
+<td><code>where python</code></td>
+<td><code>where python</code></td>
+</tr>
+<tr>
+<td>验证 pip 版本</td>
+<td>查看虚拟环境中使用的 pip 版本</td>
+<td><code>pip --version</code></td>
+<td><code>pip --version</code></td>
+<td><code>pip --version</code></td>
+</tr>
+<tr>
+<td>验证环境变量</td>
+<td>查看虚拟环境的根目录路径</td>
+<td><code>echo $VIRTUAL_ENV</code></td>
+<td><code>echo %VIRTUAL_ENV%</code></td>
+<td><code>echo $env:VIRTUAL_ENV</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="依赖管理基本使用">依赖管理基本使用</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>操作说明</th>
+<th>执行命令</th>
+<th>补充说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安装包</td>
+<td>安装指定第三方包（默认最新版本）</td>
+<td><code>pip install package_name</code></td>
+<td>例如 <code>pip install requests</code> 安装最新版 requests 库</td>
+</tr>
+<tr>
+<td>安装特定版本包</td>
+<td>安装指定版本的第三方包，避免版本冲突</td>
+<td><code>pip install package_name==version_number</code></td>
+<td>例如 <code>pip install requests==2.26.0</code> 安装 2.26.0 版本的 requests</td>
+</tr>
+<tr>
+<td>更新包</td>
+<td>将已安装的包更新到最新版本</td>
+<td><code>pip install --upgrade package_name</code></td>
+<td>例如 <code>pip install --upgrade requests</code> 将 requests 更新到最新版</td>
+</tr>
+<tr>
+<td>卸载包</td>
+<td>移除已安装的第三方包</td>
+<td><code>pip uninstall package_name</code></td>
+<td>执行后会提示确认，输入 <code>y</code> 并回车完成卸载</td>
+</tr>
+<tr>
+<td>生成依赖列表</td>
+<td>将当前环境中所有已安装包及版本信息导出到 <code>requirements.txt</code> 文件</td>
+<td><code>pip freeze &gt; requirements.txt</code></td>
+<td>生成的文件可用于记录项目依赖，方便移植</td>
+</tr>
+<tr>
+<td>安装依赖列表</td>
+<td>根据 <code>requirements.txt</code> 文件安装所有指定包及对应版本</td>
+<td><code>pip install -r requirements.txt</code></td>
+<td>常用于在新环境中重建项目依赖（需确保 <code>requirements.txt</code> 已存在）</td>
+</tr>
+<tr>
+<td>查看已安装包</td>
+<td>列出当前环境中所有已安装的第三方包及版本</td>
+<td><code>pip list</code></td>
+<td>输出格式为“包名 版本号”，如 <code>requests 2.32.4</code></td>
+</tr>
+<tr>
+<td>查看包详情</td>
+<td>显示指定包的详细信息（如版本、依赖、安装路径等）</td>
+<td><code>pip show package_name</code></td>
+<td>例如 <code>pip show requests</code> 可查看 requests 的安装路径、依赖包等信息</td>
+</tr>
+<tr>
+<td>检查可更新的包</td>
+<td>列出当前环境中可更新的包及最新版本</td>
+<td><code>pip list --outdated</code></td>
+<td>输出包含“包名、当前版本、最新版本”，可作为更新参考</td>
+</tr>
+</tbody>
+</table></div>
 <h3 id="最佳实践建议">最佳实践建议</h3>
 <ol>
 <li><strong>项目结构</strong></li>
