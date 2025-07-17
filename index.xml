@@ -6,7 +6,66 @@
         <description>Recent content on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 14 Jul 2025 16:21:43 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 17 Jul 2025 20:26:30 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</title>
+        <link>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
+        <pubDate>Thu, 17 Jul 2025 20:26:30 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</guid>
+        <description>&lt;p&gt;今年我非常幸运地入选了“开源之夏”活动，参与的项目是&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/a&gt;。由于该项目是在 openEuler 上进行开发的，因此，搭建一个稳定可靠的 openEuler 开发环境便成了我的首要任务。&lt;/p&gt;
+&lt;p&gt;我的主力设备是一台 M1 芯片的 MacBook Pro，由于去年 &lt;a class=&#34;link&#34; href=&#34;https://blogs.vmware.com/cloud-foundation/2024/11/11/vmware-fusion-and-workstation-are-now-free-for-all-users/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;VMware Fusion 已经对个人用户免费&lt;/a&gt;，所以自然就选择在 VMware Fusion 上安装 openEuler。&lt;/p&gt;
+&lt;p&gt;从 openEuler 官方镜像站下载 aarch64 架构最新的 openEuler 24.03 LTS SP1 镜像，使用 VMware Fusion 创建虚拟机，挂载镜像，启动后在 GRUB 界面选择“Install openEuler”，没想到就遇到了问题，安装过程卡住不动了：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507172109472.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;installation frozen&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;习惯性的截图问 &lt;a class=&#34;link&#34; href=&#34;https://aistudio.google.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Google AI studio&lt;/a&gt;，它列举了多个可能的原因，逐一排除确认，发现其中一个分析很有启发性：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这个问题可能是由于内核在初始化虚拟显卡时卡住了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;于是尝试在 openEuler 的安装引导菜单，按 e 键进入编辑模式：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507172140190.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;install&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;继续截图让 Google AI studio 分析：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;您看到的这个界面是 GRUB 引导加载器的编辑模式。它允许您在启动 Linux 内核之前，临时修改传递给内核的参数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;video=efifb:off video=VGA-1:640x480...&lt;/code&gt;: &lt;strong&gt;这是一个重要线索&lt;/strong&gt;！这行参数试图禁用 EFI 帧缓冲（&lt;code&gt;efifb:off&lt;/code&gt;）并强制使用一个非常基础的 640x480 分辨率的 VGA 模式。这说明 openEuler 镜像为了在各种（尤其是老旧或奇怪的）硬件上都能启动而加入的“安全模式”参数。然而，这个配置与您的 VMware Fusion 环境冲突，导致了卡死。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;请按照以下步骤操作：&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;在 &lt;code&gt;linux&lt;/code&gt; 那一行，&lt;strong&gt;手动删除&lt;/strong&gt;掉现有的两个 &lt;code&gt;video=...&lt;/code&gt; 参数，即删除 &lt;code&gt;video=efifb:off&lt;/code&gt; 和 &lt;code&gt;video=VGA-1:640x480-32@60me&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;按 &lt;code&gt;Ctrl+X&lt;/code&gt; 或 &lt;code&gt;F10&lt;/code&gt; 启动。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;按照 AI 的指示操作，奇迹发生了，系统顺利越过了卡死点，成功进入了图形化的安装界面！&lt;/p&gt;
+&lt;p&gt;Gemini 2.5 Pro 太厉害了，遇事不会问 Gemini，准没错！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Python 虚拟环境管理：venv 实用指南</title>
         <link>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/</link>
         <pubDate>Mon, 14 Jul 2025 16:21:43 +0800</pubDate>
