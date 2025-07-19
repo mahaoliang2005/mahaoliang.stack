@@ -6,7 +6,178 @@
         <description>Recent content in Linux on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 17 Jul 2025 20:26:30 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 19 Jul 2025 11:41:57 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>macOS 开发者的福音：一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</title>
+        <link>https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E7%A6%8F%E9%9F%B3%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/</link>
+        <pubDate>Sat, 19 Jul 2025 11:41:57 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E7%A6%8F%E9%9F%B3%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/</guid>
+        <description>&lt;p&gt;对于许多在 macOS 上工作的开发者来说，VMware Fusion 就像一把瑞士军刀，让我们能随时拥有一个纯净、独立的 Linux 环境。无论是进行 Linux 系统编程、用 Python 做 Linux 系统工具开发，还是部署和测试应用程序，虚拟机都为我们提供了一个完美的沙盒。&lt;/p&gt;
+&lt;p&gt;然而，当你将所有的代码、项目文件和配置文件都存放在 Linux 虚拟机中，万一哪天虚拟机意外崩溃、无法启动，所有的心血都可能付诸东流。&lt;/p&gt;
+&lt;p&gt;好消息是，VMware Fusion 提供了一个极其强大的功能，&lt;strong&gt;“共享文件夹”（Shared Folders）&lt;/strong&gt;，通过简单的配置，我们可以将 macOS 上的任意一个文件夹，直接“挂载”到 Linux 虚拟机的系统中，让它看起来就像是 Linux 自己的一个目录。&lt;/p&gt;
+&lt;p&gt;这意味着，你可以在 macOS 或 Linux 上修改代码，因为它们都是同一份，同时你也可以使用 Time Machine 或其他云盘来实现代码的备份，即方便又安全。&lt;/p&gt;
+&lt;p&gt;本文将作为你的向导，手把手带你完成从 VMware Fusion 的配置，到 Linux 系统配置的全部过程。让我们开始吧！&lt;/p&gt;
+&lt;h2 id=&#34;准备工作安装-vmware-tools&#34;&gt;准备工作，安装 VMware Tools&lt;/h2&gt;
+&lt;p&gt;在开始配置共享之前，我们需要确保环境准备就绪，已经在 VMware Fusion 中安装好一个 Linux 发行版。&lt;/p&gt;
+&lt;p&gt;接下来需要在 Linux 虚拟中安装 &lt;strong&gt;VMware Tools&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;你可以把 &lt;strong&gt;VMware Tools&lt;/strong&gt; 理解为是连接 macOS 宿主机和 Linux 虚拟机的“桥梁”或“驱动程序”。像虚拟机屏幕分辨率自适应、鼠标无缝切换、剪贴板共享，以及我们本次的目标&lt;strong&gt;文件夹共享&lt;/strong&gt;，都完全依赖于它。&lt;/p&gt;
+&lt;p&gt;对于大多数的 Linux 发行版，官方和社区共同维护了一个开源实现，叫做 &lt;a class=&#34;link&#34; href=&#34;https://github.com/vmware/open-vm-tools&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;open-vm-tools&lt;/a&gt;，它已经预置在大多数 Linux 发行版的软件源中，安装起来非常方便。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;open-vm-tools&lt;/code&gt; 主要由以下几个软件包组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;open-vm-tools&lt;/code&gt;: 这是核心包，提供了最基础的功能，如虚拟机时钟同步、与宿主机的电源操作（正常关机）、心跳检测，以及最重要的，它包含了实现文件夹共享所必需的组件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;open-vm-tools-desktop&lt;/code&gt;: 它在核心包的基础上，增加了改善图形化交互体验的功能，例如剪贴板复制粘贴、窗口大小自适应等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;open-vm-tools-devel&lt;/code&gt; 和 &lt;code&gt;open-vm-tools-debuginfo&lt;/code&gt;: 这两个包分别用于二次开发和调试，普通用户完全不需要关心。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;了解了这些，我们的目标就非常明确了。在虚拟机的命令行终端执行以下命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Ubuntu&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt update
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo apt install open-vm-tools
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# RHEL&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo yum install open-vm-tools
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;安装完成后，重启虚拟机，确保所有服务都能正常加载。下一步，我们就去 VMware Fusion 中开启文件共享功能。&lt;/p&gt;
+&lt;h2 id=&#34;在-vmware-fusion-中配置共享&#34;&gt;在 VMware Fusion 中配置共享&lt;/h2&gt;
+&lt;p&gt;先将 Linux 虚拟机关机，然后进入虚拟机的设置面板，点击“共享”图标，勾选 &lt;strong&gt;“启用共享文件夹”&lt;/strong&gt; 这个复选框，接着，点击下方的 &lt;code&gt;+&lt;/code&gt; 号按钮，准备添加一个具体的共享目录。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507191233366.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;启用共享文件夹&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;确保“启用”是勾选状态，并且权限设置为“读与写”，这样你才能在 Linux 中创建和修改文件。&lt;/p&gt;
+&lt;p&gt;关闭配置，启动虚拟机，接下来需要在 Linux 中完成共享目录的挂载，就可以访问共享文件夹了。&lt;/p&gt;
+&lt;h2 id=&#34;在-linux-虚拟机中访问和挂载&#34;&gt;在 Linux 虚拟机中访问和挂载&lt;/h2&gt;
+&lt;p&gt;在最新版的 &lt;code&gt;open-vm-tools&lt;/code&gt; 的支持下，VMware 的共享文件夹通常会被自动挂载到一个系统级的公共目录：&lt;code&gt;/mnt/hgfs&lt;/code&gt; (Host-Guest File System)。&lt;/p&gt;
+&lt;p&gt;我们可以先验证一下。打开终端，运行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ls /mnt/hgfs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果能看到你在上一步设置的共享名（如 linux），那么恭喜你，已经成功了！&lt;/p&gt;
+&lt;h3 id=&#34;手工挂载&#34;&gt;手工挂载&lt;/h3&gt;
+&lt;p&gt;有时 &lt;code&gt;/mnt/hgfs&lt;/code&gt; 目录是空的，这可能是因为权限或 FUSE 服务问题。解决方法是使用 &lt;code&gt;vmhgfs-fuse&lt;/code&gt; 命令手动挂载。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# .host:/ 是一个特殊地址，代表所有已启用的共享&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# /mnt/hgfs 是挂载点&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# -o allow_other  允许其他用户(包括你自己)访问，非常重要！&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# -o uid=$(id -u)  将文件所有者设置为当前登录的用户&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# -o gid=$(id -g)  将文件所属组设置为当前登录的用户&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other -o &lt;span class=&#34;nv&#34;&gt;uid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;id -u&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -o &lt;span class=&#34;nv&#34;&gt;gid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;id -g&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在 &lt;code&gt;/mnt/hgfs&lt;/code&gt; 目录下就可以看到共享的文件了。&lt;/p&gt;
+&lt;p&gt;不过，&lt;code&gt;/mnt/hgfs/linux&lt;/code&gt; 这个路径太深，不方便日常使用，我们想将共享目录挂载在用户主目录下的 &lt;code&gt;~/works&lt;/code&gt; 目录中。&lt;/p&gt;
+&lt;p&gt;首先在用户主目录下创建 &lt;code&gt;works&lt;/code&gt; 目录作为挂载的目标。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir ~/works
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;然后同样使用 &lt;code&gt;vmhgfs-fuse&lt;/code&gt; 工具来执行挂载。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo vmhgfs-fuse .host:/ ~/works -o allow_other -o &lt;span class=&#34;nv&#34;&gt;uid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;id -u&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -o &lt;span class=&#34;nv&#34;&gt;gid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;id -g&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在，来验证一下命令效果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ls ~/works
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;你应该能看到 &lt;code&gt;linux&lt;/code&gt; 目录。再进一步查看：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ls ~/works/linux
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;此刻，你看到的就是 macOS 宿主机上那个共享文件夹里的所有内容了！&lt;/p&gt;
+&lt;p&gt;然而手动挂载是临时的，一旦你重启虚拟机，挂载就会失效。要实现一劳永逸，请看下一步。&lt;/p&gt;
+&lt;h3 id=&#34;实现开机自动挂载&#34;&gt;实现开机自动挂载&lt;/h3&gt;
+&lt;p&gt;为了避免每次重启都要手动敲一遍命令，我们需要将挂载信息写入 &lt;code&gt;/etc/fstab&lt;/code&gt; 文件中。&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;fstab&lt;/code&gt; 中，我们不能使用 &lt;code&gt;$(id -u)&lt;/code&gt; 这样的命令。需要把用户 ID 和组 ID 的&lt;strong&gt;具体数字&lt;/strong&gt;写进去。运行以下命令查看：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;id
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 你会看到类似 uid=1000(ubuntu) gid=1000(ubuntu) ... 的输出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通常，第一个创建的用户的 UID 和 GID 都是 &lt;code&gt;1000&lt;/code&gt;。请记下你自己的这两个数字。&lt;/p&gt;
+&lt;p&gt;使用你熟悉的编辑器打开 &lt;code&gt;/etc/fstab&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo vi /etc/fstab
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在文件的末尾，添加下面这一行。&lt;strong&gt;请注意，你需要将 &lt;code&gt;/home/ubuntu/works&lt;/code&gt; 替换成你的实际路径，并将 &lt;code&gt;uid=1000,gid=1000&lt;/code&gt; 替换成你自己的 ID。&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;.host:/ /home/ubuntu/works fuse.vmhgfs-fuse defaults,allow_other,uid&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1000,gid&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1000&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;以后每次启动 Linux 虚拟机，VMware 的共享文件夹都会自动出现在 &lt;code&gt;~/works&lt;/code&gt; 目录下，方便随时访问。&lt;/p&gt;
+&lt;p&gt;大功告成！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</title>
         <link>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
         <pubDate>Thu, 17 Jul 2025 20:26:30 +0800</pubDate>
