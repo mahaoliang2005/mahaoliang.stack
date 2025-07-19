@@ -2,16 +2,16 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='对于许多在 macOS 上工作的开发者来说，VMware Fusion 就像一把瑞士军刀，让我们能随时拥有一个纯净、独立的 Linux 环境。无论是进行 Linux 系统编程、用 Python 做 Linux 系统工'>
-<title>macOS 开发者的福音：一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</title>
+<title>一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E7%A6%8F%E9%9F%B3%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='macOS 开发者的福音：一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享'>
 <meta property='og:description' content='对于许多在 macOS 上工作的开发者来说，VMware Fusion 就像一把瑞士军刀，让我们能随时拥有一个纯净、独立的 Linux 环境。无论是进行 Linux 系统编程、用 Python 做 Linux 系统工'>
-<meta property='og:url' content='https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E7%A6%8F%E9%9F%B3%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='vmware' /><meta property='article:published_time' content='2025-07-19T11:41:57&#43;08:00'/><meta property='article:modified_time' content='2025-07-19T11:41:57&#43;08:00'/>
-<meta name="twitter:title" content="macOS 开发者的福音：一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享">
+<meta name="twitter:title" content="一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享">
 <meta name="twitter:description" content="对于许多在 macOS 上工作的开发者来说，VMware Fusion 就像一把瑞士军刀，让我们能随时拥有一个纯净、独立的 Linux 环境。无论是进行 Linux 系统编程、用 Python 做 Linux 系统工">
     <link rel="shortcut icon" href="/favicon.png" />
 
@@ -400,7 +400,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/macos-%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E7%A6%8F%E9%9F%B3%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/">macOS 开发者的福音：一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</a>
+            <a href="/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/">一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</a>
         </h2>
     
         
