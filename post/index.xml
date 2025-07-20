@@ -338,11 +338,11 @@
 </description>
         </item>
         <item>
-        <title>Python 虚拟开发环境选择建议</title>
-        <link>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</link>
+        <title>Python 虚拟环境管理工具选择建议</title>
+        <link>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</link>
         <pubDate>Sun, 20 Jul 2025 10:37:55 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</guid>
+        <guid>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</guid>
         <description>&lt;p&gt;前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;venv&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Conda&lt;/a&gt; ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一个更具体的参考。&lt;/p&gt;
