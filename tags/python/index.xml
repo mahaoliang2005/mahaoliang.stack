@@ -6,7 +6,64 @@
         <description>Recent content in Python on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 19 Jul 2025 17:24:32 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/python/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 20 Jul 2025 10:37:55 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/python/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Python 虚拟开发环境选择建议</title>
+        <link>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</link>
+        <pubDate>Sun, 20 Jul 2025 10:37:55 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/</guid>
+        <description>&lt;p&gt;前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;venv&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Conda&lt;/a&gt; ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一个更具体的参考。&lt;/p&gt;
+&lt;h2 id=&#34;macos&#34;&gt;macOS&lt;/h2&gt;
+&lt;p&gt;在 &lt;strong&gt;MacBook Pro&lt;/strong&gt; 上，我一般进行纯 Python 开发，倾向于使用 &lt;code&gt;pyenv&lt;/code&gt; + &lt;code&gt;venv&lt;/code&gt; 的组合。&lt;code&gt;pyenv&lt;/code&gt; 负责管理和切换全局的 Python 版本，&lt;code&gt;venv&lt;/code&gt; 则为每个项目创建极致轻量的虚拟环境。&lt;/p&gt;
+&lt;p&gt;这套组合非常优雅，工具链清晰解耦，完全符合这类项目的需求。&lt;/p&gt;
+&lt;h2 id=&#34;windows&#34;&gt;Windows&lt;/h2&gt;
+&lt;p&gt;Windows 上的情况要复杂一些。&lt;/p&gt;
+&lt;p&gt;在我的 &lt;strong&gt;Windows 笔记本&lt;/strong&gt; 上，由于配备了 NVIDIA 显卡，可以用于 AI 和机器学习开发，所以会安装 &lt;code&gt;miniconda&lt;/code&gt;，但一定要注意：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;不要“Add Miniconda3 to my PATH environment variable”&lt;/strong&gt;，&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;也&lt;strong&gt;不要“Register Miniconda3 as my default Python”&lt;/strong&gt;，&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;避免干扰系统。如果想使用 &lt;code&gt;Conda&lt;/code&gt;，通过“开始菜单”找到并打开 &lt;strong&gt;Anaconda Prompt (Miniconda3)&lt;/strong&gt; 来使用。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;至于使用哪种虚拟环境管理工具，需要根据场景选择。&lt;/p&gt;
+&lt;h3 id=&#34;纯-python-开发&#34;&gt;纯 Python 开发&lt;/h3&gt;
+&lt;p&gt;纯 Python 开发，仍然使用 &lt;code&gt;venv&lt;/code&gt; 创建虚拟环境。&lt;/p&gt;
+&lt;h3 id=&#34;ai-开发&#34;&gt;AI 开发&lt;/h3&gt;
+&lt;p&gt;AI 开发，需要依赖复杂的 &lt;a class=&#34;link&#34; href=&#34;https://developer.nvidia.com/cuda-downloads&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;CUDA Toolkit&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://developer.nvidia.com/rdp/cudnn-archive&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;cuDNN&lt;/a&gt;。按道理应该使用 &lt;code&gt;Conda&lt;/code&gt;，可以一键在虚拟环境中安装 CUDA Toolkit 和 cuDNN 本地依赖。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;conda install &lt;span class=&#34;nv&#34;&gt;pytorch&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;2.5.1 &lt;span class=&#34;nv&#34;&gt;torchvision&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;0.20.1 &lt;span class=&#34;nv&#34;&gt;torchaudio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;2.5.1 pytorch-cuda&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;12.4 -c pytorch -c nvidia
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;但最新的 pytorch 安装向导 &lt;a class=&#34;link&#34; href=&#34;https://pytorch.org/get-started/locally/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Start Locally&lt;/a&gt;，已经取消了 &lt;code&gt;Conda&lt;/code&gt; 选项，只能在 &lt;a class=&#34;link&#34; href=&#34;https://pytorch.org/get-started/previous-versions/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Previous PyTorch Versions&lt;/a&gt; 中找到 &lt;code&gt;Conda&lt;/code&gt; 的安装命令。&lt;/p&gt;
+&lt;p&gt;PyTorch 官方在 2024 年 10 月 22 日通过 GitHub &lt;a class=&#34;link&#34; href=&#34;https://github.com/pytorch/pytorch/issues/138506&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Issue&lt;/a&gt; 正式宣布了这一重要决定：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;2.5 will be the last release of PyTorch that will be published to the pytorch channel on Anaconda.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;至于原因，官方声明中提到，将维护资源集中在用户最常用的平台上，可以提供更好的支持和更优质的用户体验。&lt;/p&gt;
+&lt;p&gt;那么如果想使用最新版的 pytorch，就不能使用 Conda 了。还是老老实实&lt;a class=&#34;link&#34; href=&#34;https://www.gpu-mart.com/blog/install-cudnn-on-windows&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考文档&lt;/a&gt;，&lt;strong&gt;在全局环境中安装并设置 CUDA Toolkit 和 cuDNN，然后使用 &lt;code&gt;venv&lt;/code&gt; 创建虚拟环境，拷贝执行 &lt;a class=&#34;link&#34; href=&#34;https://pytorch.org/get-started/locally/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Start Locally&lt;/a&gt; 提供命令，在虚拟环境中安装 PyTorch。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;多版本需求&#34;&gt;多版本需求&lt;/h3&gt;
+&lt;p&gt;如果你的项目依赖特定的 Python 版本，那么建议使用 Conda，为项目创建指定 Python 版本的虚拟环境。&lt;/p&gt;
+&lt;h3 id=&#34;复杂的本地依赖&#34;&gt;复杂的本地依赖&lt;/h3&gt;
+&lt;p&gt;Conda 能够轻松处理那些依赖复杂底层库，它不仅仅管理 Python 包，它管理的是一个完整的、包含所有底层二进制依赖的软件栈。对于依赖复杂非 Python 组件的项目，Conda 很适合。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>一文彻底搞懂 Python 环境管理神器 Conda</title>
         <link>https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/</link>
         <pubDate>Sat, 19 Jul 2025 17:24:32 +0800</pubDate>
@@ -99,7 +156,7 @@
 &lt;li&gt;&lt;strong&gt;关键步骤：&lt;/strong&gt; 安装程序会提供两个高级选项，请按照推荐设置：
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;不勾选&lt;/strong&gt; &amp;ldquo;Add Miniconda3 to my PATH environment variable&amp;rdquo; (将 Miniconda 添加到系统 PATH)。官方不推荐这样做，因为它可能干扰系统上其他的软件。我们应当使用 Conda 自己的方式来激活环境。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;勾选&lt;/strong&gt; &amp;ldquo;Register Miniconda3 as my default Python&amp;rdquo; (将 Miniconda 注册为默认 Python)。如果你希望系统默认的 Python 就是 Conda 的，可以勾选，&lt;strong&gt;但对于初学者，不勾选也无妨，保持系统纯净&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;不勾选&lt;/strong&gt; &amp;ldquo;Register Miniconda3 as my default Python&amp;rdquo; (将 Miniconda 注册为默认 Python)。如果你希望系统默认的 Python 就是 Conda 的，可以勾选，&lt;strong&gt;但对于初学者，不勾选也无妨，保持系统纯净&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;完成安装后，通过“开始菜单”找到并打开 &lt;strong&gt;Anaconda Prompt (Miniconda3)&lt;/strong&gt; 来使用 Conda。&lt;/li&gt;
@@ -557,7 +614,7 @@
 &lt;p&gt;设计上，Conda 不会“污染”你的系统环境。&lt;/p&gt;
 &lt;p&gt;Conda 所有的环境和包都严格限制在 Miniconda 的安装目录内。&lt;code&gt;conda activate&lt;/code&gt; 对 &lt;code&gt;PATH&lt;/code&gt; 的修改也仅限于当前的终端会话，一旦关闭窗口，一切都会复原。它不会去修改或覆盖你系统目录（如 &lt;code&gt;/usr/bin&lt;/code&gt;）下的任何文件。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;唯一的“例外”是 &lt;code&gt;conda init&lt;/code&gt; 命令。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在你安装 Miniconda 的最后一步，或者手动执行 &lt;code&gt;conda init&lt;/code&gt; 时，它会在你的 Shell 配置文件（如 &lt;code&gt;~/.bashrc&lt;/code&gt;, &lt;code&gt;~/.zshrc&lt;/code&gt;）的末尾添加一小段脚本。&lt;/p&gt;
+&lt;p&gt;在你安装 Miniconda 的最后一步，或者手动执行 &lt;code&gt;conda init zsh&lt;/code&gt; 时，它会在你的 Shell 配置文件（&lt;code&gt;~/.zshrc&lt;/code&gt;）的末尾添加一小段脚本。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;这一步是必要且安全的。&lt;/strong&gt; 这段脚本的作用是让 &lt;code&gt;conda activate&lt;/code&gt; 等命令能够正确地修改你当前 Shell 的环境变量。如果没有它，&lt;code&gt;conda&lt;/code&gt; 命令本身可能可用，但 &lt;code&gt;activate&lt;/code&gt; 这种需要与 Shell 交互的功能将无法工作。&lt;/p&gt;
 &lt;p&gt;你可以随时打开你的 &lt;code&gt;.bashrc&lt;/code&gt; 或 &lt;code&gt;.zshrc&lt;/code&gt; 文件查看 Conda 添加的内容，它有清晰的注释 &lt;code&gt;# &amp;gt;&amp;gt;&amp;gt; conda initialize &amp;gt;&amp;gt;&amp;gt;&lt;/code&gt;。如果你想彻底移除 Conda，除了删除 Miniconda 的安装目录，只需将这段脚本从配置文件中删除即可。&lt;/p&gt;
 &lt;h2 id=&#34;横向对比选择适合的工具&#34;&gt;横向对比，选择适合的工具&lt;/h2&gt;
@@ -658,15 +715,6 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;我们对比了 Conda 与 venv/pip 和 pyenv 的区别，结论是：没有最好的工具，只有最适合你当前场景的工具。&lt;/p&gt;
-&lt;p&gt;最后，我想分享我个人的选择策略，希望能给你提供一个更具体的参考：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;在 macOS 上，当我进行纯 Python 开发（如 Web 后端、爬虫脚本）时，我倾向于使用 &lt;code&gt;pyenv&lt;/code&gt; + &lt;code&gt;venv&lt;/code&gt; 的组合。&lt;/strong&gt; &lt;code&gt;pyenv&lt;/code&gt; 负责管理和切换全局的 Python 版本，&lt;code&gt;venv&lt;/code&gt; 则为每个项目创建极致轻量的虚拟环境。这套组合非常优雅，工具链清晰解耦，完全符合这类项目的需求。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;在我的 Windows 笔记本上，由于配备了 NVIDIA 显卡，主要用于 AI 和机器学习开发，我则毫不犹豫地选择 Conda。&lt;/strong&gt; 原因很简单：AI 开发常常依赖于复杂的 CUDA 和 cuDNN 工具链。在 Windows 平台上，手动配置这些非 Python 依赖是一件非常痛苦的事，而 Conda 可以通过 &lt;code&gt;conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia&lt;/code&gt; 这样的一行命令，完美地处理好所有依赖关系，这几乎是不可替代的便利。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 </description>
         </item>
         <item>

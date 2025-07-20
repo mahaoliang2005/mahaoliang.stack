@@ -566,7 +566,7 @@
 <li><strong>关键步骤：</strong> 安装程序会提供两个高级选项，请按照推荐设置：
 <ul>
 <li><strong>不勾选</strong> &ldquo;Add Miniconda3 to my PATH environment variable&rdquo; (将 Miniconda 添加到系统 PATH)。官方不推荐这样做，因为它可能干扰系统上其他的软件。我们应当使用 Conda 自己的方式来激活环境。</li>
-<li><strong>勾选</strong> &ldquo;Register Miniconda3 as my default Python&rdquo; (将 Miniconda 注册为默认 Python)。如果你希望系统默认的 Python 就是 Conda 的，可以勾选，<strong>但对于初学者，不勾选也无妨，保持系统纯净</strong>。</li>
+<li><strong>不勾选</strong> &ldquo;Register Miniconda3 as my default Python&rdquo; (将 Miniconda 注册为默认 Python)。如果你希望系统默认的 Python 就是 Conda 的，可以勾选，<strong>但对于初学者，不勾选也无妨，保持系统纯净</strong>。</li>
 </ul>
 </li>
 <li>完成安装后，通过“开始菜单”找到并打开 <strong>Anaconda Prompt (Miniconda3)</strong> 来使用 Conda。</li>
@@ -1024,7 +1024,7 @@
 <p>设计上，Conda 不会“污染”你的系统环境。</p>
 <p>Conda 所有的环境和包都严格限制在 Miniconda 的安装目录内。<code>conda activate</code> 对 <code>PATH</code> 的修改也仅限于当前的终端会话，一旦关闭窗口，一切都会复原。它不会去修改或覆盖你系统目录（如 <code>/usr/bin</code>）下的任何文件。</p>
 <p><strong>唯一的“例外”是 <code>conda init</code> 命令。</strong></p>
-<p>在你安装 Miniconda 的最后一步，或者手动执行 <code>conda init</code> 时，它会在你的 Shell 配置文件（如 <code>~/.bashrc</code>, <code>~/.zshrc</code>）的末尾添加一小段脚本。</p>
+<p>在你安装 Miniconda 的最后一步，或者手动执行 <code>conda init zsh</code> 时，它会在你的 Shell 配置文件（<code>~/.zshrc</code>）的末尾添加一小段脚本。</p>
 <p><strong>这一步是必要且安全的。</strong> 这段脚本的作用是让 <code>conda activate</code> 等命令能够正确地修改你当前 Shell 的环境变量。如果没有它，<code>conda</code> 命令本身可能可用，但 <code>activate</code> 这种需要与 Shell 交互的功能将无法工作。</p>
 <p>你可以随时打开你的 <code>.bashrc</code> 或 <code>.zshrc</code> 文件查看 Conda 添加的内容，它有清晰的注释 <code># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</code>。如果你想彻底移除 Conda，除了删除 Miniconda 的安装目录，只需将这段脚本从配置文件中删除即可。</p>
 <h2 id="横向对比选择适合的工具">横向对比，选择适合的工具</h2>
@@ -1125,15 +1125,6 @@
 </li>
 </ul>
 <p>我们对比了 Conda 与 venv/pip 和 pyenv 的区别，结论是：没有最好的工具，只有最适合你当前场景的工具。</p>
-<p>最后，我想分享我个人的选择策略，希望能给你提供一个更具体的参考：</p>
-<ul>
-<li>
-<p><strong>在 macOS 上，当我进行纯 Python 开发（如 Web 后端、爬虫脚本）时，我倾向于使用 <code>pyenv</code> + <code>venv</code> 的组合。</strong> <code>pyenv</code> 负责管理和切换全局的 Python 版本，<code>venv</code> 则为每个项目创建极致轻量的虚拟环境。这套组合非常优雅，工具链清晰解耦，完全符合这类项目的需求。</p>
-</li>
-<li>
-<p><strong>在我的 Windows 笔记本上，由于配备了 NVIDIA 显卡，主要用于 AI 和机器学习开发，我则毫不犹豫地选择 Conda。</strong> 原因很简单：AI 开发常常依赖于复杂的 CUDA 和 cuDNN 工具链。在 Windows 平台上，手动配置这些非 Python 依赖是一件非常痛苦的事，而 Conda 可以通过 <code>conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia</code> 这样的一行命令，完美地处理好所有依赖关系，这几乎是不可替代的便利。</p>
-</li>
-</ul>
 
 </section>
 
@@ -1173,6 +1164,19 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 虚拟开发环境选择建议</h2>
+        </div>
+    </a>
+</article>
+
             
                 
 <article class="">
@@ -1221,19 +1225,6 @@
 
         <div class="article-details">
             <h2 class="article-title">macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025%E5%B9%B45%E6%9C%88%E7%89%88/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">AI 工具总结（2025年5月版）</h2>
         </div>
     </a>
 </article>

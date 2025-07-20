@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='文本准备 要创建一个以 .py 扩展名结尾的文本文件，你可以按照以下步骤进行操作： 打开文本编辑器。 你可以使用操作系统自带的文本编辑器（如记事本、Tex'>
-<title>如何用命令行绘制数学函数</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 venv 和 Conda ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一'>
+<title>Python 虚拟开发环境选择建议</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/%E5%A6%82%E4%BD%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%98%E5%88%B6%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='如何用命令行绘制数学函数'>
-<meta property='og:description' content='文本准备 要创建一个以 .py 扩展名结尾的文本文件，你可以按照以下步骤进行操作： 打开文本编辑器。 你可以使用操作系统自带的文本编辑器（如记事本、Tex'>
-<meta property='og:url' content='https://mahaoliang.tech/p/%E5%A6%82%E4%BD%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%98%E5%88%B6%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Python 虚拟开发环境选择建议'>
+<meta property='og:description' content='前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 venv 和 Conda ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一'>
+<meta property='og:url' content='https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='math' /><meta property='article:published_time' content='2023-09-15T15:07:58&#43;08:00'/><meta property='article:modified_time' content='2023-09-15T15:07:58&#43;08:00'/>
-<meta name="twitter:title" content="如何用命令行绘制数学函数">
-<meta name="twitter:description" content="文本准备 要创建一个以 .py 扩展名结尾的文本文件，你可以按照以下步骤进行操作： 打开文本编辑器。 你可以使用操作系统自带的文本编辑器（如记事本、Tex">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='python' /><meta property='article:published_time' content='2025-07-20T10:37:55&#43;08:00'/><meta property='article:modified_time' content='2025-07-20T10:37:55&#43;08:00'/>
+<meta name="twitter:title" content="Python 虚拟开发环境选择建议">
+<meta name="twitter:description" content="前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 venv 和 Conda ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -365,8 +365,15 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#文本准备">文本准备</a></li>
-    <li><a href="#运行">运行</a></li>
+    <li><a href="#macos">macOS</a></li>
+    <li><a href="#windows">Windows</a>
+      <ol>
+        <li><a href="#纯-python-开发">纯 Python 开发</a></li>
+        <li><a href="#ai-开发">AI 开发</a></li>
+        <li><a href="#多版本需求">多版本需求</a></li>
+        <li><a href="#复杂的本地依赖">复杂的本地依赖</a></li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -394,7 +401,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E5%A6%82%E4%BD%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%98%E5%88%B6%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0/">如何用命令行绘制数学函数</a>
+            <a href="/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/">Python 虚拟开发环境选择建议</a>
         </h2>
     
         
@@ -416,7 +423,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2023-09-15</time>
+                <time class="article-time--published">2025-07-20</time>
             </div>
         
 
@@ -431,7 +438,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 2 分钟
                 </time>
             </div>
         
@@ -446,95 +453,55 @@
     <section class="article-content">
     
     
-    <h2 id="文本准备">文本准备</h2>
-<ul>
-<li>
-<p>要创建一个以 .py 扩展名结尾的文本文件，你可以按照以下步骤进行操作：</p>
-<ul>
-<li>
-<p>打开文本编辑器。</p>
-<p>你可以使用操作系统自带的文本编辑器（如记事本、TextEdit等），或者使用专业的代码编辑器（如Visual Studio Code、Sublime Text、Atom等）。</p>
-</li>
-<li>
-<p>在文本编辑器中创建一个新文件。</p>
-<p>将你的Python代码复制粘贴到新文件中。
-保存文件时，指定文件名并确保使用 .py 作为文件的扩展名。
-例如，你可以将文件命名为 plot_example.py。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>代码示例（画的是一个y=x^2的图）：</p>
-</li>
-</ul>
+    <p>前面我写文章分别介绍了 Python 的两个虚拟环境管理工具 <a class="link" href="https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/"  target="_blank" rel="noopener"
+    >venv</a> 和 <a class="link" href="https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/"  target="_blank" rel="noopener"
+    >Conda</a> ，并进行过适用场景对比。但具体应该如何选择呢，我想分享我个人的选择策略，希望能给你提供一个更具体的参考。</p>
+<h2 id="macos">macOS</h2>
+<p>在 <strong>MacBook Pro</strong> 上，我一般进行纯 Python 开发，倾向于使用 <code>pyenv</code> + <code>venv</code> 的组合。<code>pyenv</code> 负责管理和切换全局的 Python 版本，<code>venv</code> 则为每个项目创建极致轻量的虚拟环境。</p>
+<p>这套组合非常优雅，工具链清晰解耦，完全符合这类项目的需求。</p>
+<h2 id="windows">Windows</h2>
+<p>Windows 上的情况要复杂一些。</p>
+<p>在我的 <strong>Windows 笔记本</strong> 上，由于配备了 NVIDIA 显卡，可以用于 AI 和机器学习开发，所以会安装 <code>miniconda</code>，但一定要注意：</p>
+<blockquote>
+<p><strong>不要“Add Miniconda3 to my PATH environment variable”</strong>，</p>
+</blockquote>
+<blockquote>
+<p>也<strong>不要“Register Miniconda3 as my default Python”</strong>，</p>
+</blockquote>
+<blockquote>
+<p>避免干扰系统。如果想使用 <code>Conda</code>，通过“开始菜单”找到并打开 <strong>Anaconda Prompt (Miniconda3)</strong> 来使用。</p>
+</blockquote>
+<p>至于使用哪种虚拟环境管理工具，需要根据场景选择。</p>
+<h3 id="纯-python-开发">纯 Python 开发</h3>
+<p>纯 Python 开发，仍然使用 <code>venv</code> 创建虚拟环境。</p>
+<h3 id="ai-开发">AI 开发</h3>
+<p>AI 开发，需要依赖复杂的 <a class="link" href="https://developer.nvidia.com/cuda-downloads"  target="_blank" rel="noopener"
+    >CUDA Toolkit</a> 和 <a class="link" href="https://developer.nvidia.com/rdp/cudnn-archive"  target="_blank" rel="noopener"
+    >cuDNN</a>。按道理应该使用 <code>Conda</code>，可以一键在虚拟环境中安装 CUDA Toolkit 和 cuDNN 本地依赖。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import numpy as np
-</span></span><span class="line"><span class="cl"># 准备数据
-</span></span><span class="line"><span class="cl">x = np.linspace(-10, 10, 100)  # 在 -10 到 10 之间生成 100 个均匀分布的点
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 计算对应的 y 值
-</span></span><span class="line"><span class="cl">y = x ** 2
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 创建图形并设置标题
-</span></span><span class="line"><span class="cl">plt.figure()
-</span></span><span class="line"><span class="cl">plt.title(&#34;Plot Example&#34;)
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 绘制折线图
-</span></span><span class="line"><span class="cl">plt.plot(x, y)
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 显示图形
-</span></span><span class="line"><span class="cl">plt.show()
-</span></span><span class="line"><span class="cl">repr 
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda install <span class="nv">pytorch</span><span class="o">==</span>2.5.1 <span class="nv">torchvision</span><span class="o">==</span>0.20.1 <span class="nv">torchaudio</span><span class="o">==</span>2.5.1 pytorch-cuda<span class="o">=</span>12.4 -c pytorch -c nvidia
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="运行">运行</h2>
-<ul>
-<li>我在Mac上用的是<strong>visual studio code</strong>，
-点击文件，用VS code打开。</li>
-</ul>
-<p><img src="https://cdn.mahaoliang.tech/images/202309151521049.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<ul>
-<li>打开后，假如没装python的话，会显示要install python 编译器，下载就可以运行了了</li>
-</ul>
-<p><img src="https://cdn.mahaoliang.tech/images/202309151527687.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
+</div><p>但最新的 pytorch 安装向导 <a class="link" href="https://pytorch.org/get-started/locally/"  target="_blank" rel="noopener"
+    >Start Locally</a>，已经取消了 <code>Conda</code> 选项，只能在 <a class="link" href="https://pytorch.org/get-started/previous-versions/"  target="_blank" rel="noopener"
+    >Previous PyTorch Versions</a> 中找到 <code>Conda</code> 的安装命令。</p>
+<p>PyTorch 官方在 2024 年 10 月 22 日通过 GitHub <a class="link" href="https://github.com/pytorch/pytorch/issues/138506"  target="_blank" rel="noopener"
+    >Issue</a> 正式宣布了这一重要决定：</p>
+<blockquote>
+<p>&ldquo;2.5 will be the last release of PyTorch that will be published to the pytorch channel on Anaconda.&rdquo;</p>
+</blockquote>
+<p>至于原因，官方声明中提到，将维护资源集中在用户最常用的平台上，可以提供更好的支持和更优质的用户体验。</p>
+<p>那么如果想使用最新版的 pytorch，就不能使用 Conda 了。还是老老实实<a class="link" href="https://www.gpu-mart.com/blog/install-cudnn-on-windows"  target="_blank" rel="noopener"
+    >参考文档</a>，<strong>在全局环境中安装并设置 CUDA Toolkit 和 cuDNN，然后使用 <code>venv</code> 创建虚拟环境，拷贝执行 <a class="link" href="https://pytorch.org/get-started/locally/"  target="_blank" rel="noopener"
+    >Start Locally</a> 提供命令，在虚拟环境中安装 PyTorch。</strong></p>
+<h3 id="多版本需求">多版本需求</h3>
+<p>如果你的项目依赖特定的 Python 版本，那么建议使用 Conda，为项目创建指定 Python 版本的虚拟环境。</p>
+<h3 id="复杂的本地依赖">复杂的本地依赖</h3>
+<p>Conda 能够轻松处理那些依赖复杂底层库，它不仅仅管理 Python 包，它管理的是一个完整的、包含所有底层二进制依赖的软件栈。对于依赖复杂非 Python 组件的项目，Conda 很适合。</p>
 
 </section>
 
@@ -543,7 +510,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/math/">Math</a>
+            <a href="/tags/python/">Python</a>
         
     </section>
 
@@ -577,12 +544,12 @@
             
                 
 <article class="">
-    <a href="/p/python-%E8%99%9A%E6%8B%9F%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/">
+    <a href="/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">Python 虚拟开发环境选择建议</h2>
+            <h2 class="article-title">一文彻底搞懂 Python 环境管理神器 Conda</h2>
         </div>
     </a>
 </article>
@@ -590,12 +557,25 @@
             
                 
 <article class="">
-    <a href="/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/">
+    <a href="/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">一文彻底搞懂 Python 环境管理神器 Conda</h2>
+            <h2 class="article-title">Python 虚拟环境管理：venv 实用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">在 macOS 上安装和使用 pyenv</h2>
         </div>
     </a>
 </article>
@@ -622,19 +602,6 @@
 
         <div class="article-details">
             <h2 class="article-title">macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
-    <a href="/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Python 虚拟环境管理：venv 实用指南</h2>
         </div>
     </a>
 </article>
