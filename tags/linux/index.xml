@@ -6,10 +6,10 @@
         <description>Recent content in Linux on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 19 Jul 2025 11:41:57 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 09 Jul 2025 11:41:57 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</title>
         <link>https://mahaoliang.tech/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/</link>
-        <pubDate>Sat, 19 Jul 2025 11:41:57 +0800</pubDate>
+        <pubDate>Wed, 09 Jul 2025 11:41:57 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/</guid>
         <description>&lt;p&gt;对于许多在 macOS 上工作的开发者来说，VMware Fusion 就像一把瑞士军刀，让我们能随时拥有一个纯净、独立的 Linux 环境。无论是进行 Linux 系统编程、用 Python 做 Linux 系统工具开发，还是部署和测试应用程序，虚拟机都为我们提供了一个完美的沙盒。&lt;/p&gt;
@@ -180,7 +180,7 @@
         <item>
         <title>macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</title>
         <link>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
-        <pubDate>Thu, 17 Jul 2025 20:26:30 +0800</pubDate>
+        <pubDate>Mon, 07 Jul 2025 20:26:30 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</guid>
         <description>&lt;p&gt;今年我非常幸运地入选了“开源之夏”活动，参与的项目是&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
