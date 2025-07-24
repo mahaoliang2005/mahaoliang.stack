@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Python 与 pip 的关系 刚开始学 python 的时候，知道 python 是一个解释器，而 pip 是一个包管理器，以为它们的“地位”是平等的。然而随着了解的深入才发现，pip 本身就是一'>
+<title>深入理解 Python 与 pip</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='深入理解 Python 与 pip'>
+<meta property='og:description' content='Python 与 pip 的关系 刚开始学 python 的时候，知道 python 是一个解释器，而 pip 是一个包管理器，以为它们的“地位”是平等的。然而随着了解的深入才发现，pip 本身就是一'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='python' /><meta property='article:published_time' content='2025-07-23T08:05:26&#43;08:00'/><meta property='article:modified_time' content='2025-07-23T08:05:26&#43;08:00'/>
+<meta name="twitter:title" content="深入理解 Python 与 pip">
+<meta name="twitter:description" content="Python 与 pip 的关系 刚开始学 python 的时候，知道 python 是一个解释器，而 pip 是一个包管理器，以为它们的“地位”是平等的。然而随着了解的深入才发现，pip 本身就是一">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:me@mahaoliang.tech'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://t.me/TTBJDTJZJ'
+                        target="_blank"
+                        title="telegram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.youtube.com/@Noah_Johnson988'
+                        target="_blank"
+                        title="Youtube"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 24.402344 9 C 17.800781 9 11.601563 9.5 8.300781 10.199219 C 6.101563 10.699219 4.199219 12.199219 3.800781 14.5 C 3.402344 16.898438 3 20.5 3 25 C 3 29.5 3.398438 33 3.898438 35.5 C 4.300781 37.699219 6.199219 39.300781 8.398438 39.800781 C 11.902344 40.5 17.898438 41 24.5 41 C 31.101563 41 37.097656 40.5 40.597656 39.800781 C 42.800781 39.300781 44.699219 37.800781 45.097656 35.5 C 45.5 33 46 29.402344 46.097656 24.902344 C 46.097656 20.402344 45.597656 16.800781 45.097656 14.300781 C 44.699219 12.101563 42.800781 10.5 40.597656 10 C 37.097656 9.5 31 9 24.402344 9 Z M 24.402344 11 C 31.601563 11 37.398438 11.597656 40.199219 12.097656 C 41.699219 12.5 42.898438 13.5 43.097656 14.800781 C 43.699219 18 44.097656 21.402344 44.097656 24.902344 C 44 29.199219 43.5 32.699219 43.097656 35.199219 C 42.800781 37.097656 40.800781 37.699219 40.199219 37.902344 C 36.597656 38.601563 30.597656 39.097656 24.597656 39.097656 C 18.597656 39.097656 12.5 38.699219 9 37.902344 C 7.5 37.5 6.300781 36.5 6.101563 35.199219 C 5.300781 32.398438 5 28.699219 5 25 C 5 20.398438 5.402344 17 5.800781 14.902344 C 6.101563 13 8.199219 12.398438 8.699219 12.199219 C 12 11.5 18.101563 11 24.402344 11 Z M 19 17 L 19 33 L 33 25 Z M 21 20.402344 L 29 25 L 21 29.597656 Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#python-与-pip-的关系">Python 与 pip 的关系</a>
+      <ol>
+        <li><a href="#为什么需要包管理">为什么需要包管理？</a></li>
+        <li><a href="#捆绑安装">捆绑安装</a></li>
+      </ol>
+    </li>
+    <li><a href="#精准定位我的-python-和-pip-在哪里">精准定位：我的 Python 和 pip 在哪里？</a>
+      <ol>
+        <li><a href="#快速定位which-和-where-命令">快速定位：<code>which</code> 和 <code>where</code> 命令</a></li>
+        <li><a href="#真正的-python-解释器在哪里">真正的 Python 解释器在哪里？</a></li>
+        <li><a href="#确认-pip-的真实位置">确认 pip 的真实位置</a></li>
+      </ol>
+    </li>
+    <li><a href="#pip-install-的三个目的地"><code>pip install</code> 的三个目的地</a>
+      <ol>
+        <li><a href="#全局安装便捷但危险的默认选项">全局安装：便捷但危险的默认选项</a></li>
+        <li><a href="#用户目录安装">用户目录安装</a></li>
+        <li><a href="#虚拟环境安装">虚拟环境安装</a></li>
+      </ol>
+    </li>
+    <li><a href="#查看与管理已安装的包">查看与管理已安装的包</a>
+      <ol>
+        <li><a href="#pip-list"><code>pip list</code></a></li>
+        <li><a href="#pip-freeze"><code>pip freeze</code></a></li>
+        <li><a href="#pip-install"><code>pip install</code></a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/">深入理解 Python 与 pip</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-07-23</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="python-与-pip-的关系">Python 与 pip 的关系</h2>
+<p>刚开始学 python 的时候，知道 python 是一个解释器，而 pip 是一个包管理器，以为它们的“地位”是平等的。然而随着了解的深入才发现，<strong>pip 本身就是一个 Python 包，它的运行，完全依赖于 python 解释器。</strong></p>
+<p>简单来说，它们的关系可以这样定义：</p>
+<ul>
+<li>
+<p><strong>Python 是解释器</strong>：它是一种高级编程语言，我们编写的 <code>.py</code> 脚本需要通过 Python 解释器来执行，将代码转换成机器可以理解的指令。没有 Python 解释器，我们写的 Python 代码就是一堆没有生命的文本文件。</p>
+</li>
+<li>
+<p><strong>pip 是包管理器</strong>：可以把它想象成 Python 世界的“应用商店 (App Store)”。它是一个命令行工具，专门用来查找、下载、安装、卸载和管理 Python 的第三方软件包（也称为库或模块）。</p>
+</li>
+</ul>
+<p>最关键的一点是：<strong>pip 本身也是一个用 Python 编写的包</strong>。这意味着 <code>pip</code> 的运行离不开 <code>python</code> 解释器的支持，它们是一个密不可分的组合，Python 提供了运行环境，而 pip 则极大地丰富 Python 的能力。</p>
+<h3 id="为什么需要包管理">为什么需要包管理？</h3>
+<p>在没有包管理的早期，开发者如果想使用别人写好的代码，可能需要手动去网站下载源码压缩包，解压后自己想办法放到项目特定的目录下，如果这个代码还依赖其他代码，整个过程将成为一场噩梦。<code>pip</code> 的出现彻底改变了这一切：</p>
+<ul>
+<li>
+<p><strong>代码重用与效率提升</strong>：当需要实现一个复杂的功能时，比如发送网络请求，很大概率已经有非常成熟的第三方库存在了。通过一条简单的 <code>pip install requests</code> 命令，你就能获得强大的网络请求能力，无需从零开始编写复杂的底层代码。</p>
+</li>
+<li>
+<p><strong>自动处理依赖关系</strong>：一个库通常会依赖其他多个库才能正常工作。例如，你安装 <code>A</code> 库，<code>A</code> 库可能需要 <code>B</code> 库的 <code>1.5</code> 以上版本和 <code>C</code> 库的任意版本。如果手动管理，这将变得极其繁琐且容易出错。<code>pip</code> 则能自动分析这些依赖关系，将所有需要的“配料”一次性、按正确的版本要求准备妥当。</p>
+</li>
+<li>
+<p><strong>确保版本一致性</strong>：<code>pip</code> 允许我们将项目所有依赖包记录在一个 <code>requirements.txt</code> 文件中。这样，任何人在任何地方，都可以通过这个文件创建出完全相同的运行环境。</p>
+</li>
+</ul>
+<h3 id="捆绑安装">捆绑安装</h3>
+<p>为了强调 <code>pip</code> 的重要性，自 Python 3.4 版本以来，官方的 Python 安装程序已经默认将 <code>pip</code> 捆绑在内。这意味着，当你从官方渠道下载并安装 Python 时，<code>pip</code> 工具也一并被安装到了你的系统中。</p>
+<h2 id="精准定位我的-python-和-pip-在哪里">精准定位：我的 Python 和 pip 在哪里？</h2>
+<p>在日常开发中，我们常常会在电脑上安装多个版本的 Python，例如系统自带的 Python、通过 Homebrew 安装的 Python、以及使用 <code>pyenv</code> 等版本管理工具安装的多个 Python。这就带来了一个核心问题：当我们在终端里敲下 <code>python3</code> 或 <code>pip3</code> 命令时，我们到底在调用哪一个？</p>
+<h3 id="快速定位which-和-where-命令">快速定位：<code>which</code> 和 <code>where</code> 命令</h3>
+<p>最直接的定位方法是使用操作系统提供的路径查找命令。</p>
+<ul>
+<li>在 macOS 或 Linux 系统中，我们可以使用 <code>which</code> 命令：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看 python3 可执行文件的路径</span>
+</span></span><span class="line"><span class="cl">which python3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 pip3 可执行文件的路径</span>
+</span></span><span class="line"><span class="cl">which pip3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在 Windows 系统中，对应的命令是 <code>where</code>：</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看 python3 可执行文件的路径</span>
+</span></span><span class="line"><span class="cl">where python3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看 pip3 可执行文件的路径</span>
+</span></span><span class="line"><span class="cl">where pip3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些命令会搜索系统的环境变量 <code>PATH</code>，并返回找到的第一个匹配的可执行文件的完整路径。</p>
+<h3 id="真正的-python-解释器在哪里">真正的 Python 解释器在哪里？</h3>
+<p>当你使用像 <code>pyenv</code> 这样的 Python 版本管理工具时，<code>which</code> 命令的结果可能会让你感到困惑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ which python3
+</span></span><span class="line"><span class="cl">/Users/haoliangma/.pyenv/shims/python3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个路径指向的并不是一个真实的 Python 解释器，而是一个叫做“shim”的转发脚本。当你执行 <code>python3</code> 命令时，实际上是这个“shim”接到了指令。它会检查你当前目录或全局设置，判断你希望使用哪个版本的 Python（例如 <code>3.10.18</code>），然后再将你的命令无缝地转接给那个版本对应的真实解释器。</p>
+<p>那么，如何才能找到真正的 Python 解释器？</p>
+<p>执行下面的命令，返回真实解释器路径：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过这个命令，我们可以清晰地看到真相：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 由 pyenv 管理的 Python</span>
+</span></span><span class="line"><span class="cl">❯ python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span>
+</span></span><span class="line"><span class="cl">/Users/haoliangma/.pyenv/versions/3.10.18/bin/python3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># macOS 系统自带的 Python</span>
+</span></span><span class="line"><span class="cl">❯ python3 -c <span class="s2">&#34;import sys; print(sys.executable)&#34;</span>
+</span></span><span class="line"><span class="cl">/Applications/Xcode.app/Contents/Developer/usr/bin/python3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个路径才是我们正在使用的 Python 解释器所在的位置。</p>
+<h3 id="确认-pip-的真实位置">确认 pip 的真实位置</h3>
+<p>同样地，我们也需要确认 <code>pip</code> 的真实位置。可以使用 <code>pip3 --version</code> 命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 由 pyenv 管理的 Python</span>
+</span></span><span class="line"><span class="cl">❯ pip3 --version
+</span></span><span class="line"><span class="cl">pip 23.0.1 from /Users/haoliangma/.pyenv/versions/3.10.18/lib/python3.10/site-packages/pip <span class="o">(</span>python 3.10<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># macOS 系统自带的 Python</span>
+</span></span><span class="line"><span class="cl">❯ pip3 --version
+</span></span><span class="line"><span class="cl">pip 21.2.4 from /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages/pip <span class="o">(</span>python 3.9<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们还可以用 <code>pip</code> 自己来“调查”自己，因为 <code>pip</code> 本身也是一个包：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 由 pyenv 管理的 Python</span>
+</span></span><span class="line"><span class="cl">❯ pip3 show pip
+</span></span><span class="line"><span class="cl">Name: pip
+</span></span><span class="line"><span class="cl">Version: 23.0.1
+</span></span><span class="line"><span class="cl">Summary: The PyPA recommended tool <span class="k">for</span> installing Python packages.
+</span></span><span class="line"><span class="cl">Home-page: https://pip.pypa.io/
+</span></span><span class="line"><span class="cl">Author: The pip developers
+</span></span><span class="line"><span class="cl">Author-email: distutils-sig@python.org
+</span></span><span class="line"><span class="cl">License: MIT
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/.pyenv/versions/3.10.18/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">Requires: 
+</span></span><span class="line"><span class="cl">Required-by: 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># macOS 系统自带的 Python</span>
+</span></span><span class="line"><span class="cl">❯ pip3 show pip
+</span></span><span class="line"><span class="cl">Name: pip
+</span></span><span class="line"><span class="cl">Version: 21.2.4
+</span></span><span class="line"><span class="cl">Summary: The PyPA recommended tool <span class="k">for</span> installing Python packages.
+</span></span><span class="line"><span class="cl">Home-page: https://pip.pypa.io/
+</span></span><span class="line"><span class="cl">Author: The pip developers
+</span></span><span class="line"><span class="cl">Author-email: distutils-sig@python.org
+</span></span><span class="line"><span class="cl">License: MIT
+</span></span><span class="line"><span class="cl">Location: /Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages
+</span></span><span class="line"><span class="cl">Requires: 
+</span></span><span class="line"><span class="cl">Required-by: 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="pip-install-的三个目的地"><code>pip install</code> 的三个目的地</h2>
+<p>当我们执行 <code>pip install &lt;package_name&gt;</code> 时，这个包究竟被安装到哪里了？</p>
+<p><code>pip install</code> 有三个不同的目的地：<strong>全局 Site-Packages</strong>、<strong>用户 Site-Packages</strong> 和<strong>虚拟环境 Site-Packages</strong>。</p>
+<h3 id="全局安装便捷但危险的默认选项">全局安装：便捷但危险的默认选项</h3>
+<p>这是最直接的安装方式，但通常也是最不推荐的方式。</p>
+<p>当你的全局 Python 环境拥有写入权限时（例如，使用 <code>pyenv</code>、Homebrew 或在 Windows 上默认安装的 Python），执行 <code>pip install package_name</code>，会将 package 安装到全局 <code>site-packages</code> 目录下。</p>
+<p>如何知道全局 site-packages 具体在哪里？</p>
+<p>可以通过 <code>pip show</code> 查看已安装包的位置，得知 site-packages 的位置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 install pyfiglet
+</span></span><span class="line"><span class="cl">Successfully installed pyfiglet-1.0.3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">❯ pip3 show pyfiglet
+</span></span><span class="line"><span class="cl">Name: pyfiglet
+</span></span><span class="line"><span class="cl">Version: 1.0.3
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/.pyenv/versions/3.10.18/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出中的 <code>Location</code> 字段地告诉我们，<code>pyfiglet</code> 被安装的具体位置。由于是在全局环境执行的安装，这个位置就是全局 <code>site-packages</code> 目录。</p>
+<p>在安装之前，你可以通过编程方式，预先知道全局 <code>site-packages</code> 的路径：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ python3 -c <span class="s2">&#34;import site; print(site.getsitepackages())&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="s1">&#39;/Users/haoliangma/.pyenv/versions/3.10.18/lib/python3.10/site-packages&#39;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对于 macOS 自带的 Python，<code>site.getsitepackages()</code> 可能会返回一个包含多个路径的列表：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -c <span class="s2">&#34;import site; print(site.getsitepackages())&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="s1">&#39;/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/site-packages&#39;</span>, <span class="s1">&#39;/Applications/Xcode.app/Contents/Developer/AppleInternal/Library/Python/3.9/site-packages&#39;</span>, <span class="s1">&#39;/Library/Python/3.9/site-packages&#39;</span>, <span class="s1">&#39;/AppleInternal/Library/Python/3.9/site-packages&#39;</span>, <span class="s1">&#39;/AppleInternal/Tests/Python/3.9/site-packages&#39;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这意味着 Python 在查找全局包时，会按照列表中的顺序依次搜索这些目录。这是一种分层系统，允许系统本身、Xcode 工具链以及管理员安装的包共存。</p>
+<p>我们应该<strong>极力避免</strong>全局安装。这种方式会“污染”你的主 Python 环境，一旦项目增多，极易导致不同项目间的依赖版本冲突。</p>
+<p>macOS 系统自带的 Python，普通用户没有权限进行全局安装，除非你明确使用 <code>sudo</code> 执行安装。</p>
+<h3 id="用户目录安装">用户目录安装</h3>
+<p>在两种情况下，<code>pip install</code> 会将包安装到用户级别的 <code>site-packages</code> 目录下。</p>
+<p><strong>第一种情况是被动触发</strong>，当执行全局安装没有权限时，pip 会自动将包安装到用户级别的 <code>site-packages</code>，例如使用 macOS 系统自带的 Python 时：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 install pyfiglet
+</span></span><span class="line"><span class="cl">Defaulting to user installation because normal site-packages is not writeable
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Successfully installed pyfiglet-1.0.3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>全局目录不可写入，但安装还是成功了，实际上是将包安装到了用户目录。查看刚刚的安装包，可以知道用户目录的具体位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 show pyfiglet
+</span></span><span class="line"><span class="cl">Name: pyfiglet
+</span></span><span class="line"><span class="cl">Version: 1.0.3
+</span></span><span class="line"><span class="cl">Summary: Pure-python FIGlet implementation
+</span></span><span class="line"><span class="cl">Home-page: https://github.com/pwaller/pyfiglet
+</span></span><span class="line"><span class="cl">Author: Peter Waller <span class="o">(</span>Thanks to Christopher Jones and Stefano Rivera<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author-email: p@pwaller.net
+</span></span><span class="line"><span class="cl">License: MIT
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/Library/Python/3.9/lib/python/site-packages
+</span></span><span class="line"><span class="cl">Requires: 
+</span></span><span class="line"><span class="cl">Required-by: 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>第二种情况是</strong>，通过 <code>--user</code> 参数，明确要求将包安装在自己的用户目录下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 install --user pyfiglet
+</span></span><span class="line"><span class="cl">❯ pip3 show pyfiglet
+</span></span><span class="line"><span class="cl">Name: pyfiglet
+</span></span><span class="line"><span class="cl">Version: 1.0.3
+</span></span><span class="line"><span class="cl">Summary: Pure-python FIGlet implementation
+</span></span><span class="line"><span class="cl">Home-page: https://github.com/pwaller/pyfiglet
+</span></span><span class="line"><span class="cl">Author: Peter Waller <span class="o">(</span>Thanks to Christopher Jones and Stefano Rivera<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author-email: p@pwaller.net
+</span></span><span class="line"><span class="cl">License: MIT
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/.local/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">Requires: 
+</span></span><span class="line"><span class="cl">Required-by:
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这次使用的是 pyenv 管理的 python，包被安装到用户的 <code>.local/lib/python3.10/site-packages</code> 目录中。</p>
+<p>我们还发现，不同方式安装的 Python，可能有不同的用户目录。不用安装包，可以执行<code>python3 -m site --user-site</code> 命令，获得当前 Python 的用户目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># pyenv 管理的 python</span>
+</span></span><span class="line"><span class="cl">❯ python3 -m site --user-site
+</span></span><span class="line"><span class="cl">/Users/haoliangma/.local/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># macOS 系统自带的 python</span>
+</span></span><span class="line"><span class="cl">❯ python3 -m site --user-site
+</span></span><span class="line"><span class="cl">/Users/haoliangma/Library/Python/3.9/lib/python/site-packages
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="虚拟环境安装">虚拟环境安装</h3>
+<p>虚拟环境是为每个项目创建一个独立的，与其他项目隔离的“沙盒”。</p>
+<p>在<strong>已激活 (activated)</strong> 的虚拟环境中执行 <code>pip install</code>，会将包安装到虚拟环境的 site-packages 目录下。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 在项目目录下创建一个名为 .venv 的虚拟环境</span>
+</span></span><span class="line"><span class="cl">❯ python3 -m venv .venv
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 激活它 (macOS/Linux)</span>
+</span></span><span class="line"><span class="cl">❯ <span class="nb">source</span> .venv/bin/activate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 安装包</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>.venv<span class="o">)</span> ❯ pip3 install pyfiglet
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看包的安装位置</span>
+</span></span><span class="line"><span class="cl"><span class="o">(</span>.venv<span class="o">)</span> ❯ pip3 show pyfiglet
+</span></span><span class="line"><span class="cl">Name: pyfiglet
+</span></span><span class="line"><span class="cl">Version: 1.0.3
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/works/demo/.venv/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>Location</code> 清晰地指向了我们刚刚创建的 <code>.venv</code> 目录内部，与全局或用户目录的路径毫无关系。</p>
+<p>在激活虚拟环境的状态下，我们再次运行之前的查询命令，查看当前的 site-packages 路径：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">(</span>.venv<span class="o">)</span> ❯ python3 -c <span class="s2">&#34;import site; print(site.getsitepackages())&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span><span class="s1">&#39;/Users/haoliangma/works/demo/.venv/lib/python3.10/site-packages&#39;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="查看与管理已安装的包">查看与管理已安装的包</h2>
+<h3 id="pip-list"><code>pip list</code></h3>
+<p><code>pip list</code> 会列出当前 Python 环境中所有已安装的包及其版本号。</p>
+<p>使用 pyenv 管理的 python，在全局环境中运行<code>pip list</code>，会列出全局和用户目录下的包。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 list
+</span></span><span class="line"><span class="cl">Package    Version
+</span></span><span class="line"><span class="cl">---------- -------
+</span></span><span class="line"><span class="cl">pip        23.0.1
+</span></span><span class="line"><span class="cl">pyfiglet   1.0.3
+</span></span><span class="line"><span class="cl">setuptools 65.5.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">❯ pip3 show pyfiglet
+</span></span><span class="line"><span class="cl">Name: pyfiglet
+</span></span><span class="line"><span class="cl">Version: 1.0.3
+</span></span><span class="line"><span class="cl">Summary: Pure-python FIGlet implementation
+</span></span><span class="line"><span class="cl">Home-page: https://github.com/pwaller/pyfiglet
+</span></span><span class="line"><span class="cl">Author: Peter Waller <span class="o">(</span>Thanks to Christopher Jones and Stefano Rivera<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Author-email: p@pwaller.net
+</span></span><span class="line"><span class="cl">License: MIT
+</span></span><span class="line"><span class="cl">Location: /Users/haoliangma/.local/lib/python3.10/site-packages
+</span></span><span class="line"><span class="cl">Requires: 
+</span></span><span class="line"><span class="cl">Required-by: 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>从这里可以，<code>pip list</code> 中列出的<code>pyfiglet</code>，是安装在用户目录的 site-packages 中。</p>
+<p>查看 macOS 系统自带的 Python 安装了哪些包：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 list
+</span></span><span class="line"><span class="cl">Package      Version
+</span></span><span class="line"><span class="cl">------------ --------
+</span></span><span class="line"><span class="cl">altgraph     0.17.2
+</span></span><span class="line"><span class="cl">future       0.18.2
+</span></span><span class="line"><span class="cl">macholib     1.15.2
+</span></span><span class="line"><span class="cl">pip          21.2.4
+</span></span><span class="line"><span class="cl">setuptools   58.0.4
+</span></span><span class="line"><span class="cl">six          1.15.0
+</span></span><span class="line"><span class="cl">vboxapi      1.0
+</span></span><span class="line"><span class="cl">wheel        0.37.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的列表通常会长很多，因为它包含了很多操作系统或开发工具（如 Xcode）正常运行所依赖的包。</p>
+<p>在一个全新的、刚刚激活的虚拟环境中执行 <code>pip list</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip3 list
+</span></span><span class="line"><span class="cl">Package    Version
+</span></span><span class="line"><span class="cl">---------- -------
+</span></span><span class="line"><span class="cl">pip        23.0.1
+</span></span><span class="line"><span class="cl">setuptools 65.5.0
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="pip-freeze"><code>pip freeze</code></h3>
+<p><code>pip list</code> 非常适合日常查看，但当我们需要将项目依赖分享给他人或进行部署时，<code>pip freeze</code> 命令是更好的选择。</p>
+<p><code>pip freeze</code> 的输出格式与 <code>pip list</code> 类似，但它遵循一种特定的格式，可以直接用于依赖文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ pip freeze &gt; requirements.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="pip-install"><code>pip install</code></h3>
+<p>使用依赖文件重建环境：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python3 -m venv .venv
+</span></span><span class="line"><span class="cl">$ <span class="nb">source</span> .venv/bin/activate
+</span></span><span class="line"><span class="cl"><span class="o">(</span>.venv<span class="o">)</span> $ pip install -r requirements.txt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结</h2>
+<p>本文从一个常见的认知误区出发，首先明确了 <code>pip</code> 本身是依赖于 <code>python</code> 解释器运行的一个包。</p>
+<p>随后，我们深入探讨了在复杂的开发环境中，如何使用命令，定位当前正在使用的 <code>python</code> 与 <code>pip</code> 的真实位置，详细解析了 <code>pip install</code> 的三大目的地：全局、用户目录和虚拟环境。</p>
+<p>为了方便回顾和查阅，以下是本文提到的所有核心命令及其功能摘要：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:left">功能分类</th>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>定位与识别</strong></td>
+<td style="text-align:left"><code>which &lt;command&gt;</code></td>
+<td style="text-align:left">(macOS/Linux) 在 <code>PATH</code> 环境变量中查找并显示命令的可执行文件路径。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>where &lt;command&gt;</code></td>
+<td style="text-align:left">(Windows) 功能与 <code>which</code> 类似，在 <code>PATH</code> 中查找命令的路径。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>python3 -c &quot;import sys; print(sys.executable)&quot;</code></td>
+<td style="text-align:left"><strong>精准查找</strong>并打印当前正在运行的 Python 解释器的绝对路径，不受 <code>shims</code> 等影响。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 --version</code></td>
+<td style="text-align:left">显示 <code>pip</code> 的版本号及其所属的 Python 环境和具体的 <code>site-packages</code> 路径。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 show &lt;package&gt;</code></td>
+<td style="text-align:left">显示指定包的详细信息，尤其是其 <code>Location</code> 字段，是<strong>确认包安装位置</strong>的关键命令。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>python3 -c &quot;import site; print(site.getsitepackages())&quot;</code></td>
+<td style="text-align:left">显示当前 Python 环境的 <code>site-packages</code> 目录列表。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>python3 -m site --user-site</code></td>
+<td style="text-align:left">显示当前 Python 环境的<strong>用户专属</strong> <code>site-packages</code> 目录路径。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>包管理</strong></td>
+<td style="text-align:left"><code>pip3 install &lt;package&gt;</code></td>
+<td style="text-align:left">安装一个 Python 包。默认尝试全局安装，无权限时可能自动转为用户目录安装。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 install --user &lt;package&gt;</code></td>
+<td style="text-align:left">明确指定将包安装到<strong>用户</strong> <code>site-packages</code> 目录。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 install -r requirements.txt</code></td>
+<td style="text-align:left">从指定的 <code>requirements.txt</code> 文件中读取并安装所有依赖包，用于环境复现。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 list</code></td>
+<td style="text-align:left">列出当前环境中所有已安装的包及其版本，适合日常查看。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>pip3 freeze &gt; requirements.txt</code></td>
+<td style="text-align:left">将 <code>pip freeze</code> 的输出重定向，生成或覆盖 <code>requirements.txt</code> 依赖清单文件。</td>
+</tr>
+</tbody>
+</table></div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/python/">Python</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">现代 Python 项目管理指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%8F%AD%E7%A7%98-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">揭秘 Python 环境管理的底层实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 虚拟环境管理工具选择建议</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一文彻底搞懂 Python 环境管理神器 Conda</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 虚拟环境管理：venv 实用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤ICP备2022085181号-2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
