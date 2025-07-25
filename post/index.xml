@@ -6,10 +6,1314 @@
         <description>Recent content in Posts on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 23 Jul 2025 08:05:26 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 25 Jul 2025 19:54:51 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Python 项目管理最佳实践：uv 使用指南</title>
+        <link>https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Fri, 25 Jul 2025 19:54:51 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;p&gt;过去一个月，密集学习了各种 Python 相关的工具。&lt;/p&gt;
+&lt;p&gt;在我看来，Python 的知识分为两个方面，一个是 Python 语言本身，要学习它的语法，掌握基本数据结构，了解常用的模块，总之就是会写 Python 代码，解决实际问题。&lt;/p&gt;
+&lt;p&gt;另一个方面，是 Python 工程方面的知识。所谓工程，就是在开发大型项目时，如何让开发过程更高效：项目复杂了，如何组织代码结构；如何进行依赖管理；如何多人协作；如何做项目间隔离，避免依赖冲突；如何管理多个版本的 Python；如何构建、发布自己写的模块等等。总之就是，除了写代码之外，如何做，让开发 Python 的过程更高效。&lt;/p&gt;
+&lt;p&gt;学习的过程中，写了一系列的技术文章。从最开始用 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;pyenv&lt;/a&gt; 管理多版本，&lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;venv&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Conda&lt;/a&gt; 管理虚拟环境，到阶段性的总结了&lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;虚拟环境工具选择建议&lt;/a&gt;，之后深入技术实现原理，探讨了&lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E6%8F%AD%E7%A7%98-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;虚拟环境底层实现原理&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Python 与 pip 的关系&lt;/a&gt;，之后总结了 &lt;a class=&#34;link&#34; href=&#34;https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Python 项目管理的发展历程&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;到今天，是这个系统的最后一篇：因为我会用 uv 代替前面介绍的所有工具，用 uv 管理 Python 项目的全流程。我决定了，以后的 Python 项目，都使用 uv 管理。&lt;/p&gt;
+&lt;h2 id=&#34;uv-简介&#34;&gt;uv 简介&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/astral-sh/uv&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;uv&lt;/a&gt; 是一个用 Rust 编写的 Python 打包和项目管理器，它将多个 Python 工具（如 pip、venv、pyenv 等）的功能整合到一个工具中，提供了一个统一、高效的 Python 开发流程。&lt;/p&gt;
+&lt;p&gt;实际上，uv 的实现并不是完全从头开始，而是&lt;strong&gt;对 &lt;code&gt;venv&lt;/code&gt; 和 &lt;code&gt;pip&lt;/code&gt; 的高级封装&lt;/strong&gt;，对使用者提供更简单、更统一的接口。&lt;/p&gt;
+&lt;p&gt;本文将从零开始，使用 uv 完整地走完一个项目的开发、构建和安装流程。&lt;/p&gt;
+&lt;h2 id=&#34;安装-uv&#34;&gt;安装 uv&lt;/h2&gt;
+&lt;h3 id=&#34;使用官方脚本安装&#34;&gt;使用官方脚本安装&lt;/h3&gt;
+&lt;p&gt;推荐参考&lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/getting-started/installation/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;uv 项目文档&lt;/a&gt;，使用官方脚本安装：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# macOS and Linux&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;curl -LsSf https://astral.sh/uv/install.sh &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sh
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Windows&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;powershell -ExecutionPolicy ByPass -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;irm https://astral.sh/uv/install.ps1 | iex&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;脚本执行成功后，新开一个 shell，执行 &lt;code&gt;uv --version&lt;/code&gt; 命令，查看是否安装成功。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv --version
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv 0.8.3 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;7e78f54e7 2025-07-24&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;path-环境变量&#34;&gt;PATH 环境变量&lt;/h3&gt;
+&lt;p&gt;uv 被安装到用户目录的 &lt;code&gt;.local/bin&lt;/code&gt; 目录下。&lt;/p&gt;
+&lt;p&gt;安装脚本会自动在 &lt;code&gt;.zshrc&lt;/code&gt; 或 &lt;code&gt;.bashrc&lt;/code&gt; 增加配置，将 &lt;code&gt;$HOME/.local/bin&lt;/code&gt; 添加到 &lt;code&gt;$PATH&lt;/code&gt; 环境变量中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ cat &lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;. &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/bin/env&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;查看&lt;code&gt;.local/bin/env&lt;/code&gt; ，文件内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#!/bin/sh
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# add binaries to PATH if they aren&amp;#39;t added yet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# affix colons on either side of $PATH to simplify matching&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;:&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;PATH&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;:&amp;#34;&lt;/span&gt; in
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    *:&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/bin&amp;#34;&lt;/span&gt;:*&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    *&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# Prepending path in case a system-installed binary needs to be overridden&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$HOME&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.local/bin:&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看出，&lt;code&gt;.zshrc&lt;/code&gt; 中这行命令 &lt;code&gt;. &amp;quot;$HOME/.local/bin/env&amp;quot;&lt;/code&gt; 的作用，是将 &lt;code&gt;$HOME/.local/bin&lt;/code&gt; 添加到 &lt;code&gt;$PATH&lt;/code&gt; 中。&lt;/p&gt;
+&lt;h3 id=&#34;shell-自动补全&#34;&gt;Shell 自动补全&lt;/h3&gt;
+&lt;p&gt;建议为 uv 命令启用 shell &lt;a class=&#34;link&#34; href=&#34;https://docs.astral.sh/uv/getting-started/installation/#shell-autocompletion&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;自动补全功能&lt;/a&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# zsh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;eval &amp;#34;$(uvx --generate-shell-completion zsh)&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# bash&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;eval &amp;#34;$(uvx --generate-shell-completion bash)&amp;#34;&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;升级-uv&#34;&gt;升级 uv&lt;/h3&gt;
+&lt;p&gt;通过官方脚本安装 uv 后，可按需自行更新：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv self update
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;python-版本管理&#34;&gt;Python 版本管理&lt;/h2&gt;
+&lt;p&gt;可以使用 &lt;code&gt;uv python list&lt;/code&gt; 命令查看 uv 支持的所有 Python 版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv python list
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cpython-3.14.0rc1-macos-aarch64-none                 &amp;lt;download available&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cpython-3.13.5-macos-aarch64-none                    &amp;lt;download available&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cpython-3.9.6-macos-aarch64-none                     /usr/bin/python3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pypy-3.8.16-macos-aarch64-none                       &amp;lt;download available&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;graalpy-3.8.5-macos-aarch64-none                     &amp;lt;download available&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;uv 会列出所用可用版本，包括系统自带的 Python。&lt;/p&gt;
+&lt;p&gt;我们可以指定安装某个版本 Python 版本：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv python install cpython-3.13.5
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;命令执行成功后，Python 将被安装到 &lt;code&gt;~/.local/bin&lt;/code&gt; 目录下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ ll ~/.local/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;total &lt;span class=&#34;m&#34;&gt;73784&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rw-r--r--  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff   328B  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 21:01 env
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rw-r--r--  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff   165B  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 21:01 env.fish
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lrwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff    89B  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 21:07 python3.13 -&amp;gt; /Users/haoliangma/.local/share/uv/python/cpython-3.13.5-macos-aarch64-none/bin/python3.13
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff    36M  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 05:09 uv
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff   328K  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 05:09 uvx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看到，在 &lt;code&gt;~/.local/bin&lt;/code&gt; 目录下建立了符号链接（Symbolic Link），指向 Python 的实际安装位置 &lt;code&gt;~/.local/share/uv/python&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;值得注意的是，符号链接名称带了具体的版本号 &lt;code&gt;python3.13&lt;/code&gt;，也就是说，当前的 &lt;code&gt;python3&lt;/code&gt; 命令，仍然是系统自带的 Python 环境。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ which python3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/usr/bin/python3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因为我们在项目中都会使用虚拟环境，所以并不在乎全局环境的 Python。这里我们使用 uv 安装的 Python，并不设置为全局环境，只供以后项目的虚拟环境使用。&lt;/p&gt;
+&lt;p&gt;后面还会看到，我们可以在 &lt;code&gt;~/.local/bin&lt;/code&gt; 目录下安装可以独立运行的 Python 工具，而这些工具也自带了完整环境，并不会用到全局环境的 Python，工具之间的环境也是完全隔离的。&lt;/p&gt;
+&lt;h2 id=&#34;项目开发&#34;&gt;项目开发&lt;/h2&gt;
+&lt;h3 id=&#34;创建项目&#34;&gt;创建项目&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;uv init&lt;/code&gt; 命令可以快速初始化一个项目。我们可以指定项目名称，&lt;code&gt;init&lt;/code&gt; 命令会自动创建项目目录，并生成项目结构。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv init -p 3.13 skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Initialized project &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;skycmd&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt; at &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;/Users/haoliangma/Documents/works/skycmd&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;实际上，我们不必在上一步安装 Python，因为在项目初始化的时候，如果 &lt;code&gt;-p&lt;/code&gt; 参数指定的 Python 版本不存在，&lt;code&gt;uv&lt;/code&gt; 会自动下载并安装。&lt;/p&gt;
+&lt;p&gt;我们也可以在一个空的项目目录中执行 &lt;code&gt;uv init&lt;/code&gt; 命令，这时会使用目录名作为项目名。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ mkdir skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ &lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv init -p 3.11
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Initialized project &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;skycmd&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在初始化的项目目录下，&lt;code&gt;.python-version&lt;/code&gt; 文件会记录项目的 Python 版本号。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 是最核心的项目配置文件，项目元数据、依赖项、构建配置等等都定义在这里。&lt;/p&gt;
+&lt;h3 id=&#34;运行初始化项目&#34;&gt;运行初始化项目&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;uv init&lt;/code&gt; 为我们生成一个示例程序 &lt;code&gt;main.py&lt;/code&gt;，使用 &lt;code&gt;uv run&lt;/code&gt; 命令运行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run main.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Using CPython 3.13.5
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Creating virtual environment at: .venv
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Hello from skycmd!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;第一次运行项目，会自动创建虚拟环境 &lt;code&gt;.venv&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;添加依赖&#34;&gt;添加依赖&lt;/h3&gt;
+&lt;p&gt;我准备做一个查看天气的命令行工具，会用到 &lt;code&gt;requests&lt;/code&gt; 处理 HTTP 请求，并使用 &lt;code&gt;click&lt;/code&gt; 解析命令行参数。&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;uv add&lt;/code&gt; 命令添加依赖：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add requests
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add click
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;注意，不用执行 &lt;code&gt;source .venv/bin/activate&lt;/code&gt; 显示的激活虚拟环境，&lt;code&gt;uv&lt;/code&gt; 会自动将依赖安装到虚拟环境中。&lt;/p&gt;
+&lt;p&gt;安装的依赖，会自动记录在 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;click&amp;gt;=8.2.1&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;requests&amp;gt;=2.32.4&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用 &lt;code&gt;uv + pyproject.toml&lt;/code&gt; 的方式管理依赖，和使用 &lt;code&gt;pip + requirements.txt&lt;/code&gt; 的方式有本质区别。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 只会记录&lt;strong&gt;直接依赖&lt;/strong&gt;，而 &lt;code&gt;requirements.txt&lt;/code&gt; 会记录&lt;strong&gt;所有依赖&lt;/strong&gt;，包括直接依赖和间接依赖。&lt;/p&gt;
+&lt;p&gt;这两种方式的区别，在移除依赖项时就体现出来了：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;uv remove requests&lt;/code&gt;，会移除 &lt;code&gt;requests&lt;/code&gt; 和所有 &lt;code&gt;requests&lt;/code&gt; 的依赖项。&lt;/li&gt;
+&lt;li&gt;而 &lt;code&gt;pip uninstall requests&lt;/code&gt; 只会移除 &lt;code&gt;requests&lt;/code&gt;，留下了 &lt;code&gt;requests&lt;/code&gt; 的依赖项。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;配置构建工具&#34;&gt;配置构建工具&lt;/h3&gt;
+&lt;p&gt;uv 支持多种构建打包工具，这里我们使用常见的 &lt;a class=&#34;link&#34; href=&#34;https://github.com/pypa/setuptools&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;setuptools&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;参考 &lt;code&gt;setuptools&lt;/code&gt; 的&lt;a class=&#34;link&#34; href=&#34;https://setuptools.pypa.io/en/latest/userguide/quickstart.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方文档&lt;/a&gt;，在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中添加 &lt;code&gt;build-system&lt;/code&gt; 配置：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;build-system&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;build-backend&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools.build_meta&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Python 不是脚本吗，为什么还要构建打包呢？&lt;/p&gt;
+&lt;p&gt;首先，因为我们的项目不可能总是一个简单的脚本，随着项目的复杂，可能会分为多个模块，每个模块提供独立、完整的功能。同时，项目还可以作为库发布出去，就像 &lt;code&gt;requests&lt;/code&gt; 一样，让别人使用。这时，我们不可能将一个个的 Python 文件发给别人，而是需要使用一个构建打包工具，将我们的项目打包，方便别人安装使用。&lt;/p&gt;
+&lt;p&gt;另外，就算不发给别人使用，如果配置了 &lt;code&gt;[build-system]&lt;/code&gt;，在开发阶段，我们不必使用 &lt;code&gt;pip install -e .&lt;/code&gt; 在虚拟环境安装项目自身模块，而是直接使用 &lt;code&gt;uv run &amp;lt;project_name&amp;gt;&lt;/code&gt; 命令就可以运行整个项目。&lt;/p&gt;
+&lt;h3 id=&#34;源码目录结构&#34;&gt;源码目录结构&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;setuptools&lt;/code&gt; 在构建时，会按照约定的源码目录结构，自动发现 Python 文件进构打包构建。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;setuptools&lt;/code&gt; 默认支持两种源码目录布局：&lt;a class=&#34;link&#34; href=&#34;https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#src-layout&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;src-layout&lt;/a&gt; 和 &lt;a class=&#34;link&#34; href=&#34;https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;flat-layout&lt;/a&gt;。也就是说，按照这两种方式放置 Python 文件，不必做额外的配置，&lt;code&gt;setuptools&lt;/code&gt; 都能自动找到。&lt;/p&gt;
+&lt;p&gt;我们使用简单的 &lt;code&gt;flat-layout&lt;/code&gt;，调整项目目录结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── pyproject.toml  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── skycmd/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ├── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ├── main.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    └── weather/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         └── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里有几点说明请注意：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;首先，在项目的根目录下，创建与项目同名的目录 &lt;code&gt;skycmd&lt;/code&gt;，用来存放 Python 源码。注意，&lt;strong&gt;项目的根目录名&lt;/strong&gt;，根目录下存放&lt;strong&gt;源码的目录名&lt;/strong&gt;，都要跟 &lt;code&gt;pyproject.toml&lt;/code&gt; 定义的&lt;strong&gt;项目名称&lt;/strong&gt;保持一致。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将 uv 生成的 &lt;code&gt;main.py&lt;/code&gt;，从项目根目录，移到源码目录 &lt;code&gt;skycmd&lt;/code&gt; 下，作为项目执行入口。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在 &lt;code&gt;skycmd&lt;/code&gt; 目录下，可以创建子目录，作为子模块。例如可以创建 &lt;code&gt;weather&lt;/code&gt; 目录，用于放置获取天气信息的模块代码。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;源码目录及其子目录，每层目录下都要建一个空的 &lt;code&gt;__init__.py&lt;/code&gt; 文件。因为目录下如果有 &lt;code&gt;__init__.py&lt;/code&gt; 文件，Python 会认为它是一个模块。有了 &lt;code&gt;__init__.py&lt;/code&gt; 文件，每层目录都会被自动识别为模块。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;配置项目执行入口&#34;&gt;配置项目执行入口&lt;/h3&gt;
+&lt;p&gt;在 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中，添加 &lt;code&gt;[project.scripts]&lt;/code&gt; 配置项，指定项目执行入口。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;skycmd&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;skycmd.main:main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;skycmd.main:main&lt;/code&gt; 表示 &lt;code&gt;skycmd&lt;/code&gt; 模块下的 &lt;code&gt;main.py&lt;/code&gt; 文件中的 &lt;code&gt;main&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;p&gt;现在可以使用 &lt;code&gt;uv run skycmd&lt;/code&gt; 命令来运行项目了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      Built skycmd @ file:///Users/haoliangma/Documents/works/skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installed &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; package in 7ms
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Hello from skycmd!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因为前面我们前面配置了构建工具，现在又配置了执行入口，在运行 &lt;code&gt;uv run skycmd&lt;/code&gt; 时，会自动进入虚拟环境，构建，将构建的包安装到虚拟环境，然后运行项目。&lt;/p&gt;
+&lt;p&gt;注意，整个过程，我们都只使用了 &lt;code&gt;uv&lt;/code&gt; 命令，没有显示的执行 &lt;code&gt;source .venv/bin/activate&lt;/code&gt; 命令来激活虚拟环境，&lt;code&gt;uv&lt;/code&gt; 命令会自动激活虚拟环境。&lt;/p&gt;
+&lt;p&gt;同时，我们指定的是执行入口 &lt;code&gt;skycmd&lt;/code&gt;，而不再是 &lt;code&gt;main.py&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;现在看好像差别不大，但如果项目包含了多个模块，&lt;code&gt;uv run skycmd&lt;/code&gt; 命令会自动将项目的所有模块安装到虚拟环境，然后运行入口函数：&lt;code&gt;skycmd&lt;/code&gt; 模块的 &lt;code&gt;main.py&lt;/code&gt; 文件中的 &lt;code&gt;main&lt;/code&gt; 函数。如何运行的是 &lt;code&gt;main.py&lt;/code&gt;，将不会自动安装项目自身编写的模块。&lt;/p&gt;
+&lt;h3 id=&#34;开发服务模块&#34;&gt;开发服务模块&lt;/h3&gt;
+&lt;p&gt;搭建好了整个项目结构，我们可以开发提供获取天气信息的模块。&lt;/p&gt;
+&lt;p&gt;实现很简单，构建 HTTP 请求访问 &lt;a class=&#34;link&#34; href=&#34;https://wttr.in&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;wttr.in&lt;/a&gt; ，提供城市名作为参数，HTTP 响应内容就是城市天气信息。&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;skycmd/weather&lt;/code&gt; 目录下，创建 &lt;code&gt;service.py&lt;/code&gt; 文件，并添加如下代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;requests&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;https://wttr.in/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city_name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;?m&amp;amp;format=3&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;raise_for_status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;strip&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exceptions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestException&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Error getting weather information: &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;get_detailed_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city_name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;try&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;https://wttr.in/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city_name&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;?m&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;timeout&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;raise_for_status&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;text&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;except&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exceptions&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;RequestException&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Error getting detailed weather information: &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Shenzhen&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;记得要在 &lt;code&gt;skycmd/weather&lt;/code&gt; 目录下要创建一个空的 &lt;code&gt;__init__.py&lt;/code&gt; 文件。当前的目录结构如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── pyproject.toml  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── skycmd/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ├── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ├── main.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    └── weather/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        ├── __init__.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        └── service.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我们可以在 &lt;code&gt;skycmd/weather/server.py&lt;/code&gt; 中添加测试方法，使用 &lt;code&gt;uv run&lt;/code&gt; 运行该模块，验证编写的服务。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run skycmd/weather/service.py
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Shenzhen: ⛅️  +34°C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;开发入口程序&#34;&gt;开发入口程序&lt;/h3&gt;
+&lt;p&gt;获取天气信息的模块已经完成，现在我们编写入口程序。&lt;/p&gt;
+&lt;p&gt;修改 &lt;code&gt;skeycmd/main.py&lt;/code&gt;文件，内容如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;requests&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;os&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;sys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;click&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;skycmd.weather.service&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_detailed_weather_from_wttr&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@click.command&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@click.argument&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;city&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;str&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;required&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;False&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@click.option&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;-v&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;--verbose&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;is_flag&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;help&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;显示详细天气信息&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;#34;&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    命令行天气工具 - 获取指定城市的天气信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\b&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    使用示例：
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;      skycmd          # 获取帮助信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;      skycmd Shenzhen  # 获取深圳的天气
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;      skycmd -v Shenzhen  # 获取深圳的详细天气信息
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s2&#34;&gt;    &amp;#34;&amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# 如果没有提供城市名，显示帮助信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;click&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_current_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;click&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;echo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_help&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;ctx&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# 显示详细天气信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_detailed_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# 显示简单天气信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;__main__&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在可以使用 &lt;code&gt;uv run skycmd&lt;/code&gt; 运行项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Usage: skycmd &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;OPTIONS&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;CITY&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  命令行天气工具 - 获取指定城市的天气信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  使用示例：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    skycmd          &lt;span class=&#34;c1&#34;&gt;# 获取帮助信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    skycmd Shenzhen  &lt;span class=&#34;c1&#34;&gt;# 获取深圳的天气&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    skycmd -v Shenzhen  &lt;span class=&#34;c1&#34;&gt;# 获取深圳的详细天气信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Options:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  -v, --verbose  显示详细天气信息
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  --help         Show this message and exit.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run skycmd Shenzhen
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Shenzhen: ⛅️  +34°C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;因为前面已经在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中配置了执行入口 &lt;code&gt;skycmd = &amp;quot;skycmd.main:main&amp;quot;&lt;/code&gt;，所以使用 &lt;code&gt;uv run&lt;/code&gt; 的时候，指定的是 &lt;code&gt;skycmd&lt;/code&gt;，而不是 Python 文件名 &lt;code&gt;main.py&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;现在我们简单的修改一下程序，增加显示简单天气时的输出内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;c1&#34;&gt;# 显示简单天气信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;get_weather_from_wttr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;city&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sa&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;🌍 天气信息：&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;nb&#34;&gt;print&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;weather_info&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;修改完成后，再次使用 &lt;code&gt;uv run skycmd Shenzhen&lt;/code&gt; 运行，可以查看到改动后的效果：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv run skycmd Shenzhen
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;🌍 天气信息：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Shenzhen: ⛅️  +34°C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;完美！开发过程顺畅丝滑。&lt;/p&gt;
+&lt;h2 id=&#34;构建和安装工具&#34;&gt;构建和安装工具&lt;/h2&gt;
+&lt;p&gt;如果想使用我们开发的命令行工具 &lt;code&gt;skycmd&lt;/code&gt;，必须每次都要到项目目录下运行 &lt;code&gt;uv run skycmd&lt;/code&gt;，这样有点麻烦。&lt;/p&gt;
+&lt;p&gt;我们可以先使用 &lt;code&gt;uv build&lt;/code&gt;，将整个项目打包成标准的 Python 包：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv build
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Building &lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; distribution...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Successfully built dist/skycmd-0.1.0.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Successfully built dist/skycmd-0.1.0-py3-none-any.whl
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看到，构建成功后，在 &lt;code&gt;dist&lt;/code&gt; 目录下生成了两个文件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;skycmd-0.1.0.tar.gz&lt;/code&gt;：源代码分发包&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;skycmd-0.1.0-py3-none-any.whl&lt;/code&gt;：二进制分发包&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接着可以使用 &lt;code&gt;uv tool install&lt;/code&gt; 命令，将 &lt;code&gt;skycmd&lt;/code&gt; 安装到用户目录：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv tool install dist/skycmd-0.1.0-py3-none-any.whl
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Resolved &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; packages in 563ms
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Prepared &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; package in 4ms
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installed &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; packages in 7ms
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;certifi&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;2025.7.14
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + charset-normalizer&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;3.4.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;click&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;8.2.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;idna&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;3.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;requests&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;2.32.4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;skycmd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;0.1.0 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;from file:///Users/haoliangma/works/skycmd/dist/skycmd-0.1.0-py3-none-any.whl&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; + &lt;span class=&#34;nv&#34;&gt;urllib3&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;==&lt;/span&gt;2.5.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Installed &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; executable: skycmd tool install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;uv tool install&lt;/code&gt; 安装的是二进制分发包 &lt;code&gt;dist/skycmd-0.1.0-py3-none-any.whl&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;命令执行成功，将在 &lt;code&gt;~/.local/bin&lt;/code&gt; 目录下生成 &lt;code&gt;skycmd&lt;/code&gt; 命令。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ ll ~/.local/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lrwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff    57B  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 22:34 skycmd -&amp;gt; /Users/haoliangma/.local/share/uv/tools/skycmd/bin/skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff    36M  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 05:09 uv
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-rwxr-xr-x  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; haoliangma  staff   328K  &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;25&lt;/span&gt; 05:09 uvx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个 &lt;code&gt;skycmd&lt;/code&gt; 是一个符号链接，指向 &lt;code&gt;~/.local/share/uv/tools/skycmd/bin/skycmd&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;所以，&lt;code&gt;skycmd&lt;/code&gt; 工具的实际文件存放在 &lt;code&gt;~/.local/share/uv/tools/skycmd/&lt;/code&gt;目录中。查看这个目录的内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ tree -L &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; ~/.local/share/uv/tools/skycmd/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/Users/haoliangma/.local/share/uv/tools/skycmd/
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── bin
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── activate
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   ├── python -&amp;gt; /Users/haoliangma/.local/share/uv/python/cpython-3.13.5-macos-aarch64-none/bin/python3.13
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── CACHEDIR.TAG
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── lib
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;│   └── python3.13
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;├── pyvenv.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;└── uv-receipt.toml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看出，这个目录包含了一个完整的 Python 虚拟环境。所以虽然 &lt;code&gt;skycmd&lt;/code&gt; 安装到了用户目录，但它使用自己的虚拟环境，指定了 Pythonn 版本，依赖也安装在自己的环境中。这样，工具之间的环境是完全隔离的，不会相互影响。&lt;/p&gt;
+&lt;p&gt;现在，可以在命令行中使用 &lt;code&gt;skycmd&lt;/code&gt; 命令了：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ skycmd Shenzhen
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;🌍 天气信息：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Shenzhen: ⛅️  +29°C
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;不想用了，记得删除：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;❯ uv tool uninstall skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Uninstalled &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; executable: skycmd
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;完美！&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;本文详细记录了使用 &lt;code&gt;uv&lt;/code&gt; 管理 Python 项目的全流程（虽然没有讲到模块发布）。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;uv&lt;/code&gt; 会自动创建虚拟环境，执行 &lt;code&gt;uv&lt;/code&gt; 命令会自动在虚拟环境中运行，不需要显示的激活。&lt;/p&gt;
+&lt;p&gt;所以使用 &lt;code&gt;uv&lt;/code&gt; 时要记得：&lt;strong&gt;一切操作都要使用 &lt;code&gt;uv&lt;/code&gt;，最好不要 &lt;code&gt;uv&lt;/code&gt; 和 &lt;code&gt;pip&lt;/code&gt; 混用。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;整理本文提到的主要命令&#34;&gt;整理本文提到的主要命令&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;命令&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;更新&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv self update&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将 &lt;code&gt;uv&lt;/code&gt; 更新到最新版本。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Python 版本管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv python list&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;列出所有可用的 Python 版本，包括已安装和可下载的。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv python install &amp;lt;version&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;下载并安装指定版本的 Python。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;项目初始化&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv init -p &amp;lt;python_version&amp;gt; &amp;lt;project_name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;初始化一个新的 Python 项目，可指定 Python 版本并自动创建项目目录和基础文件，如 &lt;code&gt;pyproject.toml&lt;/code&gt;。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;运行代码&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv run &amp;lt;file_or_script&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;在项目的虚拟环境中运行 Python 脚本或已配置的入口。首次运行时会自动创建虚拟环境。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;依赖管理&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv add &amp;lt;package&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;向项目中添加依赖，并自动更新 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv remove &amp;lt;package&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;从项目中移除依赖及其相关子依赖。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;项目构建&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv build&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将项目打包成标准的源代码分发包 (&lt;code&gt;.tar.gz&lt;/code&gt;) 和二进制分发包 (&lt;code&gt;.whl&lt;/code&gt;)。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;工具安装&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv tool install &amp;lt;package_or_wheel&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;将一个 Python 包（如本地构建的 &lt;code&gt;.whl&lt;/code&gt; 文件）作为一个独立的命令行工具安装。&lt;code&gt;uv&lt;/code&gt; 会为其创建一个隔离的虚拟环境。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;uv tool uninstall &amp;lt;tool_name&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;卸载已安装的命令行工具。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;项目开发流程&#34;&gt;项目开发流程&lt;/h3&gt;
+&lt;p&gt;本文通过创建一个名为 &lt;code&gt;skycmd&lt;/code&gt; 的命令行天气查询工具，演示了使用 &lt;code&gt;uv&lt;/code&gt; 的完整开发流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;初始化项目&lt;/strong&gt;: 使用 &lt;code&gt;uv init&lt;/code&gt; 创建项目结构和 &lt;code&gt;pyproject.toml&lt;/code&gt; 配置文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;添加依赖&lt;/strong&gt;: 使用 &lt;code&gt;uv add requests click&lt;/code&gt; 添加项目所需的第三方库。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置构建系统&lt;/strong&gt;: 在 &lt;code&gt;pyproject.toml&lt;/code&gt; 中配置 &lt;code&gt;setuptools&lt;/code&gt; 作为构建工具，以便后续的构建和打包。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;组织源码&lt;/strong&gt;: 采用 &lt;code&gt;flat-layout&lt;/code&gt; 目录结构，将源代码放置在与项目同名的子目录中。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置执行入口&lt;/strong&gt;: 在 &lt;code&gt;pyproject.toml&lt;/code&gt; 的 &lt;code&gt;[project.scripts]&lt;/code&gt; 部分指定项目的命令行入口，使得可以使用 &lt;code&gt;uv run skycmd&lt;/code&gt; 来运行。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;开发与调试&lt;/strong&gt;: 在开发过程中，直接使用 &lt;code&gt;uv run&lt;/code&gt; 来测试和运行代码，&lt;code&gt;uv&lt;/code&gt; 会自动处理环境和依赖。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;构建与安装&lt;/strong&gt;: 开发完成后，使用 &lt;code&gt;uv build&lt;/code&gt; 将项目打包，然后使用 &lt;code&gt;uv tool install&lt;/code&gt; 将其安装为系统级的命令行工具，方便在任何地方调用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本文的示例代码在 &lt;a class=&#34;link&#34; href=&#34;https://github.com/mahaoliang2005/skycmd&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt;，希望本文对你有帮助。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>现代 Python 项目管理指南</title>
+        <link>https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Wed, 23 Jul 2025 18:39:02 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;p&gt;在很长一段时间里，我管理 Python 项目的方式堪称“原始”。每当项目需要新的依赖，我便会在 &lt;code&gt;README.md&lt;/code&gt; 文件里手动记上一笔，提醒自己需要 &lt;code&gt;pip install&lt;/code&gt; 哪些库。这种“刀耕火种”的模式，对于个人写的一些小脚本尚可应付，但当项目变得复杂，或是需要与他人协作时，其脆弱和低效便暴露无遗。&lt;/p&gt;
+&lt;p&gt;真正的转折点发生在今年夏天。我有幸参与了&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源之夏&lt;/a&gt;，并成功中选了 openEuler 社区的 &lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/a&gt; 项目，为 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;splitter&lt;/a&gt; 这个工具贡献代码。当我满怀激情地克隆代码库，准备大展拳脚时，一个文件赫然出现在我的眼前：&lt;code&gt;pyproject.toml&lt;/code&gt;。这个我以往只是模糊听闻过的文件，在这里却是项目配置的核心。&lt;/p&gt;
+&lt;p&gt;这次经历像一扇窗，让我窥见了现代 Python 项目管理的全新世界。于是，我将这段学习和探索的经历整理成文。&lt;/p&gt;
+&lt;h2 id=&#34;传统方式venv--requirementstxt&#34;&gt;传统方式：&lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;以 &lt;code&gt;venv&lt;/code&gt; 和 &lt;code&gt;requirements.txt&lt;/code&gt; 为核心的工作流，是 Python 社区在告别全局安装、走向规范化管理过程中迈出的重要一步。&lt;/p&gt;
+&lt;h3 id=&#34;环境隔离与依赖列表&#34;&gt;环境隔离与依赖列表&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;虚拟环境 (&lt;code&gt;venv&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果你经历过在系统全局 Python 环境中安装各种包的混乱时期，你一定对 &lt;strong&gt;“依赖地狱” (dependency hell)&lt;/strong&gt; 这个词深有体会。项目 A 需要 &lt;code&gt;requests==2.20.0&lt;/code&gt;，而项目 B 依赖的另一个库却需要 &lt;code&gt;requests==2.28.0&lt;/code&gt;，它们在全局环境中相互冲突，让开发者头痛不已。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;venv&lt;/code&gt; 的出现正是为了解决这个问题。它允许我们为每个项目创建一个独立的、与全局环境隔离的 Python 工作空间。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 在项目根目录下，创建一个名为 .venv 的虚拟环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python3 -m venv .venv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个命令会创建一个 &lt;code&gt;.venv&lt;/code&gt; 文件夹，里面包含了项目所需的一个迷你的 Python 运行环境。要使用它，我们需要先“激活”：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; .venv/bin/activate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;激活后，你会发现命令行提示符前面多了 &lt;code&gt;(.venv)&lt;/code&gt; 的标识。此时，所有 &lt;code&gt;pip&lt;/code&gt; 的安装、卸载操作都将被限制在这个独立的虚拟环境中，再也不会污染全局环境了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;依赖文件 (&lt;code&gt;requirements.txt&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;环境隔离了，但如何与他人协作呢？我们总不能把整个 &lt;code&gt;.venv&lt;/code&gt; 文件夹都发给别人吧。这时，&lt;code&gt;requirements.txt&lt;/code&gt; 就登上了历史舞台。它的作用，就是一份项目的“依赖清单”。&lt;/p&gt;
+&lt;p&gt;最常见的生成方式是使用 &lt;code&gt;pip freeze&lt;/code&gt; 命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 将当前虚拟环境中所有已安装的包及其精确版本号导出&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip freeze &amp;gt; requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，你的项目协作者或者部署服务器，只需要拿到你的代码和这个 &lt;code&gt;requirements.txt&lt;/code&gt; 文件，然后执行一条简单的命令，就可以复现出一个一模一样的运行环境：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 从 requirements.txt 文件中安装所有指定的依赖&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install -r requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这套组合拳极大地提升了 Python 项目的规范性和可复现性，至今仍有大量项目在使用。&lt;/p&gt;
+&lt;h3 id=&#34;传统方式的隐患&#34;&gt;传统方式的隐患&lt;/h3&gt;
+&lt;p&gt;尽管 &lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;requirements.txt&lt;/code&gt; 解决了大问题，但随着项目复杂度的提升，其内在的缺陷也逐渐暴露出来。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;依赖混淆&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最大的问题在于 &lt;code&gt;pip freeze&lt;/code&gt; 的工作方式。它像一个不加分辨的记录员，会把你环境中&lt;strong&gt;所有&lt;/strong&gt;的包都记录下来。这其中既包含了你为了实现功能而主动安装的&lt;strong&gt;直接依赖&lt;/strong&gt;（比如 Web 框架 &lt;code&gt;Flask&lt;/code&gt;），也包含了 &lt;code&gt;Flask&lt;/code&gt; 运行所必需的&lt;strong&gt;间接依赖&lt;/strong&gt;（比如 &lt;code&gt;Werkzeug&lt;/code&gt;, &lt;code&gt;Jinja2&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt; 等）。&lt;/p&gt;
+&lt;p&gt;最终生成的 &lt;code&gt;requirements.txt&lt;/code&gt; 文件看起来会是这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# requirements.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;blinker==1.7.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;click==8.1.7
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Flask==3.0.0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;itsdangerous==2.1.2
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Jinja2==3.1.3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;MarkupSafe==2.1.3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Werkzeug==3.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这个文件里，你已经分不清谁是谁的依赖了。项目的核心依赖关系被模糊掉了，给后续的维护，比如升级某个特定的核心库，带来了不小的麻烦。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;孤儿依赖&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;另一个令人头疼的问题是“孤儿依赖”。假设你的项目后续不再需要 &lt;code&gt;Flask&lt;/code&gt; 了，于是你执行了 &lt;code&gt;pip uninstall flask&lt;/code&gt;。&lt;code&gt;pip&lt;/code&gt; 很听话地卸载了 &lt;code&gt;Flask&lt;/code&gt; 本身，但它当初为了 &lt;code&gt;Flask&lt;/code&gt; 而自动安装的 &lt;code&gt;blinker&lt;/code&gt;、&lt;code&gt;click&lt;/code&gt; 等间接依赖，却被遗留在了环境中，变成了无人认领的“孤儿”。&lt;/p&gt;
+&lt;p&gt;日积月累，你的虚拟环境会因为这些残留的孤儿依赖而变得越来越臃肿，还可能在未来引发难以预料的依赖冲突。&lt;/p&gt;
+&lt;p&gt;正是因为这些的缺陷，Python 社区开始探索一种更清晰、更智能的管理方案。这便引出了我们下一章的主角——&lt;code&gt;pyproject.toml&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;现代篇章pyprojecttoml&#34;&gt;现代篇章：&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;面对 &lt;code&gt;requirements.txt&lt;/code&gt; 带来的依赖混淆问题，Python 社区需要一个更强大、更规范的解决方案，答案就是 &lt;code&gt;pyproject.toml&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;标准的诞生-pep-518--621&#34;&gt;标准的诞生 (PEP 518 &amp;amp; 621)&lt;/h3&gt;
+&lt;p&gt;在 &lt;code&gt;pyproject.toml&lt;/code&gt; 成为标准之前，一个 Python 项目的配置信息可谓“四分五裂”。项目元数据可能在 &lt;code&gt;setup.py&lt;/code&gt; 或 &lt;code&gt;setup.cfg&lt;/code&gt; 里，运行依赖在 &lt;code&gt;requirements.txt&lt;/code&gt; 中，测试配置在 &lt;code&gt;tox.ini&lt;/code&gt; 或 &lt;code&gt;.coveragerc&lt;/code&gt; 里，代码格式化工具 &lt;code&gt;black&lt;/code&gt; 和静态检查工具 &lt;code&gt;mypy&lt;/code&gt; 又有它们各自的配置文件。这种碎片化的状态让项目维护变得异常繁琐。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://peps.python.org/pep-0518/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PEP 518&lt;/a&gt; 的提出正是为了终结这种乱象。它定义了一个名为 &lt;code&gt;pyproject.toml&lt;/code&gt; 的文件格式，旨在成为&lt;strong&gt;所有构建工具的统一配置入口&lt;/strong&gt;。随后，&lt;a class=&#34;link&#34; href=&#34;https://peps.python.org/pep-0621/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PEP 621&lt;/a&gt; 进一步规范了如何在这个文件中声明项目的核心元数据（如名称、版本、作者和依赖项），使其彻底摆脱了对 &lt;code&gt;setup.py&lt;/code&gt; 的依赖。&lt;/p&gt;
+&lt;p&gt;简单来说，&lt;code&gt;pyproject.toml&lt;/code&gt; 的使命就是将所有与项目相关的配置，集中到一个官方认可的、格式统一的文件中。&lt;/p&gt;
+&lt;h3 id=&#34;声明式依赖管理&#34;&gt;声明式依赖管理&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 最重要的改进，在于它引入了&lt;strong&gt;声明式依赖管理&lt;/strong&gt;。与 &lt;code&gt;pip freeze&lt;/code&gt; 那种不加区分的全量记录不同，我们现在只需要在 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中清晰地声明项目的&lt;strong&gt;直接依赖&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;让我们回到上一章的 &lt;code&gt;Flask&lt;/code&gt; 项目，它的 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件现在会是这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# pyproject.toml&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;my-flask-app&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.1.0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;Flask==3.0.0&amp;#34;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;看，多么清爽！&lt;code&gt;dependencies&lt;/code&gt; 列表里只有 &lt;code&gt;Flask&lt;/code&gt;。我们在这里表达的是&lt;strong&gt;意图&lt;/strong&gt;：“我的项目需要 Flask 3.0.0 版本”，而不是 &lt;code&gt;Flask&lt;/code&gt; 运行所需要的所有包的冗长列表。至于 &lt;code&gt;Flask&lt;/code&gt; 自身依赖的 &lt;code&gt;Werkzeug&lt;/code&gt;、&lt;code&gt;Jinja2&lt;/code&gt; 等，将由工具在安装时自动去解析和处理。&lt;/p&gt;
+&lt;p&gt;这种方式将项目的直接依赖与间接依赖彻底分离，让依赖关系一目了然，极大地提升了项目的可读性和可维护性。&lt;/p&gt;
+&lt;h3 id=&#34;pip-install--的背后原理&#34;&gt;&lt;code&gt;pip install .&lt;/code&gt; 的背后原理&lt;/h3&gt;
+&lt;p&gt;现在我们有了 &lt;code&gt;pyproject.toml&lt;/code&gt;，那么 &lt;code&gt;pip&lt;/code&gt; 是如何利用它来安装项目的呢？&lt;/p&gt;
+&lt;p&gt;当你进入项目根目录，在激活的虚拟环境中执行 &lt;code&gt;pip install .&lt;/code&gt; 背后其实发生了两个关键步骤：构建和安装。这个过程不仅仅是复制文件，而是将你的项目变成一个标准的、可分发的 Python 软件包。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一步：构建 (Build)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip&lt;/code&gt; 首先会扮演一个“构建前端”的角色。它会读取 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中的 &lt;code&gt;[build-system]&lt;/code&gt; 表，找到指定的“构建后端”（通常是 &lt;code&gt;setuptools&lt;/code&gt;）。然后，&lt;code&gt;pip&lt;/code&gt; 会指示构建后端，依据当前项目的源代码和 &lt;code&gt;pyproject.toml&lt;/code&gt; 中的元数据，构建出一个标准的 Python 软件包，通常是一个 &lt;code&gt;.whl&lt;/code&gt; (wheel) 文件。这个 wheel 文件是一个包含了所有代码和元数据的 zip 压缩包，是现代 Python 的标准分发格式。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二步：安装 (Install)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;构建完成后，&lt;code&gt;pip&lt;/code&gt; 会接手这个新鲜出炉的 wheel 文件，并将其内容“解压”并安装到你的虚拟环境中。这个过程会产生以下三类核心产物：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;项目代码与元数据 (Project Code and Metadata)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;你的项目代码（即所有的 &lt;code&gt;.py&lt;/code&gt; 文件和包）会被复制到虚拟环境的 &lt;code&gt;site-packages&lt;/code&gt; 目录下（例如 &lt;code&gt;.venv/lib/python3.11/site-packages/my_flask_app&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;同时，一个名为 &lt;code&gt;my_flask_app-0.1.0.dist-info&lt;/code&gt; 的元数据目录也会被创建。你可以把它看作是这个软件包的“身份证”，里面包含了从 &lt;code&gt;pyproject.toml&lt;/code&gt; 中提取的所有信息，比如项目名、版本、作者以及最重要的——依赖列表。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;项目依赖 (Project Dependencies)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;pip&lt;/code&gt; 会读取上述元数据文件，找到其中声明的 &lt;code&gt;dependencies&lt;/code&gt; 列表（例如 &lt;code&gt;&amp;quot;Flask==3.0.0&amp;quot;&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;然后，它会自动下载并安装所有这些直接依赖，以及这些依赖所需要的间接依赖（如 &lt;code&gt;Werkzeug&lt;/code&gt;, &lt;code&gt;Jinja2&lt;/code&gt; 等），并将它们全部安装到 &lt;code&gt;site-packages&lt;/code&gt; 目录中。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;可执行的命令行脚本 (Executable Command-line Scripts)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果你在文件中定义了 &lt;code&gt;[project.scripts]&lt;/code&gt; 部分，像这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;my-app&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;my_flask_app.cli:main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;那么 &lt;code&gt;pip&lt;/code&gt; 在安装时，会在虚拟环境的 &lt;code&gt;bin&lt;/code&gt; 目录（Windows 上是 &lt;code&gt;Scripts&lt;/code&gt;）下创建一个名为 &lt;code&gt;my-app&lt;/code&gt; 的可执行文件。&lt;/p&gt;
+&lt;p&gt;这个文件是一个小小的“启动器”脚本，它的作用是调用当前虚拟环境中的 Python 解释器，并执行你指定的函数 (&lt;code&gt;my_flask_app.cli:main&lt;/code&gt;)。&lt;/p&gt;
+&lt;p&gt;正因为如此，一旦安装完成并激活了虚拟环境，你就可以在任何路径下直接通过命令行运行 &lt;code&gt;my-app&lt;/code&gt; 来启动你的应用程序了。&lt;/p&gt;
+&lt;p&gt;通过这套标准化的流程，&lt;code&gt;pip install .&lt;/code&gt; 不仅安装了代码和依赖，还完成了命令行工具的创建，将一个项目从一堆源代码变成了一个功能完整、随时可用的工具。&lt;/p&gt;
+&lt;h3 id=&#34;可编辑模式-pip-install--e-&#34;&gt;可编辑模式 (&lt;code&gt;pip install -e .&lt;/code&gt;)&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;pip install .&lt;/code&gt; 非常适合用于最终的安装和部署，但在日常开发中，每次修改代码后都重新构建和安装一遍，显然效率太低。为此，&lt;code&gt;pip&lt;/code&gt; 提供了一种强大的&lt;strong&gt;可编辑模式 (editable mode)&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install -e .
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;-e&lt;/code&gt; 参数是这个模式的关键。执行这条命令后，&lt;code&gt;pip&lt;/code&gt; 不会再把你的项目文件复制到 &lt;code&gt;site-packages&lt;/code&gt; 目录中，而它会在 &lt;code&gt;site-packages&lt;/code&gt; 里创建一个特殊的链接文件（&lt;code&gt;.pth&lt;/code&gt; 文件），这个链接直接指向你当前项目的源代码目录。&lt;/p&gt;
+&lt;p&gt;这样做的好处是显而易见的：你的项目源代码和虚拟环境中的“已安装版本”实现了实时同步。你在编辑器里对任何 &lt;code&gt;.py&lt;/code&gt; 文件做的修改，保存后会&lt;strong&gt;立即生效&lt;/strong&gt;，无需任何重新安装的步骤。这极大地简化了“修改 - 运行 - 调试”的开发循环，是现代 Python 开发的必备技巧。&lt;/p&gt;
+&lt;p&gt;通过 &lt;code&gt;pyproject.toml&lt;/code&gt; 和可编辑模式，我们不仅拥有了清晰的依赖管理，还获得了高效的开发体验。接下来，让我们通过一个真实的项目，来看看 &lt;code&gt;pyproject.toml&lt;/code&gt; 在实战中是如何发挥作用的。&lt;/p&gt;
+&lt;h2 id=&#34;解析splitter-项目的-pyprojecttoml&#34;&gt;解析&lt;code&gt;splitter&lt;/code&gt; 项目的 &lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;以我参与的 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;splitter&lt;/a&gt; 项目为例，解析它的 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件，看看它是如何将项目的所有配置信息尽收囊中的。&lt;/p&gt;
+&lt;p&gt;以下是 &lt;code&gt;splitter&lt;/code&gt; 项目中 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件的核心内容，为便于说明，已做适当简化：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# pyproject.toml of splitter project&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;build-system&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;wheel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;build-backend&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools.build_meta&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;splitter&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;1.0.0&amp;#34;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# Assuming a version for clarity&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;A tool for splitting software packages into smaller components.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;authors&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;openEuler Cloudnative SIG&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;readme&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;README.md&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires-python&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt;=3.7&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;license&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;MulanPSL-2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;PyYAML&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;click&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;packaging&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;jinja2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;urls&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;Homepage&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://gitee.com/openeuler/splitter&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;splitter&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;tools.main:main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setuptools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;find&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;docs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;现在，让我们逐段来剖析这个文件。&lt;/p&gt;
+&lt;h3 id=&#34;build-system&#34;&gt;&lt;code&gt;[build-system]&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;build-system&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;wheel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;build-backend&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools.build_meta&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这是 &lt;code&gt;pyproject.toml&lt;/code&gt; 的“入口”，也是遵循 PEP 518 规范的体现。它告诉 &lt;code&gt;pip&lt;/code&gt; 这样的构建工具：在构建本项目之前，请确保你的环境中安装了 &lt;code&gt;setuptools&lt;/code&gt; 和 &lt;code&gt;wheel&lt;/code&gt; 这两个包，因为它们是我需要的构建工具。然后，请使用 &lt;code&gt;setuptools.build_meta&lt;/code&gt; 这个入口点来执行实际的构建操作。&lt;/p&gt;
+&lt;p&gt;这一段配置，实现了项目构建依赖与项目本身运行依赖的解耦。&lt;/p&gt;
+&lt;h3 id=&#34;project&#34;&gt;&lt;code&gt;[project]&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;splitter&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;1.0.0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;authors&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[...]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;readme&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;README.md&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires-python&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt;=3.7&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;license&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;MulanPSL-2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;PyYAML&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;click&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;packaging&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;jinja2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这部分是项目的核心元数据，遵循 PEP 621 规范。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;name&lt;/code&gt;, &lt;code&gt;version&lt;/code&gt;, &lt;code&gt;description&lt;/code&gt;, &lt;code&gt;authors&lt;/code&gt;：这些都是项目的基本信息，会被打包到软件中，并在 PyPI 等包索引网站上展示。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;requires-python&lt;/code&gt;：这是一个非常重要的字段，它声明了项目运行所需的最低 Python 版本。如果用户尝试在一个不兼容的 Python 版本（如 Python 3.6）上安装，&lt;code&gt;pip&lt;/code&gt; 会直接报错并终止安装，避免了后续可能出现的各种运行时错误。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;dependencies&lt;/code&gt;：这里是项目的依赖。它清晰地列出了 &lt;code&gt;splitter&lt;/code&gt; 运行所必需的&lt;strong&gt;直接依赖项&lt;/strong&gt;。当执行 &lt;code&gt;pip install .&lt;/code&gt; 时，&lt;code&gt;pip&lt;/code&gt; 会负责安装 &lt;code&gt;PyYAML&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, &lt;code&gt;packaging&lt;/code&gt;, &lt;code&gt;jinja2&lt;/code&gt; 以及它们各自的所有子依赖，而我们无需关心这些复杂的依赖链。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;projectscripts&#34;&gt;&lt;code&gt;[project.scripts]&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;splitter&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;tools.main:main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这一行配置，定义了一个名为 &lt;code&gt;splitter&lt;/code&gt; 的命令行入口。&lt;/p&gt;
+&lt;p&gt;当项目被安装后，&lt;code&gt;pip&lt;/code&gt; 会在虚拟环境的 &lt;code&gt;bin/&lt;/code&gt; 目录下创建一个名为 &lt;code&gt;splitter&lt;/code&gt; 的可执行文件。当我们运行这个命令时，系统会自动调用 &lt;code&gt;tools/main.py&lt;/code&gt; 文件中的 &lt;code&gt;main()&lt;/code&gt; 函数。这使得一个复杂的 Python 项目可以像一个普通的系统命令一样被调用，极大地提升了用户体验。&lt;/p&gt;
+&lt;h3 id=&#34;toolsetuptoolspackagesfind&#34;&gt;&lt;code&gt;[tool.setuptools.packages.find]&lt;/code&gt;&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setuptools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;find&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;docs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;前缀为 &lt;code&gt;[tool.*]&lt;/code&gt; 的表是为各种第三方工具预留的配置空间。这里，我们为构建后端 &lt;code&gt;setuptools&lt;/code&gt; 提供了配置。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;packages.find&lt;/code&gt; 指示 &lt;code&gt;setuptools&lt;/code&gt; 自动发现项目中的所有 Python 包。&lt;code&gt;where = [&amp;quot;.&amp;quot;]&lt;/code&gt; 告诉它从当前根目录开始查找，而 &lt;code&gt;exclude = [&amp;quot;tests&amp;quot;, &amp;quot;docs&amp;quot;]&lt;/code&gt; 则明确排除了测试代码和文档目录，确保它们不会被打包到最终发布的应用中。&lt;/p&gt;
+&lt;p&gt;通过这个真实的例子，我们可以看到 &lt;code&gt;pyproject.toml&lt;/code&gt; 如何将项目的构建信息、元数据、运行依赖、命令行入口和工具配置，全部地组织在了一起，让 Python 项目的结构变得清晰和标准化。&lt;/p&gt;
+&lt;h2 id=&#34;poetry-uv-pdm-等高级管理工具&#34;&gt;Poetry, UV, PDM 等高级管理工具&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;pyproject.toml&lt;/code&gt; + &lt;code&gt;pip&lt;/code&gt; 的组合，已经构建起了一个相当稳固和规范的项目管理框架，它解决了依赖隔离和声明的核心问题。然而，这个工作流依然存在一些需要开发者手动操作的环节：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;手动管理虚拟环境&lt;/strong&gt;：你需要记得先创建，再激活。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;手动编辑依赖文件&lt;/strong&gt;：添加或移除依赖时，你需要手动去编辑 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;有没有一种工具，能将这些步骤完全自动化呢？当然有。这便是 &lt;code&gt;Poetry&lt;/code&gt;, &lt;code&gt;PDM&lt;/code&gt; 以及新秀 &lt;code&gt;uv&lt;/code&gt; 这类高级项目管理工具的使命所在。&lt;/p&gt;
+&lt;h3 id=&#34;新一代高级管理工具&#34;&gt;新一代高级管理工具&lt;/h3&gt;
+&lt;p&gt;这些工具并非要推翻 &lt;code&gt;venv&lt;/code&gt; 和 &lt;code&gt;pyproject.toml&lt;/code&gt;，恰恰相反，它们是建立在这些官方标准之上的&lt;strong&gt;高级封装&lt;/strong&gt;和&lt;strong&gt;工作流引擎&lt;/strong&gt;。它们的核心理念可以概括为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;自动化环境管理&lt;/strong&gt;：你不再需要关心 &lt;code&gt;venv&lt;/code&gt; 的创建和激活，工具会自动为你处理好一切。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;命令式依赖操作&lt;/strong&gt;：通过简单的命令（如 &lt;code&gt;add&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt;）来管理依赖，工具会自动更新 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;确定性构建&lt;/strong&gt;：通过生成一个精确的 &lt;code&gt;lock&lt;/code&gt; 文件（如 &lt;code&gt;poetry.lock&lt;/code&gt;, &lt;code&gt;pdm.lock&lt;/code&gt;, &lt;code&gt;uv.lock&lt;/code&gt;），锁定项目中&lt;strong&gt;所有&lt;/strong&gt;依赖（包括直接和间接依赖）的精确版本。这确保了任何人在任何时间、任何机器上都能构建出完全一致的运行环境。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;集成化体验&lt;/strong&gt;：将依赖管理、环境管理、打包、发布等功能集成到一套统一的命令行接口中，提供“一站式”的解决方案。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;以-uv-为例的现代化工作流&#34;&gt;以 &lt;code&gt;uv&lt;/code&gt; 为例的现代化工作流&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;uv&lt;/code&gt; 是由 &lt;code&gt;ruff&lt;/code&gt; 的作者开发的最新一代 Python 打包工具，它用 Rust 编写。让我们以 &lt;code&gt;uv&lt;/code&gt; 为例，体验一下现代化的工作流是多么流畅。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;假设你已经通过 &lt;code&gt;pip install uv&lt;/code&gt; 安装了它。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;开发者 A (项目创建者)&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;初始化项目&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在一个空目录中，我们不再需要手动创建任何文件。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# uv 会引导你创建 pyproject.toml 文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv init
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;添加依赖&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;现在，想给项目添加 &lt;code&gt;flask&lt;/code&gt; 依赖？告别手动编辑，一条命令即可：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add flask
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这条命令，&lt;code&gt;uv&lt;/code&gt; 在背后为你完成了一系列操作：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;检查并创建虚拟环境&lt;/strong&gt;：它会自动检测当前目录下是否存在 &lt;code&gt;.venv&lt;/code&gt;，如果没有，就为你创建一个。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;修改 &lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/strong&gt;：自动将 &lt;code&gt;flask&lt;/code&gt; 添加到 &lt;code&gt;[project.dependencies]&lt;/code&gt; 列表中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;解析依赖并安装&lt;/strong&gt;：解析 &lt;code&gt;flask&lt;/code&gt; 的所有依赖树，并将它们全部安装到虚拟环境中。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;生成锁文件&lt;/strong&gt;：创建一个 &lt;code&gt;uv.lock&lt;/code&gt; 文件，里面精确记录了本次安装的所有包（包括间接依赖）的版本号和哈希值，锁定了当前环境的状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;开发者 B (协作者)&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;同步环境&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当开发者 B 从 GitHub 克隆了项目后，他不需要再去研究 &lt;code&gt;pyproject.toml&lt;/code&gt; 或执行复杂的安装命令。他只需要：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv sync
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;uv&lt;/code&gt; 会读取 &lt;code&gt;uv.lock&lt;/code&gt; 文件，然后下载并安装所有被锁定的包，为他创建一个与开发者 A &lt;strong&gt;完全一致&lt;/strong&gt;的虚拟环境。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;日常开发与执行&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在开发过程中，你甚至不需要手动 &lt;code&gt;source .venv/bin/activate&lt;/code&gt; 来激活环境。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# uv 会自动在项目的虚拟环境中执行 python main.py&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run python main.py
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;code&gt;uv run&lt;/code&gt; 命令会自动寻找并使用当前项目的虚拟环境来执行后续的命令，让你的操作更加简洁。&lt;/p&gt;
+&lt;p&gt;通过 &lt;code&gt;uv&lt;/code&gt; 的演示，我们可以看到，现代化的项目管理工具将开发者从繁琐的、易出错的手动操作中彻底解放出来。它们通过自动化和确定性的机制，让依赖和环境管理变得简单、可靠且高效。&lt;/p&gt;
+&lt;p&gt;好的，这是最后一章的总结部分。它将对全文进行回顾，并提炼出具体、可操作的最佳实践，为读者画上一个圆满的句号。&lt;/p&gt;
+&lt;h2 id=&#34;构建你的现代化-python-工作流&#34;&gt;构建你的现代化 Python 工作流&lt;/h2&gt;
+&lt;p&gt;无论你正在开始一个新项目，还是打算重构一个旧项目，请遵循以下三个原则。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. 隔离是基础：始终为你的项目创建虚拟环境&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这是现代化项目管理的基石，也是最不应该被忽略的一步。为每个项目创建一个独立的虚拟环境，可以从根源上杜绝依赖冲突和全局环境污染。像 &lt;code&gt;uv&lt;/code&gt;, &lt;code&gt;Poetry&lt;/code&gt;, &lt;code&gt;PDM&lt;/code&gt; 这类工具已经将这一步完全自动化，你甚至无需再手动操作。如果你仍在使用原生工具，请务必将 &lt;code&gt;python -m venv .venv&lt;/code&gt; 作为你开启任何新项目的第一条命令。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. 声明是核心：拥抱 &lt;code&gt;pyproject.toml&lt;/code&gt;，告别 &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 是 Python 项目的未来。请将它作为你项目配置的唯一真实来源。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;只声明直接依赖&lt;/strong&gt;：在 &lt;code&gt;[project.dependencies]&lt;/code&gt; 中，只列出你的项目代码直接 &lt;code&gt;import&lt;/code&gt; 的那些库。这能让你的项目依赖关系保持最大程度的清晰和可维护性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;统一所有配置&lt;/strong&gt;：将代码检查工具 (linter)、格式化工具 (formatter)、测试框架等所有工具的配置，都迁移到 &lt;code&gt;pyproject.toml&lt;/code&gt; 的 &lt;code&gt;[tool.*]&lt;/code&gt; 表中，让项目根目录保持整洁。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;3. 工具是利器：选择一个现代化的管理工具&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;虽然你可以手动维护 &lt;code&gt;pyproject.toml&lt;/code&gt; 并结合 &lt;code&gt;pip&lt;/code&gt; 使用，但一个现代化的项目管理工具能极大地提升你的生产力。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;对于新项目&lt;/strong&gt;：强烈推荐直接使用 &lt;code&gt;uv&lt;/code&gt; 或 &lt;code&gt;Poetry&lt;/code&gt;。它们提供的 &lt;code&gt;add&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt;, &lt;code&gt;sync&lt;/code&gt;, &lt;code&gt;run&lt;/code&gt; 等命令，将依赖管理和环境操作的体验提升到了一个全新的高度。它们带来的&lt;strong&gt;确定性构建&lt;/strong&gt;（通过 lock 文件）对于团队协作和持续集成（CI/CD）至关重要。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;对于现有项目&lt;/strong&gt;：迁移到这些工具也比你想象的要简单。大多数工具都提供了从 &lt;code&gt;requirements.txt&lt;/code&gt; 导入依赖的功能，可以帮助你平滑过渡。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
+&lt;p&gt;希望这篇指南能够帮助你理清 Python 项目管理的脉络，并为你提供一套清晰、可行的实践方案。现在就动手，为你的下一个 Python 项目开启一个现代化的新起点吧！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>深入理解 Python 与 pip</title>
         <link>https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/</link>
-        <pubDate>Wed, 23 Jul 2025 08:05:26 +0800</pubDate>
+        <pubDate>Sun, 20 Jul 2025 08:05:26 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/</guid>
         <description>&lt;h2 id=&#34;python-与-pip-的关系&#34;&gt;Python 与 pip 的关系&lt;/h2&gt;
@@ -610,471 +1914,6 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-</description>
-        </item>
-        <item>
-        <title>现代 Python 项目管理指南</title>
-        <link>https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</link>
-        <pubDate>Sun, 20 Jul 2025 18:39:02 +0800</pubDate>
-        
-        <guid>https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</guid>
-        <description>&lt;p&gt;在很长一段时间里，我管理 Python 项目的方式堪称“原始”。每当项目需要新的依赖，我便会在 &lt;code&gt;README.md&lt;/code&gt; 文件里手动记上一笔，提醒自己需要 &lt;code&gt;pip install&lt;/code&gt; 哪些库。这种“刀耕火种”的模式，对于个人写的一些小脚本尚可应付，但当项目变得复杂，或是需要与他人协作时，其脆弱和低效便暴露无遗。&lt;/p&gt;
-&lt;p&gt;真正的转折点发生在今年夏天。我有幸参与了&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;开源之夏&lt;/a&gt;，并成功中选了 openEuler 社区的 &lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/a&gt; 项目，为 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;splitter&lt;/a&gt; 这个工具贡献代码。当我满怀激情地克隆代码库，准备大展拳脚时，一个文件赫然出现在我的眼前：&lt;code&gt;pyproject.toml&lt;/code&gt;。这个我以往只是模糊听闻过的文件，在这里却是项目配置的核心。&lt;/p&gt;
-&lt;p&gt;这次经历像一扇窗，让我窥见了现代 Python 项目管理的全新世界。于是，我将这段学习和探索的经历整理成文。&lt;/p&gt;
-&lt;h2 id=&#34;传统方式venv--requirementstxt&#34;&gt;传统方式：&lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;以 &lt;code&gt;venv&lt;/code&gt; 和 &lt;code&gt;requirements.txt&lt;/code&gt; 为核心的工作流，是 Python 社区在告别全局安装、走向规范化管理过程中迈出的重要一步。&lt;/p&gt;
-&lt;h3 id=&#34;环境隔离与依赖列表&#34;&gt;环境隔离与依赖列表&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;虚拟环境 (&lt;code&gt;venv&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;如果你经历过在系统全局 Python 环境中安装各种包的混乱时期，你一定对 &lt;strong&gt;“依赖地狱” (dependency hell)&lt;/strong&gt; 这个词深有体会。项目 A 需要 &lt;code&gt;requests==2.20.0&lt;/code&gt;，而项目 B 依赖的另一个库却需要 &lt;code&gt;requests==2.28.0&lt;/code&gt;，它们在全局环境中相互冲突，让开发者头痛不已。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;venv&lt;/code&gt; 的出现正是为了解决这个问题。它允许我们为每个项目创建一个独立的、与全局环境隔离的 Python 工作空间。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 在项目根目录下，创建一个名为 .venv 的虚拟环境&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;python3 -m venv .venv
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这个命令会创建一个 &lt;code&gt;.venv&lt;/code&gt; 文件夹，里面包含了项目所需的一个迷你的 Python 运行环境。要使用它，我们需要先“激活”：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; .venv/bin/activate
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;激活后，你会发现命令行提示符前面多了 &lt;code&gt;(.venv)&lt;/code&gt; 的标识。此时，所有 &lt;code&gt;pip&lt;/code&gt; 的安装、卸载操作都将被限制在这个独立的虚拟环境中，再也不会污染全局环境了。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;依赖文件 (&lt;code&gt;requirements.txt&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;环境隔离了，但如何与他人协作呢？我们总不能把整个 &lt;code&gt;.venv&lt;/code&gt; 文件夹都发给别人吧。这时，&lt;code&gt;requirements.txt&lt;/code&gt; 就登上了历史舞台。它的作用，就是一份项目的“依赖清单”。&lt;/p&gt;
-&lt;p&gt;最常见的生成方式是使用 &lt;code&gt;pip freeze&lt;/code&gt; 命令：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 将当前虚拟环境中所有已安装的包及其精确版本号导出&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip freeze &amp;gt; requirements.txt
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这样，你的项目协作者或者部署服务器，只需要拿到你的代码和这个 &lt;code&gt;requirements.txt&lt;/code&gt; 文件，然后执行一条简单的命令，就可以复现出一个一模一样的运行环境：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 从 requirements.txt 文件中安装所有指定的依赖&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install -r requirements.txt
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这套组合拳极大地提升了 Python 项目的规范性和可复现性，至今仍有大量项目在使用。&lt;/p&gt;
-&lt;h3 id=&#34;传统方式的隐患&#34;&gt;传统方式的隐患&lt;/h3&gt;
-&lt;p&gt;尽管 &lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;requirements.txt&lt;/code&gt; 解决了大问题，但随着项目复杂度的提升，其内在的缺陷也逐渐暴露出来。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;依赖混淆&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;最大的问题在于 &lt;code&gt;pip freeze&lt;/code&gt; 的工作方式。它像一个不加分辨的记录员，会把你环境中&lt;strong&gt;所有&lt;/strong&gt;的包都记录下来。这其中既包含了你为了实现功能而主动安装的&lt;strong&gt;直接依赖&lt;/strong&gt;（比如 Web 框架 &lt;code&gt;Flask&lt;/code&gt;），也包含了 &lt;code&gt;Flask&lt;/code&gt; 运行所必需的&lt;strong&gt;间接依赖&lt;/strong&gt;（比如 &lt;code&gt;Werkzeug&lt;/code&gt;, &lt;code&gt;Jinja2&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt; 等）。&lt;/p&gt;
-&lt;p&gt;最终生成的 &lt;code&gt;requirements.txt&lt;/code&gt; 文件看起来会是这样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;# requirements.txt
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;blinker==1.7.0
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;click==8.1.7
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Flask==3.0.0
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;itsdangerous==2.1.2
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Jinja2==3.1.3
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;MarkupSafe==2.1.3
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Werkzeug==3.0.1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;在这个文件里，你已经分不清谁是谁的依赖了。项目的核心依赖关系被模糊掉了，给后续的维护，比如升级某个特定的核心库，带来了不小的麻烦。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;孤儿依赖&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;另一个令人头疼的问题是“孤儿依赖”。假设你的项目后续不再需要 &lt;code&gt;Flask&lt;/code&gt; 了，于是你执行了 &lt;code&gt;pip uninstall flask&lt;/code&gt;。&lt;code&gt;pip&lt;/code&gt; 很听话地卸载了 &lt;code&gt;Flask&lt;/code&gt; 本身，但它当初为了 &lt;code&gt;Flask&lt;/code&gt; 而自动安装的 &lt;code&gt;blinker&lt;/code&gt;、&lt;code&gt;click&lt;/code&gt; 等间接依赖，却被遗留在了环境中，变成了无人认领的“孤儿”。&lt;/p&gt;
-&lt;p&gt;日积月累，你的虚拟环境会因为这些残留的孤儿依赖而变得越来越臃肿，还可能在未来引发难以预料的依赖冲突。&lt;/p&gt;
-&lt;p&gt;正是因为这些的缺陷，Python 社区开始探索一种更清晰、更智能的管理方案。这便引出了我们下一章的主角——&lt;code&gt;pyproject.toml&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;现代篇章pyprojecttoml&#34;&gt;现代篇章：&lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;面对 &lt;code&gt;requirements.txt&lt;/code&gt; 带来的依赖混淆问题，Python 社区需要一个更强大、更规范的解决方案，答案就是 &lt;code&gt;pyproject.toml&lt;/code&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;标准的诞生-pep-518--621&#34;&gt;标准的诞生 (PEP 518 &amp;amp; 621)&lt;/h3&gt;
-&lt;p&gt;在 &lt;code&gt;pyproject.toml&lt;/code&gt; 成为标准之前，一个 Python 项目的配置信息可谓“四分五裂”。项目元数据可能在 &lt;code&gt;setup.py&lt;/code&gt; 或 &lt;code&gt;setup.cfg&lt;/code&gt; 里，运行依赖在 &lt;code&gt;requirements.txt&lt;/code&gt; 中，测试配置在 &lt;code&gt;tox.ini&lt;/code&gt; 或 &lt;code&gt;.coveragerc&lt;/code&gt; 里，代码格式化工具 &lt;code&gt;black&lt;/code&gt; 和静态检查工具 &lt;code&gt;mypy&lt;/code&gt; 又有它们各自的配置文件。这种碎片化的状态让项目维护变得异常繁琐。&lt;/p&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://peps.python.org/pep-0518/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;PEP 518&lt;/a&gt; 的提出正是为了终结这种乱象。它定义了一个名为 &lt;code&gt;pyproject.toml&lt;/code&gt; 的文件格式，旨在成为&lt;strong&gt;所有构建工具的统一配置入口&lt;/strong&gt;。随后，&lt;a class=&#34;link&#34; href=&#34;https://peps.python.org/pep-0621/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;PEP 621&lt;/a&gt; 进一步规范了如何在这个文件中声明项目的核心元数据（如名称、版本、作者和依赖项），使其彻底摆脱了对 &lt;code&gt;setup.py&lt;/code&gt; 的依赖。&lt;/p&gt;
-&lt;p&gt;简单来说，&lt;code&gt;pyproject.toml&lt;/code&gt; 的使命就是将所有与项目相关的配置，集中到一个官方认可的、格式统一的文件中。&lt;/p&gt;
-&lt;h3 id=&#34;声明式依赖管理&#34;&gt;声明式依赖管理&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 最重要的改进，在于它引入了&lt;strong&gt;声明式依赖管理&lt;/strong&gt;。与 &lt;code&gt;pip freeze&lt;/code&gt; 那种不加区分的全量记录不同，我们现在只需要在 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中清晰地声明项目的&lt;strong&gt;直接依赖&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;让我们回到上一章的 &lt;code&gt;Flask&lt;/code&gt; 项目，它的 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件现在会是这样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# pyproject.toml&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;my-flask-app&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;0.1.0&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;#34;Flask==3.0.0&amp;#34;&lt;/span&gt; 
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;看，多么清爽！&lt;code&gt;dependencies&lt;/code&gt; 列表里只有 &lt;code&gt;Flask&lt;/code&gt;。我们在这里表达的是&lt;strong&gt;意图&lt;/strong&gt;：“我的项目需要 Flask 3.0.0 版本”，而不是 &lt;code&gt;Flask&lt;/code&gt; 运行所需要的所有包的冗长列表。至于 &lt;code&gt;Flask&lt;/code&gt; 自身依赖的 &lt;code&gt;Werkzeug&lt;/code&gt;、&lt;code&gt;Jinja2&lt;/code&gt; 等，将由工具在安装时自动去解析和处理。&lt;/p&gt;
-&lt;p&gt;这种方式将项目的直接依赖与间接依赖彻底分离，让依赖关系一目了然，极大地提升了项目的可读性和可维护性。&lt;/p&gt;
-&lt;h3 id=&#34;pip-install--的背后原理&#34;&gt;&lt;code&gt;pip install .&lt;/code&gt; 的背后原理&lt;/h3&gt;
-&lt;p&gt;现在我们有了 &lt;code&gt;pyproject.toml&lt;/code&gt;，那么 &lt;code&gt;pip&lt;/code&gt; 是如何利用它来安装项目的呢？&lt;/p&gt;
-&lt;p&gt;当你进入项目根目录，在激活的虚拟环境中执行 &lt;code&gt;pip install .&lt;/code&gt; 背后其实发生了两个关键步骤：构建和安装。这个过程不仅仅是复制文件，而是将你的项目变成一个标准的、可分发的 Python 软件包。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第一步：构建 (Build)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;pip&lt;/code&gt; 首先会扮演一个“构建前端”的角色。它会读取 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件中的 &lt;code&gt;[build-system]&lt;/code&gt; 表，找到指定的“构建后端”（通常是 &lt;code&gt;setuptools&lt;/code&gt;）。然后，&lt;code&gt;pip&lt;/code&gt; 会指示构建后端，依据当前项目的源代码和 &lt;code&gt;pyproject.toml&lt;/code&gt; 中的元数据，构建出一个标准的 Python 软件包，通常是一个 &lt;code&gt;.whl&lt;/code&gt; (wheel) 文件。这个 wheel 文件是一个包含了所有代码和元数据的 zip 压缩包，是现代 Python 的标准分发格式。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第二步：安装 (Install)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;构建完成后，&lt;code&gt;pip&lt;/code&gt; 会接手这个新鲜出炉的 wheel 文件，并将其内容“解压”并安装到你的虚拟环境中。这个过程会产生以下三类核心产物：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;项目代码与元数据 (Project Code and Metadata)&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;你的项目代码（即所有的 &lt;code&gt;.py&lt;/code&gt; 文件和包）会被复制到虚拟环境的 &lt;code&gt;site-packages&lt;/code&gt; 目录下（例如 &lt;code&gt;.venv/lib/python3.11/site-packages/my_flask_app&lt;/code&gt;）。&lt;/p&gt;
-&lt;p&gt;同时，一个名为 &lt;code&gt;my_flask_app-0.1.0.dist-info&lt;/code&gt; 的元数据目录也会被创建。你可以把它看作是这个软件包的“身份证”，里面包含了从 &lt;code&gt;pyproject.toml&lt;/code&gt; 中提取的所有信息，比如项目名、版本、作者以及最重要的——依赖列表。&lt;/p&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;&lt;strong&gt;项目依赖 (Project Dependencies)&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;code&gt;pip&lt;/code&gt; 会读取上述元数据文件，找到其中声明的 &lt;code&gt;dependencies&lt;/code&gt; 列表（例如 &lt;code&gt;&amp;quot;Flask==3.0.0&amp;quot;&lt;/code&gt;）。&lt;/p&gt;
-&lt;p&gt;然后，它会自动下载并安装所有这些直接依赖，以及这些依赖所需要的间接依赖（如 &lt;code&gt;Werkzeug&lt;/code&gt;, &lt;code&gt;Jinja2&lt;/code&gt; 等），并将它们全部安装到 &lt;code&gt;site-packages&lt;/code&gt; 目录中。&lt;/p&gt;
-&lt;ol start=&#34;3&#34;&gt;
-&lt;li&gt;&lt;strong&gt;可执行的命令行脚本 (Executable Command-line Scripts)&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;如果你在文件中定义了 &lt;code&gt;[project.scripts]&lt;/code&gt; 部分，像这样：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;my-app&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;my_flask_app.cli:main&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;那么 &lt;code&gt;pip&lt;/code&gt; 在安装时，会在虚拟环境的 &lt;code&gt;bin&lt;/code&gt; 目录（Windows 上是 &lt;code&gt;Scripts&lt;/code&gt;）下创建一个名为 &lt;code&gt;my-app&lt;/code&gt; 的可执行文件。&lt;/p&gt;
-&lt;p&gt;这个文件是一个小小的“启动器”脚本，它的作用是调用当前虚拟环境中的 Python 解释器，并执行你指定的函数 (&lt;code&gt;my_flask_app.cli:main&lt;/code&gt;)。&lt;/p&gt;
-&lt;p&gt;正因为如此，一旦安装完成并激活了虚拟环境，你就可以在任何路径下直接通过命令行运行 &lt;code&gt;my-app&lt;/code&gt; 来启动你的应用程序了。&lt;/p&gt;
-&lt;p&gt;通过这套标准化的流程，&lt;code&gt;pip install .&lt;/code&gt; 不仅安装了代码和依赖，还完成了命令行工具的创建，将一个项目从一堆源代码变成了一个功能完整、随时可用的工具。&lt;/p&gt;
-&lt;h3 id=&#34;可编辑模式-pip-install--e-&#34;&gt;可编辑模式 (&lt;code&gt;pip install -e .&lt;/code&gt;)&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;pip install .&lt;/code&gt; 非常适合用于最终的安装和部署，但在日常开发中，每次修改代码后都重新构建和安装一遍，显然效率太低。为此，&lt;code&gt;pip&lt;/code&gt; 提供了一种强大的&lt;strong&gt;可编辑模式 (editable mode)&lt;/strong&gt;。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pip install -e .
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;code&gt;-e&lt;/code&gt; 参数是这个模式的关键。执行这条命令后，&lt;code&gt;pip&lt;/code&gt; 不会再把你的项目文件复制到 &lt;code&gt;site-packages&lt;/code&gt; 目录中，而它会在 &lt;code&gt;site-packages&lt;/code&gt; 里创建一个特殊的链接文件（&lt;code&gt;.pth&lt;/code&gt; 文件），这个链接直接指向你当前项目的源代码目录。&lt;/p&gt;
-&lt;p&gt;这样做的好处是显而易见的：你的项目源代码和虚拟环境中的“已安装版本”实现了实时同步。你在编辑器里对任何 &lt;code&gt;.py&lt;/code&gt; 文件做的修改，保存后会&lt;strong&gt;立即生效&lt;/strong&gt;，无需任何重新安装的步骤。这极大地简化了“修改 - 运行 - 调试”的开发循环，是现代 Python 开发的必备技巧。&lt;/p&gt;
-&lt;p&gt;通过 &lt;code&gt;pyproject.toml&lt;/code&gt; 和可编辑模式，我们不仅拥有了清晰的依赖管理，还获得了高效的开发体验。接下来，让我们通过一个真实的项目，来看看 &lt;code&gt;pyproject.toml&lt;/code&gt; 在实战中是如何发挥作用的。&lt;/p&gt;
-&lt;h2 id=&#34;解析splitter-项目的-pyprojecttoml&#34;&gt;解析&lt;code&gt;splitter&lt;/code&gt; 项目的 &lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;以我参与的 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;splitter&lt;/a&gt; 项目为例，解析它的 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件，看看它是如何将项目的所有配置信息尽收囊中的。&lt;/p&gt;
-&lt;p&gt;以下是 &lt;code&gt;splitter&lt;/code&gt; 项目中 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件的核心内容，为便于说明，已做适当简化：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# pyproject.toml of splitter project&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;build-system&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;wheel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;build-backend&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools.build_meta&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;splitter&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;1.0.0&amp;#34;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# Assuming a version for clarity&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;A tool for splitting software packages into smaller components.&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;authors&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;openEuler Cloudnative SIG&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;readme&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;README.md&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires-python&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt;=3.7&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;license&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;MulanPSL-2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;PyYAML&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;click&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;packaging&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;jinja2&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;urls&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;Homepage&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;https://gitee.com/openeuler/splitter&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;splitter&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;tools.main:main&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setuptools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;find&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;docs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;现在，让我们逐段来剖析这个文件。&lt;/p&gt;
-&lt;h3 id=&#34;build-system&#34;&gt;&lt;code&gt;[build-system]&lt;/code&gt;&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;build-system&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;wheel&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;build-backend&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;setuptools.build_meta&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这是 &lt;code&gt;pyproject.toml&lt;/code&gt; 的“入口”，也是遵循 PEP 518 规范的体现。它告诉 &lt;code&gt;pip&lt;/code&gt; 这样的构建工具：在构建本项目之前，请确保你的环境中安装了 &lt;code&gt;setuptools&lt;/code&gt; 和 &lt;code&gt;wheel&lt;/code&gt; 这两个包，因为它们是我需要的构建工具。然后，请使用 &lt;code&gt;setuptools.build_meta&lt;/code&gt; 这个入口点来执行实际的构建操作。&lt;/p&gt;
-&lt;p&gt;这一段配置，实现了项目构建依赖与项目本身运行依赖的解耦。&lt;/p&gt;
-&lt;h3 id=&#34;project&#34;&gt;&lt;code&gt;[project]&lt;/code&gt;&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;splitter&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;1.0.0&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;...&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;authors&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[...]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;readme&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;README.md&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;requires-python&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&amp;gt;=3.7&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;license&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;MulanPSL-2.0&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;dependencies&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;PyYAML&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;click&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;packaging&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;s2&#34;&gt;&amp;#34;jinja2&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这部分是项目的核心元数据，遵循 PEP 621 规范。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;name&lt;/code&gt;, &lt;code&gt;version&lt;/code&gt;, &lt;code&gt;description&lt;/code&gt;, &lt;code&gt;authors&lt;/code&gt;：这些都是项目的基本信息，会被打包到软件中，并在 PyPI 等包索引网站上展示。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;requires-python&lt;/code&gt;：这是一个非常重要的字段，它声明了项目运行所需的最低 Python 版本。如果用户尝试在一个不兼容的 Python 版本（如 Python 3.6）上安装，&lt;code&gt;pip&lt;/code&gt; 会直接报错并终止安装，避免了后续可能出现的各种运行时错误。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;code&gt;dependencies&lt;/code&gt;：这里是项目的依赖。它清晰地列出了 &lt;code&gt;splitter&lt;/code&gt; 运行所必需的&lt;strong&gt;直接依赖项&lt;/strong&gt;。当执行 &lt;code&gt;pip install .&lt;/code&gt; 时，&lt;code&gt;pip&lt;/code&gt; 会负责安装 &lt;code&gt;PyYAML&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, &lt;code&gt;packaging&lt;/code&gt;, &lt;code&gt;jinja2&lt;/code&gt; 以及它们各自的所有子依赖，而我们无需关心这些复杂的依赖链。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;projectscripts&#34;&gt;&lt;code&gt;[project.scripts]&lt;/code&gt;&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;project&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scripts&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;splitter&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;tools.main:main&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这一行配置，定义了一个名为 &lt;code&gt;splitter&lt;/code&gt; 的命令行入口。&lt;/p&gt;
-&lt;p&gt;当项目被安装后，&lt;code&gt;pip&lt;/code&gt; 会在虚拟环境的 &lt;code&gt;bin/&lt;/code&gt; 目录下创建一个名为 &lt;code&gt;splitter&lt;/code&gt; 的可执行文件。当我们运行这个命令时，系统会自动调用 &lt;code&gt;tools/main.py&lt;/code&gt; 文件中的 &lt;code&gt;main()&lt;/code&gt; 函数。这使得一个复杂的 Python 项目可以像一个普通的系统命令一样被调用，极大地提升了用户体验。&lt;/p&gt;
-&lt;h3 id=&#34;toolsetuptoolspackagesfind&#34;&gt;&lt;code&gt;[tool.setuptools.packages.find]&lt;/code&gt;&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tool&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;setuptools&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;packages&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;find&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;where&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nx&#34;&gt;exclude&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;tests&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;docs&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;前缀为 &lt;code&gt;[tool.*]&lt;/code&gt; 的表是为各种第三方工具预留的配置空间。这里，我们为构建后端 &lt;code&gt;setuptools&lt;/code&gt; 提供了配置。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;packages.find&lt;/code&gt; 指示 &lt;code&gt;setuptools&lt;/code&gt; 自动发现项目中的所有 Python 包。&lt;code&gt;where = [&amp;quot;.&amp;quot;]&lt;/code&gt; 告诉它从当前根目录开始查找，而 &lt;code&gt;exclude = [&amp;quot;tests&amp;quot;, &amp;quot;docs&amp;quot;]&lt;/code&gt; 则明确排除了测试代码和文档目录，确保它们不会被打包到最终发布的应用中。&lt;/p&gt;
-&lt;p&gt;通过这个真实的例子，我们可以看到 &lt;code&gt;pyproject.toml&lt;/code&gt; 如何将项目的构建信息、元数据、运行依赖、命令行入口和工具配置，全部地组织在了一起，让 Python 项目的结构变得清晰和标准化。&lt;/p&gt;
-&lt;h2 id=&#34;poetry-uv-pdm-等高级管理工具&#34;&gt;Poetry, UV, PDM 等高级管理工具&lt;/h2&gt;
-&lt;p&gt;&lt;code&gt;venv&lt;/code&gt; + &lt;code&gt;pyproject.toml&lt;/code&gt; + &lt;code&gt;pip&lt;/code&gt; 的组合，已经构建起了一个相当稳固和规范的项目管理框架，它解决了依赖隔离和声明的核心问题。然而，这个工作流依然存在一些需要开发者手动操作的环节：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;手动管理虚拟环境&lt;/strong&gt;：你需要记得先创建，再激活。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;手动编辑依赖文件&lt;/strong&gt;：添加或移除依赖时，你需要手动去编辑 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;有没有一种工具，能将这些步骤完全自动化呢？当然有。这便是 &lt;code&gt;Poetry&lt;/code&gt;, &lt;code&gt;PDM&lt;/code&gt; 以及新秀 &lt;code&gt;uv&lt;/code&gt; 这类高级项目管理工具的使命所在。&lt;/p&gt;
-&lt;h3 id=&#34;新一代高级管理工具&#34;&gt;新一代高级管理工具&lt;/h3&gt;
-&lt;p&gt;这些工具并非要推翻 &lt;code&gt;venv&lt;/code&gt; 和 &lt;code&gt;pyproject.toml&lt;/code&gt;，恰恰相反，它们是建立在这些官方标准之上的&lt;strong&gt;高级封装&lt;/strong&gt;和&lt;strong&gt;工作流引擎&lt;/strong&gt;。它们的核心理念可以概括为：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;自动化环境管理&lt;/strong&gt;：你不再需要关心 &lt;code&gt;venv&lt;/code&gt; 的创建和激活，工具会自动为你处理好一切。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;命令式依赖操作&lt;/strong&gt;：通过简单的命令（如 &lt;code&gt;add&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt;）来管理依赖，工具会自动更新 &lt;code&gt;pyproject.toml&lt;/code&gt; 文件。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;确定性构建&lt;/strong&gt;：通过生成一个精确的 &lt;code&gt;lock&lt;/code&gt; 文件（如 &lt;code&gt;poetry.lock&lt;/code&gt;, &lt;code&gt;pdm.lock&lt;/code&gt;, &lt;code&gt;uv.lock&lt;/code&gt;），锁定项目中&lt;strong&gt;所有&lt;/strong&gt;依赖（包括直接和间接依赖）的精确版本。这确保了任何人在任何时间、任何机器上都能构建出完全一致的运行环境。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;集成化体验&lt;/strong&gt;：将依赖管理、环境管理、打包、发布等功能集成到一套统一的命令行接口中，提供“一站式”的解决方案。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;以-uv-为例的现代化工作流&#34;&gt;以 &lt;code&gt;uv&lt;/code&gt; 为例的现代化工作流&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;uv&lt;/code&gt; 是由 &lt;code&gt;ruff&lt;/code&gt; 的作者开发的最新一代 Python 打包工具，它用 Rust 编写。让我们以 &lt;code&gt;uv&lt;/code&gt; 为例，体验一下现代化的工作流是多么流畅。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;假设你已经通过 &lt;code&gt;pip install uv&lt;/code&gt; 安装了它。&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;开发者 A (项目创建者)&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;初始化项目&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;在一个空目录中，我们不再需要手动创建任何文件。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# uv 会引导你创建 pyproject.toml 文件&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv init
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;&lt;strong&gt;添加依赖&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;现在，想给项目添加 &lt;code&gt;flask&lt;/code&gt; 依赖？告别手动编辑，一条命令即可：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv add flask
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;这条命令，&lt;code&gt;uv&lt;/code&gt; 在背后为你完成了一系列操作：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;检查并创建虚拟环境&lt;/strong&gt;：它会自动检测当前目录下是否存在 &lt;code&gt;.venv&lt;/code&gt;，如果没有，就为你创建一个。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;修改 &lt;code&gt;pyproject.toml&lt;/code&gt;&lt;/strong&gt;：自动将 &lt;code&gt;flask&lt;/code&gt; 添加到 &lt;code&gt;[project.dependencies]&lt;/code&gt; 列表中。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;解析依赖并安装&lt;/strong&gt;：解析 &lt;code&gt;flask&lt;/code&gt; 的所有依赖树，并将它们全部安装到虚拟环境中。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;生成锁文件&lt;/strong&gt;：创建一个 &lt;code&gt;uv.lock&lt;/code&gt; 文件，里面精确记录了本次安装的所有包（包括间接依赖）的版本号和哈希值，锁定了当前环境的状态。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;开发者 B (协作者)&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;同步环境&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;当开发者 B 从 GitHub 克隆了项目后，他不需要再去研究 &lt;code&gt;pyproject.toml&lt;/code&gt; 或执行复杂的安装命令。他只需要：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv sync
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;code&gt;uv&lt;/code&gt; 会读取 &lt;code&gt;uv.lock&lt;/code&gt; 文件，然后下载并安装所有被锁定的包，为他创建一个与开发者 A &lt;strong&gt;完全一致&lt;/strong&gt;的虚拟环境。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;日常开发与执行&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;在开发过程中，你甚至不需要手动 &lt;code&gt;source .venv/bin/activate&lt;/code&gt; 来激活环境。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# uv 会自动在项目的虚拟环境中执行 python main.py&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uv run python main.py
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;code&gt;uv run&lt;/code&gt; 命令会自动寻找并使用当前项目的虚拟环境来执行后续的命令，让你的操作更加简洁。&lt;/p&gt;
-&lt;p&gt;通过 &lt;code&gt;uv&lt;/code&gt; 的演示，我们可以看到，现代化的项目管理工具将开发者从繁琐的、易出错的手动操作中彻底解放出来。它们通过自动化和确定性的机制，让依赖和环境管理变得简单、可靠且高效。&lt;/p&gt;
-&lt;p&gt;好的，这是最后一章的总结部分。它将对全文进行回顾，并提炼出具体、可操作的最佳实践，为读者画上一个圆满的句号。&lt;/p&gt;
-&lt;h2 id=&#34;构建你的现代化-python-工作流&#34;&gt;构建你的现代化 Python 工作流&lt;/h2&gt;
-&lt;p&gt;无论你正在开始一个新项目，还是打算重构一个旧项目，请遵循以下三个原则。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;1. 隔离是基础：始终为你的项目创建虚拟环境&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;这是现代化项目管理的基石，也是最不应该被忽略的一步。为每个项目创建一个独立的虚拟环境，可以从根源上杜绝依赖冲突和全局环境污染。像 &lt;code&gt;uv&lt;/code&gt;, &lt;code&gt;Poetry&lt;/code&gt;, &lt;code&gt;PDM&lt;/code&gt; 这类工具已经将这一步完全自动化，你甚至无需再手动操作。如果你仍在使用原生工具，请务必将 &lt;code&gt;python -m venv .venv&lt;/code&gt; 作为你开启任何新项目的第一条命令。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2. 声明是核心：拥抱 &lt;code&gt;pyproject.toml&lt;/code&gt;，告别 &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;pyproject.toml&lt;/code&gt; 是 Python 项目的未来。请将它作为你项目配置的唯一真实来源。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;只声明直接依赖&lt;/strong&gt;：在 &lt;code&gt;[project.dependencies]&lt;/code&gt; 中，只列出你的项目代码直接 &lt;code&gt;import&lt;/code&gt; 的那些库。这能让你的项目依赖关系保持最大程度的清晰和可维护性。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;统一所有配置&lt;/strong&gt;：将代码检查工具 (linter)、格式化工具 (formatter)、测试框架等所有工具的配置，都迁移到 &lt;code&gt;pyproject.toml&lt;/code&gt; 的 &lt;code&gt;[tool.*]&lt;/code&gt; 表中，让项目根目录保持整洁。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;3. 工具是利器：选择一个现代化的管理工具&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;虽然你可以手动维护 &lt;code&gt;pyproject.toml&lt;/code&gt; 并结合 &lt;code&gt;pip&lt;/code&gt; 使用，但一个现代化的项目管理工具能极大地提升你的生产力。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;对于新项目&lt;/strong&gt;：强烈推荐直接使用 &lt;code&gt;uv&lt;/code&gt; 或 &lt;code&gt;Poetry&lt;/code&gt;。它们提供的 &lt;code&gt;add&lt;/code&gt;, &lt;code&gt;remove&lt;/code&gt;, &lt;code&gt;sync&lt;/code&gt;, &lt;code&gt;run&lt;/code&gt; 等命令，将依赖管理和环境操作的体验提升到了一个全新的高度。它们带来的&lt;strong&gt;确定性构建&lt;/strong&gt;（通过 lock 文件）对于团队协作和持续集成（CI/CD）至关重要。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;对于现有项目&lt;/strong&gt;：迁移到这些工具也比你想象的要简单。大多数工具都提供了从 &lt;code&gt;requirements.txt&lt;/code&gt; 导入依赖的功能，可以帮助你平滑过渡。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;写在最后&#34;&gt;写在最后&lt;/h2&gt;
-&lt;p&gt;希望这篇指南能够帮助你理清 Python 项目管理的脉络，并为你提供一套清晰、可行的实践方案。现在就动手，为你的下一个 Python 项目开启一个现代化的新起点吧！&lt;/p&gt;
 </description>
         </item>
         <item>

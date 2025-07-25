@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='过去一个月，密集学习了各种 Python 相关的工具。 在我看来，Python 的知识分为两个方面，一个是 Python 语言本身，要学习它的语法，掌握基本数据结构，了解常'>
+<title>Python 项目管理最佳实践：uv 使用指南</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Python 项目管理最佳实践：uv 使用指南'>
+<meta property='og:description' content='过去一个月，密集学习了各种 Python 相关的工具。 在我看来，Python 的知识分为两个方面，一个是 Python 语言本身，要学习它的语法，掌握基本数据结构，了解常'>
+<meta property='og:url' content='https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='python' /><meta property='article:published_time' content='2025-07-25T19:54:51&#43;08:00'/><meta property='article:modified_time' content='2025-07-25T19:54:51&#43;08:00'/>
+<meta name="twitter:title" content="Python 项目管理最佳实践：uv 使用指南">
+<meta name="twitter:description" content="过去一个月，密集学习了各种 Python 相关的工具。 在我看来，Python 的知识分为两个方面，一个是 Python 语言本身，要学习它的语法，掌握基本数据结构，了解常">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:me@mahaoliang.tech'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://t.me/TTBJDTJZJ'
+                        target="_blank"
+                        title="telegram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.youtube.com/@Noah_Johnson988'
+                        target="_blank"
+                        title="Youtube"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 24.402344 9 C 17.800781 9 11.601563 9.5 8.300781 10.199219 C 6.101563 10.699219 4.199219 12.199219 3.800781 14.5 C 3.402344 16.898438 3 20.5 3 25 C 3 29.5 3.398438 33 3.898438 35.5 C 4.300781 37.699219 6.199219 39.300781 8.398438 39.800781 C 11.902344 40.5 17.898438 41 24.5 41 C 31.101563 41 37.097656 40.5 40.597656 39.800781 C 42.800781 39.300781 44.699219 37.800781 45.097656 35.5 C 45.5 33 46 29.402344 46.097656 24.902344 C 46.097656 20.402344 45.597656 16.800781 45.097656 14.300781 C 44.699219 12.101563 42.800781 10.5 40.597656 10 C 37.097656 9.5 31 9 24.402344 9 Z M 24.402344 11 C 31.601563 11 37.398438 11.597656 40.199219 12.097656 C 41.699219 12.5 42.898438 13.5 43.097656 14.800781 C 43.699219 18 44.097656 21.402344 44.097656 24.902344 C 44 29.199219 43.5 32.699219 43.097656 35.199219 C 42.800781 37.097656 40.800781 37.699219 40.199219 37.902344 C 36.597656 38.601563 30.597656 39.097656 24.597656 39.097656 C 18.597656 39.097656 12.5 38.699219 9 37.902344 C 7.5 37.5 6.300781 36.5 6.101563 35.199219 C 5.300781 32.398438 5 28.699219 5 25 C 5 20.398438 5.402344 17 5.800781 14.902344 C 6.101563 13 8.199219 12.398438 8.699219 12.199219 C 12 11.5 18.101563 11 24.402344 11 Z M 19 17 L 19 33 L 33 25 Z M 21 20.402344 L 29 25 L 21 29.597656 Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#uv-简介">uv 简介</a></li>
+    <li><a href="#安装-uv">安装 uv</a>
+      <ol>
+        <li><a href="#使用官方脚本安装">使用官方脚本安装</a></li>
+        <li><a href="#path-环境变量">PATH 环境变量</a></li>
+        <li><a href="#shell-自动补全">Shell 自动补全</a></li>
+        <li><a href="#升级-uv">升级 uv</a></li>
+      </ol>
+    </li>
+    <li><a href="#python-版本管理">Python 版本管理</a></li>
+    <li><a href="#项目开发">项目开发</a>
+      <ol>
+        <li><a href="#创建项目">创建项目</a></li>
+        <li><a href="#运行初始化项目">运行初始化项目</a></li>
+        <li><a href="#添加依赖">添加依赖</a></li>
+        <li><a href="#配置构建工具">配置构建工具</a></li>
+        <li><a href="#源码目录结构">源码目录结构</a></li>
+        <li><a href="#配置项目执行入口">配置项目执行入口</a></li>
+        <li><a href="#开发服务模块">开发服务模块</a></li>
+        <li><a href="#开发入口程序">开发入口程序</a></li>
+      </ol>
+    </li>
+    <li><a href="#构建和安装工具">构建和安装工具</a></li>
+    <li><a href="#总结">总结</a>
+      <ol>
+        <li><a href="#整理本文提到的主要命令">整理本文提到的主要命令</a></li>
+        <li><a href="#项目开发流程">项目开发流程</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Python 项目管理最佳实践：uv 使用指南</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-07-25</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>过去一个月，密集学习了各种 Python 相关的工具。</p>
+<p>在我看来，Python 的知识分为两个方面，一个是 Python 语言本身，要学习它的语法，掌握基本数据结构，了解常用的模块，总之就是会写 Python 代码，解决实际问题。</p>
+<p>另一个方面，是 Python 工程方面的知识。所谓工程，就是在开发大型项目时，如何让开发过程更高效：项目复杂了，如何组织代码结构；如何进行依赖管理；如何多人协作；如何做项目间隔离，避免依赖冲突；如何管理多个版本的 Python；如何构建、发布自己写的模块等等。总之就是，除了写代码之外，如何做，让开发 Python 的过程更高效。</p>
+<p>学习的过程中，写了一系列的技术文章。从最开始用 <a class="link" href="https://mahaoliang.tech/p/%E5%9C%A8-macos-%E4%B8%8A%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8-pyenv/"  target="_blank" rel="noopener"
+    >pyenv</a> 管理多版本，<a class="link" href="https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/"  target="_blank" rel="noopener"
+    >venv</a> 和 <a class="link" href="https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/"  target="_blank" rel="noopener"
+    >Conda</a> 管理虚拟环境，到阶段性的总结了<a class="link" href="https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/"  target="_blank" rel="noopener"
+    >虚拟环境工具选择建议</a>，之后深入技术实现原理，探讨了<a class="link" href="https://mahaoliang.tech/p/%E6%8F%AD%E7%A7%98-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/"  target="_blank" rel="noopener"
+    >虚拟环境底层实现原理</a> 和 <a class="link" href="https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/"  target="_blank" rel="noopener"
+    >Python 与 pip 的关系</a>，之后总结了 <a class="link" href="https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/"  target="_blank" rel="noopener"
+    >Python 项目管理的发展历程</a>。</p>
+<p>到今天，是这个系统的最后一篇：因为我会用 uv 代替前面介绍的所有工具，用 uv 管理 Python 项目的全流程。我决定了，以后的 Python 项目，都使用 uv 管理。</p>
+<h2 id="uv-简介">uv 简介</h2>
+<p><a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
+    >uv</a> 是一个用 Rust 编写的 Python 打包和项目管理器，它将多个 Python 工具（如 pip、venv、pyenv 等）的功能整合到一个工具中，提供了一个统一、高效的 Python 开发流程。</p>
+<p>实际上，uv 的实现并不是完全从头开始，而是<strong>对 <code>venv</code> 和 <code>pip</code> 的高级封装</strong>，对使用者提供更简单、更统一的接口。</p>
+<p>本文将从零开始，使用 uv 完整地走完一个项目的开发、构建和安装流程。</p>
+<h2 id="安装-uv">安装 uv</h2>
+<h3 id="使用官方脚本安装">使用官方脚本安装</h3>
+<p>推荐参考<a class="link" href="https://docs.astral.sh/uv/getting-started/installation/"  target="_blank" rel="noopener"
+    >uv 项目文档</a>，使用官方脚本安装：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># macOS and Linux</span>
+</span></span><span class="line"><span class="cl">curl -LsSf https://astral.sh/uv/install.sh <span class="p">|</span> sh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Windows</span>
+</span></span><span class="line"><span class="cl">powershell -ExecutionPolicy ByPass -c <span class="s2">&#34;irm https://astral.sh/uv/install.ps1 | iex&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>脚本执行成功后，新开一个 shell，执行 <code>uv --version</code> 命令，查看是否安装成功。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv --version
+</span></span><span class="line"><span class="cl">uv 0.8.3 <span class="o">(</span>7e78f54e7 2025-07-24<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="path-环境变量">PATH 环境变量</h3>
+<p>uv 被安装到用户目录的 <code>.local/bin</code> 目录下。</p>
+<p>安装脚本会自动在 <code>.zshrc</code> 或 <code>.bashrc</code> 增加配置，将 <code>$HOME/.local/bin</code> 添加到 <code>$PATH</code> 环境变量中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat <span class="nv">$HOME</span>/.zshrc
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">. <span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.local/bin/env&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看<code>.local/bin/env</code> ，文件内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="c1"># add binaries to PATH if they aren&#39;t added yet</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># affix colons on either side of $PATH to simplify matching</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="s2">&#34;:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">:&#34;</span> in
+</span></span><span class="line"><span class="cl">    *:<span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.local/bin&#34;</span>:*<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span><span class="line"><span class="cl">    *<span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Prepending path in case a system-installed binary needs to be overridden</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$HOME</span><span class="s2">/.local/bin:</span><span class="nv">$PATH</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">;;</span>
+</span></span><span class="line"><span class="cl"><span class="k">esac</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看出，<code>.zshrc</code> 中这行命令 <code>. &quot;$HOME/.local/bin/env&quot;</code> 的作用，是将 <code>$HOME/.local/bin</code> 添加到 <code>$PATH</code> 中。</p>
+<h3 id="shell-自动补全">Shell 自动补全</h3>
+<p>建议为 uv 命令启用 shell <a class="link" href="https://docs.astral.sh/uv/getting-started/installation/#shell-autocompletion"  target="_blank" rel="noopener"
+    >自动补全功能</a>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># zsh</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(uvx --generate-shell-completion zsh)&#34;&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># bash</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;eval &#34;$(uvx --generate-shell-completion bash)&#34;&#39;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="升级-uv">升级 uv</h3>
+<p>通过官方脚本安装 uv 后，可按需自行更新：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">uv self update
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="python-版本管理">Python 版本管理</h2>
+<p>可以使用 <code>uv python list</code> 命令查看 uv 支持的所有 Python 版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv python list
+</span></span><span class="line"><span class="cl">cpython-3.14.0rc1-macos-aarch64-none                 &lt;download available&gt;
+</span></span><span class="line"><span class="cl">cpython-3.13.5-macos-aarch64-none                    &lt;download available&gt;
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">cpython-3.9.6-macos-aarch64-none                     /usr/bin/python3
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">pypy-3.8.16-macos-aarch64-none                       &lt;download available&gt;
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">graalpy-3.8.5-macos-aarch64-none                     &lt;download available&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>uv 会列出所用可用版本，包括系统自带的 Python。</p>
+<p>我们可以指定安装某个版本 Python 版本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv python install cpython-3.13.5
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>命令执行成功后，Python 将被安装到 <code>~/.local/bin</code> 目录下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ ll ~/.local/bin
+</span></span><span class="line"><span class="cl">total <span class="m">73784</span>
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> haoliangma  staff   328B  <span class="m">7</span> <span class="m">25</span> 21:01 env
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> haoliangma  staff   165B  <span class="m">7</span> <span class="m">25</span> 21:01 env.fish
+</span></span><span class="line"><span class="cl">lrwxr-xr-x  <span class="m">1</span> haoliangma  staff    89B  <span class="m">7</span> <span class="m">25</span> 21:07 python3.13 -&gt; /Users/haoliangma/.local/share/uv/python/cpython-3.13.5-macos-aarch64-none/bin/python3.13
+</span></span><span class="line"><span class="cl">-rwxr-xr-x  <span class="m">1</span> haoliangma  staff    36M  <span class="m">7</span> <span class="m">25</span> 05:09 uv
+</span></span><span class="line"><span class="cl">-rwxr-xr-x  <span class="m">1</span> haoliangma  staff   328K  <span class="m">7</span> <span class="m">25</span> 05:09 uvx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到，在 <code>~/.local/bin</code> 目录下建立了符号链接（Symbolic Link），指向 Python 的实际安装位置 <code>~/.local/share/uv/python</code>。</p>
+<p>值得注意的是，符号链接名称带了具体的版本号 <code>python3.13</code>，也就是说，当前的 <code>python3</code> 命令，仍然是系统自带的 Python 环境。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ which python3
+</span></span><span class="line"><span class="cl">/usr/bin/python3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为我们在项目中都会使用虚拟环境，所以并不在乎全局环境的 Python。这里我们使用 uv 安装的 Python，并不设置为全局环境，只供以后项目的虚拟环境使用。</p>
+<p>后面还会看到，我们可以在 <code>~/.local/bin</code> 目录下安装可以独立运行的 Python 工具，而这些工具也自带了完整环境，并不会用到全局环境的 Python，工具之间的环境也是完全隔离的。</p>
+<h2 id="项目开发">项目开发</h2>
+<h3 id="创建项目">创建项目</h3>
+<p>使用 <code>uv init</code> 命令可以快速初始化一个项目。我们可以指定项目名称，<code>init</code> 命令会自动创建项目目录，并生成项目结构。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv init -p 3.13 skycmd
+</span></span><span class="line"><span class="cl">Initialized project <span class="sb">`</span>skycmd<span class="sb">`</span> at <span class="sb">`</span>/Users/haoliangma/Documents/works/skycmd<span class="sb">`</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际上，我们不必在上一步安装 Python，因为在项目初始化的时候，如果 <code>-p</code> 参数指定的 Python 版本不存在，<code>uv</code> 会自动下载并安装。</p>
+<p>我们也可以在一个空的项目目录中执行 <code>uv init</code> 命令，这时会使用目录名作为项目名。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ mkdir skycmd
+</span></span><span class="line"><span class="cl">skycmd
+</span></span><span class="line"><span class="cl">❯ <span class="nb">cd</span> skycmd
+</span></span><span class="line"><span class="cl">❯ uv init -p 3.11
+</span></span><span class="line"><span class="cl">Initialized project <span class="sb">`</span>skycmd<span class="sb">`</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在初始化的项目目录下，<code>.python-version</code> 文件会记录项目的 Python 版本号。</p>
+<p><code>pyproject.toml</code> 是最核心的项目配置文件，项目元数据、依赖项、构建配置等等都定义在这里。</p>
+<h3 id="运行初始化项目">运行初始化项目</h3>
+<p><code>uv init</code> 为我们生成一个示例程序 <code>main.py</code>，使用 <code>uv run</code> 命令运行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv run main.py
+</span></span><span class="line"><span class="cl">Using CPython 3.13.5
+</span></span><span class="line"><span class="cl">Creating virtual environment at: .venv
+</span></span><span class="line"><span class="cl">Hello from skycmd!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>第一次运行项目，会自动创建虚拟环境 <code>.venv</code>。</p>
+<h3 id="添加依赖">添加依赖</h3>
+<p>我准备做一个查看天气的命令行工具，会用到 <code>requests</code> 处理 HTTP 请求，并使用 <code>click</code> 解析命令行参数。</p>
+<p>使用 <code>uv add</code> 命令添加依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">uv add requests
+</span></span><span class="line"><span class="cl">uv add click
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意，不用执行 <code>source .venv/bin/activate</code> 显示的激活虚拟环境，<code>uv</code> 会自动将依赖安装到虚拟环境中。</p>
+<p>安装的依赖，会自动记录在 <code>pyproject.toml</code> 文件中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="nx">dependencies</span> <span class="p">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;click&gt;=8.2.1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;requests&gt;=2.32.4&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用 <code>uv + pyproject.toml</code> 的方式管理依赖，和使用 <code>pip + requirements.txt</code> 的方式有本质区别。</p>
+<p><code>pyproject.toml</code> 只会记录<strong>直接依赖</strong>，而 <code>requirements.txt</code> 会记录<strong>所有依赖</strong>，包括直接依赖和间接依赖。</p>
+<p>这两种方式的区别，在移除依赖项时就体现出来了：</p>
+<ul>
+<li>使用 <code>uv remove requests</code>，会移除 <code>requests</code> 和所有 <code>requests</code> 的依赖项。</li>
+<li>而 <code>pip uninstall requests</code> 只会移除 <code>requests</code>，留下了 <code>requests</code> 的依赖项。</li>
+</ul>
+<h3 id="配置构建工具">配置构建工具</h3>
+<p>uv 支持多种构建打包工具，这里我们使用常见的 <a class="link" href="https://github.com/pypa/setuptools"  target="_blank" rel="noopener"
+    >setuptools</a>。</p>
+<p>参考 <code>setuptools</code> 的<a class="link" href="https://setuptools.pypa.io/en/latest/userguide/quickstart.html"  target="_blank" rel="noopener"
+    >官方文档</a>，在 <code>pyproject.toml</code> 中添加 <code>build-system</code> 配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">build-system</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">requires</span> <span class="p">=</span> <span class="p">[</span><span class="s2">&#34;setuptools&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">build-backend</span> <span class="p">=</span> <span class="s2">&#34;setuptools.build_meta&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Python 不是脚本吗，为什么还要构建打包呢？</p>
+<p>首先，因为我们的项目不可能总是一个简单的脚本，随着项目的复杂，可能会分为多个模块，每个模块提供独立、完整的功能。同时，项目还可以作为库发布出去，就像 <code>requests</code> 一样，让别人使用。这时，我们不可能将一个个的 Python 文件发给别人，而是需要使用一个构建打包工具，将我们的项目打包，方便别人安装使用。</p>
+<p>另外，就算不发给别人使用，如果配置了 <code>[build-system]</code>，在开发阶段，我们不必使用 <code>pip install -e .</code> 在虚拟环境安装项目自身模块，而是直接使用 <code>uv run &lt;project_name&gt;</code> 命令就可以运行整个项目。</p>
+<h3 id="源码目录结构">源码目录结构</h3>
+<p><code>setuptools</code> 在构建时，会按照约定的源码目录结构，自动发现 Python 文件进构打包构建。</p>
+<p><code>setuptools</code> 默认支持两种源码目录布局：<a class="link" href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#src-layout"  target="_blank" rel="noopener"
+    >src-layout</a> 和 <a class="link" href="https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#flat-layout"  target="_blank" rel="noopener"
+    >flat-layout</a>。也就是说，按照这两种方式放置 Python 文件，不必做额外的配置，<code>setuptools</code> 都能自动找到。</p>
+<p>我们使用简单的 <code>flat-layout</code>，调整项目目录结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">skycmd
+</span></span><span class="line"><span class="cl">├── pyproject.toml  
+</span></span><span class="line"><span class="cl">├── ...
+</span></span><span class="line"><span class="cl">└── skycmd/
+</span></span><span class="line"><span class="cl">    ├── __init__.py
+</span></span><span class="line"><span class="cl">    ├── main.py
+</span></span><span class="line"><span class="cl">    └── weather/
+</span></span><span class="line"><span class="cl">         └── __init__.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里有几点说明请注意：</p>
+<ol>
+<li>
+<p>首先，在项目的根目录下，创建与项目同名的目录 <code>skycmd</code>，用来存放 Python 源码。注意，<strong>项目的根目录名</strong>，根目录下存放<strong>源码的目录名</strong>，都要跟 <code>pyproject.toml</code> 定义的<strong>项目名称</strong>保持一致。</p>
+</li>
+<li>
+<p>将 uv 生成的 <code>main.py</code>，从项目根目录，移到源码目录 <code>skycmd</code> 下，作为项目执行入口。</p>
+</li>
+<li>
+<p>在 <code>skycmd</code> 目录下，可以创建子目录，作为子模块。例如可以创建 <code>weather</code> 目录，用于放置获取天气信息的模块代码。</p>
+</li>
+<li>
+<p>源码目录及其子目录，每层目录下都要建一个空的 <code>__init__.py</code> 文件。因为目录下如果有 <code>__init__.py</code> 文件，Python 会认为它是一个模块。有了 <code>__init__.py</code> 文件，每层目录都会被自动识别为模块。</p>
+</li>
+</ol>
+<h3 id="配置项目执行入口">配置项目执行入口</h3>
+<p>在 <code>pyproject.toml</code> 文件中，添加 <code>[project.scripts]</code> 配置项，指定项目执行入口。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="line"><span class="cl"><span class="p">[</span><span class="nx">project</span><span class="p">.</span><span class="nx">scripts</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="nx">skycmd</span> <span class="p">=</span> <span class="s2">&#34;skycmd.main:main&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>skycmd.main:main</code> 表示 <code>skycmd</code> 模块下的 <code>main.py</code> 文件中的 <code>main</code> 函数。</p>
+<p>现在可以使用 <code>uv run skycmd</code> 命令来运行项目了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv run skycmd
+</span></span><span class="line"><span class="cl">      Built skycmd @ file:///Users/haoliangma/Documents/works/skycmd
+</span></span><span class="line"><span class="cl">Installed <span class="m">1</span> package in 7ms
+</span></span><span class="line"><span class="cl">Hello from skycmd!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为前面我们前面配置了构建工具，现在又配置了执行入口，在运行 <code>uv run skycmd</code> 时，会自动进入虚拟环境，构建，将构建的包安装到虚拟环境，然后运行项目。</p>
+<p>注意，整个过程，我们都只使用了 <code>uv</code> 命令，没有显示的执行 <code>source .venv/bin/activate</code> 命令来激活虚拟环境，<code>uv</code> 命令会自动激活虚拟环境。</p>
+<p>同时，我们指定的是执行入口 <code>skycmd</code>，而不再是 <code>main.py</code>。</p>
+<p>现在看好像差别不大，但如果项目包含了多个模块，<code>uv run skycmd</code> 命令会自动将项目的所有模块安装到虚拟环境，然后运行入口函数：<code>skycmd</code> 模块的 <code>main.py</code> 文件中的 <code>main</code> 函数。如何运行的是 <code>main.py</code>，将不会自动安装项目自身编写的模块。</p>
+<h3 id="开发服务模块">开发服务模块</h3>
+<p>搭建好了整个项目结构，我们可以开发提供获取天气信息的模块。</p>
+<p>实现很简单，构建 HTTP 请求访问 <a class="link" href="https://wttr.in"  target="_blank" rel="noopener"
+    >wttr.in</a> ，提供城市名作为参数，HTTP 响应内容就是城市天气信息。</p>
+<p>在 <code>skycmd/weather</code> 目录下，创建 <code>service.py</code> 文件，并添加如下代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_weather_from_wttr</span><span class="p">(</span><span class="n">city_name</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;https://wttr.in/</span><span class="si">{</span><span class="n">city_name</span><span class="si">}</span><span class="s2">?m&amp;format=3&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;Error getting weather information: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_detailed_weather_from_wttr</span><span class="p">(</span><span class="n">city_name</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;https://wttr.in/</span><span class="si">{</span><span class="n">city_name</span><span class="si">}</span><span class="s2">?m&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;Error getting detailed weather information: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">weather_info</span> <span class="o">=</span> <span class="n">get_weather_from_wttr</span><span class="p">(</span><span class="s2">&#34;Shenzhen&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">weather_info</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>记得要在 <code>skycmd/weather</code> 目录下要创建一个空的 <code>__init__.py</code> 文件。当前的目录结构如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">skycmd
+</span></span><span class="line"><span class="cl">├── pyproject.toml  
+</span></span><span class="line"><span class="cl">├── ...
+</span></span><span class="line"><span class="cl">└── skycmd/
+</span></span><span class="line"><span class="cl">    ├── __init__.py
+</span></span><span class="line"><span class="cl">    ├── main.py
+</span></span><span class="line"><span class="cl">    └── weather/
+</span></span><span class="line"><span class="cl">        ├── __init__.py
+</span></span><span class="line"><span class="cl">        └── service.py
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们可以在 <code>skycmd/weather/server.py</code> 中添加测试方法，使用 <code>uv run</code> 运行该模块，验证编写的服务。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv run skycmd/weather/service.py
+</span></span><span class="line"><span class="cl">Shenzhen: ⛅️  +34°C
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="开发入口程序">开发入口程序</h3>
+<p>获取天气信息的模块已经完成，现在我们编写入口程序。</p>
+<p>修改 <code>skeycmd/main.py</code>文件，内容如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">click</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">skycmd.weather.service</span> <span class="kn">import</span> <span class="n">get_weather_from_wttr</span><span class="p">,</span> <span class="n">get_detailed_weather_from_wttr</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nd">@click.command</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@click.argument</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@click.option</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--verbose&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;显示详细天气信息&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">city</span><span class="p">,</span> <span class="n">verbose</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    命令行天气工具 - 获取指定城市的天气信息
+</span></span></span><span class="line"><span class="cl"><span class="s2">    
+</span></span></span><span class="line"><span class="cl"><span class="s2">    </span><span class="se">\b</span><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    使用示例：
+</span></span></span><span class="line"><span class="cl"><span class="s2">      skycmd          # 获取帮助信息
+</span></span></span><span class="line"><span class="cl"><span class="s2">      skycmd Shenzhen  # 获取深圳的天气
+</span></span></span><span class="line"><span class="cl"><span class="s2">      skycmd -v Shenzhen  # 获取深圳的详细天气信息
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="ow">not</span> <span class="n">city</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 如果没有提供城市名，显示帮助信息</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">get_current_context</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">get_help</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ctx</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 显示详细天气信息</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weather_info</span> <span class="o">=</span> <span class="n">get_detailed_weather_from_wttr</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">weather_info</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 显示简单天气信息</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weather_info</span> <span class="o">=</span> <span class="n">get_weather_from_wttr</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">weather_info</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">main</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>现在可以使用 <code>uv run skycmd</code> 运行项目：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv run skycmd
+</span></span><span class="line"><span class="cl">Usage: skycmd <span class="o">[</span>OPTIONS<span class="o">]</span> <span class="o">[</span>CITY<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  命令行天气工具 - 获取指定城市的天气信息
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  使用示例：
+</span></span><span class="line"><span class="cl">    skycmd          <span class="c1"># 获取帮助信息</span>
+</span></span><span class="line"><span class="cl">    skycmd Shenzhen  <span class="c1"># 获取深圳的天气</span>
+</span></span><span class="line"><span class="cl">    skycmd -v Shenzhen  <span class="c1"># 获取深圳的详细天气信息</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Options:
+</span></span><span class="line"><span class="cl">  -v, --verbose  显示详细天气信息
+</span></span><span class="line"><span class="cl">  --help         Show this message and exit.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">❯ uv run skycmd Shenzhen
+</span></span><span class="line"><span class="cl">Shenzhen: ⛅️  +34°C
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因为前面已经在 <code>pyproject.toml</code> 中配置了执行入口 <code>skycmd = &quot;skycmd.main:main&quot;</code>，所以使用 <code>uv run</code> 的时候，指定的是 <code>skycmd</code>，而不是 Python 文件名 <code>main.py</code>。</p>
+<p>现在我们简单的修改一下程序，增加显示简单天气时的输出内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl">        <span class="c1"># 显示简单天气信息</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weather_info</span> <span class="o">=</span> <span class="n">get_weather_from_wttr</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;🌍 天气信息：&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">weather_info</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改完成后，再次使用 <code>uv run skycmd Shenzhen</code> 运行，可以查看到改动后的效果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv run skycmd Shenzhen
+</span></span><span class="line"><span class="cl">🌍 天气信息：
+</span></span><span class="line"><span class="cl">Shenzhen: ⛅️  +34°C
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完美！开发过程顺畅丝滑。</p>
+<h2 id="构建和安装工具">构建和安装工具</h2>
+<p>如果想使用我们开发的命令行工具 <code>skycmd</code>，必须每次都要到项目目录下运行 <code>uv run skycmd</code>，这样有点麻烦。</p>
+<p>我们可以先使用 <code>uv build</code>，将整个项目打包成标准的 Python 包：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv build
+</span></span><span class="line"><span class="cl">Building <span class="nb">source</span> distribution...
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">Successfully built dist/skycmd-0.1.0.tar.gz
+</span></span><span class="line"><span class="cl">Successfully built dist/skycmd-0.1.0-py3-none-any.whl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到，构建成功后，在 <code>dist</code> 目录下生成了两个文件：</p>
+<ul>
+<li><code>skycmd-0.1.0.tar.gz</code>：源代码分发包</li>
+<li><code>skycmd-0.1.0-py3-none-any.whl</code>：二进制分发包</li>
+</ul>
+<p>接着可以使用 <code>uv tool install</code> 命令，将 <code>skycmd</code> 安装到用户目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv tool install dist/skycmd-0.1.0-py3-none-any.whl
+</span></span><span class="line"><span class="cl">Resolved <span class="m">7</span> packages in 563ms
+</span></span><span class="line"><span class="cl">Prepared <span class="m">1</span> package in 4ms
+</span></span><span class="line"><span class="cl">Installed <span class="m">7</span> packages in 7ms
+</span></span><span class="line"><span class="cl"> + <span class="nv">certifi</span><span class="o">==</span>2025.7.14
+</span></span><span class="line"><span class="cl"> + charset-normalizer<span class="o">==</span>3.4.2
+</span></span><span class="line"><span class="cl"> + <span class="nv">click</span><span class="o">==</span>8.2.1
+</span></span><span class="line"><span class="cl"> + <span class="nv">idna</span><span class="o">==</span>3.10
+</span></span><span class="line"><span class="cl"> + <span class="nv">requests</span><span class="o">==</span>2.32.4
+</span></span><span class="line"><span class="cl"> + <span class="nv">skycmd</span><span class="o">==</span>0.1.0 <span class="o">(</span>from file:///Users/haoliangma/works/skycmd/dist/skycmd-0.1.0-py3-none-any.whl<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> + <span class="nv">urllib3</span><span class="o">==</span>2.5.0
+</span></span><span class="line"><span class="cl">Installed <span class="m">1</span> executable: skycmd tool install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>uv tool install</code> 安装的是二进制分发包 <code>dist/skycmd-0.1.0-py3-none-any.whl</code>。</p>
+<p>命令执行成功，将在 <code>~/.local/bin</code> 目录下生成 <code>skycmd</code> 命令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ ll ~/.local/bin
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">lrwxr-xr-x  <span class="m">1</span> haoliangma  staff    57B  <span class="m">7</span> <span class="m">25</span> 22:34 skycmd -&gt; /Users/haoliangma/.local/share/uv/tools/skycmd/bin/skycmd
+</span></span><span class="line"><span class="cl">-rwxr-xr-x  <span class="m">1</span> haoliangma  staff    36M  <span class="m">7</span> <span class="m">25</span> 05:09 uv
+</span></span><span class="line"><span class="cl">-rwxr-xr-x  <span class="m">1</span> haoliangma  staff   328K  <span class="m">7</span> <span class="m">25</span> 05:09 uvx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个 <code>skycmd</code> 是一个符号链接，指向 <code>~/.local/share/uv/tools/skycmd/bin/skycmd</code>。</p>
+<p>所以，<code>skycmd</code> 工具的实际文件存放在 <code>~/.local/share/uv/tools/skycmd/</code>目录中。查看这个目录的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ tree -L <span class="m">2</span> ~/.local/share/uv/tools/skycmd/
+</span></span><span class="line"><span class="cl">/Users/haoliangma/.local/share/uv/tools/skycmd/
+</span></span><span class="line"><span class="cl">├── bin
+</span></span><span class="line"><span class="cl">│   ├── activate
+</span></span><span class="line"><span class="cl">│   ├── ...
+</span></span><span class="line"><span class="cl">│   ├── python -&gt; /Users/haoliangma/.local/share/uv/python/cpython-3.13.5-macos-aarch64-none/bin/python3.13
+</span></span><span class="line"><span class="cl">│   └── skycmd
+</span></span><span class="line"><span class="cl">├── CACHEDIR.TAG
+</span></span><span class="line"><span class="cl">├── lib
+</span></span><span class="line"><span class="cl">│   └── python3.13
+</span></span><span class="line"><span class="cl">├── pyvenv.cfg
+</span></span><span class="line"><span class="cl">└── uv-receipt.toml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看出，这个目录包含了一个完整的 Python 虚拟环境。所以虽然 <code>skycmd</code> 安装到了用户目录，但它使用自己的虚拟环境，指定了 Pythonn 版本，依赖也安装在自己的环境中。这样，工具之间的环境是完全隔离的，不会相互影响。</p>
+<p>现在，可以在命令行中使用 <code>skycmd</code> 命令了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ skycmd Shenzhen
+</span></span><span class="line"><span class="cl">🌍 天气信息：
+</span></span><span class="line"><span class="cl">Shenzhen: ⛅️  +29°C
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不想用了，记得删除：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ uv tool uninstall skycmd
+</span></span><span class="line"><span class="cl">Uninstalled <span class="m">1</span> executable: skycmd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完美！</p>
+<h2 id="总结">总结</h2>
+<p>本文详细记录了使用 <code>uv</code> 管理 Python 项目的全流程（虽然没有讲到模块发布）。</p>
+<p><code>uv</code> 会自动创建虚拟环境，执行 <code>uv</code> 命令会自动在虚拟环境中运行，不需要显示的激活。</p>
+<p>所以使用 <code>uv</code> 时要记得：<strong>一切操作都要使用 <code>uv</code>，最好不要 <code>uv</code> 和 <code>pip</code> 混用。</strong></p>
+<h3 id="整理本文提到的主要命令">整理本文提到的主要命令</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>功能</th>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>更新</strong></td>
+<td><code>uv self update</code></td>
+<td>将 <code>uv</code> 更新到最新版本。</td>
+</tr>
+<tr>
+<td><strong>Python 版本管理</strong></td>
+<td><code>uv python list</code></td>
+<td>列出所有可用的 Python 版本，包括已安装和可下载的。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>uv python install &lt;version&gt;</code></td>
+<td>下载并安装指定版本的 Python。</td>
+</tr>
+<tr>
+<td><strong>项目初始化</strong></td>
+<td><code>uv init -p &lt;python_version&gt; &lt;project_name&gt;</code></td>
+<td>初始化一个新的 Python 项目，可指定 Python 版本并自动创建项目目录和基础文件，如 <code>pyproject.toml</code>。</td>
+</tr>
+<tr>
+<td><strong>运行代码</strong></td>
+<td><code>uv run &lt;file_or_script&gt;</code></td>
+<td>在项目的虚拟环境中运行 Python 脚本或已配置的入口。首次运行时会自动创建虚拟环境。</td>
+</tr>
+<tr>
+<td><strong>依赖管理</strong></td>
+<td><code>uv add &lt;package&gt;</code></td>
+<td>向项目中添加依赖，并自动更新 <code>pyproject.toml</code> 文件。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>uv remove &lt;package&gt;</code></td>
+<td>从项目中移除依赖及其相关子依赖。</td>
+</tr>
+<tr>
+<td><strong>项目构建</strong></td>
+<td><code>uv build</code></td>
+<td>将项目打包成标准的源代码分发包 (<code>.tar.gz</code>) 和二进制分发包 (<code>.whl</code>)。</td>
+</tr>
+<tr>
+<td><strong>工具安装</strong></td>
+<td><code>uv tool install &lt;package_or_wheel&gt;</code></td>
+<td>将一个 Python 包（如本地构建的 <code>.whl</code> 文件）作为一个独立的命令行工具安装。<code>uv</code> 会为其创建一个隔离的虚拟环境。</td>
+</tr>
+<tr>
+<td></td>
+<td><code>uv tool uninstall &lt;tool_name&gt;</code></td>
+<td>卸载已安装的命令行工具。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="项目开发流程">项目开发流程</h3>
+<p>本文通过创建一个名为 <code>skycmd</code> 的命令行天气查询工具，演示了使用 <code>uv</code> 的完整开发流程：</p>
+<ol>
+<li><strong>初始化项目</strong>: 使用 <code>uv init</code> 创建项目结构和 <code>pyproject.toml</code> 配置文件。</li>
+<li><strong>添加依赖</strong>: 使用 <code>uv add requests click</code> 添加项目所需的第三方库。</li>
+<li><strong>配置构建系统</strong>: 在 <code>pyproject.toml</code> 中配置 <code>setuptools</code> 作为构建工具，以便后续的构建和打包。</li>
+<li><strong>组织源码</strong>: 采用 <code>flat-layout</code> 目录结构，将源代码放置在与项目同名的子目录中。</li>
+<li><strong>配置执行入口</strong>: 在 <code>pyproject.toml</code> 的 <code>[project.scripts]</code> 部分指定项目的命令行入口，使得可以使用 <code>uv run skycmd</code> 来运行。</li>
+<li><strong>开发与调试</strong>: 在开发过程中，直接使用 <code>uv run</code> 来测试和运行代码，<code>uv</code> 会自动处理环境和依赖。</li>
+<li><strong>构建与安装</strong>: 开发完成后，使用 <code>uv build</code> 将项目打包，然后使用 <code>uv tool install</code> 将其安装为系统级的命令行工具，方便在任何地方调用。</li>
+</ol>
+<p>本文的示例代码在 <a class="link" href="https://github.com/mahaoliang2005/skycmd"  target="_blank" rel="noopener"
+    >GitHub</a>，希望本文对你有帮助。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/python/">Python</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">现代 Python 项目管理指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">深入理解 Python 与 pip</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%8F%AD%E7%A7%98-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">揭秘 Python 环境管理的底层实现</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 虚拟环境管理工具选择建议</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一文彻底搞懂 Python 环境管理神器 Conda</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤ICP备2022085181号-2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
