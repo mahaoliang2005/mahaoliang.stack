@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研'>
+<title>Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试'>
+<meta property='og:description' content='本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研'>
+<meta property='og:url' content='https://mahaoliang.tech/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='kubernetes' /><meta property='article:tag' content='helm' /><meta property='article:tag' content='risv-v' /><meta property='article:published_time' content='2024-06-29T10:44:41&#43;08:00'/><meta property='article:modified_time' content='2024-06-29T10:44:41&#43;08:00'/>
+<meta name="twitter:title" content="Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试">
+<meta name="twitter:description" content="本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:me@mahaoliang.tech'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://t.me/TTBJDTJZJ'
+                        target="_blank"
+                        title="telegram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.youtube.com/@Noah_Johnson988'
+                        target="_blank"
+                        title="Youtube"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 24.402344 9 C 17.800781 9 11.601563 9.5 8.300781 10.199219 C 6.101563 10.699219 4.199219 12.199219 3.800781 14.5 C 3.402344 16.898438 3 20.5 3 25 C 3 29.5 3.398438 33 3.898438 35.5 C 4.300781 37.699219 6.199219 39.300781 8.398438 39.800781 C 11.902344 40.5 17.898438 41 24.5 41 C 31.101563 41 37.097656 40.5 40.597656 39.800781 C 42.800781 39.300781 44.699219 37.800781 45.097656 35.5 C 45.5 33 46 29.402344 46.097656 24.902344 C 46.097656 20.402344 45.597656 16.800781 45.097656 14.300781 C 44.699219 12.101563 42.800781 10.5 40.597656 10 C 37.097656 9.5 31 9 24.402344 9 Z M 24.402344 11 C 31.601563 11 37.398438 11.597656 40.199219 12.097656 C 41.699219 12.5 42.898438 13.5 43.097656 14.800781 C 43.699219 18 44.097656 21.402344 44.097656 24.902344 C 44 29.199219 43.5 32.699219 43.097656 35.199219 C 42.800781 37.097656 40.800781 37.699219 40.199219 37.902344 C 36.597656 38.601563 30.597656 39.097656 24.597656 39.097656 C 18.597656 39.097656 12.5 38.699219 9 37.902344 C 7.5 37.5 6.300781 36.5 6.101563 35.199219 C 5.300781 32.398438 5 28.699219 5 25 C 5 20.398438 5.402344 17 5.800781 14.902344 C 6.101563 13 8.199219 12.398438 8.699219 12.199219 C 12 11.5 18.101563 11 24.402344 11 Z M 19 17 L 19 33 L 33 25 Z M 21 20.402344 L 29 25 L 21 29.597656 Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#任务目标">任务目标</a></li>
+    <li><a href="#helm-的单元测试">Helm 的单元测试</a></li>
+    <li><a href="#helm-chart-test-的单元测试">Helm chart test 的单元测试</a></li>
+    <li><a href="#自动化执行测试">自动化执行测试</a></li>
+    <li><a href="#测试结果">测试结果</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2024-06-29</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>本文是我参加<a class="link" href="https://opencamp.cn/EulixOS/camp/202401"  target="_blank" rel="noopener"
+    >《第一期傲来操作系统（EulixOS）训练营》</a>的项目实习报告。</p>
+<p><a class="link" href="https://eulixos.com/"  target="_blank" rel="noopener"
+    >傲来操作系统（EulixOS）</a>是由中科院软件所 / 中科南京软件技术研究院团队基于 openEuler 打造的操作系统发行版。</p>
+<h2 id="任务目标">任务目标</h2>
+<p><a class="link" href="https://github.com/helm/helm"  target="_blank" rel="noopener"
+    >Helm</a> 是一个 <code>Kubernetes</code> 的包管理工具，它可以帮助用户定义、安装和升级运行在 <code>Kubernetes</code> 上的应用程序。</p>
+<p><a class="link" href="https://github.com/helm/chart-testing"  target="_blank" rel="noopener"
+    >Helm chart test</a> 是一个用于测试 <code>Helm</code> 图表的 CLI 工具，用于测试 <code>Helm chart</code> 的拉取请求，能自动检测与目标分支相比已经更改的 chart。</p>
+<p>本任务计划在 ARM 和 RISC-V 架构上运行 <code>Helm</code> 和 <code>Helm chart Test</code> 的测试，以此来对比这两种平台上云原生软件的成熟度。</p>
+<h2 id="helm-的单元测试">Helm 的单元测试</h2>
+<p>分析 Helm 的 <a class="link" href="https://github.com/helm/helm/blob/main/Makefile"  target="_blank" rel="noopener"
+    >Makefile</a> 文件，发现 <code>test-unit</code> 目标是用来运行单元测试的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">.PHONY</span><span class="o">:</span> <span class="n">test</span>-<span class="n">unit</span>
+</span></span><span class="line"><span class="cl"><span class="nf">test-unit</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">	@echo
+</span></span><span class="line"><span class="cl">	@echo <span class="s2">&#34;==&gt; Running unit tests &lt;==&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nv">GO111MODULE</span><span class="o">=</span>on go <span class="nb">test</span> <span class="k">$(</span>GOFLAGS<span class="k">)</span> -run <span class="k">$(</span>TESTS<span class="k">)</span> <span class="k">$(</span>PKG<span class="k">)</span> <span class="k">$(</span>TESTFLAGS<span class="k">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看出，helm 的单元测试可以直接通过 <code>go test</code> 命令来执行。</p>
+<p>查看 <a class="link" href="https://github.com/helm/helm/blob/main/go.mod"  target="_blank" rel="noopener"
+    >go.mod</a> 文件，确定该项目使用的 Go 版本是 1.22.0：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module helm.sh/helm/v3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">go 1.22.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">require (
+</span></span><span class="line"><span class="cl">	github.com/BurntSushi/toml v1.3.2
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="helm-chart-test-的单元测试">Helm chart test 的单元测试</h2>
+<p><code>Helm chart test</code> 项目使用 <a class="link" href="https://github.com/helm/chart-testing/blob/main/build.sh"  target="_blank" rel="noopener"
+    >build.sh</a> 脚本进行构建发布。分析 <code>build.sh</code> 发现，在每次构建前，会使用 <code>go test -race ./...</code> 运行单元测试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">go <span class="nb">test</span> -race ./...
+</span></span><span class="line"><span class="cl">goreleaser <span class="s2">&#34;</span><span class="si">${</span><span class="nv">goreleaser_args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看<a class="link" href="https://github.com/helm/chart-testing/blob/main/go.mod"  target="_blank" rel="noopener"
+    >go.mod</a>文件，确定该项目使用的 Go 版本是 1.22.0：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">helm</span><span class="o">/</span><span class="n">chart</span><span class="o">-</span><span class="n">testing</span><span class="o">/</span><span class="n">v3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">go</span> <span class="mf">1.22</span><span class="o">.</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">toolchain</span> <span class="n">go1</span><span class="o">.</span><span class="mf">22.4</span>
+</span></span><span class="line"><span class="cl"><span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="自动化执行测试">自动化执行测试</h2>
+<p>helm 和 helm chart test 的单元测试都可以直接通过 <code>go test</code> 命令来执行。我们可以使用 bash 编写脚本使测试过程自动化。</p>
+<p>这个脚本的主要流程为：</p>
+<ol>
+<li>自动识别和配置：脚本首先检测硬件平台，然后自动下载并在测试目录下安装 Go，不干扰系统中的其他设置或版本。</li>
+<li>环境设置：配置必要的环境变量，确保测试在适当的环境下执行。</li>
+<li>代码仓库管理：自动从配置的 Git 仓库地址克隆代码到本地指定目录。</li>
+<li>测试执行：运行单元测试，并将结果输出到报告文件中。</li>
+<li>性能数据收集：通过调用 <code>performance_counter_920.sh</code> 收集和记录测试期间的性能指标。</li>
+</ol>
+<p>为了避免网络环境对测试影响，脚本可以自定义配置：</p>
+<ul>
+<li>通过 <code>GO_BASE_URL</code> 定义 go 安装包下载网址</li>
+<li>通过 <code>REPO_URL</code> 定义项目源码仓库的地址。可以提前将项目从 GitHub 同步到 Gitee。</li>
+<li>通过 <code>GOPROXY</code> 定义 Go 镜像地址。缺省设置为 <code>GOPROXY=https://goproxy.cn</code>，从国内镜像下载 moudle。</li>
+</ul>
+<p>另外，helm 在测试插件功能时，会访问 <a class="link" href="https://github.com/adamreese/helm-env"  target="_blank" rel="noopener"
+    >https://github.com/adamreese/helm-env</a> 。由于网络环境问题，涉及的测试经常会失败。所以我将 helm-env 项目同步到了 gitee，并修改了测试案例 <a class="link" href="https://gitee.com/mahaoliang/helm/blob/02417b31ab70be386bb0a18045cbbca8dd9b8a8b/pkg/plugin/installer/vcs_installer_test.go"  target="_blank" rel="noopener"
+    >vcs_installer_test.go</a>，让它从 gitee 下载插件，保证了测试运行的稳定。</p>
+<p>两个项目的自动化测试脚本都已经提交到了 gitee，分别为：</p>
+<ul>
+<li><a class="link" href="https://gitee.com/mahaoliang/helm-test"  target="_blank" rel="noopener"
+    >https://gitee.com/mahaoliang/helm-test</a></li>
+<li><a class="link" href="https://gitee.com/mahaoliang/helm-chart-test"  target="_blank" rel="noopener"
+    >https://gitee.com/mahaoliang/helm-chart-test</a></li>
+</ul>
+<h2 id="测试结果">测试结果</h2>
+<p>下面是在 ARM 上运行的 helm 的测试结果。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> duration time: <span class="m">24558698523</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> task clock: 130738.640
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cpu-cycles:   <span class="m">290310169669</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> instructions: <span class="m">269526073395</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache references: <span class="m">95029267023</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache misses: <span class="m">764800123</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branches: &lt;not
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branch misses: <span class="m">647318994</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache loads: <span class="m">95029267023</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache load misses: <span class="m">764800123</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load misses: <span class="m">480961351</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load: <span class="m">1156309818</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> IPC: 0.928
+</span></span><span class="line"><span class="cl">helmrequiresearchfil.txt has been deleted
+</span></span><span class="line"><span class="cl">Number of packages: <span class="m">50</span>
+</span></span><span class="line"><span class="cl">Analyzing <span class="nb">test</span> results in /home/cloud2/helm-test/reports/20240628135442/test_result
+</span></span><span class="line"><span class="cl">Total tests: <span class="m">1327</span>
+</span></span><span class="line"><span class="cl">Passed tests: <span class="m">1327</span>
+</span></span><span class="line"><span class="cl">Failed tests: <span class="m">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一共运行了 1327 个测试用例，全部通过。</p>
+<p>在 ARM 上运行的 helm chart test 的测试结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> duration time: <span class="m">704309016</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> task clock: 5337.880
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cpu-cycles:   <span class="m">10071410187</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> instructions: <span class="m">8342502186</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache references: <span class="m">3300195194</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache misses: <span class="m">34476953</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branches: &lt;not
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branch misses: <span class="m">39065962</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache loads: <span class="m">3300195194</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache load misses: <span class="m">34476953</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load misses: <span class="m">15971288</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load: <span class="m">50427439</span>
+</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> IPC: 0.828
+</span></span><span class="line"><span class="cl">Number of packages: <span class="m">8</span>
+</span></span><span class="line"><span class="cl">Analyzing <span class="nb">test</span> results in /home/cloud2/helm-chart-test/reports/20240628140012/test_result
+</span></span><span class="line"><span class="cl">Total tests: <span class="m">92</span>
+</span></span><span class="line"><span class="cl">Passed tests: <span class="m">92</span>
+</span></span><span class="line"><span class="cl">Failed tests: <span class="m">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一共运行了 92 个测试用例，全部通过。</p>
+<p>测试过程详细输出的原始文件如下：</p>
+<ul>
+<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261057451"  target="_blank" rel="noopener"
+    >helm 的 go test 输出</a></li>
+<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261058094"  target="_blank" rel="noopener"
+    >helm 测试过程的 perf 统计指标</a></li>
+<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261058288"  target="_blank" rel="noopener"
+    >helm chart test 的 go test 输出</a></li>
+<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261059355"  target="_blank" rel="noopener"
+    >helm chart test 测试过程的 perf 统计指标</a></li>
+</ul>
+<p>到测试截止时间，RISC-V 机器还未准备好，因此没有运行 RISC-V 架构的测试。不过我们已经提供了自动化测试脚本，可以直接在 RISC-V 架构的机器上运行，为后面在 RISC-V 上的测试做好了准备。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/linux/">Linux</a>
+        
+            <a href="/tags/kubernetes/">Kubernetes</a>
+        
+            <a href="/tags/helm/">Helm</a>
+        
+            <a href="/tags/risv-v/">Risv-V</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Zsh的安装和配置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%88%97%E8%A1%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">大学生计算机专业学习资源不完全列表</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 项目管理最佳实践：uv 使用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤ICP备2022085181号-2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
