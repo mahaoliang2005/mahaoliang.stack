@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Sun, 03 Sep 2023 19:58:18 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/markdown/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Markdown语法</title>
-        <link>https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/</link>
+        <title>Markdown 语法</title>
+        <link>https://mahaoliang.tech/p/markdown-%E8%AF%AD%E6%B3%95/</link>
         <pubDate>Sun, 03 Sep 2023 19:58:18 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/</guid>
+        <guid>https://mahaoliang.tech/p/markdown-%E8%AF%AD%E6%B3%95/</guid>
         <description>&lt;h2 id=&#34;1-文本部分&#34;&gt;1. 文本部分&lt;/h2&gt;
 &lt;h3 id=&#34;11-斜体和粗体删除线&#34;&gt;1.1 斜体和粗体，删除线&lt;/h3&gt;
 &lt;p&gt;使用 * 和 ** 表示斜体和粗体。&lt;/p&gt;
@@ -74,7 +74,7 @@
 &lt;h3 id=&#34;23-行内代码块&#34;&gt;2.3 行内代码块&lt;/h3&gt;
 &lt;p&gt;使用 &lt;code&gt;代码&lt;/code&gt; 表示行内代码块。(就是这个``)&lt;/p&gt;
 &lt;h3 id=&#34;24-插入图像&#34;&gt;2.4 插入图像&lt;/h3&gt;
-&lt;p&gt;使用:&lt;/p&gt;
+&lt;p&gt;使用：&lt;/p&gt;
 &lt;p&gt;! [描述]&lt;/p&gt;
 &lt;p&gt;$+$&lt;/p&gt;
 &lt;p&gt;( 图片链接地址 )&lt;/p&gt;
@@ -123,7 +123,7 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;效果图&lt;/p&gt;
-&lt;h3 id=&#34;26常用数学符号&#34;&gt;2.6常用数学符号&lt;/h3&gt;
+&lt;h3 id=&#34;26-常用数学符号&#34;&gt;2.6 常用数学符号&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202309032024592.webp&#34;
 	
 	

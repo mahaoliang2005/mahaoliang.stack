@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Sat, 24 Jun 2023 18:08:17 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/java/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Sdkman的使用</title>
-        <link>https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+        <title>Sdkman 的使用</title>
+        <link>https://mahaoliang.tech/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
         <pubDate>Sat, 24 Jun 2023 18:08:17 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+        <guid>https://mahaoliang.tech/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
         <description>&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://sdkman.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;SDKMAN！&lt;/a&gt;是用于管理多个软件开发工具包的并行版本的工具。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202306241814580.svg&#34;
@@ -38,7 +38,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;列出当前可安装的Java版本列表&lt;/li&gt;
+&lt;li&gt;列出当前可安装的 Java 版本列表&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -84,7 +84,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;设置当前shell session使用的版本&lt;/li&gt;
+&lt;li&gt;设置当前 shell session 使用的版本&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -106,7 +106,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;sdk软件本身的更新&lt;/li&gt;
+&lt;li&gt;sdk 软件本身的更新&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;

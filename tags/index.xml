@@ -6,18 +6,18 @@
         <description>Recent content in Tags on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 25 Jul 2025 19:54:51 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Python</title>
-        <link>https://mahaoliang.tech/tags/python/</link>
-        <pubDate>Fri, 25 Jul 2025 19:54:51 +0800</pubDate>
+        <lastBuildDate>Tue, 29 Jul 2025 21:05:21 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Git</title>
+        <link>https://mahaoliang.tech/tags/git/</link>
+        <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/tags/python/</guid>
+        <guid>https://mahaoliang.tech/tags/git/</guid>
         <description></description>
         </item>
         <item>
         <title>Linux</title>
         <link>https://mahaoliang.tech/tags/linux/</link>
-        <pubDate>Wed, 09 Jul 2025 11:41:57 +0800</pubDate>
+        <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/tags/linux/</guid>
         <description></description>
@@ -25,9 +25,25 @@
         <item>
         <title>Macos</title>
         <link>https://mahaoliang.tech/tags/macos/</link>
-        <pubDate>Wed, 09 Jul 2025 11:41:57 +0800</pubDate>
+        <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/tags/macos/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Ssh</title>
+        <link>https://mahaoliang.tech/tags/ssh/</link>
+        <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/tags/ssh/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Python</title>
+        <link>https://mahaoliang.tech/tags/python/</link>
+        <pubDate>Fri, 25 Jul 2025 19:54:51 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/tags/python/</guid>
         <description></description>
         </item>
         <item>

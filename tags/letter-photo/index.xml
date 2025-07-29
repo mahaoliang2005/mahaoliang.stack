@@ -27,7 +27,7 @@
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;步骤&#34;&gt;步骤&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;图片要准备URL的链接，例如图中的&lt;a class=&#34;link&#34; href=&#34;https://www.degraeve.com/images/lcsm.gif&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;li&gt;图片要准备 URL 的链接，例如图中的&lt;a class=&#34;link&#34; href=&#34;https://www.degraeve.com/images/lcsm.gif&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://www.degraeve.com/images/lcsm.gif&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202309041308747.png&#34;
@@ -41,7 +41,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;可以看到下面一行有三个选项，ASCII art、color HTML和RTTY。以下分别是这三个的效果图&lt;/li&gt;
+&lt;li&gt;可以看到下面一行有三个选项，ASCII art、color HTML 和 RTTY。以下分别是这三个的效果图&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202309041314002.png&#34;
 	

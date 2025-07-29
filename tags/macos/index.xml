@@ -6,7 +6,256 @@
         <description>Recent content in Macos on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 09 Jul 2025 11:41:57 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/macos/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 29 Jul 2025 21:05:21 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/macos/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>使用 1Password 和 SSH Agent Forwarding 提升远程开发体验</title>
+        <link>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</link>
+        <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</guid>
+        <description>&lt;p&gt;作为开发者，我们经常需要通过 SSH 连接到远程 Linux 服务器进行开发。工具如 VS Code 的 Remote-SSH 插件，让我们几乎感觉不到自己是在一台远程机器上工作。但一个常见的痛点随之而来：&lt;strong&gt;SSH 密钥管理&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;我们希望：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用 SSH 密钥登录服务器，并向 Git 仓库（如 GitHub）推送代码。&lt;/li&gt;
+&lt;li&gt;对每一次 Git 提交进行签名，以验证提交的来源。&lt;/li&gt;
+&lt;li&gt;最重要的一点：&lt;strong&gt;不希望将包含私钥的任何文件拷贝到远程服务器上&lt;/strong&gt;，以防服务器被入侵导致私钥泄露。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;幸运的是，通过 1Password 内置的 SSH Agent 和 SSH Agent Forwarding 技术，我们可以完美地解决这个问题。本文将带你一步步配置，实现安全、无缝的远程开发流程。&lt;/p&gt;
+&lt;h2 id=&#34;核心概念简介&#34;&gt;核心概念简介&lt;/h2&gt;
+&lt;p&gt;在开始之前，我们先简单了解几个关键概念：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSH Agent (SSH 代理)&lt;/strong&gt;：它就像一个临时的密钥管理员。你可以在会话开始时，将解密的私钥（decrypted private key）加载到 Agent 中。之后，任何需要使用该密钥的 SSH 操作都会向 Agent 请求，而无需你反复输入密码。当你关闭终端会话时，Agent 也会随之关闭，密钥被安全地清除。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;1Password SSH Agent&lt;/strong&gt;：1Password 8 及以上版本内置了一个功能强大的 SSH Agent。它将你的 SSH 私钥安全地存储在 1Password 保管库中，并通过一个安全的套接字文件（socket file）与你的系统交互。这意味着你的私钥永远不会以明文形式存在于磁盘上，所有使用请求都需要经过 1Password 的授权（例如 Touch ID 或主密码）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSH Agent Forwarding (SSH 代理转发)&lt;/strong&gt;：这是一个非常强大的 SSH 功能。当你从本地电脑 SSH 到远程服务器时，它可以建立一个安全通道，将远程服务器上需要密钥认证的操作请求，“转发”回你的&lt;strong&gt;本地电脑&lt;/strong&gt;，交由你本地的 SSH Agent 来处理。这样一来，远程服务器本身完全不需要存储任何私钥。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;我们的目标流程&#34;&gt;我们的目标流程&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;在本地电脑上，1Password 管理着我们的 SSH 私钥。&lt;/li&gt;
+&lt;li&gt;通过 VS Code Remote-SSH 或终端连接到远程服务器，并启用 Agent Forwarding。&lt;/li&gt;
+&lt;li&gt;在远程服务器上，执行 &lt;code&gt;git push&lt;/code&gt; 时，认证请求被转发回本地，由 1Password 处理。&lt;/li&gt;
+&lt;li&gt;在远程服务器上，执行 &lt;code&gt;git commit&lt;/code&gt; 时，签名请求也被转发回本地，由 1Password 处理和授权。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;配置流程&#34;&gt;配置流程&lt;/h2&gt;
+&lt;h3 id=&#34;前提条件&#34;&gt;前提条件&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;你已经安装了 1Password 8 或更高版本的桌面客户端。&lt;/li&gt;
+&lt;li&gt;你的 SSH 密钥已经创建并保存在 1Password 的 &lt;code&gt;SSH 密钥&lt;/code&gt; 分类中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;第一步配置本地电脑让-ssh-使用-1password&#34;&gt;第一步：配置本地电脑，让 SSH 使用 1Password&lt;/h3&gt;
+&lt;p&gt;首先，我们需要告诉本地的 SSH 客户端，让它把所有密钥相关的请求都交给 1Password 处理。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;在 1Password 中启用 SSH Agent&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打开 1Password 桌面应用。&lt;/li&gt;
+&lt;li&gt;进入 &lt;code&gt;设置&lt;/code&gt; -&amp;gt; &lt;code&gt;开发者&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;勾选 &lt;code&gt;使用 SSH 代理&lt;/code&gt;。
+&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507292109013.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ssh agent&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置本地 SSH 配置文件 (&lt;code&gt;~/.ssh/config&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;参考 1password 的&lt;a class=&#34;link&#34; href=&#34;https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;官方文档&lt;/a&gt;，我们有两种方式告诉 SSH 客户端 Agent 在哪里：&lt;code&gt;IdentityAgent&lt;/code&gt; 指令和 &lt;code&gt;SSH_AUTH_SOCK&lt;/code&gt; 环境变量。推荐使用 &lt;code&gt;IdentityAgent&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;编辑你&lt;strong&gt;本地电脑&lt;/strong&gt;上的 &lt;code&gt;~/.ssh/config&lt;/code&gt; 文件（如果不存在，请创建它）。在文件顶部添加以下内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 告诉所有 SSH 连接 (*) 都使用 1Password 的 Agent&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host *
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  IdentityAgent &lt;span class=&#34;s2&#34;&gt;&amp;#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;验证配置&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;strong&gt;本地电脑&lt;/strong&gt;的终端里运行以下命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果配置成功，它会列出你在 1Password 中存储的所有 SSH 密钥的公钥指纹。这证明你的本地 SSH 客户端已经成功与 1Password 对接。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;第二步配置连接启用-agent-forwarding&#34;&gt;第二步：配置连接，启用 Agent Forwarding&lt;/h3&gt;
+&lt;p&gt;现在，我们需要在连接到特定远程服务器时，启用 Agent Forwarding 功能。最佳实践依然是修改 &lt;code&gt;~/.ssh/config&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;p&gt;继续编辑你&lt;strong&gt;本地电脑&lt;/strong&gt;上的 &lt;code&gt;~/.ssh/config&lt;/code&gt; 文件，为你的服务器添加一个专有配置块：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 给你的远程服务器起一个别名，方便连接&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host my-dev-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    HostName &amp;lt;your_server_ip_or_domain&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    User mahaoliang
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ForwardAgent yes   &lt;span class=&#34;c1&#34;&gt;# &amp;lt;-- 关键！启用 Agent Forwarding&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Host my-dev-server&lt;/code&gt;: 这是你连接时使用的快捷别名。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HostName&lt;/code&gt;: 服务器的实际 IP 或域名。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;User&lt;/code&gt;: 你在服务器上的用户名。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ForwardAgent yes&lt;/code&gt;: 这就是开启 Agent Forwarding 的开关。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在，你可以通过 &lt;code&gt;ssh my-dev-server&lt;/code&gt; 或在 VS Code Remote-SSH 中直接连接到 &lt;code&gt;my-dev-server&lt;/code&gt;，转发功能会自动启用。&lt;/p&gt;
+&lt;h3 id=&#34;第三步配置远程服务器上的-git&#34;&gt;第三步：配置远程服务器上的 Git&lt;/h3&gt;
+&lt;p&gt;这是最后一步，也是最关键的一步。我们需要告诉远程服务器上的 Git，如何使用我们转发过来的 SSH Agent 进行提交签名。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;连接并验证转发&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先，连接到你的远程服务器：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh my-dev-server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;连接成功后，在&lt;strong&gt;远程服务器&lt;/strong&gt;的终端上，再次运行验证命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果 Agent Forwarding 正常工作，这里显示的输出应该和你&lt;strong&gt;本地电脑&lt;/strong&gt;的输出&lt;strong&gt;完全一样&lt;/strong&gt;！如果提示 &amp;ldquo;The agent has no identities.&amp;quot;，请返回第二步检查配置。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;获取用于签名的公钥&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Git 需要知道用哪个具体的密钥来签名。我们需要提供完整的公钥字符串作为标识。在&lt;strong&gt;远程服务器&lt;/strong&gt;上运行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -L
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这个命令会列出 Agent 中所有密钥的完整公钥。复制你想要用来签名的那一行，它看起来像这样：
+&lt;code&gt;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;配置远程服务器的 &lt;code&gt;.gitconfig&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;现在，编辑你&lt;strong&gt;远程服务器&lt;/strong&gt;上的 &lt;code&gt;~/.gitconfig&lt;/code&gt; 文件。将你原来的配置更新如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[user]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;email&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;mahaoliang@gmail.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    name = mahaoliang
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    # 将 signingkey 的值设置为你上一步复制的完整公钥字符串
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[gpg]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# 告诉 Git 使用 ssh 程序进行签名&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;format&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[commit]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# 让所有提交都默认进行签名&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;gpgsign&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最重要的改动在于 &lt;code&gt;signingkey&lt;/code&gt;。我们不再使用一个文件路径，而是直接提供了公钥本身。这让 Git 可以直接向转发过来的 Agent 请求使用这个特定的密钥进行签名。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;大功告成来测试一下吧&#34;&gt;大功告成！来测试一下吧&lt;/h3&gt;
+&lt;p&gt;一切准备就绪！在远程服务器上，进入你的任意一个 git 项目，尝试创建一个新提交：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git commit --allow-empty -m &lt;span class=&#34;s2&#34;&gt;&amp;#34;Test: Signed commit with 1Password Agent Forwarding&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;此时，奇妙的事情发生了：你的&lt;strong&gt;本地电脑&lt;/strong&gt;上会弹出 1Password 的授权请求，提示你应用正在请求使用你的 SSH 密钥。通过 Touch ID 或输入主密码授权后，远程服务器上的 &lt;code&gt;git commit&lt;/code&gt; 命令瞬间完成。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507292112652.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ssh key&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最后，检查一下你的提交日志：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git log --show-signature -1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;你将会看到类似下面的输出，&lt;code&gt;Good signature&lt;/code&gt; 明确告诉你，这次提交已经由你的密钥成功签名！&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;commit &amp;lt;commit_hash&amp;gt; (HEAD -&amp;gt; main)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Good &amp;#34;git&amp;#34; signature for mahaoliang@gmail.com with ED25519 key SHA256:GKaU0ZCgehQ73X...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Author: mahaoliang &amp;lt;mahaoliang@gmail.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Date:   ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Test: Signed commit with 1Password Agent Forwarding
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
+&lt;p&gt;通过以上配置，我们构建了一个既安全又便捷的远程开发工作流。你的私钥始终安全地躺在本地的 1Password 保管库中，而远程服务器上的所有 Git 操作（认证和签名）都能够无缝、安全地使用它。这不仅提升了安全性，也大大简化了多服务器环境下的密钥管理，让你能更专注于编码本身。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>一步步教你在 VMware Fusion 中实现与 Linux 虚拟机的文件共享</title>
         <link>https://mahaoliang.tech/p/%E4%B8%80%E6%AD%A5%E6%AD%A5%E6%95%99%E4%BD%A0%E5%9C%A8-vmware-fusion-%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%B8%8E-linux-%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB/</link>
         <pubDate>Wed, 09 Jul 2025 11:41:57 +0800</pubDate>
@@ -237,11 +486,11 @@
 </description>
         </item>
         <item>
-        <title>Zsh的安装和配置</title>
-        <link>https://mahaoliang.tech/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
+        <title>Zsh 的安装和配置</title>
+        <link>https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</link>
         <pubDate>Sun, 05 Jan 2025 21:06:07 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
+        <guid>https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</guid>
         <description>&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.zsh.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Zsh&lt;/a&gt; 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。&lt;/p&gt;
 &lt;p&gt;本文将指导您在 macOS 和 Linux 系统上安装 Zsh、Oh My Zsh 以及其常用插件，并展示如何配置 Oh My Zsh，以打造一个高效的命令行工作环境。&lt;/p&gt;
@@ -306,7 +555,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;在命令行输入命令时，zsh-autosuggestions 会根据命令历史或命令补全进行建议提示。那么如何接受建议呢？&lt;/p&gt;
-&lt;p&gt;Bash 和 Zsh 这样的 Unix shell 提供了两种主要的编辑模式：Emacs 模式和 Vi 模式，也就是说可以使用 Emacs 或 Vi 的快捷键来编辑命令行。 Emacs 模式是缺省模式。&lt;/p&gt;
+&lt;p&gt;Bash 和 Zsh 这样的 Unix shell 提供了两种主要的编辑模式：Emacs 模式和 Vi 模式，也就是说可以使用 Emacs 或 Vi 的快捷键来编辑命令行。Emacs 模式是缺省模式。&lt;/p&gt;
 &lt;p&gt;在 zsh-autosuggestions 的&lt;a class=&#34;link&#34; href=&#34;https://github.com/zsh-users/zsh-autosuggestions/blob/master/src/config.zsh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;缺省配置文件&lt;/a&gt;中，定义接受建议的快捷键：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -341,7 +590,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;如果命令行处于Emacs 模式，那么：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;如果命令行处于 Emacs 模式，那么：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;ctrl-f&lt;/code&gt; 或 &lt;code&gt;ctrl-e&lt;/code&gt; 跳到行尾接受当前的建议&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;option-f&lt;/code&gt; 向前前进一个单词并接受建议&lt;/li&gt;
@@ -398,20 +647,20 @@
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>1Password在macOS和iOS上的使用技巧</title>
-        <link>https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</link>
+        <title>1Password 在 macOS 和 iOS 上的使用技巧</title>
+        <link>https://mahaoliang.tech/p/1password-%E5%9C%A8-macos-%E5%92%8C-ios-%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</link>
         <pubDate>Thu, 29 Sep 2022 22:06:18 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</guid>
+        <guid>https://mahaoliang.tech/p/1password-%E5%9C%A8-macos-%E5%92%8C-ios-%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</guid>
         <description>&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;http://1password.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;1Password&lt;/a&gt;的最大优势是&lt;strong&gt;跨平台&lt;/strong&gt;，不管是苹果系的iOS，macOS，还是Google的Android，微软的Windows，以及Linux，都能完美支持。让你在macOS上使用Safari，在Windows上使用Edge，Android上使用Chrome时，都能无缝得到密码管理的支持。这是苹果自带的密码管理所不能满足的。&lt;/p&gt;
-&lt;p&gt;如何使用好1Password，官方文档&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/explore/get-started/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;1Password&lt;/a&gt;的最大优势是&lt;strong&gt;跨平台&lt;/strong&gt;，不管是苹果系的 iOS，macOS，还是 Google 的 Android，微软的 Windows，以及 Linux，都能完美支持。让你在 macOS 上使用 Safari，在 Windows 上使用 Edge，Android 上使用 Chrome 时，都能无缝得到密码管理的支持。这是苹果自带的密码管理所不能满足的。&lt;/p&gt;
+&lt;p&gt;如何使用好 1Password，官方文档&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/explore/get-started/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Get started with 1Password&lt;/a&gt;是最好的学习素材，快速浏览一遍，基本会使用完全没有问题。&lt;/p&gt;
-&lt;p&gt;这篇文档我只重点介绍在 macOS 和 iOS 上使用1Password时的一些注意事项。&lt;/p&gt;
+&lt;p&gt;这篇文档我只重点介绍在 macOS 和 iOS 上使用 1Password 时的一些注意事项。&lt;/p&gt;
 &lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
-&lt;p&gt;macOS和iOS上的Safari，都需要打开&lt;strong&gt;1Password插件&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;macOS的Safari插件直接在App Store安装。&lt;/p&gt;
-&lt;p&gt;iOS上插件的安装请参考：&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/getting-started-safari-ios/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;macOS 和 iOS 上的 Safari，都需要打开&lt;strong&gt;1Password 插件&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;macOS 的 Safari 插件直接在 App Store 安装。&lt;/p&gt;
+&lt;p&gt;iOS 上插件的安装请参考：&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/getting-started-safari-ios/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Get to know 1Password for Safari on your iPhone or iPad&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231710181.png&#34;
 	
@@ -453,11 +702,11 @@
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;关掉内置密码管理&#34;&gt;关掉内置密码管理&lt;/h2&gt;
-&lt;p&gt;由于Safari自带了密码管理，同时打开会和 1Password 有冲突，因此需要&lt;strong&gt;关闭内置的密码管理&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;由于 Safari 自带了密码管理，同时打开会和 1Password 有冲突，因此需要&lt;strong&gt;关闭内置的密码管理&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;具体操作参考官方文档&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/disable-browser-password-manager/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Turn off the built-in password manager in your browser&lt;/a&gt;。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;macOS 上Safari的设置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;macOS 上 Safari 的设置&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;To stop Safari from asking to save your passwords:&lt;/p&gt;
@@ -478,7 +727,7 @@
 &gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;iOS 上Safari的设置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;iOS 上 Safari 的设置&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;To stop Safari from asking to save your passwords:&lt;/p&gt;
@@ -498,8 +747,8 @@
 	
 &gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2 id=&#34;ios上app的支持&#34;&gt;iOS上App的支持&lt;/h2&gt;
-&lt;p&gt;iOS上app使用 1Password 的体验和 Safari 是一致的，只要app使用iOS系统标准键盘，在需要输入用户名和密码的地方，会自动出现钥匙图标，点击钥匙，会呼出1Password进行自动填充。&lt;/p&gt;
+&lt;h2 id=&#34;ios-上-app-的支持&#34;&gt;iOS 上 App 的支持&lt;/h2&gt;
+&lt;p&gt;iOS 上 app 使用 1Password 的体验和 Safari 是一致的，只要 app 使用 iOS 系统标准键盘，在需要输入用户名和密码的地方，会自动出现钥匙图标，点击钥匙，会呼出 1Password 进行自动填充。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231708210.png&#34;
 	
 	
@@ -510,7 +759,7 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;然而很多&lt;strong&gt;国产银行类app&lt;/strong&gt;，基本都不使用iOS内置键盘，所以没法呼出1Password。这时候只能自己进入1Password 进行拷贝密码或创建密码的操作。&lt;/p&gt;
+&lt;p&gt;然而很多&lt;strong&gt;国产银行类 app&lt;/strong&gt;，基本都不使用 iOS 内置键盘，所以没法呼出 1Password。这时候只能自己进入 1Password 进行拷贝密码或创建密码的操作。&lt;/p&gt;
 &lt;h2 id=&#34;universal-autofill&#34;&gt;Universal Autofill&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/mac-universal-autofill/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Universal Autofill&lt;/a&gt; 是 &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/1password-8-for-mac/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -526,13 +775,13 @@
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;两步认证&#34;&gt;两步认证&lt;/h2&gt;
-&lt;p&gt;对于已经支持1Password &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/one-time-passwords/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;对于已经支持 1Password &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/one-time-passwords/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;两步认证&lt;/a&gt; 的&lt;a class=&#34;link&#34; href=&#34;https://2fa.directory&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;网站&lt;/a&gt;，都已经迁移到了1Password。&lt;/p&gt;
-&lt;p&gt;如果1Password本身开启了两步认证，它就需要一个第三方的Authenticator，因为它不可能自己保存自己的one-time password，&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/two-factor-authentication/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;网站&lt;/a&gt;，都已经迁移到了 1Password。&lt;/p&gt;
+&lt;p&gt;如果 1Password 本身开启了两步认证，它就需要一个第三方的 Authenticator，因为它不可能自己保存自己的 one-time password，&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/two-factor-authentication/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;官方文档&lt;/a&gt;已经说明。我选择了微软的&lt;a class=&#34;link&#34; href=&#34;https://www.microsoft.com/en-us/security/mobile-authenticator-app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Authenticator&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;微软的Authenticator可以备份和恢复，在换手机时非常方便。另外使用 Authenticator 登录微软账号时体验很好，不需要输入密码，只用在手机上确认即可，体验类似扫码登录，但又不用扫码:)&lt;/p&gt;
+&lt;p&gt;微软的 Authenticator 可以备份和恢复，在换手机时非常方便。另外使用 Authenticator 登录微软账号时体验很好，不需要输入密码，只用在手机上确认即可，体验类似扫码登录，但又不用扫码:)&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231537685.JPG&#34;
 	
 	
@@ -543,11 +792,11 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h2 id=&#34;管理ssh-keys&#34;&gt;管理SSH Keys&lt;/h2&gt;
+&lt;h2 id=&#34;管理-ssh-keys&#34;&gt;管理 SSH Keys&lt;/h2&gt;
 &lt;p&gt;1Password 可以保存你的 SSH keys，并作为 &lt;a class=&#34;link&#34; href=&#34;https://www.ssh.com/academy/ssh/agent&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;SSH agent&lt;/a&gt; ，无缝整合 SSH 和 Git工作流。同时，在GitHub等平台需要填写公钥的地方，自动帮你拷贝填充公钥。&lt;/p&gt;
-&lt;h3 id=&#34;生成或导入ssh-keys&#34;&gt;生成或导入SSH keys&lt;/h3&gt;
-&lt;p&gt;我们可以使用 &lt;code&gt;ssh-keygen&lt;/code&gt; 命令自己生成 SSH key，也可以在 1Password 中创建SSH key 项目时自动生成。
+    &gt;SSH agent&lt;/a&gt; ，无缝整合 SSH 和 Git 工作流。同时，在 GitHub 等平台需要填写公钥的地方，自动帮你拷贝填充公钥。&lt;/p&gt;
+&lt;h3 id=&#34;生成或导入-ssh-keys&#34;&gt;生成或导入 SSH keys&lt;/h3&gt;
+&lt;p&gt;我们可以使用 &lt;code&gt;ssh-keygen&lt;/code&gt; 命令自己生成 SSH key，也可以在 1Password 中创建 SSH key 项目时自动生成。
 &lt;img src=&#34;https://cdn.mazhen.tech/images/202207081432280.png&#34;
 	
 	
@@ -558,9 +807,9 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;h3 id=&#34;开启1password-ssh-agent&#34;&gt;开启1Password SSH Agent&lt;/h3&gt;
-&lt;p&gt;1Password SSH Agent 使用你保存在1Password中的 SSH Key，与你的Git和SSH工作流程无缝集成。它可以验证你的Git和SSH客户端，而这些客户端永远无法读取你的私钥。&lt;/p&gt;
-&lt;p&gt;首先要打开 1Password SSH Agent ，让它在后台运行，为你的SSH客户端处理认证。打开 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 开发者&lt;/strong&gt;，勾选 “&lt;strong&gt;使用 SSH agent&lt;/strong&gt;” 和 “&lt;strong&gt;授权连接时显示密钥名称&lt;/strong&gt;”。
+&lt;h3 id=&#34;开启-1password-ssh-agent&#34;&gt;开启 1Password SSH Agent&lt;/h3&gt;
+&lt;p&gt;1Password SSH Agent 使用你保存在 1Password 中的 SSH Key，与你的 Git 和 SSH 工作流程无缝集成。它可以验证你的 Git 和 SSH 客户端，而这些客户端永远无法读取你的私钥。&lt;/p&gt;
+&lt;p&gt;首先要打开 1Password SSH Agent，让它在后台运行，为你的 SSH 客户端处理认证。打开 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 开发者&lt;/strong&gt;，勾选“&lt;strong&gt;使用 SSH agent&lt;/strong&gt;”和“&lt;strong&gt;授权连接时显示密钥名称&lt;/strong&gt;”。
 &lt;img src=&#34;https://cdn.mazhen.tech/images/202207081459057.png&#34;
 	
 	
@@ -571,7 +820,7 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;为了确保 SSH Agent 在后台持续运行，需要在 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 通用&lt;/strong&gt; 中，勾选 “&lt;strong&gt;在菜单栏中保留1Password&lt;/strong&gt;”。&lt;/p&gt;
+&lt;p&gt;为了确保 SSH Agent 在后台持续运行，需要在 &lt;strong&gt;1Password &amp;gt; 偏好设置 &amp;gt; 通用&lt;/strong&gt; 中，勾选“&lt;strong&gt;在菜单栏中保留 1Password&lt;/strong&gt;”。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081511818.png&#34;
 	
 	
@@ -583,7 +832,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;h3 id=&#34;配置-ssh-客户端&#34;&gt;配置 SSH 客户端&lt;/h3&gt;
-&lt;p&gt;为了让 SSH 客户端能使用1Password SSH agent，需要将 &lt;strong&gt;IdentityAgent&lt;/strong&gt; 配置添加到 &lt;code&gt;~/.ssh/config&lt;/code&gt;文件中：&lt;/p&gt;
+&lt;p&gt;为了让 SSH 客户端能使用 1Password SSH agent，需要将 &lt;strong&gt;IdentityAgent&lt;/strong&gt; 配置添加到 &lt;code&gt;~/.ssh/config&lt;/code&gt;文件中：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -603,7 +852,7 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/Library/Group&lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;Containers/2BUA8C4S2C.com.1password/t/agent.sock
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;如果觉得agent 路径过于复杂，可以先创建一个符号链接：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;如果觉得 agent 路径过于复杂，可以先创建一个符号链接：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -621,8 +870,8 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;HOME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/.1password/agent.sock
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;现在 SSH 客户端就可以在登录远程主机时使用1Password SSH agent。&lt;/p&gt;
-&lt;p&gt;可以使用下面的命令查看，1Password SSH agent 帮我们管理的SSH Keys：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;现在 SSH 客户端就可以在登录远程主机时使用 1Password SSH agent。&lt;/p&gt;
+&lt;p&gt;可以使用下面的命令查看，1Password SSH agent 帮我们管理的 SSH Keys：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -634,7 +883,7 @@
 &lt;/div&gt;&lt;h3 id=&#34;发布-ssh-公钥&#34;&gt;发布 SSH 公钥&lt;/h3&gt;
 &lt;p&gt;我们需要使用某种方式，将 SSH 公钥发布到远程服务器，以便对方能利用公钥验证你的身份。&lt;/p&gt;
 &lt;p&gt;一种方式是把公钥上传到服务提供者的网站，将公钥和你的账号绑定。例如你可以在&lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/ssh/new&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub SSH key settings&lt;/a&gt;页面上传公钥。 腾讯云的管理控制台也可以上传你的公钥，然后将公钥和你购买的服务器绑定。在页面填写公钥时，1Password会像填充密码一样进行自动填充。&lt;/p&gt;
+    &gt;GitHub SSH key settings&lt;/a&gt;页面上传公钥。腾讯云的管理控制台也可以上传你的公钥，然后将公钥和你购买的服务器绑定。在页面填写公钥时，1Password 会像填充密码一样进行自动填充。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081602211.png&#34;
 	
 	
@@ -653,8 +902,8 @@
 &lt;p&gt;设置过程可以参考&lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/git-commit-signing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Sign your Git commits with 1Password&lt;/a&gt;，主要包含两个步骤：&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;在GitHub上生成Signing Key。访问&lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/keys&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/settings/keys&lt;/a&gt; ，选择 “New SSH Key”，选择key的类型为 “Signing Key”，然后填入 1Password 管理的 SSH 公钥。&lt;/li&gt;
+&lt;li&gt;在 GitHub 上生成 Signing Key。访问&lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/keys&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/settings/keys&lt;/a&gt; ，选择“New SSH Key”，选择 key 的类型为“Signing Key”，然后填入 1Password 管理的 SSH 公钥。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291739050.webp&#34;
 	
@@ -667,7 +916,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;配置本地的 &lt;code&gt;.gitconfig&lt;/code&gt;。在 1Password中，选择SSH Key，并在上面显示的横幅中选择 &amp;ldquo;配置 &amp;ldquo;选项：&lt;/li&gt;
+&lt;li&gt;配置本地的 &lt;code&gt;.gitconfig&lt;/code&gt;。在 1Password 中，选择 SSH Key，并在上面显示的横幅中选择 &amp;ldquo;配置 &amp;ldquo;选项：&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291749782.png&#34;
 	
@@ -691,7 +940,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;sign-in-with-anything&#34;&gt;“Sign in with” anything&lt;/h2&gt;
-&lt;p&gt;1Password将记住用户使用的第三方登录服务（如 sign in with Google）。看&lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/sign-in-with-anything-browser-beta/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;1Password 将记住用户使用的第三方登录服务（如 sign in with Google）。看&lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/sign-in-with-anything-browser-beta/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;官方消息&lt;/a&gt;，这个功能很快会上线。&lt;/p&gt;
 </description>
         </item>
@@ -717,7 +966,7 @@
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;Tab页&lt;/th&gt;
+&lt;th&gt;Tab 页&lt;/th&gt;
 &lt;th&gt;设置&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
@@ -728,7 +977,7 @@
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;窗口&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;窗口大小&lt;/strong&gt;：行 120 列30&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;窗口大小&lt;/strong&gt;：行 120 列 30&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;窗口&lt;/td&gt;
@@ -736,11 +985,11 @@
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;shell&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;当shell退出时&lt;/strong&gt;，选择&lt;strong&gt;当shell完全退出后关闭&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;当 shell 退出时&lt;/strong&gt;，选择&lt;strong&gt;当 shell 完全退出后关闭&lt;/strong&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;键盘&lt;/td&gt;
-&lt;td&gt;勾选 &lt;strong&gt;将option键当Meta键&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;勾选 &lt;strong&gt;将 option 键当 Meta 键&lt;/strong&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;高级&lt;/td&gt;
@@ -788,7 +1037,7 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;安装和配置-powerlevel10k&#34;&gt;安装和配置 Powerlevel10k&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/romkatv/powerlevel10k&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;powerlevel10k&lt;/a&gt; 是一个Zsh的主题，具体很强的灵活性，并且非常美观。&lt;/p&gt;
+    &gt;powerlevel10k&lt;/a&gt; 是一个 Zsh 的主题，具体很强的灵活性，并且非常美观。&lt;/p&gt;
 &lt;p&gt;首先安装 Powerlevel10k 所推荐的字体 Meslo Nerd Font，可以在命令行终端显示一些特殊符号。下载并安装下列字体：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -800,8 +1049,8 @@
 &lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;MesloLGS NF Bold Italic.ttf&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;然后更改终端的字体，在终端的偏好设置的的描述文件中，选择我们使用的 Pro，设置字体为&lt;code&gt;MesloLGS NF&lt;/code&gt;， 字体大小为 14。&lt;/p&gt;
-&lt;p&gt;由于我们使用的是Oh My Zsh，可以把Powerlevel10k作为一个主题，安装到Oh My Zsh中：&lt;/p&gt;
+&lt;p&gt;然后更改终端的字体，在终端的偏好设置的的描述文件中，选择我们使用的 Pro，设置字体为&lt;code&gt;MesloLGS NF&lt;/code&gt;，字体大小为 14。&lt;/p&gt;
+&lt;p&gt;由于我们使用的是 Oh My Zsh，可以把 Powerlevel10k 作为一个主题，安装到 Oh My Zsh 中：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -811,7 +1060,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;如果遇到网络问题，可以参考上面，设置终端科学上网代理。&lt;/p&gt;
-&lt;p&gt;编辑Oh My Zsh 的配置文件 &lt;strong&gt;~/.zshrc&lt;/strong&gt;，设置主题为Powerlevel10k&lt;/p&gt;
+&lt;p&gt;编辑 Oh My Zsh 的配置文件 &lt;strong&gt;~/.zshrc&lt;/strong&gt;，设置主题为 Powerlevel10k&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -820,7 +1069,7 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;ZSH_THEME&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;powerlevel10k/powerlevel10k&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;重新开启终端，按照提示进行Powerlevel10k的样式配置，完成后，我们漂亮的命令行终端配置就大功告成了。&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;重新开启终端，按照提示进行 Powerlevel10k 的样式配置，完成后，我们漂亮的命令行终端配置就大功告成了。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231529094.png&#34;
 	
 	
@@ -831,7 +1080,7 @@
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;如果你在使用&lt;strong&gt;VSCode&lt;/strong&gt;，需要在配置文件&lt;strong&gt;settings.json&lt;/strong&gt;中设置下面两个配置，你就可以让&lt;strong&gt;VSCode&lt;/strong&gt;的终端同样适配Powerlevel10k。&lt;/p&gt;
+&lt;p&gt;如果你在使用&lt;strong&gt;VSCode&lt;/strong&gt;，需要在配置文件&lt;strong&gt;settings.json&lt;/strong&gt;中设置下面两个配置，你就可以让&lt;strong&gt;VSCode&lt;/strong&gt;的终端同样适配 Powerlevel10k。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -843,7 +1092,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;安装-zsh-autosuggestions-插件&#34;&gt;安装 zsh-autosuggestions 插件&lt;/h2&gt;
-&lt;p&gt;Oh My Zsh在安装完成后，已经自动配置了git插件。为了在命令行终端更快捷的工作，还可以为Oh My Zsh安装&lt;a class=&#34;link&#34; href=&#34;https://github.com/zsh-users/zsh-autosuggestions&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;Oh My Zsh 在安装完成后，已经自动配置了 git 插件。为了在命令行终端更快捷的工作，还可以为 Oh My Zsh 安装&lt;a class=&#34;link&#34; href=&#34;https://github.com/zsh-users/zsh-autosuggestions&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;zsh-autosuggestions&lt;/a&gt; 插件。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/zsh-users/zsh-autosuggestions&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;zsh-autosuggestions&lt;/a&gt; 提供类似于&lt;a class=&#34;link&#34; href=&#34;https://fishshell.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -900,17 +1149,17 @@
 &lt;/div&gt;</description>
         </item>
         <item>
-        <title>macOS的系统建议设置</title>
-        <link>https://mahaoliang.tech/p/macos%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</link>
+        <title>macOS 的系统建议设置</title>
+        <link>https://mahaoliang.tech/p/macos-%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</link>
         <pubDate>Sat, 23 Jul 2022 14:51:18 +0800</pubDate>
         
-        <guid>https://mahaoliang.tech/p/macos%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</guid>
-        <description>&lt;p&gt;拿到一台新的MacBook，总是要经过一些设置才能让它变得顺手好用。这些配置也许对你也有启发和帮助。&lt;/p&gt;
+        <guid>https://mahaoliang.tech/p/macos-%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</guid>
+        <description>&lt;p&gt;拿到一台新的 MacBook，总是要经过一些设置才能让它变得顺手好用。这些配置也许对你也有启发和帮助。&lt;/p&gt;
 &lt;h2 id=&#34;触控板设置&#34;&gt;触控板设置&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;单指轻点代表单击。拿到MacBook第一个要设置的，对它轻柔一些，单击毫不费力&lt;/li&gt;
+&lt;li&gt;单指轻点代表单击。拿到 MacBook 第一个要设置的，对它轻柔一些，单击毫不费力&lt;/li&gt;
 &lt;li&gt;四指左右轻扫，桌面间切换&lt;/li&gt;
-&lt;li&gt;四指向上，进入调度中心。“调度中心”提供了一个鸟瞰图，平铺了所有应用的窗口、桌面空间，可以轻松地在它们之间切换。 点击右上角“+”号可以创建新桌面。&lt;/li&gt;
+&lt;li&gt;四指向上，进入调度中心。“调度中心”提供了一个鸟瞰图，平铺了所有应用的窗口、桌面空间，可以轻松地在它们之间切换。点击右上角“+”号可以创建新桌面。&lt;/li&gt;
 &lt;li&gt;四指向下，App Expose，查看正在使用的 App 的所有窗口。&lt;/li&gt;
 &lt;li&gt;设置三指拖移：苹果菜单  &amp;gt; “系统偏好设置” &amp;gt; “辅助功能” &amp;gt; “指针控制” &amp;gt; “触控板选项” &amp;gt; “启用拖移”，然后从菜单中选取“三指拖移”。&lt;/li&gt;
 &lt;/ul&gt;
@@ -977,13 +1226,13 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;移除Dock上大部分可以用Spotlight唤出的应用。&lt;/p&gt;
+&lt;p&gt;移除 Dock 上大部分可以用 Spotlight 唤出的应用。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;设置Dock自动隐藏，扩大桌面可用区域。&lt;/p&gt;
+&lt;p&gt;设置 Dock 自动隐藏，扩大桌面可用区域。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;F1~F12&lt;/strong&gt; 保持缺省设置，作为特殊功能键。如果需要使用F1~F12的标准功能，需要配合&lt;strong&gt;fn&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;F1~F12&lt;/strong&gt; 保持缺省设置，作为特殊功能键。如果需要使用 F1~F12 的标准功能，需要配合&lt;strong&gt;fn&lt;/strong&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;关闭英文自动补全。系统偏好设置 &amp;gt; 键盘 &amp;gt; 文本 &amp;gt; 取消自动纠正拼写。&lt;/p&gt;
@@ -998,7 +1247,7 @@
 &lt;p&gt;Spotlight 可以用快捷键呼出，不用在菜单栏显示。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;时间可以用24小时制，缩短占用的菜单栏。&lt;/p&gt;
+&lt;p&gt;时间可以用 24 小时制，缩短占用的菜单栏。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;按住 Cmd 键，可以用指针拖动菜单栏图标，按你喜欢的顺序排列。&lt;/p&gt;
@@ -1012,10 +1261,10 @@
 &lt;li&gt;显示路径栏&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;网络设置&#34;&gt;网络设置&lt;/h2&gt;
-&lt;p&gt;为系统设置DNS，选择可靠DNS服务：&lt;/p&gt;
+&lt;p&gt;为系统设置 DNS，选择可靠 DNS 服务：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;阿里云 DNS &lt;code&gt;223.5.5.5&lt;/code&gt; 和 &lt;code&gt;223.5.5.5&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;腾讯云DNS &lt;code&gt;119.29.29.29&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;腾讯云 DNS &lt;code&gt;119.29.29.29&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>

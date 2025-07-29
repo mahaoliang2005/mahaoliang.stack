@@ -14,7 +14,7 @@
         <guid>https://mahaoliang.tech/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/</guid>
         <description>&lt;h2 id=&#34;视频逐帧提取&#34;&gt;视频逐帧提取&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;运用脚本来完成手动工作，即n秒一次截屏&lt;/li&gt;
+&lt;li&gt;运用脚本来完成手动工作，即 n 秒一次截屏&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -54,15 +54,15 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;这里的第三个delay是来控制截屏间隙的，&lt;code&gt;delay 0.5&lt;/code&gt;就是0.5秒截一次屏。&lt;/p&gt;
+&lt;p&gt;这里的第三个 delay 是来控制截屏间隙的，&lt;code&gt;delay 0.5&lt;/code&gt;就是 0.5 秒截一次屏。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;这个脚本只试用于Mac电脑，因为command+s是Mac上的快捷键。&lt;/p&gt;
+&lt;p&gt;这个脚本只试用于 Mac 电脑，因为 command+s 是 Mac 上的快捷键。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;png转svg再转png&#34;&gt;png转svg，再转png&lt;/h2&gt;
+&lt;h2 id=&#34;png-转-svg再转-png&#34;&gt;png 转 svg，再转 png&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;svg就是字符矢量图，但是它不能导入视频软件来制作视频，所以还要再转回png。&lt;/li&gt;
+&lt;li&gt;svg 就是字符矢量图，但是它不能导入视频软件来制作视频，所以还要再转回 png。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;ol&gt;
 &lt;li&gt;copy pics to tencent server&lt;/li&gt;
@@ -105,7 +105,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;因为有很多张图片，所以写了一个脚本run.sh，就是将png-&amp;gt;svg-&amp;gt;png的动作重复，命令如下：&lt;/li&gt;
+&lt;li&gt;因为有很多张图片，所以写了一个脚本 run.sh，就是将 png-&amp;gt;svg-&amp;gt;png 的动作重复，命令如下：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -187,7 +187,7 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id=&#34;动画制作&#34;&gt;动画制作&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;我用的是苹果的final cut pro，试用期是90天，假如到期了话就可以输入一下代码，重置时限：&lt;/li&gt;
+&lt;li&gt;我用的是苹果的 final cut pro，试用期是 90 天，假如到期了话就可以输入一下代码，重置时限：&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -217,7 +217,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;结尾&#34;&gt;结尾&lt;/h2&gt;
-&lt;p&gt;最后送大家一个GIF&lt;/p&gt;
+&lt;p&gt;最后送大家一个 GIF&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202309082257419.gif&#34;
 	
 	

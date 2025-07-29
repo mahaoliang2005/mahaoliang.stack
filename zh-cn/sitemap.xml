@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -28,17 +28,23 @@
                 href="https://mahaoliang.tech/categories/"
                 />
   </url><url>
+    <loc>https://mahaoliang.tech/tags/git/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/linux/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/macos/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+  </url><url>
     <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/tags/python/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+    <loc>https://mahaoliang.tech/tags/ssh/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -51,6 +57,15 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/tech/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</loc>
+    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/python/</loc>
+    <lastmod>2025-07-25T19:54:51+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
     <lastmod>2025-07-25T19:54:51+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</loc>
@@ -67,12 +82,6 @@
   </url><url>
     <loc>https://mahaoliang.tech/p/%E4%B8%80%E6%96%87%E5%BD%BB%E5%BA%95%E6%90%9E%E6%87%82-python-%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86%E7%A5%9E%E5%99%A8-conda/</loc>
     <lastmod>2025-07-15T17:24:32+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/linux/</loc>
-    <lastmod>2025-07-09T11:41:57+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/macos/</loc>
-    <lastmod>2025-07-09T11:41:57+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/vmware/</loc>
     <lastmod>2025-07-09T11:41:57+08:00</lastmod>
@@ -95,10 +104,10 @@
     <loc>https://mahaoliang.tech/tags/ai/</loc>
     <lastmod>2025-05-05T10:38:49+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025%E5%B9%B45%E6%9C%88%E7%89%88/</loc>
+    <loc>https://mahaoliang.tech/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025-%E5%B9%B4-5-%E6%9C%88%E7%89%88/</loc>
     <lastmod>2025-05-05T10:38:49+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/zsh%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</loc>
+    <loc>https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2025-01-05T21:06:07+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/p/%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%88%97%E8%A1%A8/</loc>
@@ -152,7 +161,7 @@
     <loc>https://mahaoliang.tech/tags/markdown/</loc>
     <lastmod>2023-09-03T19:58:18+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/markdown%E8%AF%AD%E6%B3%95/</loc>
+    <loc>https://mahaoliang.tech/p/markdown-%E8%AF%AD%E6%B3%95/</loc>
     <lastmod>2023-09-03T19:58:18+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/game/</loc>
@@ -170,7 +179,7 @@
     <loc>https://mahaoliang.tech/tags/military-training/</loc>
     <lastmod>2023-09-01T19:23:19+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/uic%E7%9A%84%E5%86%9B%E8%AE%AD%E6%97%A5%E8%AE%B0/</loc>
+    <loc>https://mahaoliang.tech/p/uic-%E7%9A%84%E5%86%9B%E8%AE%AD%E6%97%A5%E8%AE%B0/</loc>
     <lastmod>2023-09-01T19:23:19+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/article/</loc>
@@ -194,10 +203,10 @@
     <loc>https://mahaoliang.tech/tags/java/</loc>
     <lastmod>2023-06-24T18:08:17+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/sdkman%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <loc>https://mahaoliang.tech/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2023-06-24T18:08:17+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/1password%E5%9C%A8macos%E5%92%8Cios%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
+    <loc>https://mahaoliang.tech/p/1password-%E5%9C%A8-macos-%E5%92%8C-ios-%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2022-09-29T22:06:18+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/page/</loc>
@@ -209,7 +218,7 @@
     <loc>https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/</loc>
     <lastmod>2022-07-23T15:26:12+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/p/macos%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</loc>
+    <loc>https://mahaoliang.tech/p/macos-%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</loc>
     <lastmod>2022-07-23T14:51:18+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/archives/</loc>
