@@ -148,7 +148,27 @@
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -l
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;如果 Agent Forwarding 正常工作，这里显示的输出应该和你&lt;strong&gt;本地电脑&lt;/strong&gt;的输出&lt;strong&gt;完全一样&lt;/strong&gt;！如果提示 &amp;ldquo;The agent has no identities.&amp;quot;，请返回第二步检查配置。&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;如果 Agent Forwarding 正常工作，这里显示的输出应该和你&lt;strong&gt;本地电脑&lt;/strong&gt;的输出&lt;strong&gt;完全一样&lt;/strong&gt;！&lt;/p&gt;
+&lt;p&gt;如果提示“Could not open a connection to your authentication agent.”，请检查 SSH 服务配置，确保 &lt;code&gt;AllowAgentForwarding yes&lt;/code&gt; 已启用。&lt;/p&gt;
+&lt;p&gt;使用 vim 打开 &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt; 文件，找到 &lt;code&gt;AllowAgentForwarding&lt;/code&gt; 配置项，设置为 &lt;code&gt;yes&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AllowAgentForwarding yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存后重启 SSH 服务使配置生效：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;systemctl restart sshd
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;再次连接你的远程服务器，执行 &lt;code&gt;ssh-add -l&lt;/code&gt;，确认 Agent Forwarding 正常工作。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;获取用于签名的公钥&lt;/strong&gt;&lt;/p&gt;

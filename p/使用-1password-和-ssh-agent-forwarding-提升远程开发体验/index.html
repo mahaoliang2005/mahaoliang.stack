@@ -592,7 +592,27 @@
 <pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -l
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>如果 Agent Forwarding 正常工作，这里显示的输出应该和你<strong>本地电脑</strong>的输出<strong>完全一样</strong>！如果提示 &ldquo;The agent has no identities.&quot;，请返回第二步检查配置。</p>
+</div><p>如果 Agent Forwarding 正常工作，这里显示的输出应该和你<strong>本地电脑</strong>的输出<strong>完全一样</strong>！</p>
+<p>如果提示“Could not open a connection to your authentication agent.”，请检查 SSH 服务配置，确保 <code>AllowAgentForwarding yes</code> 已启用。</p>
+<p>使用 vim 打开 <code>/etc/ssh/sshd_config</code> 文件，找到 <code>AllowAgentForwarding</code> 配置项，设置为 <code>yes</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">AllowAgentForwarding yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存后重启 SSH 服务使配置生效：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl restart sshd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再次连接你的远程服务器，执行 <code>ssh-add -l</code>，确认 Agent Forwarding 正常工作。</p>
 </li>
 <li>
 <p><strong>获取用于签名的公钥</strong></p>
