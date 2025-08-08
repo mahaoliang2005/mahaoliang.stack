@@ -3,6 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/en/categories/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -14,7 +15,60 @@
                 href="https://mahaoliang.tech/en/categories/"
                 />
   </url><url>
+    <loc>https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/tags/git/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/git/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/git/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/tags/linux/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/linux/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/linux/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/tags/macos/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/macos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/macos/"
+                />
+  </url><url>
     <loc>https://mahaoliang.tech/en/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -26,7 +80,34 @@
                 href="https://mahaoliang.tech/en/"
                 />
   </url><url>
+    <loc>https://mahaoliang.tech/en/post/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/post/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/tags/ssh/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/ssh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/ssh/"
+                />
+  </url><url>
     <loc>https://mahaoliang.tech/en/tags/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
@@ -36,6 +117,19 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://mahaoliang.tech/en/tags/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/categories/tech/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/categories/tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/categories/tech/"
                 />
   </url>
 </urlset>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
+We want to:
+Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.'>
+<title>Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding'>
+<meta property='og:description' content='As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
+We want to:
+Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.'>
+<meta property='og:url' content='https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='ssh' /><meta property='article:tag' content='git' /><meta property='article:published_time' content='2025-08-05T21:05:21&#43;08:00'/><meta property='article:modified_time' content='2025-08-05T21:05:21&#43;08:00'/>
+<meta name="twitter:title" content="Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding">
+<meta name="twitter:description" content="As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
+We want to:
+Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/en/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/en">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:me@mahaoliang.tech'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://t.me/TTBJDTJZJ'
+                        target="_blank"
+                        title="telegram"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-telegram" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.youtube.com/@Noah_Johnson988'
+                        target="_blank"
+                        title="Youtube"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 24.402344 9 C 17.800781 9 11.601563 9.5 8.300781 10.199219 C 6.101563 10.699219 4.199219 12.199219 3.800781 14.5 C 3.402344 16.898438 3 20.5 3 25 C 3 29.5 3.398438 33 3.898438 35.5 C 4.300781 37.699219 6.199219 39.300781 8.398438 39.800781 C 11.902344 40.5 17.898438 41 24.5 41 C 31.101563 41 37.097656 40.5 40.597656 39.800781 C 42.800781 39.300781 44.699219 37.800781 45.097656 35.5 C 45.5 33 46 29.402344 46.097656 24.902344 C 46.097656 20.402344 45.597656 16.800781 45.097656 14.300781 C 44.699219 12.101563 42.800781 10.5 40.597656 10 C 37.097656 9.5 31 9 24.402344 9 Z M 24.402344 11 C 31.601563 11 37.398438 11.597656 40.199219 12.097656 C 41.699219 12.5 42.898438 13.5 43.097656 14.800781 C 43.699219 18 44.097656 21.402344 44.097656 24.902344 C 44 29.199219 43.5 32.699219 43.097656 35.199219 C 42.800781 37.097656 40.800781 37.699219 40.199219 37.902344 C 36.597656 38.601563 30.597656 39.097656 24.597656 39.097656 C 18.597656 39.097656 12.5 38.699219 9 37.902344 C 7.5 37.5 6.300781 36.5 6.101563 35.199219 C 5.300781 32.398438 5 28.699219 5 25 C 5 20.398438 5.402344 17 5.800781 14.902344 C 6.101563 13 8.199219 12.398438 8.699219 12.199219 C 12 11.5 18.101563 11 24.402344 11 Z M 19 17 L 19 33 L 33 25 Z M 21 20.402344 L 29 25 L 21 29.597656 Z"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" >中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" selected>English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#introduction-to-core-concepts">Introduction to Core Concepts</a></li>
+    <li><a href="#our-target-workflow">Our Target Workflow</a></li>
+    <li><a href="#configuration-process">Configuration Process</a>
+      <ol>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1-configure-your-local-machine-to-use-1password-for-ssh">Step 1: Configure Your Local Machine to Use 1Password for SSH</a></li>
+        <li><a href="#step-2-configure-the-connection-to-enable-agent-forwarding">Step 2: Configure the Connection to Enable Agent Forwarding</a></li>
+        <li><a href="#step-3-configure-git-on-the-remote-server">Step 3: Configure Git on the Remote Server</a></li>
+        <li><a href="#all-set-lets-test-it-out">All Set! Let&rsquo;s Test It Out</a></li>
+      </ol>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/en/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/">Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-08-05</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    8 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+        <footer class="article-translations">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+            <div>
+                
+                    <a href="https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/" class="link">中文</a>
+                
+            </div>
+        </footer>
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&rsquo;s Remote-SSH plugin make it feel almost as if we&rsquo;re working on a local machine. However, a common pain point arises: <strong>SSH key management</strong>.</p>
+<p>We want to:</p>
+<ol>
+<li>Use an SSH key to log in to the server and push code to a Git repository (like GitHub).</li>
+<li>Sign every Git commit to verify its origin.</li>
+<li>Most importantly: <strong>avoid copying any files containing private keys to the remote server</strong> to prevent key compromise if the server is breached.</li>
+</ol>
+<p>Fortunately, we can perfectly solve this problem using the 1Password built-in SSH Agent and SSH Agent Forwarding. This article will guide you step-by-step through the configuration to achieve a secure and seamless remote development workflow.</p>
+<h2 id="introduction-to-core-concepts">Introduction to Core Concepts</h2>
+<p>Before we begin, let&rsquo;s briefly understand a few key concepts:</p>
+<ul>
+<li>
+<p><strong>SSH Agent</strong>: Think of it as a temporary key manager. At the beginning of a session, you can load your decrypted private key into the agent. Subsequently, any SSH operation requiring that key will request it from the agent, saving you from repeatedly entering your password. When you close your terminal session, the agent also terminates, and the key is securely cleared.</p>
+</li>
+<li>
+<p><strong>1Password SSH Agent</strong>: 1Password 8 and later include a powerful built-in SSH Agent. It securely stores your SSH private keys in your 1Password vault and interacts with your system through a secure socket file. This means your private keys never exist in plaintext on your disk, and all usage requests must be authorized through 1Password (e.g., via Touch ID or your master password).</p>
+</li>
+<li>
+<p><strong>SSH Agent Forwarding</strong>: This is a very powerful SSH feature. When you SSH from your local computer to a remote server, it can establish a secure channel that &ldquo;forwards&rdquo; requests for key authentication from the remote server back to your <strong>local machine</strong>, to be handled by your local SSH Agent. This way, the remote server itself doesn&rsquo;t need to store any private keys at all.</p>
+</li>
+</ul>
+<h2 id="our-target-workflow">Our Target Workflow</h2>
+<ol>
+<li>On our local machine, 1Password manages our SSH private keys.</li>
+<li>We connect to the remote server via VS Code Remote-SSH or the terminal, with Agent Forwarding enabled.</li>
+<li>On the remote server, when we run <code>git push</code>, the authentication request is forwarded back to the local machine and handled by 1Password.</li>
+<li>On the remote server, when we run <code>git commit</code>, the signing request is also forwarded back to the local machine for authorization by 1Password.</li>
+</ol>
+<h2 id="configuration-process">Configuration Process</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>You have installed the 1Password 8 or newer desktop client.</li>
+<li>Your SSH key is already created and saved in the <code>SSH Keys</code> category in 1Password.</li>
+</ul>
+<h3 id="step-1-configure-your-local-machine-to-use-1password-for-ssh">Step 1: Configure Your Local Machine to Use 1Password for SSH</h3>
+<p>First, we need to tell our local SSH client to hand over all key-related requests to 1Password.</p>
+<ol>
+<li>
+<p><strong>Enable the SSH Agent in 1Password</strong></p>
+<ul>
+<li>Open the 1Password desktop app.</li>
+<li>Go to <code>Settings</code> -&gt; <code>Developer</code>.</li>
+<li>Check the <code>Use SSH agent</code> box.
+<img src="https://cdn.mahaoliang.tech/2024/202507292109013.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ssh agent"
+	
+	
+></li>
+</ul>
+</li>
+<li>
+<p><strong>Configure Your Local SSH Config File (<code>~/.ssh/config</code>)</strong></p>
+<p>According to 1Password&rsquo;s <a class="link" href="https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client"  target="_blank" rel="noopener"
+    >official documentation</a>, we have two ways to tell the SSH client where the agent is: the <code>IdentityAgent</code> directive and the <code>SSH_AUTH_SOCK</code> environment variable. Using <code>IdentityAgent</code> is recommended.</p>
+<p>Edit the <code>~/.ssh/config</code> file on your <strong>local machine</strong> (create it if it doesn&rsquo;t exist). Add the following content to the top of the file:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Tell all SSH connections (*) to use the 1Password Agent</span>
+</span></span><span class="line"><span class="cl">Host *
+</span></span><span class="line"><span class="cl">  IdentityAgent <span class="s2">&#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>Verify the Configuration</strong></p>
+<p>In the terminal on your <strong>local machine</strong>, run the following command:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -l
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If the configuration is successful, it will list the public key fingerprints of all the SSH keys stored in your 1Password. This proves that your local SSH client has successfully connected with 1Password.</p>
+</li>
+</ol>
+<h3 id="step-2-configure-the-connection-to-enable-agent-forwarding">Step 2: Configure the Connection to Enable Agent Forwarding</h3>
+<p>Now, we need to enable the Agent Forwarding feature when connecting to a specific remote server. The best practice is still to modify the <code>~/.ssh/config</code> file.</p>
+<p>Continue editing the <code>~/.ssh/config</code> file on your <strong>local machine</strong> and add a dedicated configuration block for your server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Give your remote server an alias for easy connection</span>
+</span></span><span class="line"><span class="cl">Host my-dev-server
+</span></span><span class="line"><span class="cl">    HostName &lt;your_server_ip_or_domain&gt;
+</span></span><span class="line"><span class="cl">    User your_username
+</span></span><span class="line"><span class="cl">    ForwardAgent yes   <span class="c1"># &lt;-- The key! Enables Agent Forwarding</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Host my-dev-server</code>: This is the shortcut alias you&rsquo;ll use to connect.</li>
+<li><code>HostName</code>: The server&rsquo;s actual IP address or domain name.</li>
+<li><code>User</code>: Your username on the server.</li>
+<li><code>ForwardAgent yes</code>: This is the switch that turns on Agent Forwarding.</li>
+</ul>
+<p>Now, you can connect via <code>ssh my-dev-server</code> or connect directly to <code>my-dev-server</code> in VS Code Remote-SSH, and the forwarding feature will be enabled automatically.</p>
+<h3 id="step-3-configure-git-on-the-remote-server">Step 3: Configure Git on the Remote Server</h3>
+<p>This is the final and most crucial step. We need to tell Git on the remote server how to use our forwarded SSH agent for commit signing.</p>
+<ol>
+<li>
+<p><strong>Connect and Verify Forwarding</strong></p>
+<p>First, connect to your remote server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh my-dev-server
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Once connected, run the verification command again in the terminal on the <strong>remote server</strong>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -l
+</span></span><span class="line"><span class="cl"><span class="sb">```</span>    If Agent Forwarding is working correctly, the output here should be **exactly the same** as the output on your **local machine**!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">If you see the error <span class="s2">&#34;Could not open a connection to your authentication agent.&#34;</span>, check your SSH service configuration to ensure <span class="sb">`</span>AllowAgentForwarding yes<span class="sb">`</span> is enabled.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Open the <span class="sb">`</span>/etc/ssh/sshd_config<span class="sb">`</span> file with an editor like vim and find the <span class="sb">`</span>AllowAgentForwarding<span class="sb">`</span> option, setting it to <span class="sb">`</span>yes<span class="sb">`</span>:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="sb">```</span>bash
+</span></span><span class="line"><span class="cl">AllowAgentForwarding yes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Save the file and restart the SSH service to apply the changes:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl restart sshd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Connect to your remote server again and run <code>ssh-add -l</code> to confirm that Agent Forwarding is working correctly.</p>
+</li>
+<li>
+<p><strong>Get the Public Key for Signing</strong></p>
+<p>Git needs to know which specific key to use for signing. We need to provide the full public key string as an identifier. On the <strong>remote server</strong>, run:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -L
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This command lists the full public keys for all keys in the agent. Copy the line for the key you want to use for signing. It will look something like this:
+<code>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment</code></p>
+</li>
+<li>
+<p><strong>Configure the <code>.gitconfig</code> on the Remote Server</strong></p>
+<p>Now, edit the <code>~/.gitconfig</code> file on your <strong>remote server</strong>. Update your existing configuration as follows:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[user]</span>
+</span></span><span class="line"><span class="cl">    <span class="na">email</span> <span class="o">=</span> <span class="s">your.email@example.com
+</span></span></span><span class="line"><span class="cl"><span class="s">    name = Your Name
+</span></span></span><span class="line"><span class="cl"><span class="s">    # Set the value of signingkey to the full public key string you copied in the previous step
+</span></span></span><span class="line"><span class="cl"><span class="s">    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[gpg]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Tell Git to use the ssh program for signing</span>
+</span></span><span class="line"><span class="cl">    <span class="na">format</span> <span class="o">=</span> <span class="s">ssh</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[commit]</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Make all commits signed by default</span>
+</span></span><span class="line"><span class="cl">    <span class="na">gpgsign</span> <span class="o">=</span> <span class="s">true</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The most important change is <code>signingkey</code>. We are no longer using a file path but providing the public key itself. This allows Git to directly request the forwarded agent to use this specific key for signing.</p>
+</li>
+</ol>
+<h3 id="all-set-lets-test-it-out">All Set! Let&rsquo;s Test It Out</h3>
+<p>Everything is ready! On the remote server, navigate to any of your git projects and try creating a new commit:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git commit --allow-empty -m <span class="s2">&#34;Test: Signed commit with 1Password Agent Forwarding&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>At this moment, something magical happens: an authorization request from 1Password will pop up on your <strong>local machine</strong>, notifying you that an application is requesting to use your SSH key. After you authorize it with Touch ID or your master password, the <code>git commit</code> command on the remote server completes instantly.</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202507292112652.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ssh key"
+	
+	
+></p>
+<p>Finally, check your commit log:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git log --show-signature -1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You will see output similar to the following, where <code>Good signature</code> clearly tells you that this commit has been successfully signed by your key!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">commit &lt;commit_hash&gt; (HEAD -&gt; main)
+</span></span><span class="line"><span class="cl">Good &#34;git&#34; signature for your.email@example.com with ED25519 key SHA256:GKaU0ZCgehQ73X...
+</span></span><span class="line"><span class="cl">Author: Your Name &lt;your.email@example.com&gt;
+</span></span><span class="line"><span class="cl">Date:   ...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    Test: Signed commit with 1Password Agent Forwarding
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
+<p>The diagram below illustrates the core workflow for signing remote Git commits using 1Password and SSH Agent Forwarding.</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202507301201877.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="flow"
+	
+	
+></p>
+<p><strong>Diagram Components</strong></p>
+<ul>
+<li>
+<p><strong>Local Machine (Local)</strong></p>
+<ul>
+<li><strong>Developer</strong>: The initiator of the action.</li>
+<li><strong>1Password SSH Agent</strong>: Securely stores the private key and handles all signing requests.</li>
+<li><strong>SSH Client</strong>: The local SSH program, configured to use the 1Password Agent and enable forwarding.</li>
+</ul>
+</li>
+<li>
+<p><strong>Remote Server (Remote)</strong></p>
+<ul>
+<li><strong>Remote Terminal</strong>: The developer&rsquo;s workspace on the server.</li>
+<li><strong>Git</strong>: The version control tool, configured to use SSH for signing.</li>
+<li><strong>SSH Daemon</strong>: The SSH service on the server, responsible for establishing the secure connection and forwarding requests.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Detailed Interaction Flow</strong></p>
+<ol>
+<li><strong>Initiate Commit</strong>: The developer executes the <code>git commit</code> command in the <strong>Remote Terminal</strong>.</li>
+<li><strong>Request Signature</strong>: Based on its configuration, <strong>Git</strong> requests a signature using an SSH key from the SSH service.</li>
+<li><strong>Forward Request</strong>: The remote server&rsquo;s <strong>SSH Daemon</strong> forwards the signing request through the encrypted SSH tunnel back to the local machine&rsquo;s <strong>SSH Client</strong>. This is the core of Agent Forwarding.</li>
+<li><strong>Request 1Password</strong>: The local <strong>SSH Client</strong> passes the request to the <strong>1Password SSH Agent</strong>.</li>
+<li><strong>Request User Authorization</strong>: <strong>1Password</strong> displays a prompt on the local machine, asking the <strong>Developer</strong> for authorization.</li>
+<li><strong>User Authorizes</strong>: The <strong>Developer</strong> authenticates locally (e.g., with Touch ID or master password).</li>
+<li><strong>Return Signature</strong>: Upon successful authorization, <strong>1Password</strong> generates the signature and returns it to the local <strong>SSH Client</strong>.</li>
+<li><strong>Return Signature to Remote</strong>: The signature is securely transmitted back through the SSH tunnel to the remote server&rsquo;s <strong>SSH Daemon</strong>.</li>
+<li><strong>Complete Commit</strong>: The remote <strong>Git</strong> process receives the valid signature, successfully creates the commit, and displays a success message in the <strong>Remote Terminal</strong>.</li>
+</ol>
+<p>By following the steps above, we have built a remote development workflow that is both secure and convenient. Your private key always remains safely in your local 1Password vault, while all Git operations on the remote server (authentication and signing) can use it seamlessly and securely. This not only enhances security but also greatly simplifies key management in multi-server environments, allowing you to focus more on coding itself.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/en/tags/macos/">Macos</a>
+        
+            <a href="/en/tags/linux/">Linux</a>
+        
+            <a href="/en/tags/ssh/">Ssh</a>
+        
+            <a href="/en/tags/git/">Git</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤 ICP 备 2022085181 号 -2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

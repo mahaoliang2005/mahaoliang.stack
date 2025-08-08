@@ -5,6 +5,15 @@
         <link>https://mahaoliang.tech/en/categories/</link>
         <description>Recent content in Categories on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en</language><atom:link href="https://mahaoliang.tech/en/categories/index.xml" rel="self" type="application/rss+xml" />
+        <language>en</language>
+        <lastBuildDate>Tue, 05 Aug 2025 21:05:21 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/en/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Tech</title>
+        <link>https://mahaoliang.tech/en/categories/tech/</link>
+        <pubDate>Tue, 05 Aug 2025 21:05:21 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/en/categories/tech/</guid>
+        <description></description>
+        </item>
+        
     </channel>
 </rss>

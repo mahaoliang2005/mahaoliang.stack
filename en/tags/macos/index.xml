@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Macos on mahaoliang.tech</title>
+        <link>https://mahaoliang.tech/en/tags/macos/</link>
+        <description>Recent content in Macos on mahaoliang.tech</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Tue, 05 Aug 2025 21:05:21 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/en/tags/macos/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</title>
+        <link>https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/</link>
+        <pubDate>Tue, 05 Aug 2025 21:05:21 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/</guid>
+        <description>&lt;p&gt;As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: &lt;strong&gt;SSH key management&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;We want to:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use an SSH key to log in to the server and push code to a Git repository (like GitHub).&lt;/li&gt;
+&lt;li&gt;Sign every Git commit to verify its origin.&lt;/li&gt;
+&lt;li&gt;Most importantly: &lt;strong&gt;avoid copying any files containing private keys to the remote server&lt;/strong&gt; to prevent key compromise if the server is breached.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Fortunately, we can perfectly solve this problem using the 1Password built-in SSH Agent and SSH Agent Forwarding. This article will guide you step-by-step through the configuration to achieve a secure and seamless remote development workflow.&lt;/p&gt;
+&lt;h2 id=&#34;introduction-to-core-concepts&#34;&gt;Introduction to Core Concepts&lt;/h2&gt;
+&lt;p&gt;Before we begin, let&amp;rsquo;s briefly understand a few key concepts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSH Agent&lt;/strong&gt;: Think of it as a temporary key manager. At the beginning of a session, you can load your decrypted private key into the agent. Subsequently, any SSH operation requiring that key will request it from the agent, saving you from repeatedly entering your password. When you close your terminal session, the agent also terminates, and the key is securely cleared.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;1Password SSH Agent&lt;/strong&gt;: 1Password 8 and later include a powerful built-in SSH Agent. It securely stores your SSH private keys in your 1Password vault and interacts with your system through a secure socket file. This means your private keys never exist in plaintext on your disk, and all usage requests must be authorized through 1Password (e.g., via Touch ID or your master password).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSH Agent Forwarding&lt;/strong&gt;: This is a very powerful SSH feature. When you SSH from your local computer to a remote server, it can establish a secure channel that &amp;ldquo;forwards&amp;rdquo; requests for key authentication from the remote server back to your &lt;strong&gt;local machine&lt;/strong&gt;, to be handled by your local SSH Agent. This way, the remote server itself doesn&amp;rsquo;t need to store any private keys at all.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;our-target-workflow&#34;&gt;Our Target Workflow&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;On our local machine, 1Password manages our SSH private keys.&lt;/li&gt;
+&lt;li&gt;We connect to the remote server via VS Code Remote-SSH or the terminal, with Agent Forwarding enabled.&lt;/li&gt;
+&lt;li&gt;On the remote server, when we run &lt;code&gt;git push&lt;/code&gt;, the authentication request is forwarded back to the local machine and handled by 1Password.&lt;/li&gt;
+&lt;li&gt;On the remote server, when we run &lt;code&gt;git commit&lt;/code&gt;, the signing request is also forwarded back to the local machine for authorization by 1Password.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;configuration-process&#34;&gt;Configuration Process&lt;/h2&gt;
+&lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;You have installed the 1Password 8 or newer desktop client.&lt;/li&gt;
+&lt;li&gt;Your SSH key is already created and saved in the &lt;code&gt;SSH Keys&lt;/code&gt; category in 1Password.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;step-1-configure-your-local-machine-to-use-1password-for-ssh&#34;&gt;Step 1: Configure Your Local Machine to Use 1Password for SSH&lt;/h3&gt;
+&lt;p&gt;First, we need to tell our local SSH client to hand over all key-related requests to 1Password.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Enable the SSH Agent in 1Password&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open the 1Password desktop app.&lt;/li&gt;
+&lt;li&gt;Go to &lt;code&gt;Settings&lt;/code&gt; -&amp;gt; &lt;code&gt;Developer&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Check the &lt;code&gt;Use SSH agent&lt;/code&gt; box.
+&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507292109013.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ssh agent&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Configure Your Local SSH Config File (&lt;code&gt;~/.ssh/config&lt;/code&gt;)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;According to 1Password&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;official documentation&lt;/a&gt;, we have two ways to tell the SSH client where the agent is: the &lt;code&gt;IdentityAgent&lt;/code&gt; directive and the &lt;code&gt;SSH_AUTH_SOCK&lt;/code&gt; environment variable. Using &lt;code&gt;IdentityAgent&lt;/code&gt; is recommended.&lt;/p&gt;
+&lt;p&gt;Edit the &lt;code&gt;~/.ssh/config&lt;/code&gt; file on your &lt;strong&gt;local machine&lt;/strong&gt; (create it if it doesn&amp;rsquo;t exist). Add the following content to the top of the file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Tell all SSH connections (*) to use the 1Password Agent&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host *
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  IdentityAgent &lt;span class=&#34;s2&#34;&gt;&amp;#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Verify the Configuration&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In the terminal on your &lt;strong&gt;local machine&lt;/strong&gt;, run the following command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If the configuration is successful, it will list the public key fingerprints of all the SSH keys stored in your 1Password. This proves that your local SSH client has successfully connected with 1Password.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;step-2-configure-the-connection-to-enable-agent-forwarding&#34;&gt;Step 2: Configure the Connection to Enable Agent Forwarding&lt;/h3&gt;
+&lt;p&gt;Now, we need to enable the Agent Forwarding feature when connecting to a specific remote server. The best practice is still to modify the &lt;code&gt;~/.ssh/config&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;Continue editing the &lt;code&gt;~/.ssh/config&lt;/code&gt; file on your &lt;strong&gt;local machine&lt;/strong&gt; and add a dedicated configuration block for your server:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Give your remote server an alias for easy connection&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host my-dev-server
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    HostName &amp;lt;your_server_ip_or_domain&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    User your_username
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ForwardAgent yes   &lt;span class=&#34;c1&#34;&gt;# &amp;lt;-- The key! Enables Agent Forwarding&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Host my-dev-server&lt;/code&gt;: This is the shortcut alias you&amp;rsquo;ll use to connect.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;HostName&lt;/code&gt;: The server&amp;rsquo;s actual IP address or domain name.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;User&lt;/code&gt;: Your username on the server.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ForwardAgent yes&lt;/code&gt;: This is the switch that turns on Agent Forwarding.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Now, you can connect via &lt;code&gt;ssh my-dev-server&lt;/code&gt; or connect directly to &lt;code&gt;my-dev-server&lt;/code&gt; in VS Code Remote-SSH, and the forwarding feature will be enabled automatically.&lt;/p&gt;
+&lt;h3 id=&#34;step-3-configure-git-on-the-remote-server&#34;&gt;Step 3: Configure Git on the Remote Server&lt;/h3&gt;
+&lt;p&gt;This is the final and most crucial step. We need to tell Git on the remote server how to use our forwarded SSH agent for commit signing.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Connect and Verify Forwarding&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;First, connect to your remote server:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh my-dev-server
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Once connected, run the verification command again in the terminal on the &lt;strong&gt;remote server&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -l
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt;    If Agent Forwarding is working correctly, the output here should be **exactly the same** as the output on your **local machine**!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;If you see the error &lt;span class=&#34;s2&#34;&gt;&amp;#34;Could not open a connection to your authentication agent.&amp;#34;&lt;/span&gt;, check your SSH service configuration to ensure &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;AllowAgentForwarding yes&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt; is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Open the &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;/etc/ssh/sshd_config&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt; file with an editor like vim and find the &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;AllowAgentForwarding&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt; option, setting it to &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;yes&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;sb&#34;&gt;```&lt;/span&gt;bash
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;AllowAgentForwarding yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Save the file and restart the SSH service to apply the changes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;systemctl restart sshd
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Connect to your remote server again and run &lt;code&gt;ssh-add -l&lt;/code&gt; to confirm that Agent Forwarding is working correctly.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Get the Public Key for Signing&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Git needs to know which specific key to use for signing. We need to provide the full public key string as an identifier. On the &lt;strong&gt;remote server&lt;/strong&gt;, run:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -L
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This command lists the full public keys for all keys in the agent. Copy the line for the key you want to use for signing. It will look something like this:
+&lt;code&gt;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Configure the &lt;code&gt;.gitconfig&lt;/code&gt; on the Remote Server&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Now, edit the &lt;code&gt;~/.gitconfig&lt;/code&gt; file on your &lt;strong&gt;remote server&lt;/strong&gt;. Update your existing configuration as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[user]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;email&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;your.email@example.com
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    name = Your Name
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    # Set the value of signingkey to the full public key string you copied in the previous step
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;s&#34;&gt;    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[gpg]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# Tell Git to use the ssh program for signing&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;format&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;[commit]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;c1&#34;&gt;# Make all commits signed by default&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;na&#34;&gt;gpgsign&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;The most important change is &lt;code&gt;signingkey&lt;/code&gt;. We are no longer using a file path but providing the public key itself. This allows Git to directly request the forwarded agent to use this specific key for signing.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;all-set-lets-test-it-out&#34;&gt;All Set! Let&amp;rsquo;s Test It Out&lt;/h3&gt;
+&lt;p&gt;Everything is ready! On the remote server, navigate to any of your git projects and try creating a new commit:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git commit --allow-empty -m &lt;span class=&#34;s2&#34;&gt;&amp;#34;Test: Signed commit with 1Password Agent Forwarding&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;At this moment, something magical happens: an authorization request from 1Password will pop up on your &lt;strong&gt;local machine&lt;/strong&gt;, notifying you that an application is requesting to use your SSH key. After you authorize it with Touch ID or your master password, the &lt;code&gt;git commit&lt;/code&gt; command on the remote server completes instantly.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507292112652.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;ssh key&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Finally, check your commit log:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git log --show-signature -1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;You will see output similar to the following, where &lt;code&gt;Good signature&lt;/code&gt; clearly tells you that this commit has been successfully signed by your key!&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;commit &amp;lt;commit_hash&amp;gt; (HEAD -&amp;gt; main)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Good &amp;#34;git&amp;#34; signature for your.email@example.com with ED25519 key SHA256:GKaU0ZCgehQ73X...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Author: Your Name &amp;lt;your.email@example.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Date:   ...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    Test: Signed commit with 1Password Agent Forwarding
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;The diagram below illustrates the core workflow for signing remote Git commits using 1Password and SSH Agent Forwarding.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202507301201877.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;flow&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Diagram Components&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local Machine (Local)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Developer&lt;/strong&gt;: The initiator of the action.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1Password SSH Agent&lt;/strong&gt;: Securely stores the private key and handles all signing requests.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSH Client&lt;/strong&gt;: The local SSH program, configured to use the 1Password Agent and enable forwarding.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Remote Server (Remote)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Remote Terminal&lt;/strong&gt;: The developer&amp;rsquo;s workspace on the server.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Git&lt;/strong&gt;: The version control tool, configured to use SSH for signing.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSH Daemon&lt;/strong&gt;: The SSH service on the server, responsible for establishing the secure connection and forwarding requests.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Detailed Interaction Flow&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Initiate Commit&lt;/strong&gt;: The developer executes the &lt;code&gt;git commit&lt;/code&gt; command in the &lt;strong&gt;Remote Terminal&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Request Signature&lt;/strong&gt;: Based on its configuration, &lt;strong&gt;Git&lt;/strong&gt; requests a signature using an SSH key from the SSH service.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Forward Request&lt;/strong&gt;: The remote server&amp;rsquo;s &lt;strong&gt;SSH Daemon&lt;/strong&gt; forwards the signing request through the encrypted SSH tunnel back to the local machine&amp;rsquo;s &lt;strong&gt;SSH Client&lt;/strong&gt;. This is the core of Agent Forwarding.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Request 1Password&lt;/strong&gt;: The local &lt;strong&gt;SSH Client&lt;/strong&gt; passes the request to the &lt;strong&gt;1Password SSH Agent&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Request User Authorization&lt;/strong&gt;: &lt;strong&gt;1Password&lt;/strong&gt; displays a prompt on the local machine, asking the &lt;strong&gt;Developer&lt;/strong&gt; for authorization.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;User Authorizes&lt;/strong&gt;: The &lt;strong&gt;Developer&lt;/strong&gt; authenticates locally (e.g., with Touch ID or master password).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Return Signature&lt;/strong&gt;: Upon successful authorization, &lt;strong&gt;1Password&lt;/strong&gt; generates the signature and returns it to the local &lt;strong&gt;SSH Client&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Return Signature to Remote&lt;/strong&gt;: The signature is securely transmitted back through the SSH tunnel to the remote server&amp;rsquo;s &lt;strong&gt;SSH Daemon&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Complete Commit&lt;/strong&gt;: The remote &lt;strong&gt;Git&lt;/strong&gt; process receives the valid signature, successfully creates the commit, and displays a success message in the &lt;strong&gt;Remote Terminal&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;By following the steps above, we have built a remote development workflow that is both secure and convenient. Your private key always remains safely in your local 1Password vault, while all Git operations on the remote server (authentication and signing) can use it seamlessly and securely. This not only enhances security but also greatly simplifies key management in multi-server environments, allowing you to focus more on coding itself.&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

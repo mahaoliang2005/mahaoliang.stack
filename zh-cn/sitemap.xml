@@ -30,18 +30,68 @@
   </url><url>
     <loc>https://mahaoliang.tech/tags/git/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/git/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/git/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/linux/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/linux/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/linux/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/macos/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/macos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/macos/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/post/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/post/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/ssh/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/ssh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/ssh/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
@@ -58,9 +108,29 @@
   </url><url>
     <loc>https://mahaoliang.tech/categories/tech/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/categories/tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/categories/tech/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/python/</loc>
     <lastmod>2025-07-25T19:54:51+08:00</lastmod>
