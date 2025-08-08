@@ -2,6 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://mahaoliang.tech/en/</loc>
+    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/"
+                />
+  </url><url>
     <loc>https://mahaoliang.tech/en/categories/</loc>
     <lastmod>2025-08-05T21:05:21+08:00</lastmod>
     <xhtml:link
@@ -65,19 +78,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://mahaoliang.tech/en/tags/macos/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/en/</loc>
-    <lastmod>2025-08-05T21:05:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/"
                 />
   </url><url>
     <loc>https://mahaoliang.tech/en/post/</loc>
@@ -169,6 +169,18 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://mahaoliang.tech/en/archives/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/links/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/links/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/links/"
                 />
   </url><url>
     <loc>https://mahaoliang.tech/en/search/</loc>

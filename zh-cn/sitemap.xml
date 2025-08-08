@@ -325,6 +325,16 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/links/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/links/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/links/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/search/</loc>
     <xhtml:link
