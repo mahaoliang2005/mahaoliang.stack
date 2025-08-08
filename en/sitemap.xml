@@ -131,5 +131,56 @@
                 hreflang="en"
                 href="https://mahaoliang.tech/en/categories/tech/"
                 />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/about/</loc>
+    <lastmod>2022-09-01T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/%E5%85%B3%E4%BA%8E/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/about/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/page/</loc>
+    <lastmod>2022-09-01T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/page/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/page/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/archives/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/archives/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/archives/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/en/search/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/search/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/search/"
+                />
   </url>
 </urlset>

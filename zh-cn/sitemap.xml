@@ -281,9 +281,29 @@
   </url><url>
     <loc>https://mahaoliang.tech/page/</loc>
     <lastmod>2023-09-01T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/page/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/page/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/%E5%85%B3%E4%BA%8E/</loc>
     <lastmod>2023-09-01T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/%E5%85%B3%E4%BA%8E/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/</loc>
     <lastmod>2022-07-23T15:26:12+08:00</lastmod>
@@ -293,9 +313,29 @@
   </url><url>
     <loc>https://mahaoliang.tech/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/archives/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/archives/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/links/</loc>
   </url><url>
     <loc>https://mahaoliang.tech/search/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/search/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/search/"
+                />
   </url>
 </urlset>
