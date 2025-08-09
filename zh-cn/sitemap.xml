@@ -310,6 +310,16 @@
   </url><url>
     <loc>https://mahaoliang.tech/p/macos-%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/</loc>
     <lastmod>2022-07-23T14:51:18+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/p/recommended-system-settings-for-macos/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/p/macos-%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%BB%BA%E8%AE%AE%E8%AE%BE%E7%BD%AE/"
+                />
   </url><url>
     <loc>https://mahaoliang.tech/archives/</loc>
     <lastmod>2019-05-28T00:00:00+00:00</lastmod>

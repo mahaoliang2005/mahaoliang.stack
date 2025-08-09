@@ -342,6 +342,126 @@
 </description>
         </item>
         <item>
+        <title>Recommended System Settings for macOS</title>
+        <link>https://mahaoliang.tech/en/p/recommended-system-settings-for-macos/</link>
+        <pubDate>Sat, 23 Jul 2022 14:51:18 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/en/p/recommended-system-settings-for-macos/</guid>
+        <description>&lt;p&gt;When you get a new MacBook, you always have to go through some settings to make it comfortable to use. These configurations might be enlightening and helpful for you as well.&lt;/p&gt;
+&lt;h2 id=&#34;trackpad-settings&#34;&gt;Trackpad Settings&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tap with one finger to click.&lt;/strong&gt; This is the first thing to set up on a new MacBook. Be gentle with it, and clicking will be effortless.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swipe left or right with four fingers&lt;/strong&gt; to switch between desktops.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swipe up with four fingers&lt;/strong&gt; to enter Mission Control. Mission Control provides a bird&amp;rsquo;s-eye view, tiling all your app windows and desktop spaces, allowing you to switch between them easily. Click the &amp;ldquo;+&amp;rdquo; in the top-right corner to create a new desktop.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swipe down with four fingers&lt;/strong&gt; for App Exposé to see all the windows of the app you&amp;rsquo;re currently using.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Set up three-finger drag:&lt;/strong&gt; Apple menu  &amp;gt; System Preferences &amp;gt; Accessibility &amp;gt; Pointer Control &amp;gt; Trackpad Options &amp;gt; Enable dragging, and then choose &amp;ldquo;three-finger drag&amp;rdquo; from the menu.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;dictionary-configuration&#34;&gt;Dictionary Configuration&lt;/h2&gt;
+&lt;p&gt;In the trackpad settings, check the box for &amp;ldquo;Look up &amp;amp; data detectors&amp;rdquo; to trigger it with a three-finger tap.&lt;/p&gt;
+&lt;p&gt;In the Dictionary app&amp;rsquo;s preferences, besides the default selected dictionaries, it is recommended to also check an English-English dictionary. Explaining English words in English, much like how we look up words in a Chinese dictionary, is a more authentic way to learn the language.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231537712.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;In any application, you can trigger the dictionary with a &amp;ldquo;three-finger tap.&amp;rdquo; Because it&amp;rsquo;s natively supported by the system, the experience is silky smooth.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207042115889.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;The native dictionary is convenient and easy to use, but it lacks a vocabulary book feature. There is a method online to &lt;a class=&#34;link&#34; href=&#34;https://hectorguo.com/zh/save-words-in-dictionary/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;generate a vocabulary book using &amp;ldquo;Automator&amp;rdquo;&lt;/a&gt;, which you can try.&lt;/p&gt;
+&lt;h2 id=&#34;system-preferences&#34;&gt;System Preferences&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Scroll Bar Settings&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231457250.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Always show scroll bars&lt;/li&gt;
+&lt;li&gt;Jump to the spot that&amp;rsquo;s clicked&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Hot Corners Settings&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bottom-right corner: Show Desktop&lt;/li&gt;
+&lt;li&gt;Top-left corner: Start Screen Saver. In Security &amp;amp; Privacy, set it to &amp;ldquo;Require password immediately after sleep or screen saver begins.&amp;rdquo; This way, it acts as both a screen saver and a screen lock.
+&lt;img src=&#34;https://cdn.mahaoliang.tech/images/202207231515471.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Remove most apps from the Dock that can be launched with Spotlight.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set the Dock to hide automatically to expand the available desktop area.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;F1~F12&lt;/strong&gt; keys should keep their default settings as special function keys. If you need to use the standard F1~F12 functions, you&amp;rsquo;ll need to press them in combination with the &lt;strong&gt;fn&lt;/strong&gt; key.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Turn off automatic English completion. System Preferences &amp;gt; Keyboard &amp;gt; Text &amp;gt; Uncheck &amp;ldquo;Correct spelling automatically.&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;control-center-settings&#34;&gt;Control Center Settings&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;To save space in the menu bar, you can have items that you don&amp;rsquo;t use often, like Bluetooth and AirDrop, show only in the Control Center and not in the menu bar.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spotlight can be called up with a keyboard shortcut, so it doesn&amp;rsquo;t need to be displayed in the menu bar.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The time can be set to a 24-hour format to shorten the space it occupies in the menu bar.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Hold down the &lt;code&gt;Cmd&lt;/code&gt; key and you can drag the menu bar icons with your pointer to arrange them in your preferred order.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;finder-settings&#34;&gt;Finder Settings&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;Favorites&amp;rdquo; in Finder can be customized in its preferences. You can drag frequently used folders into your Favorites.&lt;/li&gt;
+&lt;li&gt;Of the four display modes in Finder, I personally prefer the column view.&lt;/li&gt;
+&lt;li&gt;You can customize the Finder toolbar.&lt;/li&gt;
+&lt;li&gt;Show the path bar.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;network-settings&#34;&gt;Network Settings&lt;/h2&gt;
+&lt;p&gt;Set up a DNS for your system. Choose a reliable DNS service:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Aliyun DNS &lt;code&gt;223.5.5.5&lt;/code&gt; and &lt;code&gt;223.6.6.6&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Tencent Cloud DNS &lt;code&gt;119.29.29.29&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
         <title>Archives</title>
         <link>https://mahaoliang.tech/en/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
