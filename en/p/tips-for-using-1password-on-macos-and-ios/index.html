@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
-We want to:
-Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.'>
-<title>Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='The biggest advantage of 1Password is its cross-platform capability. It provides perfect support across Apple&amp;rsquo;s iOS and macOS, Google&amp;rsquo;s Android, Microsoft&amp;rsquo;s Windows, and Linux. This allows you to use Safari on macOS, Edge on Windows, and Chrome on Android, all with seamless password management support. This is something Apple&amp;rsquo;s native password manager cannot offer.
+To learn how to use 1Password effectively, the official Get started with 1Password guide is the best learning material.'>
+<title>Tips for Using 1Password on macOS and iOS</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/'>
+<link rel='canonical' href='https://mahaoliang.tech/en/p/tips-for-using-1password-on-macos-and-ios/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding'>
-<meta property='og:description' content='As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
-We want to:
-Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.'>
-<meta property='og:url' content='https://mahaoliang.tech/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Tips for Using 1Password on macOS and iOS'>
+<meta property='og:description' content='The biggest advantage of 1Password is its cross-platform capability. It provides perfect support across Apple&amp;rsquo;s iOS and macOS, Google&amp;rsquo;s Android, Microsoft&amp;rsquo;s Windows, and Linux. This allows you to use Safari on macOS, Edge on Windows, and Chrome on Android, all with seamless password management support. This is something Apple&amp;rsquo;s native password manager cannot offer.
+To learn how to use 1Password effectively, the official Get started with 1Password guide is the best learning material.'>
+<meta property='og:url' content='https://mahaoliang.tech/en/p/tips-for-using-1password-on-macos-and-ios/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='ssh' /><meta property='article:tag' content='git' /><meta property='article:published_time' content='2025-08-05T21:05:21&#43;08:00'/><meta property='article:modified_time' content='2025-08-05T21:05:21&#43;08:00'/>
-<meta name="twitter:title" content="Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding">
-<meta name="twitter:description" content="As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&amp;rsquo;s Remote-SSH plugin make it feel almost as if we&amp;rsquo;re working on a local machine. However, a common pain point arises: SSH key management.
-We want to:
-Use an SSH key to log in to the server and push code to a Git repository (like GitHub). Sign every Git commit to verify its origin.">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:published_time' content='2022-09-29T22:06:18&#43;08:00'/><meta property='article:modified_time' content='2022-09-29T22:06:18&#43;08:00'/>
+<meta name="twitter:title" content="Tips for Using 1Password on macOS and iOS">
+<meta name="twitter:description" content="The biggest advantage of 1Password is its cross-platform capability. It provides perfect support across Apple&amp;rsquo;s iOS and macOS, Google&amp;rsquo;s Android, Microsoft&amp;rsquo;s Windows, and Linux. This allows you to use Safari on macOS, Edge on Windows, and Chrome on Android, all with seamless password management support. This is something Apple&amp;rsquo;s native password manager cannot offer.
+To learn how to use 1Password effectively, the official Get started with 1Password guide is the best learning material.">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -371,18 +368,21 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#introduction-to-core-concepts">Introduction to Core Concepts</a></li>
-    <li><a href="#our-target-workflow">Our Target Workflow</a></li>
-    <li><a href="#configuration-process">Configuration Process</a>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#turn-off-the-built-in-password-manager">Turn off the built-in password manager</a></li>
+    <li><a href="#app-support-on-ios">App Support on iOS</a></li>
+    <li><a href="#universal-autofill">Universal Autofill</a></li>
+    <li><a href="#two-factor-authentication">Two-Factor Authentication</a></li>
+    <li><a href="#manage-ssh-keys">Manage SSH Keys</a>
       <ol>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#step-1-configure-your-local-machine-to-use-1password-for-ssh">Step 1: Configure Your Local Machine to Use 1Password for SSH</a></li>
-        <li><a href="#step-2-configure-the-connection-to-enable-agent-forwarding">Step 2: Configure the Connection to Enable Agent Forwarding</a></li>
-        <li><a href="#step-3-configure-git-on-the-remote-server">Step 3: Configure Git on the Remote Server</a></li>
-        <li><a href="#all-set-lets-test-it-out">All Set! Let&rsquo;s Test It Out</a></li>
+        <li><a href="#generate-or-import-ssh-keys">Generate or import SSH keys</a></li>
+        <li><a href="#enable-the-1password-ssh-agent">Enable the 1Password SSH Agent</a></li>
+        <li><a href="#configure-the-ssh-client">Configure the SSH client</a></li>
+        <li><a href="#publish-the-ssh-public-key">Publish the SSH public key</a></li>
+        <li><a href="#manage-github-signing-key">Manage Github Signing Key</a></li>
       </ol>
     </li>
-    <li><a href="#summary">Summary</a></li>
+    <li><a href="#sign-in-with-anything">“Sign in with” anything</a></li>
   </ol>
 </nav>
         </div>
@@ -410,7 +410,7 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/">Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</a>
+            <a href="/en/p/tips-for-using-1password-on-macos-and-ios/">Tips for Using 1Password on macOS and iOS</a>
         </h2>
     
         
@@ -432,7 +432,7 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2025-08-05</time>
+                <time class="article-time--published">2022-09-29</time>
             </div>
         
 
@@ -447,7 +447,7 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
 
 
                 <time class="article-time--reading">
-                    8 minute read
+                    6 minute read
                 </time>
             </div>
         
@@ -469,7 +469,7 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
 
             <div>
                 
-                    <a href="https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/" class="link">中文</a>
+                    <a href="https://mahaoliang.tech/p/1password-%E5%9C%A8-macos-%E5%92%8C-ios-%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" class="link">中文</a>
                 
             </div>
         </footer>
@@ -481,314 +481,296 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
     <section class="article-content">
     
     
-    <p>As developers, we often need to connect to remote Linux servers via SSH for development. Tools like VS Code&rsquo;s Remote-SSH plugin make it feel almost as if we&rsquo;re working on a local machine. However, a common pain point arises: <strong>SSH key management</strong>.</p>
-<p>We want to:</p>
-<ol>
-<li>Use an SSH key to log in to the server and push code to a Git repository (like GitHub).</li>
-<li>Sign every Git commit to verify its origin.</li>
-<li>Most importantly: <strong>avoid copying any files containing private keys to the remote server</strong> to prevent key compromise if the server is breached.</li>
-</ol>
-<p>Fortunately, we can perfectly solve this problem using the 1Password built-in SSH Agent and SSH Agent Forwarding. This article will guide you step-by-step through the configuration to achieve a secure and seamless remote development workflow.</p>
-<h2 id="introduction-to-core-concepts">Introduction to Core Concepts</h2>
-<p>Before we begin, let&rsquo;s briefly understand a few key concepts:</p>
-<ul>
-<li>
-<p><strong>SSH Agent</strong>: Think of it as a temporary key manager. At the beginning of a session, you can load your decrypted private key into the agent. Subsequently, any SSH operation requiring that key will request it from the agent, saving you from repeatedly entering your password. When you close your terminal session, the agent also terminates, and the key is securely cleared.</p>
-</li>
-<li>
-<p><strong>1Password SSH Agent</strong>: 1Password 8 and later include a powerful built-in SSH Agent. It securely stores your SSH private keys in your 1Password vault and interacts with your system through a secure socket file. This means your private keys never exist in plaintext on your disk, and all usage requests must be authorized through 1Password (e.g., via Touch ID or your master password).</p>
-</li>
-<li>
-<p><strong>SSH Agent Forwarding</strong>: This is a very powerful SSH feature. When you SSH from your local computer to a remote server, it can establish a secure channel that &ldquo;forwards&rdquo; requests for key authentication from the remote server back to your <strong>local machine</strong>, to be handled by your local SSH Agent. This way, the remote server itself doesn&rsquo;t need to store any private keys at all.</p>
-</li>
-</ul>
-<h2 id="our-target-workflow">Our Target Workflow</h2>
-<ol>
-<li>On our local machine, 1Password manages our SSH private keys.</li>
-<li>We connect to the remote server via VS Code Remote-SSH or the terminal, with Agent Forwarding enabled.</li>
-<li>On the remote server, when we run <code>git push</code>, the authentication request is forwarded back to the local machine and handled by 1Password.</li>
-<li>On the remote server, when we run <code>git commit</code>, the signing request is also forwarded back to the local machine for authorization by 1Password.</li>
-</ol>
-<h2 id="configuration-process">Configuration Process</h2>
-<h3 id="prerequisites">Prerequisites</h3>
-<ul>
-<li>You have installed the 1Password 8 or newer desktop client.</li>
-<li>Your SSH key is already created and saved in the <code>SSH Keys</code> category in 1Password.</li>
-</ul>
-<h3 id="step-1-configure-your-local-machine-to-use-1password-for-ssh">Step 1: Configure Your Local Machine to Use 1Password for SSH</h3>
-<p>First, we need to tell our local SSH client to hand over all key-related requests to 1Password.</p>
-<ol>
-<li>
-<p><strong>Enable the SSH Agent in 1Password</strong></p>
-<ul>
-<li>Open the 1Password desktop app.</li>
-<li>Go to <code>Settings</code> -&gt; <code>Developer</code>.</li>
-<li>Check the <code>Use SSH agent</code> box.
-<img src="https://cdn.mahaoliang.tech/2024/202507292109013.jpg"
+    <p>The biggest advantage of <a class="link" href="http://1password.com"  target="_blank" rel="noopener"
+    >1Password</a> is its <strong>cross-platform</strong> capability. It provides perfect support across Apple&rsquo;s iOS and macOS, Google&rsquo;s Android, Microsoft&rsquo;s Windows, and Linux. This allows you to use Safari on macOS, Edge on Windows, and Chrome on Android, all with seamless password management support. This is something Apple&rsquo;s native password manager cannot offer.</p>
+<p>To learn how to use 1Password effectively, the official <a class="link" href="https://support.1password.com/explore/get-started/"  target="_blank" rel="noopener"
+    >Get started with 1Password</a> guide is the best learning material. A quick browse through it will cover the basics completely.</p>
+<p>This document will only focus on some key points to consider when using 1Password on macOS and iOS.</p>
+<h2 id="installation">Installation</h2>
+<p>On both macOS and iOS, the <strong>1Password extension</strong> needs to be enabled for Safari.</p>
+<p>The Safari extension for macOS can be installed directly from the App Store.</p>
+<p>For installing the extension on iOS, please refer to: <a class="link" href="https://support.1password.com/getting-started-safari-ios/"  target="_blank" rel="noopener"
+    >Get to know 1Password for Safari on your iPhone or iPad</a></p>
+<p><img src="https://cdn.mazhen.tech/images/202206231710181.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="ssh agent"
+		alt="img"
 	
 	
-></li>
-</ul>
+></p>
+<blockquote>
+<ol>
+<li>
+<p>Open Safari to any website and tap <img src="https://cdn.mazhen.tech/images/202206231702042.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+> in the address bar.</p>
+<p>If you&rsquo;re using an iPad, tap <img src="https://cdn.mazhen.tech/images/202206231703369.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="the Extension button"
+	
+	
+> in the address bar.</p>
 </li>
 <li>
-<p><strong>Configure Your Local SSH Config File (<code>~/.ssh/config</code>)</strong></p>
-<p>According to 1Password&rsquo;s <a class="link" href="https://developer.1password.com/docs/ssh/get-started/#step-4-configure-your-ssh-or-git-client"  target="_blank" rel="noopener"
-    >official documentation</a>, we have two ways to tell the SSH client where the agent is: the <code>IdentityAgent</code> directive and the <code>SSH_AUTH_SOCK</code> environment variable. Using <code>IdentityAgent</code> is recommended.</p>
-<p>Edit the <code>~/.ssh/config</code> file on your <strong>local machine</strong> (create it if it doesn&rsquo;t exist). Add the following content to the top of the file:</p>
+<p>Tap Manage Extensions and turn on 1Password, then tap Done.</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="turn-off-the-built-in-password-manager">Turn off the built-in password manager</h2>
+<p>Since Safari has its own password manager, having both active can cause conflicts with 1Password. Therefore, you need to <strong>disable the built-in password manager</strong>.</p>
+<p>For specific steps, refer to the official guide: <a class="link" href="https://support.1password.com/disable-browser-password-manager/"  target="_blank" rel="noopener"
+    >Turn off the built-in password manager in your browser</a>.</p>
+<ul>
+<li><strong>Settings for Safari on macOS</strong></li>
+</ul>
+<blockquote>
+<p>To stop Safari from asking to save your passwords:</p>
+<ol>
+<li>Click the Safari menu and choose Preferences.</li>
+<li>Click the AutoFill icon.</li>
+<li>Turn off all the AutoFill web forms settings: “Using info from my contacts”, “User names and passwords”, “Credit cards”, and “Other forms”.</li>
+</ol>
+<p><img src="https://cdn.mazhen.tech/images/202206231705991.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Turn off the AutoFill settings in Safari preferences"
+	
+	
+></p>
+</blockquote>
+<ul>
+<li><strong>Settings for Safari on iOS</strong></li>
+</ul>
+<blockquote>
+<p>To stop Safari from asking to save your passwords:</p>
+<ol>
+<li>Open Settings, then tap Passwords &amp; Accounts.</li>
+<li>Tap AutoFill Passwords.</li>
+<li>Turn off iCloud Keychain.</li>
+</ol>
+<p><img src="https://cdn.mazhen.tech/images/202206231707380.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+</blockquote>
+<h2 id="app-support-on-ios">App Support on iOS</h2>
+<p>The experience of using 1Password in iOS apps is consistent with Safari. As long as an app uses the standard iOS keyboard, a key icon will automatically appear in the username and password fields. Tapping the key will bring up 1Password for autofilling.</p>
+<p><img src="https://cdn.mazhen.tech/images/202206231708210.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>However, many <strong>domestic banking apps in China</strong> do not use the built-in iOS keyboard, which prevents 1Password from being invoked. In such cases, you have to manually open 1Password to copy a password or create a new one.</p>
+<h2 id="universal-autofill">Universal Autofill</h2>
+<p><a class="link" href="https://support.1password.com/mac-universal-autofill/"  target="_blank" rel="noopener"
+    >Universal Autofill</a> is a major feature upgrade in <a class="link" href="https://blog.1password.com/1password-8-for-mac/"  target="_blank" rel="noopener"
+    >1Password 8</a>. Universal Autofill provides true &ldquo;global autofill.&rdquo; You only need to remember one shortcut, <strong>Command + \</strong>, to have 1Password automatically fill in your passwords anywhere, including browsers, applications, terminals, and system prompts.</p>
+<p><img src="https://blog.1password.com/posts/2022/1password-8-for-mac/universal-autofill-zoom.gif"
+	
+	
+	
+	loading="lazy"
+	
+		alt="autofill"
+	
+	
+></p>
+<h2 id="two-factor-authentication">Two-Factor Authentication</h2>
+<p>For <a class="link" href="https://2fa.directory"  target="_blank" rel="noopener"
+    >websites</a> that support 1Password&rsquo;s <a class="link" href="https://support.1password.com/one-time-passwords/"  target="_blank" rel="noopener"
+    >two-factor authentication</a>, I have migrated them to 1Password.</p>
+<p>If 1Password itself has two-factor authentication enabled, it requires a third-party authenticator, as it cannot store its own one-time password, as stated in the <a class="link" href="https://support.1password.com/two-factor-authentication/"  target="_blank" rel="noopener"
+    >official documentation</a>. I chose Microsoft&rsquo;s <a class="link" href="https://www.microsoft.com/en-us/security/mobile-authenticator-app"  target="_blank" rel="noopener"
+    >Authenticator</a>.</p>
+<p>Microsoft Authenticator supports backup and recovery, which is very convenient when switching phones. Additionally, the experience of logging into a Microsoft account using the Authenticator is excellent; you don&rsquo;t need to enter a password, just confirm on your phone. The experience is similar to scanning a QR code, but without the scanning :)</p>
+<p><img src="https://cdn.mazhen.tech/images/202206231537685.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<h2 id="manage-ssh-keys">Manage SSH Keys</h2>
+<p>1Password can store your SSH keys and act as an <a class="link" href="https://www.ssh.com/academy/ssh/agent"  target="_blank" rel="noopener"
+    >SSH agent</a>, seamlessly integrating with your SSH and Git workflows. It also automatically helps you copy and paste your public key when required on platforms like GitHub.</p>
+<h3 id="generate-or-import-ssh-keys">Generate or import SSH keys</h3>
+<p>You can generate an SSH key yourself using the <code>ssh-keygen</code> command, or have one generated automatically when creating an SSH key item in 1Password.
+<img src="https://cdn.mazhen.tech/images/202207081432280.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<h3 id="enable-the-1password-ssh-agent">Enable the 1Password SSH Agent</h3>
+<p>The 1Password SSH Agent uses the SSH keys you&rsquo;ve saved in 1Password to seamlessly integrate with your Git and SSH workflows. It can authenticate your Git and SSH clients, which never get to read your private key.</p>
+<p>First, you need to enable the 1Password SSH Agent to run in the background and handle authentication for your SSH clients. Go to <strong>1Password &gt; Preferences &gt; Developer</strong>, and check &ldquo;<strong>Use the SSH agent</strong>&rdquo; and &ldquo;<strong>Show key names when authorizing connections</strong>&rdquo;.
+<img src="https://cdn.mazhen.tech/images/202207081459057.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>To ensure the SSH Agent runs continuously in the background, go to <strong>1Password &gt; Preferences &gt; General</strong> and check &ldquo;<strong>Keep 1Password in the menu bar</strong>&rdquo;.</p>
+<p><img src="https://cdn.mazhen.tech/images/202207081511818.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<h3 id="configure-the-ssh-client">Configure the SSH client</h3>
+<p>To allow your SSH client to use the 1Password SSH agent, you need to add the <strong>IdentityAgent</strong> configuration to your <code>~/.ssh/config</code> file:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
-</span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Tell all SSH connections (*) to use the 1Password Agent</span>
-</span></span><span class="line"><span class="cl">Host *
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Host *
 </span></span><span class="line"><span class="cl">  IdentityAgent <span class="s2">&#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&#34;</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>
-<p><strong>Verify the Configuration</strong></p>
-<p>In the terminal on your <strong>local machine</strong>, run the following command:</p>
+</div><p>You can also set the <strong>SSH_AUTH_SOCK</strong> environment variable in your shell:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -l
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span>~/Library/Group<span class="se">\ </span>Containers/2BUA8C4S2C.com.1password/t/agent.sock
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>If the configuration is successful, it will list the public key fingerprints of all the SSH keys stored in your 1Password. This proves that your local SSH client has successfully connected with 1Password.</p>
-</li>
-</ol>
-<h3 id="step-2-configure-the-connection-to-enable-agent-forwarding">Step 2: Configure the Connection to Enable Agent Forwarding</h3>
-<p>Now, we need to enable the Agent Forwarding feature when connecting to a specific remote server. The best practice is still to modify the <code>~/.ssh/config</code> file.</p>
-<p>Continue editing the <code>~/.ssh/config</code> file on your <strong>local machine</strong> and add a dedicated configuration block for your server:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># Give your remote server an alias for easy connection</span>
-</span></span><span class="line"><span class="cl">Host my-dev-server
-</span></span><span class="line"><span class="cl">    HostName &lt;your_server_ip_or_domain&gt;
-</span></span><span class="line"><span class="cl">    User your_username
-</span></span><span class="line"><span class="cl">    ForwardAgent yes   <span class="c1"># &lt;-- The key! Enables Agent Forwarding</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li><code>Host my-dev-server</code>: This is the shortcut alias you&rsquo;ll use to connect.</li>
-<li><code>HostName</code>: The server&rsquo;s actual IP address or domain name.</li>
-<li><code>User</code>: Your username on the server.</li>
-<li><code>ForwardAgent yes</code>: This is the switch that turns on Agent Forwarding.</li>
-</ul>
-<p>Now, you can connect via <code>ssh my-dev-server</code> or connect directly to <code>my-dev-server</code> in VS Code Remote-SSH, and the forwarding feature will be enabled automatically.</p>
-<h3 id="step-3-configure-git-on-the-remote-server">Step 3: Configure Git on the Remote Server</h3>
-<p>This is the final and most crucial step. We need to tell Git on the remote server how to use our forwarded SSH agent for commit signing.</p>
-<ol>
-<li>
-<p><strong>Connect and Verify Forwarding</strong></p>
-<p>First, connect to your remote server:</p>
+</div><p>If you find the agent path too complex, you can create a symbolic link first:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh my-dev-server
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mkdir -p ~/.1password <span class="o">&amp;&amp;</span> ln -s ~/Library/Group<span class="se">\ </span>Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Once connected, run the verification command again in the terminal on the <strong>remote server</strong>:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -l
-</span></span><span class="line"><span class="cl"><span class="sb">```</span>    If Agent Forwarding is working correctly, the output here should be **exactly the same** as the output on your **local machine**!
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">If you see the error <span class="s2">&#34;Could not open a connection to your authentication agent.&#34;</span>, check your SSH service configuration to ensure <span class="sb">`</span>AllowAgentForwarding yes<span class="sb">`</span> is enabled.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Open the <span class="sb">`</span>/etc/ssh/sshd_config<span class="sb">`</span> file with an editor like vim and find the <span class="sb">`</span>AllowAgentForwarding<span class="sb">`</span> option, setting it to <span class="sb">`</span>yes<span class="sb">`</span>:
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="sb">```</span>bash
-</span></span><span class="line"><span class="cl">AllowAgentForwarding yes
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>Save the file and restart the SSH service to apply the changes:</p>
+</div><p>This allows you to reference the symbolic link when setting the environment variable:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl restart sshd
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">SSH_AUTH_SOCK</span><span class="o">=</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.1password/agent.sock
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>Connect to your remote server again and run <code>ssh-add -l</code> to confirm that Agent Forwarding is working correctly.</p>
-</li>
-<li>
-<p><strong>Get the Public Key for Signing</strong></p>
-<p>Git needs to know which specific key to use for signing. We need to provide the full public key string as an identifier. On the <strong>remote server</strong>, run:</p>
+</div><p>Now, your SSH client can use the 1Password SSH agent when logging into remote hosts.</p>
+<p>You can use the following command to see the SSH keys managed by the 1Password SSH agent:</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">ssh-add -L
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">ssh-add -L
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>This command lists the full public keys for all keys in the agent. Copy the line for the key you want to use for signing. It will look something like this:
-<code>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment</code></p>
-</li>
-<li>
-<p><strong>Configure the <code>.gitconfig</code> on the Remote Server</strong></p>
-<p>Now, edit the <code>~/.gitconfig</code> file on your <strong>remote server</strong>. Update your existing configuration as follows:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[user]</span>
-</span></span><span class="line"><span class="cl">    <span class="na">email</span> <span class="o">=</span> <span class="s">your.email@example.com
-</span></span></span><span class="line"><span class="cl"><span class="s">    name = Your Name
-</span></span></span><span class="line"><span class="cl"><span class="s">    # Set the value of signingkey to the full public key string you copied in the previous step
-</span></span></span><span class="line"><span class="cl"><span class="s">    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICxxxxxxxxxxxxxxxxxxxx your-key-comment</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">[gpg]</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># Tell Git to use the ssh program for signing</span>
-</span></span><span class="line"><span class="cl">    <span class="na">format</span> <span class="o">=</span> <span class="s">ssh</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">[commit]</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># Make all commits signed by default</span>
-</span></span><span class="line"><span class="cl">    <span class="na">gpgsign</span> <span class="o">=</span> <span class="s">true</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>The most important change is <code>signingkey</code>. We are no longer using a file path but providing the public key itself. This allows Git to directly request the forwarded agent to use this specific key for signing.</p>
-</li>
-</ol>
-<h3 id="all-set-lets-test-it-out">All Set! Let&rsquo;s Test It Out</h3>
-<p>Everything is ready! On the remote server, navigate to any of your git projects and try creating a new commit:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git commit --allow-empty -m <span class="s2">&#34;Test: Signed commit with 1Password Agent Forwarding&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>At this moment, something magical happens: an authorization request from 1Password will pop up on your <strong>local machine</strong>, notifying you that an application is requesting to use your SSH key. After you authorize it with Touch ID or your master password, the <code>git commit</code> command on the remote server completes instantly.</p>
-<p><img src="https://cdn.mahaoliang.tech/2024/202507292112652.jpg"
+</div><h3 id="publish-the-ssh-public-key">Publish the SSH public key</h3>
+<p>You need a way to publish your SSH public key to the remote server so it can use the public key to verify your identity.</p>
+<p>One method is to upload the public key to the service provider&rsquo;s website and associate it with your account. For example, you can upload your public key on the <a class="link" href="https://github.com/settings/ssh/new"  target="_blank" rel="noopener"
+    >GitHub SSH key settings</a> page. The Tencent Cloud management console also allows you to upload your public key and associate it with your purchased servers. When you need to paste the public key on a webpage, 1Password will autofill it just like a password.</p>
+<p><img src="https://cdn.mazhen.tech/images/202207081602211.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="ssh key"
+		alt="img"
 	
 	
 ></p>
-<p>Finally, check your commit log:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git log --show-signature -1
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>You will see output similar to the following, where <code>Good signature</code> clearly tells you that this commit has been successfully signed by your key!</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">commit &lt;commit_hash&gt; (HEAD -&gt; main)
-</span></span><span class="line"><span class="cl">Good &#34;git&#34; signature for your.email@example.com with ED25519 key SHA256:GKaU0ZCgehQ73X...
-</span></span><span class="line"><span class="cl">Author: Your Name &lt;your.email@example.com&gt;
-</span></span><span class="line"><span class="cl">Date:   ...
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    Test: Signed commit with 1Password Agent Forwarding
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="summary">Summary</h2>
-<p>The diagram below illustrates the core workflow for signing remote Git commits using 1Password and SSH Agent Forwarding.</p>
-<p><img src="https://cdn.mahaoliang.tech/2024/202507301201877.svg"
+<p>Another method is to use the <code>ssh-copy-id</code> command to copy the public key directly to the remote server.</p>
+<p>Regardless of the method you use, always remember that you are publishing the public key. Be careful not to leak your private key.</p>
+<h3 id="manage-github-signing-key">Manage Github Signing Key</h3>
+<p>Github has started to <a class="link" href="https://github.blog/changelog/2022-08-23-ssh-commit-verification-now-supported/"  target="_blank" rel="noopener"
+    >support using SSH keys to sign commits</a>, which means you can use the SSH keys managed by 1Password to sign your git commits.</p>
+<p>The setup process can be found at <a class="link" href="https://blog.1password.com/git-commit-signing/"  target="_blank" rel="noopener"
+    >Sign your Git commits with 1Password</a> and mainly involves two steps:</p>
+<ol>
+<li>Generate a Signing Key on GitHub. Go to <a class="link" href="https://github.com/settings/keys"  target="_blank" rel="noopener"
+    >https://github.com/settings/keys</a>, select &ldquo;New SSH Key&rdquo;, choose the key type as &ldquo;Signing Key&rdquo;, and then paste the SSH public key managed by 1Password.</li>
+</ol>
+<p><img src="https://cdn.mazhen.tech/images/202209291739050.webp"
 	
 	
 	
 	loading="lazy"
 	
-		alt="flow"
+		alt="img"
 	
 	
 ></p>
-<p><strong>Diagram Components</strong></p>
-<ul>
-<li>
-<p><strong>Local Machine (Local)</strong></p>
-<ul>
-<li><strong>Developer</strong>: The initiator of the action.</li>
-<li><strong>1Password SSH Agent</strong>: Securely stores the private key and handles all signing requests.</li>
-<li><strong>SSH Client</strong>: The local SSH program, configured to use the 1Password Agent and enable forwarding.</li>
-</ul>
-</li>
-<li>
-<p><strong>Remote Server (Remote)</strong></p>
-<ul>
-<li><strong>Remote Terminal</strong>: The developer&rsquo;s workspace on the server.</li>
-<li><strong>Git</strong>: The version control tool, configured to use SSH for signing.</li>
-<li><strong>SSH Daemon</strong>: The SSH service on the server, responsible for establishing the secure connection and forwarding requests.</li>
-</ul>
-</li>
-</ul>
-<p><strong>Detailed Interaction Flow</strong></p>
-<ol>
-<li><strong>Initiate Commit</strong>: The developer executes the <code>git commit</code> command in the <strong>Remote Terminal</strong>.</li>
-<li><strong>Request Signature</strong>: Based on its configuration, <strong>Git</strong> requests a signature using an SSH key from the SSH service.</li>
-<li><strong>Forward Request</strong>: The remote server&rsquo;s <strong>SSH Daemon</strong> forwards the signing request through the encrypted SSH tunnel back to the local machine&rsquo;s <strong>SSH Client</strong>. This is the core of Agent Forwarding.</li>
-<li><strong>Request 1Password</strong>: The local <strong>SSH Client</strong> passes the request to the <strong>1Password SSH Agent</strong>.</li>
-<li><strong>Request User Authorization</strong>: <strong>1Password</strong> displays a prompt on the local machine, asking the <strong>Developer</strong> for authorization.</li>
-<li><strong>User Authorizes</strong>: The <strong>Developer</strong> authenticates locally (e.g., with Touch ID or master password).</li>
-<li><strong>Return Signature</strong>: Upon successful authorization, <strong>1Password</strong> generates the signature and returns it to the local <strong>SSH Client</strong>.</li>
-<li><strong>Return Signature to Remote</strong>: The signature is securely transmitted back through the SSH tunnel to the remote server&rsquo;s <strong>SSH Daemon</strong>.</li>
-<li><strong>Complete Commit</strong>: The remote <strong>Git</strong> process receives the valid signature, successfully creates the commit, and displays a success message in the <strong>Remote Terminal</strong>.</li>
+<ol start="2">
+<li>Configure your local <code>.gitconfig</code>. In 1Password, select your SSH Key and choose the &ldquo;Configure&rdquo; option in the banner that appears:</li>
 </ol>
-<p>By following the steps above, we have built a remote development workflow that is both secure and convenient. Your private key always remains safely in your local 1Password vault, while all Git operations on the remote server (authentication and signing) can use it seamlessly and securely. This not only enhances security but also greatly simplifies key management in multi-server environments, allowing you to focus more on coding itself.</p>
+<p><img src="https://cdn.mazhen.tech/images/202209291749782.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<p>Follow the prompts to configure your <code>.gitconfig</code> file. These settings select your SSH key and use it for signing when you make a git commit.</p>
+<p><img src="https://cdn.mazhen.tech/images/202209291751352.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="img"
+	
+	
+></p>
+<h2 id="sign-in-with-anything">“Sign in with” anything</h2>
+<p>1Password will remember the third-party login services (like sign in with Google) that you use. According to the <a class="link" href="https://blog.1password.com/sign-in-with-anything-browser-beta/"  target="_blank" rel="noopener"
+    >official announcement</a>, this feature will be released soon.</p>
 
 </section>
 
@@ -798,12 +780,6 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
     <section class="article-tags">
         
             <a href="/en/tags/macos/">Macos</a>
-        
-            <a href="/en/tags/linux/">Linux</a>
-        
-            <a href="/en/tags/ssh/">Ssh</a>
-        
-            <a href="/en/tags/git/">Git</a>
         
     </section>
 
@@ -837,12 +813,12 @@ Use an SSH key to log in to the server and push code to a Git repository (like G
             
                 
 <article class="">
-    <a href="/en/p/tips-for-using-1password-on-macos-and-ios/">
+    <a href="/en/p/enhancing-your-remote-development-experience-with-1password-and-ssh-agent-forwarding/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">Tips for Using 1Password on macOS and iOS</h2>
+            <h2 class="article-title">Enhancing Your Remote Development Experience with 1Password and SSH Agent Forwarding</h2>
         </div>
     </a>
 </article>

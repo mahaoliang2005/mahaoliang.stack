@@ -323,6 +323,304 @@
 </description>
         </item>
         <item>
+        <title>Tips for Using 1Password on macOS and iOS</title>
+        <link>https://mahaoliang.tech/en/p/tips-for-using-1password-on-macos-and-ios/</link>
+        <pubDate>Thu, 29 Sep 2022 22:06:18 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/en/p/tips-for-using-1password-on-macos-and-ios/</guid>
+        <description>&lt;p&gt;The biggest advantage of &lt;a class=&#34;link&#34; href=&#34;http://1password.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;1Password&lt;/a&gt; is its &lt;strong&gt;cross-platform&lt;/strong&gt; capability. It provides perfect support across Apple&amp;rsquo;s iOS and macOS, Google&amp;rsquo;s Android, Microsoft&amp;rsquo;s Windows, and Linux. This allows you to use Safari on macOS, Edge on Windows, and Chrome on Android, all with seamless password management support. This is something Apple&amp;rsquo;s native password manager cannot offer.&lt;/p&gt;
+&lt;p&gt;To learn how to use 1Password effectively, the official &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/explore/get-started/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Get started with 1Password&lt;/a&gt; guide is the best learning material. A quick browse through it will cover the basics completely.&lt;/p&gt;
+&lt;p&gt;This document will only focus on some key points to consider when using 1Password on macOS and iOS.&lt;/p&gt;
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+&lt;p&gt;On both macOS and iOS, the &lt;strong&gt;1Password extension&lt;/strong&gt; needs to be enabled for Safari.&lt;/p&gt;
+&lt;p&gt;The Safari extension for macOS can be installed directly from the App Store.&lt;/p&gt;
+&lt;p&gt;For installing the extension on iOS, please refer to: &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/getting-started-safari-ios/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Get to know 1Password for Safari on your iPhone or iPad&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231710181.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Open Safari to any website and tap &lt;img src=&#34;https://cdn.mazhen.tech/images/202206231702042.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt; in the address bar.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re using an iPad, tap &lt;img src=&#34;https://cdn.mazhen.tech/images/202206231703369.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;the Extension button&#34;
+	
+	
+&gt; in the address bar.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tap Manage Extensions and turn on 1Password, then tap Done.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;turn-off-the-built-in-password-manager&#34;&gt;Turn off the built-in password manager&lt;/h2&gt;
+&lt;p&gt;Since Safari has its own password manager, having both active can cause conflicts with 1Password. Therefore, you need to &lt;strong&gt;disable the built-in password manager&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;For specific steps, refer to the official guide: &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/disable-browser-password-manager/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Turn off the built-in password manager in your browser&lt;/a&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings for Safari on macOS&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To stop Safari from asking to save your passwords:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Click the Safari menu and choose Preferences.&lt;/li&gt;
+&lt;li&gt;Click the AutoFill icon.&lt;/li&gt;
+&lt;li&gt;Turn off all the AutoFill web forms settings: “Using info from my contacts”, “User names and passwords”, “Credit cards”, and “Other forms”.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231705991.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Turn off the AutoFill settings in Safari preferences&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings for Safari on iOS&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;To stop Safari from asking to save your passwords:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open Settings, then tap Passwords &amp;amp; Accounts.&lt;/li&gt;
+&lt;li&gt;Tap AutoFill Passwords.&lt;/li&gt;
+&lt;li&gt;Turn off iCloud Keychain.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231707380.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;app-support-on-ios&#34;&gt;App Support on iOS&lt;/h2&gt;
+&lt;p&gt;The experience of using 1Password in iOS apps is consistent with Safari. As long as an app uses the standard iOS keyboard, a key icon will automatically appear in the username and password fields. Tapping the key will bring up 1Password for autofilling.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231708210.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;However, many &lt;strong&gt;domestic banking apps in China&lt;/strong&gt; do not use the built-in iOS keyboard, which prevents 1Password from being invoked. In such cases, you have to manually open 1Password to copy a password or create a new one.&lt;/p&gt;
+&lt;h2 id=&#34;universal-autofill&#34;&gt;Universal Autofill&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/mac-universal-autofill/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Universal Autofill&lt;/a&gt; is a major feature upgrade in &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/1password-8-for-mac/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;1Password 8&lt;/a&gt;. Universal Autofill provides true &amp;ldquo;global autofill.&amp;rdquo; You only need to remember one shortcut, &lt;strong&gt;Command + \&lt;/strong&gt;, to have 1Password automatically fill in your passwords anywhere, including browsers, applications, terminals, and system prompts.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.1password.com/posts/2022/1password-8-for-mac/universal-autofill-zoom.gif&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;autofill&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;two-factor-authentication&#34;&gt;Two-Factor Authentication&lt;/h2&gt;
+&lt;p&gt;For &lt;a class=&#34;link&#34; href=&#34;https://2fa.directory&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;websites&lt;/a&gt; that support 1Password&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/one-time-passwords/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;two-factor authentication&lt;/a&gt;, I have migrated them to 1Password.&lt;/p&gt;
+&lt;p&gt;If 1Password itself has two-factor authentication enabled, it requires a third-party authenticator, as it cannot store its own one-time password, as stated in the &lt;a class=&#34;link&#34; href=&#34;https://support.1password.com/two-factor-authentication/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;official documentation&lt;/a&gt;. I chose Microsoft&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://www.microsoft.com/en-us/security/mobile-authenticator-app&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Authenticator&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Microsoft Authenticator supports backup and recovery, which is very convenient when switching phones. Additionally, the experience of logging into a Microsoft account using the Authenticator is excellent; you don&amp;rsquo;t need to enter a password, just confirm on your phone. The experience is similar to scanning a QR code, but without the scanning :)&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202206231537685.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;manage-ssh-keys&#34;&gt;Manage SSH Keys&lt;/h2&gt;
+&lt;p&gt;1Password can store your SSH keys and act as an &lt;a class=&#34;link&#34; href=&#34;https://www.ssh.com/academy/ssh/agent&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;SSH agent&lt;/a&gt;, seamlessly integrating with your SSH and Git workflows. It also automatically helps you copy and paste your public key when required on platforms like GitHub.&lt;/p&gt;
+&lt;h3 id=&#34;generate-or-import-ssh-keys&#34;&gt;Generate or import SSH keys&lt;/h3&gt;
+&lt;p&gt;You can generate an SSH key yourself using the &lt;code&gt;ssh-keygen&lt;/code&gt; command, or have one generated automatically when creating an SSH key item in 1Password.
+&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081432280.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;enable-the-1password-ssh-agent&#34;&gt;Enable the 1Password SSH Agent&lt;/h3&gt;
+&lt;p&gt;The 1Password SSH Agent uses the SSH keys you&amp;rsquo;ve saved in 1Password to seamlessly integrate with your Git and SSH workflows. It can authenticate your Git and SSH clients, which never get to read your private key.&lt;/p&gt;
+&lt;p&gt;First, you need to enable the 1Password SSH Agent to run in the background and handle authentication for your SSH clients. Go to &lt;strong&gt;1Password &amp;gt; Preferences &amp;gt; Developer&lt;/strong&gt;, and check &amp;ldquo;&lt;strong&gt;Use the SSH agent&lt;/strong&gt;&amp;rdquo; and &amp;ldquo;&lt;strong&gt;Show key names when authorizing connections&lt;/strong&gt;&amp;rdquo;.
+&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081459057.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;To ensure the SSH Agent runs continuously in the background, go to &lt;strong&gt;1Password &amp;gt; Preferences &amp;gt; General&lt;/strong&gt; and check &amp;ldquo;&lt;strong&gt;Keep 1Password in the menu bar&lt;/strong&gt;&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081511818.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;configure-the-ssh-client&#34;&gt;Configure the SSH client&lt;/h3&gt;
+&lt;p&gt;To allow your SSH client to use the 1Password SSH agent, you need to add the &lt;strong&gt;IdentityAgent&lt;/strong&gt; configuration to your &lt;code&gt;~/.ssh/config&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Host *
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  IdentityAgent &lt;span class=&#34;s2&#34;&gt;&amp;#34;~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;You can also set the &lt;strong&gt;SSH_AUTH_SOCK&lt;/strong&gt; environment variable in your shell:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;~/Library/Group&lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;Containers/2BUA8C4S2C.com.1password/t/agent.sock
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;If you find the agent path too complex, you can create a symbolic link first:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mkdir -p ~/.1password &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ln -s ~/Library/Group&lt;span class=&#34;se&#34;&gt;\ &lt;/span&gt;Containers/2BUA8C4S2C.com.1password/t/agent.sock ~/.1password/agent.sock
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;This allows you to reference the symbolic link when setting the environment variable:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;SSH_AUTH_SOCK&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;HOME&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;/.1password/agent.sock
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Now, your SSH client can use the 1Password SSH agent when logging into remote hosts.&lt;/p&gt;
+&lt;p&gt;You can use the following command to see the SSH keys managed by the 1Password SSH agent:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;ssh-add -L
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;publish-the-ssh-public-key&#34;&gt;Publish the SSH public key&lt;/h3&gt;
+&lt;p&gt;You need a way to publish your SSH public key to the remote server so it can use the public key to verify your identity.&lt;/p&gt;
+&lt;p&gt;One method is to upload the public key to the service provider&amp;rsquo;s website and associate it with your account. For example, you can upload your public key on the &lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/ssh/new&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub SSH key settings&lt;/a&gt; page. The Tencent Cloud management console also allows you to upload your public key and associate it with your purchased servers. When you need to paste the public key on a webpage, 1Password will autofill it just like a password.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202207081602211.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Another method is to use the &lt;code&gt;ssh-copy-id&lt;/code&gt; command to copy the public key directly to the remote server.&lt;/p&gt;
+&lt;p&gt;Regardless of the method you use, always remember that you are publishing the public key. Be careful not to leak your private key.&lt;/p&gt;
+&lt;h3 id=&#34;manage-github-signing-key&#34;&gt;Manage Github Signing Key&lt;/h3&gt;
+&lt;p&gt;Github has started to &lt;a class=&#34;link&#34; href=&#34;https://github.blog/changelog/2022-08-23-ssh-commit-verification-now-supported/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;support using SSH keys to sign commits&lt;/a&gt;, which means you can use the SSH keys managed by 1Password to sign your git commits.&lt;/p&gt;
+&lt;p&gt;The setup process can be found at &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/git-commit-signing/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Sign your Git commits with 1Password&lt;/a&gt; and mainly involves two steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Generate a Signing Key on GitHub. Go to &lt;a class=&#34;link&#34; href=&#34;https://github.com/settings/keys&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/settings/keys&lt;/a&gt;, select &amp;ldquo;New SSH Key&amp;rdquo;, choose the key type as &amp;ldquo;Signing Key&amp;rdquo;, and then paste the SSH public key managed by 1Password.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291739050.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Configure your local &lt;code&gt;.gitconfig&lt;/code&gt;. In 1Password, select your SSH Key and choose the &amp;ldquo;Configure&amp;rdquo; option in the banner that appears:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291749782.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;Follow the prompts to configure your &lt;code&gt;.gitconfig&lt;/code&gt; file. These settings select your SSH key and use it for signing when you make a git commit.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mazhen.tech/images/202209291751352.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;img&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;sign-in-with-anything&#34;&gt;“Sign in with” anything&lt;/h2&gt;
+&lt;p&gt;1Password will remember the third-party login services (like sign in with Google) that you use. According to the &lt;a class=&#34;link&#34; href=&#34;https://blog.1password.com/sign-in-with-anything-browser-beta/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;official announcement&lt;/a&gt;, this feature will be released soon.&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Recommended System Settings for macOS</title>
         <link>https://mahaoliang.tech/en/p/recommended-system-settings-for-macos/</link>
         <pubDate>Sat, 23 Jul 2022 14:51:18 +0800</pubDate>
