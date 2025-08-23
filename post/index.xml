@@ -6,7 +6,263 @@
         <description>Recent content in Posts on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 29 Jul 2025 21:05:21 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 21 Aug 2025 10:48:37 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</title>
+        <link>https://mahaoliang.tech/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/</link>
+        <pubDate>Thu, 21 Aug 2025 10:48:37 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/</guid>
+        <description>&lt;p&gt;今年我有幸参加了&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源之夏 (Summer OSPP)&lt;/a&gt; 活动，并成功中选了 &lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/a&gt; 项目。&lt;/p&gt;
+&lt;p&gt;就在几天前，我收到了 Gitee 的合并通知。那一刻，我感觉自己几个月来的努力都有了最好的回报。经过一段时间的开发、学习和与华为老师的深入交流，我提交的两个 PR 终于先后被合并了！这不仅仅是代码的合入，对我而言意义重大，毕竟这不再是个人玩具项目，而是为华为 &lt;a class=&#34;link&#34; href=&#34;https://openeuler.org&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;openEuler&lt;/a&gt; 生态的基础软件贡献代码。我想借此机会，分享一下这段令人兴奋的旅程。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源之夏&lt;/a&gt; 是中国科学院软件研究所发起的“开源软件供应链点亮计划”系列活动，由中国科学院软件研究所与华为共同主办、中科南京软件技术研究院承办。开源之夏为学生提供了接触和贡献高质量开源项目的机会，通过真实的开源项目实践，培养和发掘优秀的开发者，促进优秀开源软件社区的蓬勃发展，助力开源软件供应链建设。开源之夏于 2020 年正式发起，今年已经是第六届，该活动已成为国内开源社区中极具影响力的人才培养平台。
+&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231635877.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;开源之夏&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2025 年的开源之夏联合了全球 182 个开源社区，共发布了 566 个项目任务，覆盖了操作系统、人工智能、数据库、云原生、RISC-V 等多个前沿技术领域，吸引了全球 450 所高校，两千多名学生的报名，提交了项目申请书 1176 份，最终 518 名学生中选。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231636312.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;开源之夏&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;我的任务为-splitter-打造-sdf-自动生成器&#34;&gt;我的任务：为 &lt;code&gt;splitter&lt;/code&gt; 打造 SDF 自动生成器&lt;/h2&gt;
+&lt;p&gt;首先简单介绍一下我参与的项目 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;splitter&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;在容器化的世界里，我们追求更小、更安全的镜像。openEuler 的 &lt;strong&gt;Distroless&lt;/strong&gt; 镜像就是为此而生。它的核心思想是，不再完整地打包一个 RPM 软件包，而是将其精细地“切分”成多个功能独立的“&lt;strong&gt;Slice&lt;/strong&gt;”，软件包之间的依赖关系也就更精细地表现为 &lt;code&gt;slice&lt;/code&gt; 之间的依赖。然后我们以 &lt;code&gt;slice&lt;/code&gt; 为最小构建单元生成最终的 &lt;code&gt;distroless&lt;/code&gt; 镜像，可以有效减少冗余文件，进而降低安全风险。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231706963.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Slice&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如上图所示，软件包 B 依赖于软件包 A 等价于 B_slice1 和 B_slice2 依赖于 A_slice1、A_slice2，在生成 B 的应用镜像时，可以不再打包 A_slice3 所包含的文件。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;splitter&lt;/code&gt; 通过解析 RPM 软件包，并根据预定义的规则文件 &lt;strong&gt;SDF (Slice Definition File)&lt;/strong&gt;，将软件包切分成多个 &lt;code&gt;slice&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SDF (Slice Definition File)&lt;/strong&gt; 精准定义每个软件包的拆分规则。目前，所有的 SDF 文件都由社区专家手工编写，存放在 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/slice-releases/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;slice-releases&lt;/a&gt; 仓库中。当软件包数量和版本不断增多时，手工编写 SDF 就成了一个巨大的瓶颈。&lt;/p&gt;
+&lt;p&gt;我的任务，就是为&lt;code&gt;splitter&lt;/code&gt;开发一个&lt;code&gt;gen&lt;/code&gt;命令，实现 SDF 文件的&lt;strong&gt;自动化生成&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;sdf-生成器的核心实现&#34;&gt;SDF 生成器的核心实现&lt;/h2&gt;
+&lt;p&gt;我的任务是自动化生成 SDF 文件，但在开始之前，我们首先要理解：&lt;strong&gt;SDF 文件究竟是什么？&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;sdf-文件的构成&#34;&gt;SDF 文件的构成&lt;/h3&gt;
+&lt;p&gt;一个 SDF（Slice Definition File）文件，本质上是一个 YAML 格式的“软件包拆分说明书”。它精确地定义了一个 RPM 包如何被拆解成多个功能独立的、可按需组合的“Slice”。一个典型的 SDF（以&lt;code&gt;brotli.yaml&lt;/code&gt;为例）包含两个核心部分：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nt&#34;&gt;package&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;brotli&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;deps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;brotli_copyright&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;slices&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;libs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;deps&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;glibc_libs&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;common&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/usr/lib64/libbrotlicommon.so.1*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/usr/lib64/libbrotlidec.so.1*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/usr/lib64/libbrotlienc.so.1*&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;copyright&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;common&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;l&#34;&gt;/usr/share/licenses/brotli/LICENSE&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;slices&lt;/code&gt; (切片)&lt;/strong&gt;：这是主体部分，定义了包内每个文件的归属。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;contents&lt;/code&gt;&lt;/strong&gt;: 列出了这个 Slice 包含的所有文件路径。比如，&lt;code&gt;brotli_libs&lt;/code&gt; slice 包含了所有的&lt;code&gt;.so&lt;/code&gt;库文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;deps&lt;/code&gt; (依赖)&lt;/strong&gt;：定义了 Slice 之间的依赖关系。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;deps&lt;/code&gt;&lt;/strong&gt;: 列出了要让当前 Slice 正常工作，需要依赖哪些其他的 Slice。比如，&lt;code&gt;brotli_libs&lt;/code&gt; slice 依赖于&lt;code&gt;glibc_libs&lt;/code&gt;，因为&lt;code&gt;brotli&lt;/code&gt;的库函数调用了&lt;code&gt;glibc&lt;/code&gt;的底层功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;sdf-的自动化生成流程&#34;&gt;SDF 的自动化生成流程&lt;/h3&gt;
+&lt;p&gt;理解了 SDF 的构成后，我设计了一套自动化的流水线来生成它。整个流程就像一个工厂的生产线，每一步都有明确的输入和输出：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231810609.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;flow&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;下载 (Download)&lt;/strong&gt;: 首先，从 openEuler 的仓库中下载指定的目标 RPM 包。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;解压 (Extract)&lt;/strong&gt;: 将 RPM 包解压到一个临时目录，暴露出其内部的所有文件。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件分类 (Classify Files)&lt;/strong&gt;: 遍历所有文件，根据一系列规则，将它们分配到不同的 Slice 中。&lt;strong&gt;这是填充 SDF 中&lt;code&gt;slices&lt;/code&gt;和&lt;code&gt;contents&lt;/code&gt;部分的核心步骤。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;依赖分析 (Analyze Dependencies)&lt;/strong&gt;: 对分类好的 Slice（特别是包含二进制文件和库的）进行分析，找出它们之间的依赖关系。&lt;strong&gt;这是填充 SDF 中&lt;code&gt;deps&lt;/code&gt;部分的核心步骤。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;生成 SDF (Generate)&lt;/strong&gt;: 最后，将分类和依赖分析的结果，按照 SDF 的 YAML 格式，写入到最终的文件中。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在这条流水线中，最核心、最具技术挑战性的，无疑是“文件分类”和“依赖分析”这两个环节。&lt;/p&gt;
+&lt;h3 id=&#34;文件分类原理&#34;&gt;文件分类原理&lt;/h3&gt;
+&lt;p&gt;文件分类就是确定 RPM 包里的每一个文件，应该属于哪个 Slice。&lt;/p&gt;
+&lt;p&gt;一个软件包通常包含可执行文件、库文件、配置文件、版权声明等。我实现了一个基于规则的智能分类器，它的工作思路是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;建立规则&lt;/strong&gt;：我分析了大量手工编写的 SDF，总结出了一套通用的分类“约定”。例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;以&lt;code&gt;/etc/&lt;/code&gt;开头的文件 -&amp;gt; 归入&lt;code&gt;_config&lt;/code&gt; slice。&lt;/li&gt;
+&lt;li&gt;以&lt;code&gt;/usr/bin/&lt;/code&gt;或&lt;code&gt;/usr/sbin/&lt;/code&gt;开头的文件 -&amp;gt; 归入&lt;code&gt;_bins&lt;/code&gt; slice。&lt;/li&gt;
+&lt;li&gt;以&lt;code&gt;/usr/lib*/&lt;/code&gt;开头且包含&lt;code&gt;.so&lt;/code&gt;的文件 -&amp;gt; 归入&lt;code&gt;_libs&lt;/code&gt; slice。&lt;/li&gt;
+&lt;li&gt;包含&lt;code&gt;LICENSE&lt;/code&gt;, &lt;code&gt;COPYING&lt;/code&gt;等字样的文件 -&amp;gt; 归入&lt;code&gt;_copyright&lt;/code&gt; slice。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;精确识别&lt;/strong&gt;：仅靠路径还不够。比如，在&lt;code&gt;/usr/bin&lt;/code&gt;目录下，既有真正的二进制可执行文件，也可能混杂着 Shell 脚本或 Bash 内建命令的占位符。为了精确区分，我的分类器会调用 Linux 的&lt;code&gt;file&lt;/code&gt;命令对每个文件进行“身份鉴定”。只有&lt;code&gt;file&lt;/code&gt;命令确认是“ELF executable”的文件，才会被归入&lt;code&gt;_bins&lt;/code&gt; slice，从而保证了分类的准确性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;通过这个分类器，我们就能自动地将一个 RPM 包内的上百个文件，有条不紊地分配到不同的&lt;code&gt;slices&lt;/code&gt;中。&lt;/p&gt;
+&lt;h3 id=&#34;slice-依赖分析原理&#34;&gt;Slice 依赖分析原理&lt;/h3&gt;
+&lt;p&gt;依赖分析就是找出每个 Slice（尤其是&lt;code&gt;_bins&lt;/code&gt;和&lt;code&gt;_libs&lt;/code&gt;）依赖了哪些外部的 Slice。&lt;/p&gt;
+&lt;p&gt;这是技术上最关键的一步。一个二进制文件运行时，需要操作系统动态链接器加载它所依赖的共享库（&lt;code&gt;.so&lt;/code&gt;文件），我需要自动追溯这条“依赖链”。&lt;/p&gt;
+&lt;p&gt;我的依赖分析器采用了一个三步走的策略，来模拟动态链接器的行为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;静态解析“需求”&lt;/strong&gt;：对于&lt;code&gt;_bins&lt;/code&gt;和&lt;code&gt;_libs&lt;/code&gt;中的每个 ELF 文件，我使用&lt;code&gt;readelf -d&lt;/code&gt;命令。这是一个静态分析工具，它能安全地读取文件头，并列出这个文件在运行时“需要 (&lt;code&gt;NEEDED&lt;/code&gt;)”哪些共享库。例如，&lt;code&gt;readelf&lt;/code&gt;会告诉我们&lt;code&gt;brotli&lt;/code&gt;的库需要&lt;code&gt;libc.so.6&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;全系统“寻址”&lt;/strong&gt;：知道了需要&lt;code&gt;libc.so.6&lt;/code&gt;，下一步就是要在系统中找到它。我通过查询&lt;code&gt;ldconfig -p&lt;/code&gt;维护的系统库缓存，可以快速地将一个库名（&lt;code&gt;libc.so.6&lt;/code&gt;）映射到它在文件系统上的绝对路径（例如&lt;code&gt;/usr/lib64/libc.so.6&lt;/code&gt;）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;反向“溯源”&lt;/strong&gt;：拿到了库文件的绝对路径，最后一步就是确定它的“主人”。我使用&lt;code&gt;rpm -qf &amp;lt;文件路径&amp;gt;&lt;/code&gt;命令，它可以精确地反向查询出这个文件是由哪个 RPM 包提供的。例如，&lt;code&gt;rpm -qf /usr/lib64/libc.so.6&lt;/code&gt;会返回&lt;code&gt;glibc&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至此，完整的依赖链就建立起来了：&lt;strong&gt;&lt;code&gt;brotli_libs&lt;/code&gt; -&amp;gt; (需要&lt;code&gt;libc.so.6&lt;/code&gt;) -&amp;gt; (位于&lt;code&gt;/usr/lib64/libc.so.6&lt;/code&gt;) -&amp;gt; (属于&lt;code&gt;glibc&lt;/code&gt;包) -&amp;gt; (因此依赖&lt;code&gt;glibc_libs&lt;/code&gt;)&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;通过自动化这个流程，我的工具就能为每个 Slice 精确地填充出它的&lt;code&gt;deps&lt;/code&gt;列表。&lt;/p&gt;
+&lt;h3 id=&#34;无法逾越的环境依赖&#34;&gt;无法逾越的环境依赖&lt;/h3&gt;
+&lt;p&gt;当我完成了上述完整的自动化流水线，并满怀信心地在一个最小化的 openEuler 环境上进行测试时，我遇到了第一个真正的挑战。&lt;/p&gt;
+&lt;p&gt;我的依赖分析器在第 2 步“全系统寻址”时失败了！原因很简单：&lt;strong&gt;我测试用的这个最小化系统里，根本就没有预装待分析包所需要的所有依赖库。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个问题是致命的。它意味着我的工具能否成功运行，完全取决于它所在的宿主环境是否“恰好”是完备的。这对于一个追求自动化和可靠性的工具来说，是不可接受的。&lt;/p&gt;
+&lt;h2 id=&#34;引入-docker沙箱化分析&#34;&gt;引入 Docker“沙箱化”分析&lt;/h2&gt;
+&lt;p&gt;在 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/19&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PR review&lt;/a&gt; 的过程中，华为鲁卫军老师建议我使用 &lt;code&gt;chroot&lt;/code&gt; 或容器技术来隔离分析环境，避免安装待分析的 RPM 包污染宿主机环境。基于这个建议，我采用 Docker 实现了环境隔离，新的流程是这样的：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;构建基础镜像&lt;/strong&gt;：编写了一个 &lt;code&gt;Dockerfile&lt;/code&gt;，它会预先构建一个包含了 &lt;code&gt;splitter&lt;/code&gt; 工具本身，以及所有依赖（如 &lt;code&gt;python-dnf&lt;/code&gt;, &lt;code&gt;binutils&lt;/code&gt; 等）的“SDF 生成器基础镜像”。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;隔离的分析流程&lt;/strong&gt;: 当运行 &lt;code&gt;gen-sdf-docker.sh&lt;/code&gt; 时：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它会自动使用上述的基础镜像启动一个干净、一次性的 Docker 容器。&lt;/li&gt;
+&lt;li&gt;在容器内部，它只执行必要的操作：dnf install &lt;!-- raw HTML omitted --&gt;来安装待分析包及其运行时依赖。&lt;/li&gt;
+&lt;li&gt;然后调用 splitter gen 命令执行核心的分析逻辑。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分析结束后，容器会被自动销毁，对用户的宿主系统环境无影响。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;意外的惊喜第一个成功合并的-pr-竟是副产品&#34;&gt;意外的惊喜：第一个成功合并的 PR 竟是“副产品”！&lt;/h2&gt;
+&lt;p&gt;为了实现上述的 Docker 化流程，我需要一个包含了&lt;code&gt;splitter&lt;/code&gt;工具本身的基础镜像。这时，鲁老师又给了我一个的建议：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;构建 splitter 的 Dockerfile 可以提交到 openEuler 的官方镜像仓库去 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://gitee.com/openeuler/openeuler-docker-images&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这让我意识到，这个为了我自己的工具而制作的镜像，本身就可以成为一个交付给社区的“官方应用镜像”！于是，我仔细阅读了官方镜像的贡献指南，编写了&lt;code&gt;Dockerfile&lt;/code&gt;和相关的元数据，并提交了&lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images/pulls/866&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PR 到 &lt;code&gt;openeuler-docker-images&lt;/code&gt; 仓库&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;没想到，这个作为我主线任务“副产品”的 PR，竟然先一步通过了审核，正式合并！那一刻的喜悦难以言表。&lt;strong&gt;我的第一个被大型开源项目合并的 PR，就这样诞生了！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231830231.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;PR&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;主线达成为华为基础软件贡献代码&#34;&gt;主线达成：为华为基础软件贡献代码！&lt;/h2&gt;
+&lt;p&gt;有了官方镜像的加持，我为 &lt;code&gt;splitter&lt;/code&gt; 增加 &lt;code&gt;gen&lt;/code&gt; 命令的&lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/19&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PR&lt;/a&gt;也很快被顺利合并了，这标志着我的开源之夏项目取得了阶段性的成功。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231835614.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;PR&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这次的感觉又有所不同。虽然我自己在 &lt;a class=&#34;link&#34; href=&#34;https://github.com/mahaoliang2005&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GitHub&lt;/a&gt; 上也发布过一些个人项目，但为 &lt;code&gt;openEuler/splitter&lt;/code&gt; 这样重量级的基础软件贡献核心代码，意义完全不一样。它服务于整个 openEuler 的云原生生态，背后是华为和众多社区开发者的努力。能够成为其中一员，哪怕只是贡献了一小部分，也让我感到无比自豪。&lt;/p&gt;
+&lt;h2 id=&#34;后续工作&#34;&gt;后续工作&lt;/h2&gt;
+&lt;p&gt;开源贡献不是一次性的，而是一个持续迭代的过程。在核心功能合并后，我立刻投入到了后续的优化工作中：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;提供便携的工具入口&lt;/strong&gt;：我提交了新的 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/20&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PR #20&lt;/a&gt;，为项目增加了一个&lt;code&gt;splitter-docker.sh&lt;/code&gt;脚本。它封装了所有 Docker 操作，让任何用户都可以通过一条简单的命令，使用官方镜像来运行&lt;code&gt;splitter&lt;/code&gt;的&lt;code&gt;cut&lt;/code&gt;和&lt;code&gt;gen&lt;/code&gt;命令，极大地降低了使用门槛。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在写文章的过程中，这个 PR 也审核通过，成功合并了！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202508231842928.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;PR&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;更新官方镜像&lt;/strong&gt;：随着&lt;code&gt;splitter&lt;/code&gt;的版本迭代（比如&lt;code&gt;gen&lt;/code&gt;命令的加入），官方镜像也需要更新。我提交了&lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images/pulls/1023&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;新的 PR #1023&lt;/a&gt;来将镜像中的&lt;code&gt;splitter&lt;/code&gt;版本升级到最新。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这让我深刻体会到，一个功能的完成，往往是另一个优化的开始。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;结语&lt;/h2&gt;
+&lt;p&gt;这次开源之夏的经历，让我从一个开源的旁观者，变成了一个真正的参与者和贡献者。我不仅学到了如何设计和实现一个健壮的工具，更学会了如何在社区中沟通、协作，以及如何遵循大型项目的规范和流程。&lt;/p&gt;
+&lt;p&gt;感谢开源之夏提供了这么好的平台，感谢 openEuler 社区的开放和包容，更要感谢我的导师鲁卫军老师的一路悉心指导。这段旅程才刚刚开始，未来，我希望能为开源世界贡献更多力量。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>使用 1Password 和 SSH Agent Forwarding 提升远程开发体验</title>
         <link>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</link>
         <pubDate>Tue, 29 Jul 2025 21:05:21 +0800</pubDate>

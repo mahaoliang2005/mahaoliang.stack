@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研'>
-<title>Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='今年我有幸参加了开源之夏 (Summer OSPP) 活动，并成功中选了 面向 openEuler distroless 镜像的 SDF 自动生成工具开发 项目。 就在几天前，我收到了 Gitee 的合并通知。那一刻，我感觉自己几个'>
+<title>我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试'>
-<meta property='og:description' content='本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研'>
-<meta property='og:url' content='https://mahaoliang.tech/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='我在开源之夏为 openEuler 提交的第一个 PR 被合并了！'>
+<meta property='og:description' content='今年我有幸参加了开源之夏 (Summer OSPP) 活动，并成功中选了 面向 openEuler distroless 镜像的 SDF 自动生成工具开发 项目。 就在几天前，我收到了 Gitee 的合并通知。那一刻，我感觉自己几个'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='kubernetes' /><meta property='article:tag' content='helm' /><meta property='article:tag' content='risv-v' /><meta property='article:published_time' content='2024-06-29T10:44:41&#43;08:00'/><meta property='article:modified_time' content='2024-06-29T10:44:41&#43;08:00'/>
-<meta name="twitter:title" content="Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试">
-<meta name="twitter:description" content="本文是我参加《第一期傲来操作系统（EulixOS）训练营》的项目实习报告。 傲来操作系统（EulixOS）是由中科院软件所 / 中科南京软件技术研">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='linux' /><meta property='article:tag' content='openEuler' /><meta property='article:tag' content='docker' /><meta property='article:published_time' content='2025-08-21T10:48:37&#43;08:00'/><meta property='article:modified_time' content='2025-08-21T10:48:37&#43;08:00'/>
+<meta name="twitter:title" content="我在开源之夏为 openEuler 提交的第一个 PR 被合并了！">
+<meta name="twitter:description" content="今年我有幸参加了开源之夏 (Summer OSPP) 活动，并成功中选了 面向 openEuler distroless 镜像的 SDF 自动生成工具开发 项目。 就在几天前，我收到了 Gitee 的合并通知。那一刻，我感觉自己几个">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -365,11 +365,21 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#任务目标">任务目标</a></li>
-    <li><a href="#helm-的单元测试">Helm 的单元测试</a></li>
-    <li><a href="#helm-chart-test-的单元测试">Helm chart test 的单元测试</a></li>
-    <li><a href="#自动化执行测试">自动化执行测试</a></li>
-    <li><a href="#测试结果">测试结果</a></li>
+    <li><a href="#我的任务为-splitter-打造-sdf-自动生成器">我的任务：为 <code>splitter</code> 打造 SDF 自动生成器</a></li>
+    <li><a href="#sdf-生成器的核心实现">SDF 生成器的核心实现</a>
+      <ol>
+        <li><a href="#sdf-文件的构成">SDF 文件的构成</a></li>
+        <li><a href="#sdf-的自动化生成流程">SDF 的自动化生成流程</a></li>
+        <li><a href="#文件分类原理">文件分类原理</a></li>
+        <li><a href="#slice-依赖分析原理">Slice 依赖分析原理</a></li>
+        <li><a href="#无法逾越的环境依赖">无法逾越的环境依赖</a></li>
+      </ol>
+    </li>
+    <li><a href="#引入-docker沙箱化分析">引入 Docker“沙箱化”分析</a></li>
+    <li><a href="#意外的惊喜第一个成功合并的-pr-竟是副产品">意外的惊喜：第一个成功合并的 PR 竟是“副产品”！</a></li>
+    <li><a href="#主线达成为华为基础软件贡献代码">主线达成：为华为基础软件贡献代码！</a></li>
+    <li><a href="#后续工作">后续工作</a></li>
+    <li><a href="#结语">结语</a></li>
   </ol>
 </nav>
         </div>
@@ -397,7 +407,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/helm-%E5%92%8C-helm-chart-test-%E5%9C%A8-arm-%E5%92%8C-risv-v-%E4%B8%8A%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">Helm 和 Helm chart Test 在 ARM 和 RISV-V 上的自动化测试</a>
+            <a href="/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/">我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</a>
         </h2>
     
         
@@ -419,7 +429,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2024-06-29</time>
+                <time class="article-time--published">2025-08-21</time>
             </div>
         
 
@@ -434,7 +444,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 3 分钟
+                    阅读时长: 9 分钟
                 </time>
             </div>
         
@@ -449,125 +459,61 @@
     <section class="article-content">
     
     
-    <p>本文是我参加<a class="link" href="https://opencamp.cn/EulixOS/camp/202401"  target="_blank" rel="noopener"
-    >《第一期傲来操作系统（EulixOS）训练营》</a>的项目实习报告。</p>
-<p><a class="link" href="https://eulixos.com/"  target="_blank" rel="noopener"
-    >傲来操作系统（EulixOS）</a>是由中科院软件所 / 中科南京软件技术研究院团队基于 openEuler 打造的操作系统发行版。</p>
-<h2 id="任务目标">任务目标</h2>
-<p><a class="link" href="https://github.com/helm/helm"  target="_blank" rel="noopener"
-    >Helm</a> 是一个 <code>Kubernetes</code> 的包管理工具，它可以帮助用户定义、安装和升级运行在 <code>Kubernetes</code> 上的应用程序。</p>
-<p><a class="link" href="https://github.com/helm/chart-testing"  target="_blank" rel="noopener"
-    >Helm chart test</a> 是一个用于测试 <code>Helm</code> 图表的 CLI 工具，用于测试 <code>Helm chart</code> 的拉取请求，能自动检测与目标分支相比已经更改的 chart。</p>
-<p>本任务计划在 ARM 和 RISC-V 架构上运行 <code>Helm</code> 和 <code>Helm chart Test</code> 的测试，以此来对比这两种平台上云原生软件的成熟度。</p>
-<h2 id="helm-的单元测试">Helm 的单元测试</h2>
-<p>分析 Helm 的 <a class="link" href="https://github.com/helm/helm/blob/main/Makefile"  target="_blank" rel="noopener"
-    >Makefile</a> 文件，发现 <code>test-unit</code> 目标是用来运行单元测试的：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-makefile" data-lang="makefile"><span class="line"><span class="cl"><span class="nf">.PHONY</span><span class="o">:</span> <span class="n">test</span>-<span class="n">unit</span>
-</span></span><span class="line"><span class="cl"><span class="nf">test-unit</span><span class="o">:</span>
-</span></span><span class="line"><span class="cl">	@echo
-</span></span><span class="line"><span class="cl">	@echo <span class="s2">&#34;==&gt; Running unit tests &lt;==&#34;</span>
-</span></span><span class="line"><span class="cl">	<span class="nv">GO111MODULE</span><span class="o">=</span>on go <span class="nb">test</span> <span class="k">$(</span>GOFLAGS<span class="k">)</span> -run <span class="k">$(</span>TESTS<span class="k">)</span> <span class="k">$(</span>PKG<span class="k">)</span> <span class="k">$(</span>TESTFLAGS<span class="k">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>可以看出，helm 的单元测试可以直接通过 <code>go test</code> 命令来执行。</p>
-<p>查看 <a class="link" href="https://github.com/helm/helm/blob/main/go.mod"  target="_blank" rel="noopener"
-    >go.mod</a> 文件，确定该项目使用的 Go 版本是 1.22.0：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module helm.sh/helm/v3
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">go 1.22.0
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">require (
-</span></span><span class="line"><span class="cl">	github.com/BurntSushi/toml v1.3.2
-</span></span><span class="line"><span class="cl">    ...
-</span></span><span class="line"><span class="cl">}
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="helm-chart-test-的单元测试">Helm chart test 的单元测试</h2>
-<p><code>Helm chart test</code> 项目使用 <a class="link" href="https://github.com/helm/chart-testing/blob/main/build.sh"  target="_blank" rel="noopener"
-    >build.sh</a> 脚本进行构建发布。分析 <code>build.sh</code> 发现，在每次构建前，会使用 <code>go test -race ./...</code> 运行单元测试：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl">go <span class="nb">test</span> -race ./...
-</span></span><span class="line"><span class="cl">goreleaser <span class="s2">&#34;</span><span class="si">${</span><span class="nv">goreleaser_args</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&#34;</span>
-</span></span><span class="line"><span class="cl">...
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>查看<a class="link" href="https://github.com/helm/chart-testing/blob/main/go.mod"  target="_blank" rel="noopener"
-    >go.mod</a>文件，确定该项目使用的 Go 版本是 1.22.0：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">module</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">helm</span><span class="o">/</span><span class="n">chart</span><span class="o">-</span><span class="n">testing</span><span class="o">/</span><span class="n">v3</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">go</span> <span class="mf">1.22</span><span class="o">.</span><span class="mi">0</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">toolchain</span> <span class="n">go1</span><span class="o">.</span><span class="mf">22.4</span>
-</span></span><span class="line"><span class="cl"><span class="o">...</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="自动化执行测试">自动化执行测试</h2>
-<p>helm 和 helm chart test 的单元测试都可以直接通过 <code>go test</code> 命令来执行。我们可以使用 bash 编写脚本使测试过程自动化。</p>
-<p>这个脚本的主要流程为：</p>
-<ol>
-<li>自动识别和配置：脚本首先检测硬件平台，然后自动下载并在测试目录下安装 Go，不干扰系统中的其他设置或版本。</li>
-<li>环境设置：配置必要的环境变量，确保测试在适当的环境下执行。</li>
-<li>代码仓库管理：自动从配置的 Git 仓库地址克隆代码到本地指定目录。</li>
-<li>测试执行：运行单元测试，并将结果输出到报告文件中。</li>
-<li>性能数据收集：通过调用 <code>performance_counter_920.sh</code> 收集和记录测试期间的性能指标。</li>
-</ol>
-<p>为了避免网络环境对测试影响，脚本可以自定义配置：</p>
-<ul>
-<li>通过 <code>GO_BASE_URL</code> 定义 go 安装包下载网址</li>
-<li>通过 <code>REPO_URL</code> 定义项目源码仓库的地址。可以提前将项目从 GitHub 同步到 Gitee。</li>
-<li>通过 <code>GOPROXY</code> 定义 Go 镜像地址。缺省设置为 <code>GOPROXY=https://goproxy.cn</code>，从国内镜像下载 moudle。</li>
-</ul>
-<p>另外，helm 在测试插件功能时，会访问 <a class="link" href="https://github.com/adamreese/helm-env"  target="_blank" rel="noopener"
-    >https://github.com/adamreese/helm-env</a> 。由于网络环境问题，涉及的测试经常会失败。所以我将 helm-env 项目同步到了 gitee，并修改了测试案例 <a class="link" href="https://gitee.com/mahaoliang/helm/blob/02417b31ab70be386bb0a18045cbbca8dd9b8a8b/pkg/plugin/installer/vcs_installer_test.go"  target="_blank" rel="noopener"
-    >vcs_installer_test.go</a>，让它从 gitee 下载插件，保证了测试运行的稳定。</p>
-<p>两个项目的自动化测试脚本都已经提交到了 gitee，分别为：</p>
-<ul>
-<li><a class="link" href="https://gitee.com/mahaoliang/helm-test"  target="_blank" rel="noopener"
-    >https://gitee.com/mahaoliang/helm-test</a></li>
-<li><a class="link" href="https://gitee.com/mahaoliang/helm-chart-test"  target="_blank" rel="noopener"
-    >https://gitee.com/mahaoliang/helm-chart-test</a></li>
-</ul>
-<h2 id="测试结果">测试结果</h2>
-<p>下面是在 ARM 上运行的 helm 的测试结果。</p>
+    <p>今年我有幸参加了<a class="link" href="https://summer-ospp.ac.cn/"  target="_blank" rel="noopener"
+    >开源之夏 (Summer OSPP)</a> 活动，并成功中选了 <a class="link" href="https://summer-ospp.ac.cn/org/prodetail/25b970448"  target="_blank" rel="noopener"
+    >面向 openEuler distroless 镜像的 SDF 自动生成工具开发</a> 项目。</p>
+<p>就在几天前，我收到了 Gitee 的合并通知。那一刻，我感觉自己几个月来的努力都有了最好的回报。经过一段时间的开发、学习和与华为老师的深入交流，我提交的两个 PR 终于先后被合并了！这不仅仅是代码的合入，对我而言意义重大，毕竟这不再是个人玩具项目，而是为华为 <a class="link" href="https://openeuler.org"  target="_blank" rel="noopener"
+    >openEuler</a> 生态的基础软件贡献代码。我想借此机会，分享一下这段令人兴奋的旅程。</p>
+<blockquote>
+<p><a class="link" href="https://summer-ospp.ac.cn/"  target="_blank" rel="noopener"
+    >开源之夏</a> 是中国科学院软件研究所发起的“开源软件供应链点亮计划”系列活动，由中国科学院软件研究所与华为共同主办、中科南京软件技术研究院承办。开源之夏为学生提供了接触和贡献高质量开源项目的机会，通过真实的开源项目实践，培养和发掘优秀的开发者，促进优秀开源软件社区的蓬勃发展，助力开源软件供应链建设。开源之夏于 2020 年正式发起，今年已经是第六届，该活动已成为国内开源社区中极具影响力的人才培养平台。
+<img src="https://cdn.mahaoliang.tech/2024/202508231635877.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="开源之夏"
+	
+	
+></p>
+</blockquote>
+<blockquote>
+<p>2025 年的开源之夏联合了全球 182 个开源社区，共发布了 566 个项目任务，覆盖了操作系统、人工智能、数据库、云原生、RISC-V 等多个前沿技术领域，吸引了全球 450 所高校，两千多名学生的报名，提交了项目申请书 1176 份，最终 518 名学生中选。</p>
+</blockquote>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231636312.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="开源之夏"
+	
+	
+></p>
+<h2 id="我的任务为-splitter-打造-sdf-自动生成器">我的任务：为 <code>splitter</code> 打造 SDF 自动生成器</h2>
+<p>首先简单介绍一下我参与的项目 <a class="link" href="https://gitee.com/openeuler/splitter"  target="_blank" rel="noopener"
+    >splitter</a>。</p>
+<p>在容器化的世界里，我们追求更小、更安全的镜像。openEuler 的 <strong>Distroless</strong> 镜像就是为此而生。它的核心思想是，不再完整地打包一个 RPM 软件包，而是将其精细地“切分”成多个功能独立的“<strong>Slice</strong>”，软件包之间的依赖关系也就更精细地表现为 <code>slice</code> 之间的依赖。然后我们以 <code>slice</code> 为最小构建单元生成最终的 <code>distroless</code> 镜像，可以有效减少冗余文件，进而降低安全风险。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231706963.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Slice"
+	
+	
+></p>
+<p>如上图所示，软件包 B 依赖于软件包 A 等价于 B_slice1 和 B_slice2 依赖于 A_slice1、A_slice2，在生成 B 的应用镜像时，可以不再打包 A_slice3 所包含的文件。</p>
+<p><code>splitter</code> 通过解析 RPM 软件包，并根据预定义的规则文件 <strong>SDF (Slice Definition File)</strong>，将软件包切分成多个 <code>slice</code>。</p>
+<p><strong>SDF (Slice Definition File)</strong> 精准定义每个软件包的拆分规则。目前，所有的 SDF 文件都由社区专家手工编写，存放在 <a class="link" href="https://gitee.com/openeuler/slice-releases/"  target="_blank" rel="noopener"
+    >slice-releases</a> 仓库中。当软件包数量和版本不断增多时，手工编写 SDF 就成了一个巨大的瓶颈。</p>
+<p>我的任务，就是为<code>splitter</code>开发一个<code>gen</code>命令，实现 SDF 文件的<strong>自动化生成</strong>。</p>
+<h2 id="sdf-生成器的核心实现">SDF 生成器的核心实现</h2>
+<p>我的任务是自动化生成 SDF 文件，但在开始之前，我们首先要理解：<strong>SDF 文件究竟是什么？</strong></p>
+<h3 id="sdf-文件的构成">SDF 文件的构成</h3>
+<p>一个 SDF（Slice Definition File）文件，本质上是一个 YAML 格式的“软件包拆分说明书”。它精确地定义了一个 RPM 包如何被拆解成多个功能独立的、可按需组合的“Slice”。一个典型的 SDF（以<code>brotli.yaml</code>为例）包含两个核心部分：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -591,84 +537,176 @@
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> duration time: <span class="m">24558698523</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> task clock: 130738.640
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cpu-cycles:   <span class="m">290310169669</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> instructions: <span class="m">269526073395</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache references: <span class="m">95029267023</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache misses: <span class="m">764800123</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branches: &lt;not
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branch misses: <span class="m">647318994</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache loads: <span class="m">95029267023</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache load misses: <span class="m">764800123</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load misses: <span class="m">480961351</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load: <span class="m">1156309818</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> IPC: 0.928
-</span></span><span class="line"><span class="cl">helmrequiresearchfil.txt has been deleted
-</span></span><span class="line"><span class="cl">Number of packages: <span class="m">50</span>
-</span></span><span class="line"><span class="cl">Analyzing <span class="nb">test</span> results in /home/cloud2/helm-test/reports/20240628135442/test_result
-</span></span><span class="line"><span class="cl">Total tests: <span class="m">1327</span>
-</span></span><span class="line"><span class="cl">Passed tests: <span class="m">1327</span>
-</span></span><span class="line"><span class="cl">Failed tests: <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l">brotli</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">deps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>- <span class="l">brotli_copyright</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">slices</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">libs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">deps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">glibc_libs</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">common</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">/usr/lib64/libbrotlicommon.so.1*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">/usr/lib64/libbrotlidec.so.1*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">/usr/lib64/libbrotlienc.so.1*</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">copyright</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">common</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="l">/usr/share/licenses/brotli/LICENSE</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
 </div>
-</div><p>一共运行了 1327 个测试用例，全部通过。</p>
-<p>在 ARM 上运行的 helm chart test 的测试结果：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> duration time: <span class="m">704309016</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> task clock: 5337.880
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cpu-cycles:   <span class="m">10071410187</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> instructions: <span class="m">8342502186</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache references: <span class="m">3300195194</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> cache misses: <span class="m">34476953</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branches: &lt;not
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> branch misses: <span class="m">39065962</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache loads: <span class="m">3300195194</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> L1 dcache load misses: <span class="m">34476953</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load misses: <span class="m">15971288</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> LLC load: <span class="m">50427439</span>
-</span></span><span class="line"><span class="cl">Avg <span class="m">10</span> <span class="nb">times</span> IPC: 0.828
-</span></span><span class="line"><span class="cl">Number of packages: <span class="m">8</span>
-</span></span><span class="line"><span class="cl">Analyzing <span class="nb">test</span> results in /home/cloud2/helm-chart-test/reports/20240628140012/test_result
-</span></span><span class="line"><span class="cl">Total tests: <span class="m">92</span>
-</span></span><span class="line"><span class="cl">Passed tests: <span class="m">92</span>
-</span></span><span class="line"><span class="cl">Failed tests: <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>一共运行了 92 个测试用例，全部通过。</p>
-<p>测试过程详细输出的原始文件如下：</p>
+</div><ol>
+<li><strong><code>slices</code> (切片)</strong>：这是主体部分，定义了包内每个文件的归属。
 <ul>
-<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261057451"  target="_blank" rel="noopener"
-    >helm 的 go test 输出</a></li>
-<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261058094"  target="_blank" rel="noopener"
-    >helm 测试过程的 perf 统计指标</a></li>
-<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261058288"  target="_blank" rel="noopener"
-    >helm chart test 的 go test 输出</a></li>
-<li><a class="link" href="https://cdn.mahaoliang.tech/2024/202507261059355"  target="_blank" rel="noopener"
-    >helm chart test 测试过程的 perf 统计指标</a></li>
+<li><strong><code>contents</code></strong>: 列出了这个 Slice 包含的所有文件路径。比如，<code>brotli_libs</code> slice 包含了所有的<code>.so</code>库文件。</li>
 </ul>
-<p>到测试截止时间，RISC-V 机器还未准备好，因此没有运行 RISC-V 架构的测试。不过我们已经提供了自动化测试脚本，可以直接在 RISC-V 架构的机器上运行，为后面在 RISC-V 上的测试做好了准备。</p>
+</li>
+<li><strong><code>deps</code> (依赖)</strong>：定义了 Slice 之间的依赖关系。
+<ul>
+<li><strong><code>deps</code></strong>: 列出了要让当前 Slice 正常工作，需要依赖哪些其他的 Slice。比如，<code>brotli_libs</code> slice 依赖于<code>glibc_libs</code>，因为<code>brotli</code>的库函数调用了<code>glibc</code>的底层功能。</li>
+</ul>
+</li>
+</ol>
+<h3 id="sdf-的自动化生成流程">SDF 的自动化生成流程</h3>
+<p>理解了 SDF 的构成后，我设计了一套自动化的流水线来生成它。整个流程就像一个工厂的生产线，每一步都有明确的输入和输出：</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231810609.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="flow"
+	
+	
+></p>
+<ol>
+<li><strong>下载 (Download)</strong>: 首先，从 openEuler 的仓库中下载指定的目标 RPM 包。</li>
+<li><strong>解压 (Extract)</strong>: 将 RPM 包解压到一个临时目录，暴露出其内部的所有文件。</li>
+<li><strong>文件分类 (Classify Files)</strong>: 遍历所有文件，根据一系列规则，将它们分配到不同的 Slice 中。<strong>这是填充 SDF 中<code>slices</code>和<code>contents</code>部分的核心步骤。</strong></li>
+<li><strong>依赖分析 (Analyze Dependencies)</strong>: 对分类好的 Slice（特别是包含二进制文件和库的）进行分析，找出它们之间的依赖关系。<strong>这是填充 SDF 中<code>deps</code>部分的核心步骤。</strong></li>
+<li><strong>生成 SDF (Generate)</strong>: 最后，将分类和依赖分析的结果，按照 SDF 的 YAML 格式，写入到最终的文件中。</li>
+</ol>
+<p>在这条流水线中，最核心、最具技术挑战性的，无疑是“文件分类”和“依赖分析”这两个环节。</p>
+<h3 id="文件分类原理">文件分类原理</h3>
+<p>文件分类就是确定 RPM 包里的每一个文件，应该属于哪个 Slice。</p>
+<p>一个软件包通常包含可执行文件、库文件、配置文件、版权声明等。我实现了一个基于规则的智能分类器，它的工作思路是：</p>
+<ol>
+<li>
+<p><strong>建立规则</strong>：我分析了大量手工编写的 SDF，总结出了一套通用的分类“约定”。例如：</p>
+<ul>
+<li>以<code>/etc/</code>开头的文件 -&gt; 归入<code>_config</code> slice。</li>
+<li>以<code>/usr/bin/</code>或<code>/usr/sbin/</code>开头的文件 -&gt; 归入<code>_bins</code> slice。</li>
+<li>以<code>/usr/lib*/</code>开头且包含<code>.so</code>的文件 -&gt; 归入<code>_libs</code> slice。</li>
+<li>包含<code>LICENSE</code>, <code>COPYING</code>等字样的文件 -&gt; 归入<code>_copyright</code> slice。</li>
+</ul>
+</li>
+<li>
+<p><strong>精确识别</strong>：仅靠路径还不够。比如，在<code>/usr/bin</code>目录下，既有真正的二进制可执行文件，也可能混杂着 Shell 脚本或 Bash 内建命令的占位符。为了精确区分，我的分类器会调用 Linux 的<code>file</code>命令对每个文件进行“身份鉴定”。只有<code>file</code>命令确认是“ELF executable”的文件，才会被归入<code>_bins</code> slice，从而保证了分类的准确性。</p>
+</li>
+</ol>
+<p>通过这个分类器，我们就能自动地将一个 RPM 包内的上百个文件，有条不紊地分配到不同的<code>slices</code>中。</p>
+<h3 id="slice-依赖分析原理">Slice 依赖分析原理</h3>
+<p>依赖分析就是找出每个 Slice（尤其是<code>_bins</code>和<code>_libs</code>）依赖了哪些外部的 Slice。</p>
+<p>这是技术上最关键的一步。一个二进制文件运行时，需要操作系统动态链接器加载它所依赖的共享库（<code>.so</code>文件），我需要自动追溯这条“依赖链”。</p>
+<p>我的依赖分析器采用了一个三步走的策略，来模拟动态链接器的行为：</p>
+<ol>
+<li>
+<p><strong>静态解析“需求”</strong>：对于<code>_bins</code>和<code>_libs</code>中的每个 ELF 文件，我使用<code>readelf -d</code>命令。这是一个静态分析工具，它能安全地读取文件头，并列出这个文件在运行时“需要 (<code>NEEDED</code>)”哪些共享库。例如，<code>readelf</code>会告诉我们<code>brotli</code>的库需要<code>libc.so.6</code>。</p>
+</li>
+<li>
+<p><strong>全系统“寻址”</strong>：知道了需要<code>libc.so.6</code>，下一步就是要在系统中找到它。我通过查询<code>ldconfig -p</code>维护的系统库缓存，可以快速地将一个库名（<code>libc.so.6</code>）映射到它在文件系统上的绝对路径（例如<code>/usr/lib64/libc.so.6</code>）。</p>
+</li>
+<li>
+<p><strong>反向“溯源”</strong>：拿到了库文件的绝对路径，最后一步就是确定它的“主人”。我使用<code>rpm -qf &lt;文件路径&gt;</code>命令，它可以精确地反向查询出这个文件是由哪个 RPM 包提供的。例如，<code>rpm -qf /usr/lib64/libc.so.6</code>会返回<code>glibc</code>。</p>
+</li>
+</ol>
+<p>至此，完整的依赖链就建立起来了：<strong><code>brotli_libs</code> -&gt; (需要<code>libc.so.6</code>) -&gt; (位于<code>/usr/lib64/libc.so.6</code>) -&gt; (属于<code>glibc</code>包) -&gt; (因此依赖<code>glibc_libs</code>)</strong>。</p>
+<p>通过自动化这个流程，我的工具就能为每个 Slice 精确地填充出它的<code>deps</code>列表。</p>
+<h3 id="无法逾越的环境依赖">无法逾越的环境依赖</h3>
+<p>当我完成了上述完整的自动化流水线，并满怀信心地在一个最小化的 openEuler 环境上进行测试时，我遇到了第一个真正的挑战。</p>
+<p>我的依赖分析器在第 2 步“全系统寻址”时失败了！原因很简单：<strong>我测试用的这个最小化系统里，根本就没有预装待分析包所需要的所有依赖库。</strong></p>
+<p>这个问题是致命的。它意味着我的工具能否成功运行，完全取决于它所在的宿主环境是否“恰好”是完备的。这对于一个追求自动化和可靠性的工具来说，是不可接受的。</p>
+<h2 id="引入-docker沙箱化分析">引入 Docker“沙箱化”分析</h2>
+<p>在 <a class="link" href="https://gitee.com/openeuler/splitter/pulls/19"  target="_blank" rel="noopener"
+    >PR review</a> 的过程中，华为鲁卫军老师建议我使用 <code>chroot</code> 或容器技术来隔离分析环境，避免安装待分析的 RPM 包污染宿主机环境。基于这个建议，我采用 Docker 实现了环境隔离，新的流程是这样的：</p>
+<ol>
+<li>
+<p><strong>构建基础镜像</strong>：编写了一个 <code>Dockerfile</code>，它会预先构建一个包含了 <code>splitter</code> 工具本身，以及所有依赖（如 <code>python-dnf</code>, <code>binutils</code> 等）的“SDF 生成器基础镜像”。</p>
+</li>
+<li>
+<p><strong>隔离的分析流程</strong>: 当运行 <code>gen-sdf-docker.sh</code> 时：</p>
+<ul>
+<li>它会自动使用上述的基础镜像启动一个干净、一次性的 Docker 容器。</li>
+<li>在容器内部，它只执行必要的操作：dnf install <!-- raw HTML omitted -->来安装待分析包及其运行时依赖。</li>
+<li>然后调用 splitter gen 命令执行核心的分析逻辑。</li>
+</ul>
+</li>
+<li>
+<p>分析结束后，容器会被自动销毁，对用户的宿主系统环境无影响。</p>
+</li>
+</ol>
+<h2 id="意外的惊喜第一个成功合并的-pr-竟是副产品">意外的惊喜：第一个成功合并的 PR 竟是“副产品”！</h2>
+<p>为了实现上述的 Docker 化流程，我需要一个包含了<code>splitter</code>工具本身的基础镜像。这时，鲁老师又给了我一个的建议：</p>
+<blockquote>
+<p>构建 splitter 的 Dockerfile 可以提交到 openEuler 的官方镜像仓库去 <a class="link" href="https://gitee.com/openeuler/openeuler-docker-images"  target="_blank" rel="noopener"
+    >https://gitee.com/openeuler/openeuler-docker-images</a></p>
+</blockquote>
+<p>这让我意识到，这个为了我自己的工具而制作的镜像，本身就可以成为一个交付给社区的“官方应用镜像”！于是，我仔细阅读了官方镜像的贡献指南，编写了<code>Dockerfile</code>和相关的元数据，并提交了<a class="link" href="https://gitee.com/openeuler/openeuler-docker-images/pulls/866"  target="_blank" rel="noopener"
+    >PR 到 <code>openeuler-docker-images</code> 仓库</a>。</p>
+<p>没想到，这个作为我主线任务“副产品”的 PR，竟然先一步通过了审核，正式合并！那一刻的喜悦难以言表。<strong>我的第一个被大型开源项目合并的 PR，就这样诞生了！</strong></p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231830231.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="PR"
+	
+	
+></p>
+<h2 id="主线达成为华为基础软件贡献代码">主线达成：为华为基础软件贡献代码！</h2>
+<p>有了官方镜像的加持，我为 <code>splitter</code> 增加 <code>gen</code> 命令的<a class="link" href="https://gitee.com/openeuler/splitter/pulls/19"  target="_blank" rel="noopener"
+    >PR</a>也很快被顺利合并了，这标志着我的开源之夏项目取得了阶段性的成功。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231835614.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="PR"
+	
+	
+></p>
+<p>这次的感觉又有所不同。虽然我自己在 <a class="link" href="https://github.com/mahaoliang2005"  target="_blank" rel="noopener"
+    >GitHub</a> 上也发布过一些个人项目，但为 <code>openEuler/splitter</code> 这样重量级的基础软件贡献核心代码，意义完全不一样。它服务于整个 openEuler 的云原生生态，背后是华为和众多社区开发者的努力。能够成为其中一员，哪怕只是贡献了一小部分，也让我感到无比自豪。</p>
+<h2 id="后续工作">后续工作</h2>
+<p>开源贡献不是一次性的，而是一个持续迭代的过程。在核心功能合并后，我立刻投入到了后续的优化工作中：</p>
+<ol>
+<li><strong>提供便携的工具入口</strong>：我提交了新的 <a class="link" href="https://gitee.com/openeuler/splitter/pulls/20"  target="_blank" rel="noopener"
+    >PR #20</a>，为项目增加了一个<code>splitter-docker.sh</code>脚本。它封装了所有 Docker 操作，让任何用户都可以通过一条简单的命令，使用官方镜像来运行<code>splitter</code>的<code>cut</code>和<code>gen</code>命令，极大地降低了使用门槛。</li>
+</ol>
+<p>在写文章的过程中，这个 PR 也审核通过，成功合并了！</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508231842928.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="PR"
+	
+	
+></p>
+<ol start="2">
+<li><strong>更新官方镜像</strong>：随着<code>splitter</code>的版本迭代（比如<code>gen</code>命令的加入），官方镜像也需要更新。我提交了<a class="link" href="https://gitee.com/openeuler/openeuler-docker-images/pulls/1023"  target="_blank" rel="noopener"
+    >新的 PR #1023</a>来将镜像中的<code>splitter</code>版本升级到最新。</li>
+</ol>
+<p>这让我深刻体会到，一个功能的完成，往往是另一个优化的开始。</p>
+<h2 id="结语">结语</h2>
+<p>这次开源之夏的经历，让我从一个开源的旁观者，变成了一个真正的参与者和贡献者。我不仅学到了如何设计和实现一个健壮的工具，更学会了如何在社区中沟通、协作，以及如何遵循大型项目的规范和流程。</p>
+<p>感谢开源之夏提供了这么好的平台，感谢 openEuler 社区的开放和包容，更要感谢我的导师鲁卫军老师的一路悉心指导。这段旅程才刚刚开始，未来，我希望能为开源世界贡献更多力量。</p>
 
 </section>
 
@@ -679,11 +717,9 @@
         
             <a href="/tags/linux/">Linux</a>
         
-            <a href="/tags/kubernetes/">Kubernetes</a>
+            <a href="/tags/openeuler/">OpenEuler</a>
         
-            <a href="/tags/helm/">Helm</a>
-        
-            <a href="/tags/risv-v/">Risv-V</a>
+            <a href="/tags/docker/">Docker</a>
         
     </section>
 
@@ -717,12 +753,12 @@
             
                 
 <article class="">
-    <a href="/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/">
+    <a href="/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</h2>
+            <h2 class="article-title">macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</h2>
         </div>
     </a>
 </article>
@@ -756,12 +792,12 @@
             
                 
 <article class="">
-    <a href="/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/">
+    <a href="/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">macOS 上 VMWare Fusion 无法安装 OpenEuler 的问题解决</h2>
+            <h2 class="article-title">Zsh 的安装和配置</h2>
         </div>
     </a>
 </article>
@@ -769,12 +805,12 @@
             
                 
 <article class="">
-    <a href="/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
+    <a href="/p/%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%93%E4%B8%9A%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8D%E5%AE%8C%E5%85%A8%E5%88%97%E8%A1%A8/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">Zsh 的安装和配置</h2>
+            <h2 class="article-title">大学生计算机专业学习资源不完全列表</h2>
         </div>
     </a>
 </article>

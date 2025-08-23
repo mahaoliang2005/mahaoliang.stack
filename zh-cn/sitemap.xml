@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -16,7 +16,7 @@
                 />
   </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -27,6 +27,67 @@
                 hreflang="zh-cn"
                 href="https://mahaoliang.tech/categories/"
                 />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/docker/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/linux/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/linux/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/linux/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/openeuler/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/post/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/post/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/categories/tech/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/categories/tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/categories/tech/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/</loc>
+    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/git/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
@@ -39,19 +100,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://mahaoliang.tech/tags/git/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/linux/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/tags/linux/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/tags/linux/"
                 />
   </url><url>
     <loc>https://mahaoliang.tech/tags/macos/</loc>
@@ -67,19 +115,6 @@
                 href="https://mahaoliang.tech/tags/macos/"
                 />
   </url><url>
-    <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/post/"
-                />
-  </url><url>
     <loc>https://mahaoliang.tech/tags/ssh/</loc>
     <lastmod>2025-07-29T21:05:21+08:00</lastmod>
     <xhtml:link
@@ -91,32 +126,6 @@
                 rel="alternate"
                 hreflang="zh-cn"
                 href="https://mahaoliang.tech/tags/ssh/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/tags/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/categories/tech/</loc>
-    <lastmod>2025-07-29T21:05:21+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/categories/tech/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/categories/tech/"
                 />
   </url><url>
     <loc>https://mahaoliang.tech/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/</loc>
@@ -160,9 +169,6 @@
     <lastmod>2025-07-09T11:41:57+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/p/macos-%E4%B8%8A-vmware-fusion-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85-openeuler-%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</loc>
-    <lastmod>2025-07-07T20:26:30+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/openeuler/</loc>
     <lastmod>2025-07-07T20:26:30+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/p/python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86venv-%E5%AE%9E%E7%94%A8%E6%8C%87%E5%8D%97/</loc>
