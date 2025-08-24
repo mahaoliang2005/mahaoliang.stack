@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='作为一名开发者，参与开源是提升技术、建立个人影响力的有效途径。但很多人，包括曾经的我，在刚接触时都会被 GitHub 的协作流程搞得一头雾水。 比如，什么是'>
+<title>一份给开源新手的 GitHub 贡献流程指南</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/%E4%B8%80%E4%BB%BD%E7%BB%99%E5%BC%80%E6%BA%90%E6%96%B0%E6%89%8B%E7%9A%84-github-%E8%B4%A1%E7%8C%AE%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='一份给开源新手的 GitHub 贡献流程指南'>
+<meta property='og:description' content='作为一名开发者，参与开源是提升技术、建立个人影响力的有效途径。但很多人，包括曾经的我，在刚接触时都会被 GitHub 的协作流程搞得一头雾水。 比如，什么是'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E4%B8%80%E4%BB%BD%E7%BB%99%E5%BC%80%E6%BA%90%E6%96%B0%E6%89%8B%E7%9A%84-github-%E8%B4%A1%E7%8C%AE%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='opensource' /><meta property='article:tag' content='git' /><meta property='article:tag' content='github' /><meta property='article:published_time' content='2025-08-24T16:26:32&#43;08:00'/><meta property='article:modified_time' content='2025-08-24T16:26:32&#43;08:00'/>
+<meta name="twitter:title" content="一份给开源新手的 GitHub 贡献流程指南">
+<meta name="twitter:description" content="作为一名开发者，参与开源是提升技术、建立个人影响力的有效途径。但很多人，包括曾经的我，在刚接触时都会被 GitHub 的协作流程搞得一头雾水。 比如，什么是">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><title>bilibili</title><path clip-rule="evenodd" d="M4.977 3.561a1.31 1.31 0 111.818-1.884l2.828 2.728c.08.078.149.163.205.254h4.277a1.32 1.32 0 01.205-.254l2.828-2.728a1.31 1.31 0 011.818 1.884L17.82 4.66h.848A5.333 5.333 0 0124 9.992v7.34a5.333 5.333 0 01-5.333 5.334H5.333A5.333 5.333 0 010 17.333V9.992a5.333 5.333 0 015.333-5.333h.781L4.977 3.56zm.356 3.67a2.667 2.667 0 00-2.666 2.667v7.529a2.667 2.667 0 002.666 2.666h13.334a2.667 2.667 0 002.666-2.666v-7.53a2.667 2.667 0 00-2.666-2.666H5.333zm1.334 5.192a1.333 1.333 0 112.666 0v1.192a1.333 1.333 0 11-2.666 0v-1.192zM16 11.09c-.736 0-1.333.597-1.333 1.333v1.192a1.333 1.333 0 102.666 0v-1.192c0-.736-.597-1.333-1.333-1.333z"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:mahaoliang@gmail.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://gitee.com/mahaoliang'
+                        target="_blank"
+                        title="Gitee"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo_gitee_g_red@1x</title>
+    <g id="LOGO" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-7" transform="translate(-192.000000, -115.000000)" fill="#C71D23">
+            <path d="M228,115 C247.882251,115 264,131.117749 264,151 C264,170.882251 247.882251,187 228,187 C208.117749,187 192,170.882251 192,151 C192,131.117749 208.117749,115 228,115 Z M246.223335,131 C246.222967,131 246.2226,131 246.222232,131.001102 L221.33326,131.001102 C213.969504,131.001102 208,136.970606 208,144.334362 L208,169.222232 C208,170.204066 208.795934,171 209.777768,171 L236.000329,171 C242.627564,171 248,165.627564 248,159.000329 L248,148.778425 C248,147.796591 247.204066,147.000657 246.222232,147.000657 L225.7779,147.000657 C224.796248,147.001123 224.000389,147.796773 223.999667,148.778425 L223.998503,153.222667 C223.997802,154.155409 224.715909,154.920565 225.629522,154.994969 L225.775805,155.00042 L225.775805,155.00042 L238.222276,155.000317 C239.155019,155.000295 239.919992,155.718618 239.994164,156.63225 L240.000044,156.77807 L240.000044,156.77807 L240.000044,157.666909 C240.000044,160.612411 237.612243,163.000213 234.66674,163.000213 L217.776621,163.000213 C216.794928,163.000164 215.999101,162.204358 215.999025,161.222665 L215.998559,144.334184 C215.998337,141.462319 218.268172,139.120556 221.111731,139.005187 L221.331716,139.00088 L221.331716,139.00088 L246.21727,139.00088 C247.198674,138.999777 247.994429,138.204515 247.996141,137.223112 L247.998897,132.77887 C248.000609,131.797037 247.205169,131.000609 246.223335,131 Z" id="logo_gitee_g_red"></path>
+        </g>
+    </g>
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#核心概念解析">核心概念解析</a>
+      <ol>
+        <li><a href="#git-基础概念回顾">Git 基础概念回顾</a></li>
+        <li><a href="#github-开源协作的概念">GitHub 开源协作的概念</a></li>
+      </ol>
+    </li>
+    <li><a href="#首次贡献实战演练">首次贡献实战演练</a>
+      <ol>
+        <li><a href="#step-1-fork---拥有你自己的副本">Step 1: Fork - 拥有你自己的副本</a></li>
+        <li><a href="#step-2-clone---将代码克隆到本地">Step 2: Clone - 将代码克隆到本地</a></li>
+        <li><a href="#step-3-配置-upstream建立与上游的连接">Step 3: 配置 upstream，建立与上游的连接</a></li>
+        <li><a href="#step-4-创建特性分支">Step 4: 创建特性分支</a></li>
+        <li><a href="#step-5-开发与提交">Step 5: 开发与提交</a></li>
+        <li><a href="#step-6-保持同步与上游代码对齐-可选但重要">Step 6: 保持同步，与上游代码对齐 (可选但重要)</a></li>
+        <li><a href="#step-7-推送将变更推送到你的-fork">Step 7: 推送，将变更推送到你的 Fork</a></li>
+        <li><a href="#step-8-创建-pull-request">Step 8: 创建 Pull Request</a></li>
+        <li><a href="#step-9-响应代码审查-code-review">Step 9: 响应代码审查 (Code Review)</a></li>
+        <li><a href="#step-10-合并">Step 10: 合并</a></li>
+      </ol>
+    </li>
+    <li><a href="#保持更新如何为下一次贡献做准备">保持更新，如何为下一次贡献做准备</a>
+      <ol>
+        <li><a href="#为什么需要同步你的-fork">为什么需要同步你的 Fork</a></li>
+        <li><a href="#两步完成同步">两步完成同步</a>
+          <ol>
+            <li><a href="#第一步更新你的本地仓库">第一步：更新你的本地仓库</a></li>
+            <li><a href="#第二步更新你在-github-上的-fork">第二步：更新你在 GitHub 上的 Fork</a></li>
+          </ol>
+        </li>
+        <li><a href="#小结">小结</a></li>
+      </ol>
+    </li>
+    <li><a href="#常用命令速查清单-cheat-sheet">常用命令速查清单 (Cheat Sheet)</a>
+      <ol>
+        <li><a href="#首次设置-为一个新项目贡献时仅需一次">首次设置 (为一个新项目贡献时，仅需一次)</a></li>
+        <li><a href="#一个完整的开发周期">一个完整的开发周期</a></li>
+        <li><a href="#响应代码审查-review-后修改代码">响应代码审查 (Review 后修改代码)</a></li>
+        <li><a href="#贡献完成后保持-fork-更新-为下一次贡献做准备">贡献完成后，保持 Fork 更新 (为下一次贡献做准备)</a></li>
+      </ol>
+    </li>
+    <li><a href="#结语">结语</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%B8%80%E4%BB%BD%E7%BB%99%E5%BC%80%E6%BA%90%E6%96%B0%E6%89%8B%E7%9A%84-github-%E8%B4%A1%E7%8C%AE%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/">一份给开源新手的 GitHub 贡献流程指南</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-08-24</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 11 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>作为一名开发者，参与开源是提升技术、建立个人影响力的有效途径。但很多人，包括曾经的我，在刚接触时都会被 GitHub 的协作流程搞得一头雾水。</p>
+<p>比如，什么是 <code>Fork</code>？<code>Upstream</code> 和 <code>Origin</code> 又有什么区别？标准的贡献流程是怎样的？网上虽然有资料，但很少有一篇文章能为新手清晰地讲明白整个过程。</p>
+<p>今年我参加了“<a class="link" href="https://summer-ospp.ac.cn/"  target="_blank" rel="noopener"
+    >开源之夏</a>”活动，在为 openEuler 社区的 <a class="link" href="https://gitee.com/openeuler/splitter"  target="_blank" rel="noopener"
+    >splitter</a> 项目提交 <a class="link" href="https://gitee.com/openeuler/splitter/pulls/19"  target="_blank" rel="noopener"
+    >PR</a> 的过程中，才算真正搞清楚完整的流程。因为自己经历过初期的困惑，所以决定把这个过程完整地记录下来，形成一篇能直接上手操作的指南。</p>
+<p>这篇文章的目的很明确：就是为那些想参与开源但对流程不熟悉的开发者，提供一份清晰、实用的操作手册。希望这篇总结能帮你扫清障碍，顺利迈出开源贡献的第一步。下面我们正式开始。</p>
+<h2 id="核心概念解析">核心概念解析</h2>
+<p>在动手操作之前，我们必须先理解几个关键的名词。搞清楚它们之间的关系，是顺利完成后续所有步骤的基础。</p>
+<h3 id="git-基础概念回顾">Git 基础概念回顾</h3>
+<p>首先，你需要对 Git 本身的工作流程有一个基本了解。下面这张图很经典地展示了 Git 的核心区域和操作：</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241656520.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="git"
+	
+	
+></p>
+<p>简单来说，你的日常工作就是：</p>
+<ol>
+<li>在 <strong>Workspace (工作区)</strong> 修改代码。</li>
+<li>使用 <code>git add</code> 将修改内容暂存到 <strong>Index (暂存区)</strong>。</li>
+<li>使用 <code>git commit</code> 将暂存区的内容提交到本地 <strong>Repository (仓库)</strong>，形成一个版本记录。</li>
+<li>使用 <code>git push</code> 将本地仓库的提交推送到 <strong>Remote (远程仓库)</strong>，比如 GitHub。</li>
+<li>使用 <code>git pull</code> 或 <code>git fetch</code> 从远程仓库拉取更新。</li>
+</ol>
+<p>对于这些基础命令的详细用法，阮一峰老师<a class="link" href="https://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html"  target="_blank" rel="noopener"
+    >《常用 Git 命令清单》</a>已经总结得非常全面，是很好的速查手册，本文不再赘述。</p>
+<h3 id="github-开源协作的概念">GitHub 开源协作的概念</h3>
+<p>上面提到的模型只涉及一个本地仓库和一个远程仓库。但在开源协作中，通常会涉及<strong>三个仓库</strong>。下面这张图清晰地展示了它们的关系，这也是本节的重点：</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241704135.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="github"
+	
+	
+></p>
+<p>让我们结合这张图，来理解几个最重要的概念：</p>
+<ul>
+<li>
+<p><strong>Upstream (上游仓库)</strong></p>
+<ul>
+<li><strong>是什么</strong>：图中左上角的 &ldquo;GitHub - Original&rdquo;，也就是你想要贡献代码的那个<strong>原始开源项目仓库</strong>。</li>
+<li><strong>你的权限</strong>：你通常没有直接往这里 <code>push</code> 代码的权限。</li>
+</ul>
+</li>
+<li>
+<p><strong>Fork (你的个人复刻)</strong></p>
+<ul>
+<li><strong>是什么</strong>：图中右上角的 &ldquo;GitHub - Fork&rdquo;。这是你通过在原始项目页面上点击 &ldquo;Fork&rdquo; 按钮，在<strong>你自己的 GitHub 账号下创建的一个完整的项目副本</strong>。</li>
+<li><strong>你的权限</strong>：因为这个仓库在你的名下，所以你拥有全部的读写权限，可以随意 <code>push</code> 代码。这是你为开源项目贡献代码的“大本营”和“实验区”。</li>
+</ul>
+</li>
+<li>
+<p><strong>origin (你的远程仓库)</strong></p>
+<ul>
+<li><strong>是什么</strong>：简单来说，<code>origin</code> 是 Git 为你克隆的那个远程仓库地址起的一个<strong>默认别名</strong>。</li>
+<li><strong>如何创建</strong>：当你从 GitHub 克隆你的 Fork 仓库时，通过执行 <code>git clone [URL of YOUR FORK]</code> 这个命令，Git 会在你的本地仓库中<strong>自动创建</strong>这个名为 <code>origin</code> 的别名。你不需要任何手动设置。</li>
+<li><strong>指向哪里</strong>：在我们的协作流程中，<code>origin</code> 这个别名指向的就是<strong>你自己的 Fork 仓库</strong> (也就是图右上角的 &ldquo;GitHub - Fork&rdquo;)。</li>
+<li><strong>作用</strong>：它是你 <code>push</code> 本地代码时的默认目标。当你执行 <code>git push</code> 时，你的代码变更就是通过 <code>origin</code> 这个别名，被推送到你自己的 Fork 仓库中。</li>
+</ul>
+</li>
+<li>
+<p><strong>upstream vs. origin 的关系</strong></p>
+<ul>
+<li><strong><code>origin</code></strong> 指向你自己的 Fork，是你<strong>推送 (push) 代码</strong>的地方。</li>
+<li><strong><code>upstream</code></strong> 指向原始项目仓库，是你 <strong>同步最新代码 (fetch)</strong> 的地方。</li>
+<li><strong>关键点</strong>：<code>origin</code> 是克隆时自动生成的，而 <code>upstream</code> 是需要我们<strong>手动添加</strong>的。这一步至关重要，它建立了你的本地仓库和原始项目之间的连接，让你能够随时获取项目的最新进展。</li>
+</ul>
+</li>
+<li>
+<p><strong>Pull Request (PR - 合并请求)</strong></p>
+<ul>
+<li><strong>是什么</strong>：当你觉得在自己 Fork 里的代码已经准备好，可以贡献给原始项目时，你就可以在 GitHub 上发起一个 Pull Request。</li>
+<li><strong>作用</strong>：这是一个正式的请求，请求 <code>Upstream</code> (原始项目) 的维护者，把你 Fork 里的代码变更拉取 (Pull) 到他们的仓库中。这也是代码审查 (Code Review)、讨论和最终合并的地方。</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结一下</strong>，整个流程的数据流是这样的：</p>
+<ol>
+<li>
+<p><strong>初始化：从 <code>origin</code> 到本地</strong></p>
+<p>你首先 <code>clone</code> 的是你自己的 Fork 仓库 (<code>origin</code>)，把代码从你的 GitHub 仓库复制到本地电脑。这是你建立本地工作环境的第一步。</p>
+</li>
+<li>
+<p><strong>开发与同步：<code>upstream</code> -&gt; 本地 -&gt; <code>origin</code></strong></p>
+<p>这个阶段是循环往复的。</p>
+<ul>
+<li><strong>获取更新</strong>：你需要定期从 <code>upstream</code> (原始项目) <code>fetch</code> 或 <code>rebase</code> 最新的代码到本地，确保你的工作是基于最新版本。</li>
+<li><strong>推送你的贡献</strong>：在本地开发完成后，你把代码 <code>push</code> 到 <code>origin</code> (你自己的 Fork)。你的代码变更只会上传到你自己的远程仓库里。</li>
+</ul>
+</li>
+<li>
+<p><strong>提交贡献：从 <code>origin</code> 到 <code>upstream</code></strong></p>
+<p>最后，你通过在 GitHub 上创建一个 Pull Request，请求 <code>upstream</code> (原始项目) 的维护者，来审核并合并你 <code>origin</code> (你的 Fork) 里的代码。</p>
+</li>
+</ol>
+<p>这个流程确保了你的所有修改都在自己的“地盘”上进行，既不会影响到原始项目，又能随时与原始项目保持同步，并最终通过 PR 的方式发起贡献。</p>
+<p>理解了这三个仓库和它们之间的关系，我们就已经扫清了最大的障碍。接下来，我们将进入实战环节。</p>
+<h2 id="首次贡献实战演练">首次贡献实战演练</h2>
+<p>理论知识已经储备完毕，现在让我们卷起袖子，完整地走一遍实际的贡献流程。我们会模拟为一个名为 <code>project-name</code> 的开源项目贡献代码。</p>
+<h3 id="step-1-fork---拥有你自己的副本">Step 1: Fork - 拥有你自己的副本</h3>
+<p>首先，你需要进入 <code>project-name</code> 的 GitHub 主页。在页面的右上角，你会看到一个 &ldquo;Fork&rdquo; 按钮。点击它，GitHub 就会在你的个人账号下创建一个该项目的完整副本。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241744175.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="fork"
+	
+	
+></p>
+<p>完成后，你的 GitHub 主页上就会出现一个 <code>your-username/project-name</code> 的仓库。这就是你的个人复刻 (Fork)。</p>
+<h3 id="step-2-clone---将代码克隆到本地">Step 2: Clone - 将代码克隆到本地</h3>
+<p>现在，你需要把你 Fork 的仓库克隆到你的电脑上进行开发。</p>
+<p>进入你刚刚创建的 <code>your-username/project-name</code> 仓库页面，点击绿色的 &ldquo;Code&rdquo; 按钮，复制 HTTPS 或 SSH 链接。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241745385.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="clone"
+	
+	
+></p>
+<p>然后，在你的电脑终端中执行以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 确保将 YOUR-USERNAME 替换为你的 GitHub 用户名</span>
+</span></span><span class="line"><span class="cl">git clone https://github.com/YOUR-USERNAME/project-name.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>注意</strong>：这里克隆的是<strong>你自己的 Fork 仓库地址</strong>，而不是原始项目的地址。这是非常关键的一步。</p>
+<h3 id="step-3-配置-upstream建立与上游的连接">Step 3: 配置 upstream，建立与上游的连接</h3>
+<p>为了能够随时获取原始项目的更新，我们需要在本地配置一个指向上游仓库 (<code>upstream</code>) 的远程地址。</p>
+<p>首先，进入项目目录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> project-name
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后，添加 <code>upstream</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 将 URL 替换为原始开源项目的 URL</span>
+</span></span><span class="line"><span class="cl">git remote add upstream https://github.com/original-owner/project-name.git
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们可以用 <code>git remote -v</code> 命令来检查是否配置成功。你应该能看到类似下面的输出：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">origin    https://github.com/YOUR-USERNAME/project-name.git <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">origin    https://github.com/YOUR-USERNAME/project-name.git <span class="o">(</span>push<span class="o">)</span>
+</span></span><span class="line"><span class="cl">upstream  https://github.com/original-owner/project-name.git <span class="o">(</span>fetch<span class="o">)</span>
+</span></span><span class="line"><span class="cl">upstream  https://github.com/original-owner/project-name.git <span class="o">(</span>push<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>看到 <code>origin</code> 和 <code>upstream</code> 同时存在，就说明配置成功了。</p>
+<h3 id="step-4-创建特性分支">Step 4: 创建特性分支</h3>
+<p>在开始写代码之前，一个最佳实践是为你的新功能或修复创建一个独立的分支。这能确保你的 <code>master</code> 分支保持干净，并与上游项目同步。</p>
+<p>首先，确保你的本地 <code>master</code> 分支是最新的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git fetch upstream
+</span></span><span class="line"><span class="cl">git checkout master
+</span></span><span class="line"><span class="cl">git rebase upstream/master
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后，从最新的 <code>master</code> 分支上创建一个新分支：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 把 my-feature-branch 换成一个有意义的名字，比如 fix-login-bug</span>
+</span></span><span class="line"><span class="cl">git checkout -b my-feature-branch
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>现在，你就可以在这个新分支上安全地进行开发了。</p>
+<h3 id="step-5-开发与提交">Step 5: 开发与提交</h3>
+<p>在这个分支上，你可以自由地修改代码、添加新文件、修复 Bug。完成一个阶段性的工作后，就进行一次 <code>commit</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1. 添加你的修改到暂存区</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 提交你的修改，并写下清晰的提交信息</span>
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;feat: Implement user profile page&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="step-6-保持同步与上游代码对齐-可选但重要">Step 6: 保持同步，与上游代码对齐 (可选但重要)</h3>
+<p>如果你的开发周期比较长，在你开发期间，<code>upstream</code> 可能已经合并了其他人的代码。为了避免提交 PR 时产生冲突，建议在推送前，先同步一次上游的最新代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git fetch upstream
+</span></span><span class="line"><span class="cl">git rebase upstream/master
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>rebase</code> 可以让你的提交历史保持一条直线，看起来更整洁。如果遇到冲突，你需要先解决冲突，然后继续 <code>rebase</code> 过程。</p>
+<h3 id="step-7-推送将变更推送到你的-fork">Step 7: 推送，将变更推送到你的 Fork</h3>
+<p>当你在本地完成开发和提交后，就可以把你的特性分支推送到你自己的 Fork 仓库 (<code>origin</code>) 了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push --set-upstream origin my-feature-branch
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>--set-upstream</code> 参数只需要在第一次推送这个分支时使用，它会告诉 Git 你的本地分支 <code>my-feature-branch</code> 对应远程仓库 <code>origin</code> 的同名分支。</p>
+<h3 id="step-8-创建-pull-request">Step 8: 创建 Pull Request</h3>
+<p>推送成功后，现在回到你在 GitHub 上的 Fork 仓库页面。通常，GitHub 会自动检测到你推送了新的分支，并显示一个黄色的提示条，让你方便地创建 Pull Request。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241756895.webp"
+	
+	
+	
+	loading="lazy"
+	
+		alt="PR"
+	
+	
+></p>
+<p>点击 &ldquo;Compare &amp; Pull Request&rdquo; 按钮，你会进入 PR 创建页面。在这里，你需要：</p>
+<ol>
+<li><strong>填写一个清晰的标题</strong>：简明扼要地说明这个 PR 的作用。</li>
+<li><strong>撰写详细的描述</strong>：解释你为什么要进行这些修改，解决了什么问题，以及你是如何实现的。如果项目有 PR 模板，请务必按照模板填写。</li>
+</ol>
+<p>确认无误后，点击 &ldquo;Create pull request&rdquo;。恭喜你，你的第一个 PR 已经成功提交了！</p>
+<h3 id="step-9-响应代码审查-code-review">Step 9: 响应代码审查 (Code Review)</h3>
+<p>提交 PR 只是开始，接下来你需要和项目维护者进行互动。</p>
+<ol>
+<li><strong>维护者留下评论</strong>：项目维护者会审查你的代码，并在可能有问题的地方留下评论 (Comment)。你会在 GitHub PR 页面和邮件中收到通知。</li>
+</ol>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241800186.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="comment"
+	
+	
+></p>
+<ol start="2">
+<li>
+<p><strong>回复与讨论</strong>：对于每一条评论，你都应该进行回复。如果同意修改，可以简单回复“好的，马上修改”；如果不理解或有不同意见，可以在评论区进行礼貌的讨论。</p>
+</li>
+<li>
+<p><strong>修改代码并再次提交</strong>：</p>
+<ul>
+<li>
+<p>回到你的本地电脑，确保你还在之前的 <code>my-feature-branch</code> 分支上。</p>
+</li>
+<li>
+<p>根据讨论结果，直接修改代码。</p>
+</li>
+<li>
+<p>修改完成后，创建一个新的 <code>commit</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;fix: Address review comments from maintainer&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>重要</strong>：修改完成后，直接将新的提交推送到你的分支：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push origin my-feature-branch
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>你<strong>不需要</strong>重新创建一个 PR。这次 <code>push</code> 会自动更新你之前提交的那个 PR。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>解决对话 (Resolve Conversation)</strong>：</p>
+<p>当你认为你已经解决了某一条评论中的问题后，回到 PR 页面，找到对应的评论，点击 &ldquo;<strong>Resolve conversation</strong>&rdquo; 按钮。这是一种礼貌的表示，告诉维护者这个问题你已经处理完毕，方便他们再次审查。</p>
+</li>
+</ol>
+<p>这个修改 -&gt; 推送 -&gt; 解决对话的循环可能会进行多次，直到所有问题都得到解决。</p>
+<h3 id="step-10-合并">Step 10: 合并</h3>
+<p>当你的代码通过了所有审查，维护者就会点击 &ldquo;Merge pull request&rdquo; 按钮，将你的代码合并到主项目中。</p>
+<p><img src="https://cdn.mahaoliang.tech/2024/202508241810964.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="merged"
+	
+	
+></p>
+<p>至此，你的代码就正式成为了开源项目的一部分！你可以在项目的贡献者名单中看到自己的名字，这是对你辛勤付出的最好回报。</p>
+<h2 id="保持更新如何为下一次贡献做准备">保持更新，如何为下一次贡献做准备</h2>
+<p>恭喜你！在完成了一次 PR 合并后，你已经是一位正式的开源贡献者了。但工作还没结束。为了能方便地进行下一次贡献，你需要学会如何让你的 Fork 仓库与原始项目保持同步。</p>
+<h3 id="为什么需要同步你的-fork">为什么需要同步你的 Fork</h3>
+<p>在你完成一次贡献后，原始项目（<code>upstream</code>）的 <code>master</code> 分支因为合并了你的 PR 和其他人的代码，已经向前更新了。而你自己的 Fork 和本地仓库的 <code>master</code> 分支，还停留在你开始工作时的旧位置。</p>
+<p>如果你不进行同步，直接从一个过时的 <code>master</code> 分支上创建新分支进行开发，那么在提交下一次 PR 时，几乎必然会遇到大量的代码冲突，给自己和项目维护者都带来不必要的麻烦。</p>
+<p>因此，<strong>在开始下一次贡献前，保持你的 <code>master</code> 分支与 <code>upstream</code> 完全同步，是一个至关重要的好习惯。</strong></p>
+<h3 id="两步完成同步">两步完成同步</h3>
+<p>整个同步过程非常简单，可以分为两步：先更新本地，再更新你的远程 Fork。</p>
+<h4 id="第一步更新你的本地仓库">第一步：更新你的本地仓库</h4>
+<ol>
+<li>
+<p><strong>切换到主分支</strong></p>
+<p>首先，确保你回到了 <code>master</code> 分支。所有同步操作都应该在 <code>master</code> 分支上进行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout master
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>从上游拉取最新变更</strong></p>
+<p>这个命令会从原始项目（<code>upstream</code>）下载最新的代码历史，但<strong>不会</strong>自动修改你本地的任何文件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git fetch upstream
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><strong>将本地 master 同步到上游 master</strong></p>
+<p>这步是关键。它会以 <code>upstream/master</code> 的最新版本为基础，来更新你本地的 <code>master</code> 分支。执行后，你的本地 <code>master</code> 分支就和原始项目的 <code>master</code> 分支完全一致了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git rebase upstream/master
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+</ol>
+<p>现在，你的本地 <code>master</code> 分支已经是最新版本了。</p>
+<h4 id="第二步更新你在-github-上的-fork">第二步：更新你在 GitHub 上的 Fork</h4>
+<p>你的本地 <code>master</code> 是最新的了，但你 GitHub 上的 Fork (<code>origin</code>) 还停留在旧版本。我们需要把本地的更新推送到 <code>origin</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push origin master
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行这个命令后，你 GitHub 上的 Fork 仓库的 <code>master</code> 分支也会被更新到最新状态。</p>
+<h3 id="小结">小结</h3>
+<p>现在，你的<strong>本地仓库</strong>和 <strong>GitHub 上的 Fork</strong> 都和上游项目完全同步了。</p>
+<p>你可以安心地从这个干净、最新的 <code>master</code> 分支上，通过 <code>git checkout -b new-feature</code> 创建新的特性分支，开始你的下一次贡献了。</p>
+<p>记住这个流程：<strong>每次开始新工作前，先同步 <code>master</code> 分支</strong>。这将让你的开源贡献之路更加顺畅。</p>
+<h2 id="常用命令速查清单-cheat-sheet">常用命令速查清单 (Cheat Sheet)</h2>
+<p>在熟悉了整个流程后，你不需要每次都回头阅读长篇的文字。这份速查清单总结了在不同阶段最核心的命令，你可以把它当作日常贡献时的“小抄”。</p>
+<h3 id="首次设置-为一个新项目贡献时仅需一次">首次设置 (为一个新项目贡献时，仅需一次)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1. 克隆你自己的 Fork 仓库到本地</span>
+</span></span><span class="line"><span class="cl">git clone <span class="o">[</span>URL of YOUR FORK<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入项目目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="o">[</span>project-name<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 添加原始项目仓库为 upstream</span>
+</span></span><span class="line"><span class="cl">git remote add upstream <span class="o">[</span>URL of ORIGINAL REPO<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 验证远程仓库设置是否成功</span>
+</span></span><span class="line"><span class="cl">git remote -v
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="一个完整的开发周期">一个完整的开发周期</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># === 准备阶段 ===</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 切换到主分支</span>
+</span></span><span class="line"><span class="cl">git checkout master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 与上游 master 分支保持同步</span>
+</span></span><span class="line"><span class="cl">git fetch upstream
+</span></span><span class="line"><span class="cl">git rebase upstream/master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 从最新的 master 分支创建你的特性分支</span>
+</span></span><span class="line"><span class="cl">git checkout -b <span class="o">[</span>my-new-feature-branch<span class="o">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># === 开发阶段 ===</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ... 在这里进行代码的修改、添加、删除 ...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 添加变更到暂存区</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 提交变更</span>
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;feat: Add a new amazing feature&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># === 提交阶段 ===</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. (可选但推荐) 在推送前，再次与上游同步，避免冲突</span>
+</span></span><span class="line"><span class="cl">git fetch upstream
+</span></span><span class="line"><span class="cl">git rebase upstream/master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 将你的分支推送到你自己的 Fork 仓库 (origin)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 第一次推送时使用 --set-upstream</span>
+</span></span><span class="line"><span class="cl">git push --set-upstream origin <span class="o">[</span>my-new-feature-branch<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>推送完成后，去 GitHub 页面创建 Pull Request。</p>
+<h3 id="响应代码审查-review-后修改代码">响应代码审查 (Review 后修改代码)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 确保你还在你的特性分支上</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ... 直接修改代码 ...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 提交你的修改</span>
+</span></span><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;fix: Address review comments&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 再次推送到你的分支，PR会自动更新</span>
+</span></span><span class="line"><span class="cl">git push origin <span class="o">[</span>my-new-feature-branch<span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="贡献完成后保持-fork-更新-为下一次贡献做准备">贡献完成后，保持 Fork 更新 (为下一次贡献做准备)</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1. 切换到主分支</span>
+</span></span><span class="line"><span class="cl">git checkout master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 拉取上游的最新代码</span>
+</span></span><span class="line"><span class="cl">git fetch upstream
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 将本地 master 更新到最新</span>
+</span></span><span class="line"><span class="cl">git rebase upstream/master
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 4. 将这个最新的 master 分支推送到你自己的 Fork，使其在 GitHub 上也保持最新</span>
+</span></span><span class="line"><span class="cl">git push origin master
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="结语">结语</h2>
+<p>到这里，我们已经完整地走完了在 GitHub 上参与一个开源项目的全过程：从理解 Fork、Upstream 这些核心概念，到一步步创建分支、提交代码、发起 Pull Request，再到如何与维护者互动以及如何为下一次贡献保持仓库同步。</p>
+<p>其实，整个流程可以被总结为一条清晰的路径：</p>
+<p><strong>Fork -&gt; Clone -&gt; Branch -&gt; Develop -&gt; Push -&gt; PR</strong></p>
+<p>开源贡献的流程并不复杂，最重要的，是勇敢地迈出第一步。</p>
+<p>希望这篇文章能成为你开启开源之旅的得力助手。现在，就去寻找一个你感兴趣的项目，提交你的第一个 PR 吧！</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/opensource/">Opensource</a>
+        
+            <a href="/tags/git/">Git</a>
+        
+            <a href="/tags/github/">Github</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 1Password 和 SSH Agent Forwarding 提升远程开发体验</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%88%91%E5%9C%A8%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E4%B8%BA-openeuler-%E6%8F%90%E4%BA%A4%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-pr-%E8%A2%AB%E5%90%88%E5%B9%B6%E4%BA%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 项目管理最佳实践：uv 使用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">现代 Python 项目管理指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">深入理解 Python 与 pip</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2025 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤 ICP 备 2022085181 号 -2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
