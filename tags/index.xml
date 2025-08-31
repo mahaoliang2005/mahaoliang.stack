@@ -6,7 +6,31 @@
         <description>Recent content in Tags on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 24 Aug 2025 16:26:32 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 31 Aug 2025 21:04:45 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Bash</title>
+        <link>https://mahaoliang.tech/tags/bash/</link>
+        <pubDate>Sun, 31 Aug 2025 21:04:45 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/tags/bash/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Linux</title>
+        <link>https://mahaoliang.tech/tags/linux/</link>
+        <pubDate>Sun, 31 Aug 2025 21:04:45 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/tags/linux/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Shell</title>
+        <link>https://mahaoliang.tech/tags/shell/</link>
+        <pubDate>Sun, 31 Aug 2025 21:04:45 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/tags/shell/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Git</title>
         <link>https://mahaoliang.tech/tags/git/</link>
         <pubDate>Sun, 24 Aug 2025 16:26:32 +0800</pubDate>
@@ -36,14 +60,6 @@
         <pubDate>Thu, 21 Aug 2025 10:48:37 +0800</pubDate>
         
         <guid>https://mahaoliang.tech/tags/docker/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Linux</title>
-        <link>https://mahaoliang.tech/tags/linux/</link>
-        <pubDate>Thu, 21 Aug 2025 10:48:37 +0800</pubDate>
-        
-        <guid>https://mahaoliang.tech/tags/linux/</guid>
         <description></description>
         </item>
         <item>

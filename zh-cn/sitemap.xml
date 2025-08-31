@@ -3,7 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://mahaoliang.tech/</loc>
-    <lastmod>2025-08-24T16:26:32+08:00</lastmod>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -15,8 +15,11 @@
                 href="https://mahaoliang.tech/"
                 />
   </url><url>
+    <loc>https://mahaoliang.tech/tags/bash/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+  </url><url>
     <loc>https://mahaoliang.tech/categories/</loc>
-    <lastmod>2025-08-24T16:26:32+08:00</lastmod>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -27,6 +30,64 @@
                 hreflang="zh-cn"
                 href="https://mahaoliang.tech/categories/"
                 />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/linux/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/linux/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/linux/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/post/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/post/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/post/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/shell/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+  </url><url>
+    <loc>https://mahaoliang.tech/tags/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/tags/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/categories/tech/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mahaoliang.tech/en/categories/tech/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://mahaoliang.tech/categories/tech/"
+                />
+  </url><url>
+    <loc>https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90-.bash_profile-%E4%B8%8E-.bashrc/</loc>
+    <lastmod>2025-08-31T21:04:45+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/git/</loc>
     <lastmod>2025-08-24T16:26:32+08:00</lastmod>
@@ -47,63 +108,11 @@
     <loc>https://mahaoliang.tech/tags/opensource/</loc>
     <lastmod>2025-08-24T16:26:32+08:00</lastmod>
   </url><url>
-    <loc>https://mahaoliang.tech/post/</loc>
-    <lastmod>2025-08-24T16:26:32+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/post/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/post/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/</loc>
-    <lastmod>2025-08-24T16:26:32+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/tags/"
-                />
-  </url><url>
-    <loc>https://mahaoliang.tech/categories/tech/</loc>
-    <lastmod>2025-08-24T16:26:32+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/categories/tech/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/categories/tech/"
-                />
-  </url><url>
     <loc>https://mahaoliang.tech/p/%E4%B8%80%E4%BB%BD%E7%BB%99%E5%BC%80%E6%BA%90%E6%96%B0%E6%89%8B%E7%9A%84-github-%E8%B4%A1%E7%8C%AE%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/</loc>
     <lastmod>2025-08-24T16:26:32+08:00</lastmod>
   </url><url>
     <loc>https://mahaoliang.tech/tags/docker/</loc>
     <lastmod>2025-08-21T10:48:37+08:00</lastmod>
-  </url><url>
-    <loc>https://mahaoliang.tech/tags/linux/</loc>
-    <lastmod>2025-08-21T10:48:37+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mahaoliang.tech/en/tags/linux/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://mahaoliang.tech/tags/linux/"
-                />
   </url><url>
     <loc>https://mahaoliang.tech/tags/openeuler/</loc>
     <lastmod>2025-08-21T10:48:37+08:00</lastmod>
