@@ -6,7 +6,158 @@
         <description>Recent content on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 31 Aug 2025 21:04:45 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 04 Sep 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>开源之夏结项报告</title>
+        <link>https://mahaoliang.tech/p/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E7%BB%93%E9%A1%B9%E6%8A%A5%E5%91%8A/</link>
+        <pubDate>Thu, 04 Sep 2025 00:00:00 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E7%BB%93%E9%A1%B9%E6%8A%A5%E5%91%8A/</guid>
+        <description>&lt;p&gt;今年暑假最大的收获就是拿到了驾照，然后就是参加了&lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;开源之夏 (Summer OSPP)&lt;/a&gt; 。经过两个月的开发，今天终于可以为 &lt;a class=&#34;link&#34; href=&#34;https://summer-ospp.ac.cn/org/prodetail/25b970448&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/a&gt; 项目提交了结项报告了。一个合并了 7 个 PR，完全超出了我的预期。&lt;/p&gt;
+&lt;p&gt;下面是我的结项报告。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;结项报告&#34;&gt;结项报告&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;学生姓名：&lt;/strong&gt; 马浩量&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;项目编号：&lt;/strong&gt; 25b970448&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;项目信息&#34;&gt;项目信息&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;项目名称&lt;/strong&gt;：面向 openEuler distroless 镜像的 SDF 自动生成工具开发&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;方案描述&lt;/strong&gt;：
+本项目旨在为 openEuler 的 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;splitter&lt;/a&gt; 工具开发一个全新的 &lt;code&gt;gen&lt;/code&gt; 命令，以实现 Slice Definition File (SDF) 的自动化生成。当前所有用于构建 Distroless 镜像的 SDF 文件均需手工编写，效率低而且容易出错。&lt;/p&gt;
+&lt;p&gt;本方案通过设计一套自动化流水线，为任意 RPM 包生成高质量的 SDF 草稿。其核心流程包括：在隔离的 Docker 环境中动态构建一个依赖完备的分析环境，然后对目标 RPM 包进行&lt;strong&gt;智能文件分类&lt;/strong&gt;和&lt;strong&gt;精确依赖分析&lt;/strong&gt;，最终产出结构清晰、内容准确的 SDF YAML 文件。此工具旨在将社区开发者从繁琐的重复性工作中解放出来，加速 openEuler Distroless 生态的建设。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;时间规划&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;第一阶段 (7 月 1 日 - 7 月 15 日 )&lt;/strong&gt;: &lt;strong&gt;熟悉与框架搭建&lt;/strong&gt;，研究 &lt;code&gt;splitter&lt;/code&gt; 和 &lt;code&gt;slice-releases&lt;/code&gt; 现有机制，分析手工 SDF 的设计模式，完成 &lt;code&gt;gen&lt;/code&gt; 命令的基础框架。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第二阶段 (7 月 16 日 - 7 月 31 日)&lt;/strong&gt;: &lt;strong&gt;核心功能实现&lt;/strong&gt;。实现基于 &lt;code&gt;file&lt;/code&gt; 命令的精确文件分类器，基于 &lt;code&gt;readelf&lt;/code&gt; 的依赖分析器。完成路径压缩、内部依赖注入等 SDF 优化功能。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第三阶段 (8 月)&lt;/strong&gt;: 响应导师建议，引入 Docker 隔离环境，编写 &lt;code&gt;Dockerfile&lt;/code&gt; 和 &lt;code&gt;splitter-docker.sh&lt;/code&gt; 运行脚本。向 openEuler 官方镜像仓库贡献 &lt;code&gt;splitter&lt;/code&gt; 镜像。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;第四阶段 (8 月底)&lt;/strong&gt;: 完善 &lt;code&gt;splitter&lt;/code&gt; 项目的 &lt;code&gt;README.md&lt;/code&gt;，更新 openEuler Distroless 官方文档，撰写技术博客与结项报告。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;项目总结&#34;&gt;项目总结&lt;/h2&gt;
+&lt;h3 id=&#34;已完成工作&#34;&gt;已完成工作&lt;/h3&gt;
+&lt;p&gt;对照项目申请书的方案，我完成了预定任务，主要工作成果如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;新增 &lt;code&gt;splitter gen&lt;/code&gt; 命令&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;成功为 &lt;code&gt;splitter&lt;/code&gt; 工具增加了 &lt;code&gt;gen&lt;/code&gt; 子命令，提供了从无到有的 SDF 自动化生成能力。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对应 PR&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/19&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!19&lt;/a&gt; (已合并)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实现文件分类器&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;基于对现有 SDF 的分析，建立了规则引擎，可识别 &lt;code&gt;_bins&lt;/code&gt;, &lt;code&gt;_libs&lt;/code&gt;, &lt;code&gt;_config&lt;/code&gt;, &lt;code&gt;_copyright&lt;/code&gt; 等核心 slice。&lt;/li&gt;
+&lt;li&gt;引入 &lt;code&gt;file -L&lt;/code&gt; 命令进行文件类型校验，确保只有真正的 ELF 文件才会被归入 &lt;code&gt;_bins&lt;/code&gt; 或 &lt;code&gt;_libs&lt;/code&gt;，能正确处理脚本和符号链接。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实现依赖分析器&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;采用“&lt;strong&gt;解析 -&amp;gt; 定位 -&amp;gt; 溯源&lt;/strong&gt;”的三步策略，通过 &lt;code&gt;readelf&lt;/code&gt;, &lt;code&gt;ldconfig&lt;/code&gt;, &lt;code&gt;rpm -qf&lt;/code&gt; 工具链，自动化分析 ELF 文件的外部依赖。&lt;/li&gt;
+&lt;li&gt;实现了内部依赖（如 &lt;code&gt;_bins&lt;/code&gt; 对 &lt;code&gt;_config&lt;/code&gt;）的自动注入，使生成的 SDF 更符合设计惯例。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SDF 写入器&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;实现路径压缩算法，能将版本化的库文件路径（如 &lt;code&gt;libfoo.so.1&lt;/code&gt;, &lt;code&gt;libfoo.so.1.2.3&lt;/code&gt;）自动合并为 &lt;code&gt;libfoo.so.1*&lt;/code&gt;，SDF 产出质量接近手工水平。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;引入 Docker 沙箱化分析环境&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;响应导师建议，实现了&lt;strong&gt;基于官方 &lt;code&gt;openeuler/splitter&lt;/code&gt; 镜像的分析流程&lt;/strong&gt;，解决了对宿主环境的依赖和污染问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;贡献了官方 &lt;code&gt;splitter&lt;/code&gt; 镜像&lt;/strong&gt;: 编写了 &lt;code&gt;Dockerfile&lt;/code&gt; ，将 &lt;code&gt;splitter&lt;/code&gt; 工具镜像贡献至 &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;openEuler 官方容器镜像仓&lt;/a&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对应 PR&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images/pulls/866&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!866&lt;/a&gt; (已合并)， &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images/pulls/1023&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!1023&lt;/a&gt; (已合并)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;提供入口脚本 (&lt;code&gt;splitter-docker.sh&lt;/code&gt;)&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;编写了一个用户友好的 &lt;code&gt;splitter-docker.sh&lt;/code&gt; 脚本，封装了所有 Docker 操作，实现了&lt;code&gt;cut&lt;/code&gt;和&lt;code&gt;gen&lt;/code&gt;命令的“一键运行”。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;对应 PR&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/20&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!20&lt;/a&gt; (已合并)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;完善的文档&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;更新了 &lt;code&gt;splitter&lt;/code&gt; 项目的 &lt;code&gt;README.md&lt;/code&gt;，介绍了 &lt;code&gt;gen&lt;/code&gt; 命令的原理和使用方法。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;对应 PR&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/21&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!21&lt;/a&gt; (已合并) ，&lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/splitter/pulls/23&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!23&lt;/a&gt;(已合并)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;更新了 openEuler Distroless 镜像官方文档，将 SDF 的获取流程，更新为使用本工具的自动化流程。
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;对应 PR&lt;/strong&gt;: &lt;a class=&#34;link&#34; href=&#34;https://gitee.com/openeuler/openeuler-docker-images/pulls/1061&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;!1061&lt;/a&gt; (已合并)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;遇到的问题及解决方案&#34;&gt;遇到的问题及解决方案&lt;/h3&gt;
+&lt;p&gt;在本次项目中，遇到的主要挑战及解决方案如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;分析过程对环境的依赖和污染&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我的初始方案为了解决依赖问题，需要在运行工具的宿主系统上，通过&lt;code&gt;dnf install&lt;/code&gt;安装待分析的软件包及其依赖。这个过程虽然能让分析跑通，但它会直接修改用户的系统环境，存在污染系统的风险。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;：在导师提出“&lt;strong&gt;使用 chroot 或容器技术隔离环境&lt;/strong&gt;”的建议后，我最终选择了更加标准的 Docker 方案。基于官方的应用镜像，为每次分析启动一个干净的容器。在容器内部执行&lt;code&gt;dnf install&lt;/code&gt;，安装待分析的包，在隔离环境中执行 SDF 的生成。分析结束后，直接销毁容器。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;如何安全、准确地分析二进制依赖？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;最初考虑使用&lt;code&gt;ldd&lt;/code&gt;，但发现它存在执行代码的安全风险。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;：经过研究，我选择了&lt;code&gt;readelf -d&lt;/code&gt;作为核心分析工具。它作为静态分析器，只关注我们需要的直接依赖。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;如何处理脚本、符号链接等“伪可执行文件”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;readelf&lt;/code&gt;无法处理非 ELF 文件，导致分析&lt;code&gt;bash&lt;/code&gt;等包含大量脚本或内建命令的包时出现大量错误。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;：引入了&lt;code&gt;file -L&lt;/code&gt;命令作为“预检”步骤。在分类时，先用&lt;code&gt;file -L&lt;/code&gt; 鉴定文件类型，只有确认为 ELF 文件后，才将其归入&lt;code&gt;_bins&lt;/code&gt;或&lt;code&gt;_libs&lt;/code&gt;，后面再并交由&lt;code&gt;readelf&lt;/code&gt;分析。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;测试用例&#34;&gt;测试用例&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;单元测试&lt;/strong&gt;：为&lt;code&gt;writer.py&lt;/code&gt;中的路径压缩算法编写了单元测试，覆盖了空集合、单文件、多版本组、混合文件等多种边界情况，确保了 SDF 产出的格式质量。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;功能测试&lt;/strong&gt;：使用&lt;code&gt;splitter-docker.sh&lt;/code&gt;脚本，对多种类型的软件包进行了端到端的 SDF 生成测试，并与手工编写的 SDF 进行比对。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;后续工作安排&#34;&gt;后续工作安排&lt;/h3&gt;
+&lt;p&gt;虽然核心功能已经完成，但仍然有需要优化和完善的地方：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;脚本依赖分析&lt;/strong&gt;：探索对 Python &lt;code&gt;import&lt;/code&gt;或 Shell 脚本中的命令调用进行静态分析，发现非二进制的依赖关系。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;功能性切分探索&lt;/strong&gt;：研究为&lt;code&gt;coreutils&lt;/code&gt;这类复杂工具集提供“功能分组元数据”的可能性，以支持更深层次的自动化切分。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;批量生成与验证&lt;/strong&gt;：使用本工具对&lt;code&gt;slice-releases&lt;/code&gt;仓库中尚未覆盖的软件包进行 SDF 的批量生成，进一步扩充 openEuler Distroless 的软件包生态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;p&gt;楼下的星巴克，经常去那儿敲代码，比在家里有氛围，这个项目大部份在那儿完成的。拍张照纪念一下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2024/202509041739351.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;starbucks&#34;
+	
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>深入解析 .bash_profile 与 .bashrc</title>
         <link>https://mahaoliang.tech/p/%E6%B7%B1%E5%85%A5%E8%A7%A3%E6%9E%90-.bash_profile-%E4%B8%8E-.bashrc/</link>
         <pubDate>Sun, 31 Aug 2025 21:04:45 +0800</pubDate>
