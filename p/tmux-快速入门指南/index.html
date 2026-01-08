@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的 Java 版本列表 1 sdk list java'>
-<title>Sdkman 的使用</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='1. 核心概念：套娃结构 Tmux 的结构分为三层，理解这个就不会迷路： Session (会话)：最高层级。对应一个“项目”或“任务”。 场景：你可以有一个叫 work 的会话跑公'>
+<title>Tmux 快速入门指南</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Sdkman 的使用'>
-<meta property='og:description' content='SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的 Java 版本列表 1 sdk list java'>
-<meta property='og:url' content='https://mahaoliang.tech/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Tmux 快速入门指南'>
+<meta property='og:description' content='1. 核心概念：套娃结构 Tmux 的结构分为三层，理解这个就不会迷路： Session (会话)：最高层级。对应一个“项目”或“任务”。 场景：你可以有一个叫 work 的会话跑公'>
+<meta property='og:url' content='https://mahaoliang.tech/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='java' /><meta property='article:published_time' content='2023-06-24T18:08:17&#43;08:00'/><meta property='article:modified_time' content='2023-06-24T18:08:17&#43;08:00'/>
-<meta name="twitter:title" content="Sdkman 的使用">
-<meta name="twitter:description" content="SDKMAN！是用于管理多个软件开发工具包的并行版本的工具。 可安装的软件列表 列出当前可安装的软件列表 1 sdk list 列出当前可安装的 Java 版本列表 1 sdk list java">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2026-01-08T22:31:54&#43;08:00'/><meta property='article:modified_time' content='2026-01-08T22:31:54&#43;08:00'/>
+<meta name="twitter:title" content="Tmux 快速入门指南">
+<meta name="twitter:description" content="1. 核心概念：套娃结构 Tmux 的结构分为三层，理解这个就不会迷路： Session (会话)：最高层级。对应一个“项目”或“任务”。 场景：你可以有一个叫 work 的会话跑公">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -328,7 +328,55 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#1-核心概念套娃结构">1. 核心概念：套娃结构</a></li>
+    <li><a href="#2-cheat-sheet">2. Cheat Sheet</a>
+      <ol>
+        <li><a href="#a-会话管理-最常用">A. 会话管理 (最常用)</a></li>
+        <li><a href="#b-窗格-分屏-操作">B. 窗格 (分屏) 操作</a></li>
+        <li><a href="#c-窗口-标签页-操作">C. 窗口 (标签页) 操作</a></li>
+        <li><a href="#d-滚动与复制">D. 滚动与复制</a></li>
+      </ol>
+    </li>
+    <li><a href="#3-最佳实践-best-practices">3. 最佳实践 (Best Practices)</a>
+      <ol>
+        <li><a href="#1-永远给-session-起名字">1. 永远给 Session 起名字</a></li>
+        <li><a href="#2-利用好临时最大化-prefix--z">2. 利用好“临时最大化” (<code>Prefix + z</code>)</a></li>
+        <li><a href="#3-嵌套使用的原则">3. 嵌套使用的原则</a></li>
+        <li><a href="#4-结合-claude-code-的工作流">4. 结合 Claude Code 的工作流</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="main-article">
@@ -347,7 +395,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/sdkman-%E7%9A%84%E4%BD%BF%E7%94%A8/">Sdkman 的使用</a>
+            <a href="/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">Tmux 快速入门指南</a>
         </h2>
     
         
@@ -369,7 +417,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2023-06-24</time>
+                <time class="article-time--published">2026-01-08</time>
             </div>
         
 
@@ -384,7 +432,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -399,55 +447,155 @@
     <section class="article-content">
     
     
-    <p><a class="link" href="https://sdkman.io/"  target="_blank" rel="noopener"
-    >SDKMAN！</a>是用于管理多个软件开发工具包的并行版本的工具。</p>
-<p><img src="https://cdn.mahaoliang.tech/images/202306241814580.svg"
+    <p><img src="https://cdn.mahaoliang.tech/2026/20260108224040751.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="sdkman"
+		alt="tmux"
 	
 	
 ></p>
-<p>可安装的<a class="link" href="https://sdkman.io/sdks"  target="_blank" rel="noopener"
-    >软件列表</a></p>
+<h2 id="1-核心概念套娃结构">1. 核心概念：套娃结构</h2>
+<p>Tmux 的结构分为三层，理解这个就不会迷路：</p>
+<ol>
+<li><strong>Session (会话)</strong>：最高层级。对应一个“项目”或“任务”。</li>
+</ol>
 <ul>
-<li>列出当前可安装的软件列表</li>
+<li><em>场景：你可以有一个叫 <code>work</code> 的会话跑公司代码，一个叫 <code>blog</code> 的会话维护个人博客。断开 SSH 后，Session 依然在后台存活。</em></li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk list
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>列出当前可安装的 Java 版本列表</li>
+<ol start="2">
+<li><strong>Window (窗口)</strong>：中间层级。相当于浏览器的“标签页”。</li>
+</ol>
+<ul>
+<li><em>场景：在一个 Session 里，Window 1 跑 Claude Code，Window 2 跑 git 命令，Window 3 看日志。</em></li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk list java
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>安装指定的版本</li>
+<ol start="3">
+<li><strong>Pane (窗格)</strong>：最底层。相当于一个屏幕被切分成几块。</li>
+</ol>
+<ul>
+<li><em>场景：左边大屏跑 Claude Code，右边小屏实时看 <code>top</code> 监控性能。</em></li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk install java 17.0.7-tem
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>查看当前使用的版本</li>
+<hr>
+<h2 id="2-cheat-sheet">2. Cheat Sheet</h2>
+<p>所有快捷键都需要先按 <strong>前缀键 (Prefix)</strong>，默认是 <strong><code>Ctrl + b</code></strong>。
+<em>(操作方式：按下 <code>Ctrl</code> 和 <code>b</code>，松开，然后按具体功能键)</em></p>
+<h3 id="a-会话管理-最常用">A. 会话管理 (最常用)</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>tmux new -s &lt;name&gt;</code></strong></td>
+<td><strong>新建</strong>带名字的会话</td>
+<td><strong>强烈推荐</strong>，不要直接敲 tmux</td>
+</tr>
+<tr>
+<td><strong><code>tmux a -t &lt;name&gt;</code></strong></td>
+<td><strong>重连</strong> (Attach) 会话</td>
+<td>回家继续工作的核心命令</td>
+</tr>
+<tr>
+<td><strong><code>tmux ls</code></strong></td>
+<td>列出所有后台会话</td>
+<td>看看有哪些活着的会话</td>
+</tr>
+<tr>
+<td><code>Prefix</code> + <strong><code>d</code></strong></td>
+<td><strong>剥离</strong> (Detach)</td>
+<td>暂时离开，<strong>程序后台继续跑</strong></td>
+</tr>
+<tr>
+<td><code>Prefix</code> + <strong><code>s</code></strong></td>
+<td>交互式选择会话</td>
+<td>弹出一个列表让你选，很直观</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="b-窗格-分屏-操作">B. 窗格 (分屏) 操作</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>快捷键 (Prefix +)</th>
+<th>作用</th>
+<th>记忆法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>%</code></strong> (Shift+5)</td>
+<td><strong>左右</strong>切分</td>
+<td>看起来像把屏幕切两半</td>
+</tr>
+<tr>
+<td><strong><code>&quot;</code></strong> (Shift+')</td>
+<td><strong>上下</strong>切分</td>
+<td>引号像一上一下</td>
+</tr>
+<tr>
+<td><strong><code>方向键</code></strong></td>
+<td>在窗格间移动光标</td>
+<td></td>
+</tr>
+<tr>
+<td><strong><code>z</code></strong></td>
+<td><strong>最大化/还原</strong>当前窗格</td>
+<td><strong>神器</strong>。想专注写代码时按一下，写完再按一下还原</td>
+</tr>
+<tr>
+<td><strong><code>x</code></strong></td>
+<td>关闭当前窗格</td>
+<td>会询问 y/n</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="c-窗口-标签页-操作">C. 窗口 (标签页) 操作</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>快捷键 (Prefix +)</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>c</code></strong></td>
+<td><strong>新建</strong>窗口 (Create)</td>
+</tr>
+<tr>
+<td><strong><code>n</code></strong> / <strong><code>p</code></strong></td>
+<td>切换到 下一个/上一个 窗口 (Next/Prev)</td>
+</tr>
+<tr>
+<td><strong><code>w</code></strong></td>
+<td>图形化选择窗口 (像 Exposé)</td>
+</tr>
+<tr>
+<td><strong><code>,</code></strong></td>
+<td><strong>重命名</strong>当前窗口 (方便记忆)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="d-滚动与复制">D. 滚动与复制</h3>
+<p><em>因为你开启了 <code>set -g mouse on</code>：</em></p>
+<ul>
+<li><strong>滚动：</strong> 直接用鼠标滚轮即可。</li>
+<li><strong>复制：</strong></li>
+<li><strong>Tmux 内部复制：</strong> 鼠标左键拖动选中（会自动复制到 tmux 剪贴板）。</li>
+<li><strong>系统级复制 (macOS)：</strong> 按住 <strong><code>Option (Alt)</code></strong> 键，然后用鼠标选中，直接 <code>Cmd+C</code>。</li>
+</ul>
+<hr>
+<h2 id="3-最佳实践-best-practices">3. 最佳实践 (Best Practices)</h2>
+<h3 id="1-永远给-session-起名字">1. 永远给 Session 起名字</h3>
+<ul>
+<li>❌ <strong>坏习惯</strong>：直接输入 <code>tmux</code>。你会得到 <code>session 0</code>, <code>session 1</code>，过两天你就不知道哪个里面跑着 Claude Code 了。</li>
+<li>✅ <strong>好习惯</strong>：</li>
 </ul>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -455,55 +603,51 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk current 
-</span></span><span class="line"><span class="cl">sdk current java
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tmux new -s backend  <span class="c1"># 开发后端</span>
+</span></span><span class="line"><span class="cl">tmux new -s monitor  <span class="c1"># 监控服务器</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>设置缺失使用的版本</li>
+</div><h3 id="2-利用好临时最大化-prefix--z">2. 利用好“临时最大化” (<code>Prefix + z</code>)</h3>
+<p>不要手动去拖动调整分屏的大小，太慢了。</p>
+<ul>
+<li><strong>场景</strong>：你在一个小窗格里看日志，突然报错了一大堆。</li>
+<li><strong>操作</strong>：按 <code>Prefix + z</code> 全屏看，看完再按 <code>Prefix + z</code> 缩回去。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk default java 17.0.7-tem
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>设置当前 shell session 使用的版本</li>
+<h3 id="3-嵌套使用的原则">3. 嵌套使用的原则</h3>
+<p>尽量避免“在 tmux 里再开一个 tmux”（Inception 模式），那会非常痛苦（按键冲突）。</p>
+<ul>
+<li>如果你 ssh 到跳板机，再从跳板机 ssh 到目标机器。<strong>建议只在最终的目标机器上运行 tmux</strong>。</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk use java 8.0.332-tem   
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>更新软件仓库</li>
+<h3 id="4-结合-claude-code-的工作流">4. 结合 Claude Code 的工作流</h3>
+<p>由于 Claude Code 是交互式的，建议这样布局：</p>
+<ul>
+<li>
+<p><strong>Window 1 (&ldquo;Code&rdquo;)</strong>:</p>
+</li>
+<li>
+<p>左侧大窗格 (70%)：运行 <code>claude</code>。</p>
+</li>
+<li>
+<p>右侧小窗格 (30%)：运行 <code>git status</code> 或简单的 shell 命令，方便随时看状态。</p>
+</li>
+<li>
+<p><strong>Window 2 (&ldquo;Server&rdquo;)</strong>:</p>
+</li>
+<li>
+<p>运行项目主进程（如 <code>npm run dev</code> 或 <code>python app.py</code>），看实时日志。</p>
+</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk update
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>sdk 软件本身的更新</li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sdk selfupdate
-</span></span></code></pre></td></tr></table>
-</div>
-</div>
+<hr>
+<h2 id="总结">总结</h2>
+<ol>
+<li>SSH 上去。</li>
+<li><code>tmux new -s work</code>。</li>
+<li>开始用 <code>Claude Code</code> 搬砖。</li>
+<li>想分屏看日志？<code>Ctrl+b</code> 然后 <code>%</code>。</li>
+<li>下班了？<code>Ctrl+b</code> 然后 <code>d</code>。</li>
+<li>回家？<code>tmux a -t work</code>。</li>
+</ol>
+
 </section>
 
 
@@ -511,7 +655,7 @@
     
     <section class="article-tags">
         
-            <a href="/tags/java/">Java</a>
+            <a href="/tags/linux/">Linux</a>
         
     </section>
 
@@ -542,19 +686,6 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
-            
-                
-<article class="">
-    <a href="/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Tmux 快速入门指南</h2>
-        </div>
-    </a>
-</article>
-
             
                 
 <article class="">
@@ -603,6 +734,19 @@
 
         <div class="article-details">
             <h2 class="article-title">我在开源之夏为 openEuler 提交的第一个 PR 被合并了！</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 1Password 和 SSH Agent Forwarding 提升远程开发体验</h2>
         </div>
     </a>
 </article>

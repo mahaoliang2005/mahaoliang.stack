@@ -6,7 +6,215 @@
         <description>Recent content in Tech on mahaoliang.tech</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 04 Sep 2025 00:00:00 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/categories/tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 08 Jan 2026 22:31:54 +0800</lastBuildDate><atom:link href="https://mahaoliang.tech/categories/tech/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Tmux 快速入门指南</title>
+        <link>https://mahaoliang.tech/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Thu, 08 Jan 2026 22:31:54 +0800</pubDate>
+        
+        <guid>https://mahaoliang.tech/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;p&gt;&lt;img src=&#34;https://cdn.mahaoliang.tech/2026/20260108224040751.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;tmux&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;1-核心概念套娃结构&#34;&gt;1. 核心概念：套娃结构&lt;/h2&gt;
+&lt;p&gt;Tmux 的结构分为三层，理解这个就不会迷路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Session (会话)&lt;/strong&gt;：最高层级。对应一个“项目”或“任务”。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;场景：你可以有一个叫 &lt;code&gt;work&lt;/code&gt; 的会话跑公司代码，一个叫 &lt;code&gt;blog&lt;/code&gt; 的会话维护个人博客。断开 SSH 后，Session 依然在后台存活。&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Window (窗口)&lt;/strong&gt;：中间层级。相当于浏览器的“标签页”。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;场景：在一个 Session 里，Window 1 跑 Claude Code，Window 2 跑 git 命令，Window 3 看日志。&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Pane (窗格)&lt;/strong&gt;：最底层。相当于一个屏幕被切分成几块。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;场景：左边大屏跑 Claude Code，右边小屏实时看 &lt;code&gt;top&lt;/code&gt; 监控性能。&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;2-cheat-sheet&#34;&gt;2. Cheat Sheet&lt;/h2&gt;
+&lt;p&gt;所有快捷键都需要先按 &lt;strong&gt;前缀键 (Prefix)&lt;/strong&gt;，默认是 &lt;strong&gt;&lt;code&gt;Ctrl + b&lt;/code&gt;&lt;/strong&gt;。
+&lt;em&gt;(操作方式：按下 &lt;code&gt;Ctrl&lt;/code&gt; 和 &lt;code&gt;b&lt;/code&gt;，松开，然后按具体功能键)&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;a-会话管理-最常用&#34;&gt;A. 会话管理 (最常用)&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;命令&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;th&gt;备注&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;tmux new -s &amp;lt;name&amp;gt;&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;新建&lt;/strong&gt;带名字的会话&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;强烈推荐&lt;/strong&gt;，不要直接敲 tmux&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;tmux a -t &amp;lt;name&amp;gt;&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;重连&lt;/strong&gt; (Attach) 会话&lt;/td&gt;
+&lt;td&gt;回家继续工作的核心命令&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;tmux ls&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;列出所有后台会话&lt;/td&gt;
+&lt;td&gt;看看有哪些活着的会话&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Prefix&lt;/code&gt; + &lt;strong&gt;&lt;code&gt;d&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;剥离&lt;/strong&gt; (Detach)&lt;/td&gt;
+&lt;td&gt;暂时离开，&lt;strong&gt;程序后台继续跑&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Prefix&lt;/code&gt; + &lt;strong&gt;&lt;code&gt;s&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;交互式选择会话&lt;/td&gt;
+&lt;td&gt;弹出一个列表让你选，很直观&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;b-窗格-分屏-操作&#34;&gt;B. 窗格 (分屏) 操作&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;快捷键 (Prefix +)&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;th&gt;记忆法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;%&lt;/code&gt;&lt;/strong&gt; (Shift+5)&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;左右&lt;/strong&gt;切分&lt;/td&gt;
+&lt;td&gt;看起来像把屏幕切两半&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;&amp;quot;&lt;/code&gt;&lt;/strong&gt; (Shift+&#39;)&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;上下&lt;/strong&gt;切分&lt;/td&gt;
+&lt;td&gt;引号像一上一下&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;方向键&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;在窗格间移动光标&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;z&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;最大化/还原&lt;/strong&gt;当前窗格&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;神器&lt;/strong&gt;。想专注写代码时按一下，写完再按一下还原&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;x&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;关闭当前窗格&lt;/td&gt;
+&lt;td&gt;会询问 y/n&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;c-窗口-标签页-操作&#34;&gt;C. 窗口 (标签页) 操作&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;快捷键 (Prefix +)&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;c&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;新建&lt;/strong&gt;窗口 (Create)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;n&lt;/code&gt;&lt;/strong&gt; / &lt;strong&gt;&lt;code&gt;p&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;切换到 下一个/上一个 窗口 (Next/Prev)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;w&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;图形化选择窗口 (像 Exposé)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;&lt;code&gt;,&lt;/code&gt;&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;重命名&lt;/strong&gt;当前窗口 (方便记忆)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;d-滚动与复制&#34;&gt;D. 滚动与复制&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;因为你开启了 &lt;code&gt;set -g mouse on&lt;/code&gt;：&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;滚动：&lt;/strong&gt; 直接用鼠标滚轮即可。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;复制：&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tmux 内部复制：&lt;/strong&gt; 鼠标左键拖动选中（会自动复制到 tmux 剪贴板）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;系统级复制 (macOS)：&lt;/strong&gt; 按住 &lt;strong&gt;&lt;code&gt;Option (Alt)&lt;/code&gt;&lt;/strong&gt; 键，然后用鼠标选中，直接 &lt;code&gt;Cmd+C&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;3-最佳实践-best-practices&#34;&gt;3. 最佳实践 (Best Practices)&lt;/h2&gt;
+&lt;h3 id=&#34;1-永远给-session-起名字&#34;&gt;1. 永远给 Session 起名字&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ &lt;strong&gt;坏习惯&lt;/strong&gt;：直接输入 &lt;code&gt;tmux&lt;/code&gt;。你会得到 &lt;code&gt;session 0&lt;/code&gt;, &lt;code&gt;session 1&lt;/code&gt;，过两天你就不知道哪个里面跑着 Claude Code 了。&lt;/li&gt;
+&lt;li&gt;✅ &lt;strong&gt;好习惯&lt;/strong&gt;：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tmux new -s backend  &lt;span class=&#34;c1&#34;&gt;# 开发后端&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tmux new -s monitor  &lt;span class=&#34;c1&#34;&gt;# 监控服务器&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;2-利用好临时最大化-prefix--z&#34;&gt;2. 利用好“临时最大化” (&lt;code&gt;Prefix + z&lt;/code&gt;)&lt;/h3&gt;
+&lt;p&gt;不要手动去拖动调整分屏的大小，太慢了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;场景&lt;/strong&gt;：你在一个小窗格里看日志，突然报错了一大堆。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;操作&lt;/strong&gt;：按 &lt;code&gt;Prefix + z&lt;/code&gt; 全屏看，看完再按 &lt;code&gt;Prefix + z&lt;/code&gt; 缩回去。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;3-嵌套使用的原则&#34;&gt;3. 嵌套使用的原则&lt;/h3&gt;
+&lt;p&gt;尽量避免“在 tmux 里再开一个 tmux”（Inception 模式），那会非常痛苦（按键冲突）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果你 ssh 到跳板机，再从跳板机 ssh 到目标机器。&lt;strong&gt;建议只在最终的目标机器上运行 tmux&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;4-结合-claude-code-的工作流&#34;&gt;4. 结合 Claude Code 的工作流&lt;/h3&gt;
+&lt;p&gt;由于 Claude Code 是交互式的，建议这样布局：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Window 1 (&amp;ldquo;Code&amp;rdquo;)&lt;/strong&gt;:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;左侧大窗格 (70%)：运行 &lt;code&gt;claude&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;右侧小窗格 (30%)：运行 &lt;code&gt;git status&lt;/code&gt; 或简单的 shell 命令，方便随时看状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Window 2 (&amp;ldquo;Server&amp;rdquo;)&lt;/strong&gt;:&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;运行项目主进程（如 &lt;code&gt;npm run dev&lt;/code&gt; 或 &lt;code&gt;python app.py&lt;/code&gt;），看实时日志。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;SSH 上去。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tmux new -s work&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;开始用 &lt;code&gt;Claude Code&lt;/code&gt; 搬砖。&lt;/li&gt;
+&lt;li&gt;想分屏看日志？&lt;code&gt;Ctrl+b&lt;/code&gt; 然后 &lt;code&gt;%&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;下班了？&lt;code&gt;Ctrl+b&lt;/code&gt; 然后 &lt;code&gt;d&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;回家？&lt;code&gt;tmux a -t work&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
         <title>开源之夏结项报告</title>
         <link>https://mahaoliang.tech/p/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E7%BB%93%E9%A1%B9%E6%8A%A5%E5%91%8A/</link>
         <pubDate>Thu, 04 Sep 2025 00:00:00 +0800</pubDate>
