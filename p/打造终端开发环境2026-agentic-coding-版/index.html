@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本'>
-<title>Zsh 的安装和配置</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='2022 年 7 月 23 日，高二暑假，我在自己的第一台 MacBook Pro（M1） 上，发布了第一篇博客《打造一个漂亮的命令行终端》 ，四个月后，也就是 2022 年 11 月 30 日，改变'>
+<title>打造终端开发环境（2026 agentic coding 版）</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='Zsh 的安装和配置'>
-<meta property='og:description' content='Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本'>
-<meta property='og:url' content='https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='打造终端开发环境（2026 agentic coding 版）'>
+<meta property='og:description' content='2022 年 7 月 23 日，高二暑假，我在自己的第一台 MacBook Pro（M1） 上，发布了第一篇博客《打造一个漂亮的命令行终端》 ，四个月后，也就是 2022 年 11 月 30 日，改变'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='linux' /><meta property='article:published_time' content='2025-01-05T21:06:07&#43;08:00'/><meta property='article:modified_time' content='2025-01-05T21:06:07&#43;08:00'/>
-<meta name="twitter:title" content="Zsh 的安装和配置">
-<meta name="twitter:description" content="Zsh 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。 本">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='terminal' /><meta property='article:tag' content='ai' /><meta property='article:published_time' content='2026-01-13T21:47:28&#43;08:00'/><meta property='article:modified_time' content='2026-01-13T21:47:28&#43;08:00'/>
+<meta name="twitter:title" content="打造终端开发环境（2026 agentic coding 版）">
+<meta name="twitter:description" content="2022 年 7 月 23 日，高二暑假，我在自己的第一台 MacBook Pro（M1） 上，发布了第一篇博客《打造一个漂亮的命令行终端》 ，四个月后，也就是 2022 年 11 月 30 日，改变">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -350,12 +350,23 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#安装-zsh">安装 Zsh</a></li>
-    <li><a href="#验证安装的-zsh-版本">验证安装的 Zsh 版本</a></li>
-    <li><a href="#设置-zsh-为缺省-shell">设置 Zsh 为缺省 shell</a></li>
-    <li><a href="#安装-oh-my-zsh">安装 Oh My Zsh</a></li>
-    <li><a href="#安装-zsh-autosuggestions">安装 zsh-autosuggestions</a></li>
-    <li><a href="#配置-oh-my-zsh">配置 Oh My Zsh</a></li>
+    <li><a href="#字体">字体</a>
+      <ol>
+        <li><a href="#jetbrainsmono-nerd-font">JetBrainsMono Nerd Font</a></li>
+        <li><a href="#sarasa-term-sc">Sarasa Term SC</a></li>
+      </ol>
+    </li>
+    <li><a href="#ghostty">Ghostty</a>
+      <ol>
+        <li><a href="#理解-ai-agent">理解 AI agent</a></li>
+        <li><a href="#ghostty-配置">Ghostty 配置</a></li>
+      </ol>
+    </li>
+    <li><a href="#shell">Shell</a></li>
+    <li><a href="#命令行提示">命令行提示</a></li>
+    <li><a href="#vs-code-配置">VS Code 配置</a></li>
+    <li><a href="#jetbrains-ide-主题">Jetbrains IDE 主题</a></li>
+    <li><a href="#tmux-配置">tmux 配置</a></li>
   </ol>
 </nav>
         </div>
@@ -383,7 +394,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">Zsh 的安装和配置</a>
+            <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">打造终端开发环境（2026 agentic coding 版）</a>
         </h2>
     
         
@@ -405,7 +416,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2025-01-05</time>
+                <time class="article-time--published">2026-01-13</time>
             </div>
         
 
@@ -420,7 +431,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 8 分钟
                 </time>
             </div>
         
@@ -435,117 +446,132 @@
     <section class="article-content">
     
     
-    <p><a class="link" href="https://www.zsh.org/"  target="_blank" rel="noopener"
-    >Zsh</a> 是一种专门为交互式使用而设计的 Shell，同时也是一种强大的脚本语言，集成了 bash、ksh 和 tcsh 的许多有用特性，并添加了许多独特的功能。</p>
-<p>本文将指导您在 macOS 和 Linux 系统上安装 Zsh、Oh My Zsh 以及其常用插件，并展示如何配置 Oh My Zsh，以打造一个高效的命令行工作环境。</p>
-<h2 id="安装-zsh">安装 Zsh</h2>
-<ul>
-<li>macOS <code>brew install zsh</code></li>
-<li>Ubuntu <code>sudo apt install zsh</code></li>
-<li>RHEL <code>sudo yum update &amp;&amp; sudo yum -y install zsh</code></li>
-</ul>
-<h2 id="验证安装的-zsh-版本">验证安装的 Zsh 版本</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ zsh --version
-</span></span><span class="line"><span class="cl">zsh 5.8.1 <span class="o">(</span>x86_64-ubuntu-linux-gnu<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="设置-zsh-为缺省-shell">设置 Zsh 为缺省 shell</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>退出并重新登录。</p>
-<h2 id="安装-oh-my-zsh">安装 Oh My Zsh</h2>
-<p><a class="link" href="https://ohmyz.sh/"  target="_blank" rel="noopener"
-    >Oh My Zsh</a> 是一个开源、社区驱动的 Zsh 配置管理框架，，提供了 300 多个可选插件和 140 多个主题，并且内置了自动更新工具。</p>
-<p>使用下面的命令安装：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sh -c <span class="s2">&#34;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="k">)</span><span class="s2">&#34;</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="安装-zsh-autosuggestions">安装 zsh-autosuggestions</h2>
-<p><a class="link" href="https://github.com/zsh-users/zsh-autosuggestions"  target="_blank" rel="noopener"
-    >zsh-autosuggestions</a> 为 zsh shell 提供了类似 Fish shell 的自动建议功能的插件，该插件可以根据历史记录和自动补全来为用户提供命令建议。</p>
-<p>将插件 clone 到 <code>$ZSH_CUSTOM/plugins</code>：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git clone https://github.com/zsh-users/zsh-autosuggestions <span class="si">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="si">}</span>/plugins/zsh-autosuggestions
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>然后在 <code>${HOME}/.zshrc</code> 启用插件：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git zsh-autosuggestions<span class="o">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>在命令行输入命令时，zsh-autosuggestions 会根据命令历史或命令补全进行建议提示。那么如何接受建议呢？</p>
-<p>Bash 和 Zsh 这样的 Unix shell 提供了两种主要的编辑模式：Emacs 模式和 Vi 模式，也就是说可以使用 Emacs 或 Vi 的快捷键来编辑命令行。Emacs 模式是缺省模式。</p>
-<p>在 zsh-autosuggestions 的<a class="link" href="https://github.com/zsh-users/zsh-autosuggestions/blob/master/src/config.zsh"  target="_blank" rel="noopener"
-    >缺省配置文件</a>中，定义接受建议的快捷键：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
-</span></span><span class="line"><span class="cl"><span class="c1"># Widgets that accept the entire suggestion</span>
-</span></span><span class="line"><span class="cl"><span class="o">((</span> ! <span class="si">${</span><span class="p">+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS</span><span class="si">}</span> <span class="o">))</span> <span class="o">&amp;&amp;</span> <span class="o">{</span>
-</span></span><span class="line"><span class="cl">	<span class="nb">typeset</span> -ga ZSH_AUTOSUGGEST_ACCEPT_WIDGETS
-</span></span><span class="line"><span class="cl">	<span class="nv">ZSH_AUTOSUGGEST_ACCEPT_WIDGETS</span><span class="o">=(</span>
-</span></span><span class="line"><span class="cl">		forward-char
-</span></span><span class="line"><span class="cl">		end-of-line
-</span></span><span class="line"><span class="cl">		vi-forward-char
-</span></span><span class="line"><span class="cl">		vi-end-of-line
-</span></span><span class="line"><span class="cl">		vi-add-eol
-</span></span><span class="line"><span class="cl">	<span class="o">)</span>
-</span></span><span class="line"><span class="cl"><span class="o">}</span>
-</span></span><span class="line"><span class="cl">...
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>如果命令行处于 Emacs 模式，那么：</p>
-<ul>
-<li><code>ctrl-f</code> 或 <code>ctrl-e</code> 跳到行尾接受当前的建议</li>
-<li><code>option-f</code> 向前前进一个单词并接受建议</li>
-</ul>
-<p>同样，如果命令行处于 vi 模式，那么就使用对应的 vi 键盘绑定接受建议。</p>
-<h2 id="配置-oh-my-zsh">配置 Oh My Zsh</h2>
-<p>Oh My Zsh 有非常多的<a class="link" href="https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins"  target="_blank" rel="noopener"
-    >内置插件</a>，你也可以安装第三方插件，就像上面安装的 zsh-autosuggestions。</p>
-<p>Oh My Zsh 也内置了多个 <a class="link" href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes"  target="_blank" rel="noopener"
-    >主题</a> 供你选择。</p>
-<p>我们可以编辑 <code>${HOME}/.zshrc</code>，配置 Oh My Zsh 的插件、主题，以及其他一些定制化设置。</p>
+    <p>2022 年 7 月 23 日，高二暑假，我在自己的第一台 <strong>MacBook Pro（M1）</strong> 上，发布了第一篇博客<a class="link" href="https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/"  target="_blank" rel="noopener"
+    >《打造一个漂亮的命令行终端》</a> ，四个月后，也就是 2022 年 11 月 30 日，改变世界的<a class="link" href="https://openai.com/index/chatgpt/"  target="_blank" rel="noopener"
+    >ChatGPT 发布</a>。那时候完全不会想到，AI 的发展竟然对终端的使用产生了极大的影响。那时我使用 macOS 上原生 <code>terminal</code>，<a class="link" href="https://ohmyz.sh/"  target="_blank" rel="noopener"
+    >Oh My Zsh</a> + <a class="link" href="https://github.com/romkatv/powerlevel10k"  target="_blank" rel="noopener"
+    >Powerlevel10k</a> 的组合配置，足够漂亮，足够满足我在终端运行 <code>git</code> 命令，<code>ssh</code> 登录云服务器等操作。</p>
+<p>2025 年 2 月 25 日，<a class="link" href="https://www.anthropic.com/news/claude-3-7-sonnet"  target="_blank" rel="noopener"
+    >Claude Code</a> 低调发布。经过两年的飞速发展，大家似乎已经习惯了 AI 可以做出任何令人震惊的飞跃。在编程领域，从最初的代码补全，进化到了 <strong>agentic coding</strong>，一开始只是用 AI 生成 demo App，然后在社交媒体上炫耀自己用一句话生成的贪吃蛇游戏，严肃的程序员对 AI 编程持有批判怀疑态度。</p>
+<p>2026 年初，形势悄然发生转变。</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113223628715.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="programer"
+	
+	
+></p>
+<p><a class="link" href="https://rubyonrails.org/"  target="_blank" rel="noopener"
+    >Ruby on Rails</a>的创造者，知名程序员 <a class="link" href="https://world.hey.com/dhh"  target="_blank" rel="noopener"
+    >DHH(David Heinemeier Hansson)</a> 在 2025 年中的时候还认为“AI can’t code”，现在改变了看法，在最新的博客<a class="link" href="https://world.hey.com/dhh/promoting-ai-agents-3ee04945"  target="_blank" rel="noopener"
+    >《Promoting AI agents》</a>中，DHH 认为在 2025 年 <strong>AI agent</strong> 产生跨越式发展，使用终端工具（Claude Code) 和 AI 协作式开发，已经能写生产级代码。</p>
+<p>Redis 的作者，多才多艺的顶尖程序员 <a class="link" href="https://antirez.com/"  target="_blank" rel="noopener"
+    >Salvatore Sanfilippo</a> 也在最新的博客<a class="link" href="https://antirez.com/news/158"  target="_blank" rel="noopener"
+    >《Don&rsquo;t fall into the anti-AI hype》</a>中表达，AI 将<strong>永远彻底改变编程</strong>，而且比他预期的快得多。对大多数项目而言，<strong>亲自写代码已不再是明智选择（除非只为乐趣）</strong>。antirez 亲自实践的证据，几小时内完成了原本需要数周的 4 个任务：修改 <code>linenoise</code> 库支持 <code>UTF-8</code> 并构建测试框架；修复 <code>Redis</code> 测试中时序竞争/死锁等偶发故障；5 分钟生成 700 行纯 C <code>BERT</code> 嵌入推理库（性能仅比 <code>PyTorch</code> 低 15%）；20 分钟内让 AI 复现自己对 <code>Redis Streams</code> 的内部修改。</p>
+<p>最令人震惊的，是 Linux 之父，传奇程序员 <a class="link" href="https://en.wikipedia.org/wiki/Linus_Torvalds"  target="_blank" rel="noopener"
+    >Linus Torvalds</a> 在上周末发布了自己的 Vibe Coding 项目<a class="link" href="https://github.com/torvalds/AudioNoise"  target="_blank" rel="noopener"
+    >AudioNoise</a> ，使用 Google 的 <a class="link" href="https://antigravity.google/"  target="_blank" rel="noopener"
+    >Antigravity</a> 实现音频样本的可视化功能。在提交信息中，Linus Torvalds 表示：“<strong>Is this much better than I could do by hand? Sure is.</strong>”</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113223853210.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="AudioNoise"
+	
+	
+></p>
+<p>程序大神们都已经拥抱 AI coding，我们还有什么理由拒绝呢。</p>
+<p>但这和终端有什么关系？因为目前最好用的 <strong>agentic coding</strong> 工具仍然是<a class="link" href="https://claude.com/product/claude-code"  target="_blank" rel="noopener"
+    >Claude Code</a>，或者有人认为是其开源平替版 <a class="link" href="https://opencode.ai/"  target="_blank" rel="noopener"
+    >OpenCode</a>，它们都是命令行终端工作方式，程序员从每天面对 IDE，变成每天大多数时间都在终端中工作。原先的软件选择和设置，已经不能满足当前高强度使用的需求。</p>
+<p>例如 macOS 原生 <code>terminal</code>，仅支持 <code>ANSI</code> 16 色与扩展 256 色，不支持 24 位真彩（<strong>True Color</strong>），渲染方式为 CPU 绘制，无 GPU 加速，大量输出或快速滚动时易出现卡顿。而现代终端，真彩和 GPU 加速都是基本功能。既然每天都要面对终端工作，当然不能凑合，必须找一个颜值高，使用流畅的现代终端。</p>
+<p>原生 <code>terminal</code> 运行真彩测试的效果：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113224335237.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="terminal"
+	
+	
+></p>
+<p><a class="link" href="https://ghostty.org/"  target="_blank" rel="noopener"
+    >Ghostty</a> 中运行真彩测试的效果：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113224403817.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="ghostty"
+	
+	
+></p>
+<p>铺垫了这么多，终于要进入正题了，打造 2026 面向 <strong>agentic coding</strong> 的终端开发环境。</p>
+<h2 id="字体">字体</h2>
+<p>首先准备基础环境，安装必要的字体。</p>
+<h3 id="jetbrainsmono-nerd-font">JetBrainsMono Nerd Font</h3>
+<p><a class="link" href="https://www.nerdfonts.com"  target="_blank" rel="noopener"
+    >Nerd Fonts</a> 是一个面向开发者的图标集合，包含了 10390+ 个来自主流图标集的图标。使用 <code>Nerd Fonts</code>，我们可以在单调的文本终端，显示丰富的图标，美观不输 GUI 界面，而且极具极客范儿。</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113224708727.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Nerd Fonts"
+	
+	
+></p>
+<p><a class="link" href="https://www.jetbrains.com/lp/mono/"  target="_blank" rel="noopener"
+    >JetBrains Mono</a> 非常流行，也是我最喜欢的编程字体，将 <code>JetBrains Mono</code> 和 <code>Nerd Fonts</code> 打包在一起，就得到新的字体 <strong>JetBrainsMono Nerd Font</strong>，兼顾编程可读性和图标可视化需求。<a class="link" href="https://www.nerdfonts.com/font-downloads"  target="_blank" rel="noopener"
+    >nerdfonts.com</a> 提供了 <code>Nerd Fonts</code>和各种流行编程字体的打包字体，找到 <a class="link" href="https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.zip"  target="_blank" rel="noopener"
+    >JetBrainsMono Nerd Font</a>，下载并安装。</p>
+<h3 id="sarasa-term-sc">Sarasa Term SC</h3>
+<p>使用 Claude code 时必然要用到中文和 AI 交流，默认会使用系统自带的中文字体。<strong>macOS</strong> 上默认中文字体是 <code>PingFang SC</code>，虽然美观大方，但它不是等宽字体，和英文混排时，在终端上会显得有些凌乱。所以我们需要一款面向终端和代码编辑器的等宽中文字体。</p>
+<p><a class="link" href="https://github.com/be5invis/Sarasa-Gothic"  target="_blank" rel="noopener"
+    >Sarasa Gothic</a> 是一款开源的多语言复合字体，基于 <strong>Inter</strong>、<strong>Iosevka</strong> 和 <strong>思源黑体（Source Han Sans）</strong> 三款经典字体整合而成，适配中日韩等多语言混排场景。<code>Sarasa Gothic</code>发布了一系列字体，其中 <strong>Sarasa Term SC</strong> 是面向终端（<strong>Term</strong>）的等宽（<strong>Mono</strong>）简体中文（<strong>SC</strong>）字体，强制保证 <strong>中文宽度 = 2 × 英文宽度</strong>，适合在终端显示中英文混排内容。</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113225958444.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Sarasa Term SC"
+	
+	
+></p>
+<p>在 <a class="link" href="https://github.com/be5invis/Sarasa-Gothic"  target="_blank" rel="noopener"
+    >Sarasa Gothic</a> 的 <a class="link" href="https://github.com/be5invis/Sarasa-Gothic/releases/tag/v1.0.35"  target="_blank" rel="noopener"
+    >relase 页面</a>，<strong>Single Family &amp; Language TTF Package</strong> 表格中，找到 <strong>SC</strong> 行，<strong>Term</strong> 列对应的字体，下载并安装。</p>
+<h2 id="ghostty">Ghostty</h2>
+<p>现代终端我选择了 <a class="link" href="https://ghostty.org/"  target="_blank" rel="noopener"
+    >Ghostty</a>。除了真彩、GPU 加速等基本特性外，说一个 <strong>agentic coding</strong> 的刚需：给 Claude code 布置完任务后，它吭哧吭哧在那儿干活，你刷会儿微博娱乐。Claude code 完成当前任务后，需要等你下一步的指示，这时 <strong>Ghostty</strong> 会自动通知提醒，太有用了。</p>
+<h3 id="理解-ai-agent">理解 AI agent</h3>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113231147261.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="AI agent"
+	
+	
+></p>
+<p>说个题外话，如果你对 <strong>AI agent</strong> 没什么概念，用一下 Claude code 你马上就会明白。AI，或者说大语言模型，本质还是根据你的输入，预测下一个 <code>token</code>。最初的 AI 使用方式，就是对话，你输入提示词，AI 回答。具体到编程领域，你描述要求，AI 完成一段代码。但这样工作效率太低了，agent 出现了。</p>
+<p>你可简单认为 agent 就是具有某种技能的员工，你想做一个 App，产品经理 agent 会和你讨论，明确需求和功能，输出产品功能描述文档，然后架构师根据产品文档，拆分任务，输出具体实现方案，程序员根据实现方案，开始编码干活，测试也是根据产品文档，对程序员的输出进行测试。除了第一步和产品经理讨论需要你参与，明确产品功能后，后面的角色，都会根据自己的职责，自动干活。相当于你雇佣了一堆人（agents），分工协作，听你指挥，帮你干活。</p>
+<p>现在的 AI coding，早已不是一问一答，帮你完成个函数/测试，已经具备了一定的自主性。你像一个老板，去指挥这些 agents 干活。甚至现在已经有了手机上使用 Claude code 的方案，例如 <a class="link" href="https://github.com/slopus/happy"  target="_blank" rel="noopener"
+    >happy</a>。想象一下，下班前你布置好任务，然后去健身，agents 开始干活，在完成了一个阶段的任务后，agents 需要请示老板，这时你手机收到通知，你看了一眼 AI 的汇报，然后下达下一步的指示。你也可以告诉它：今晚不要再打扰我，请根据计划，通宵工作，明早我检查成果。</p>
+<p><strong>AI agent</strong> 就是听你指挥，协作帮你完成任务的员工。</p>
+<h3 id="ghostty-配置">Ghostty 配置</h3>
+<p>Ghostty 信奉 <a class="link" href="https://ghostty.org/docs/config#zero-configuration-philosophy"  target="_blank" rel="noopener"
+    >Zero Configuration</a> 理念，但我还是做了少量配置。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -568,27 +594,178 @@
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">...
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">font-family = &#34;&#34;
+</span></span><span class="line"><span class="cl">font-family = &#34;JetBrainsMono Nerd Font Mono&#34;
+</span></span><span class="line"><span class="cl">font-family = &#34;Sarasa Term SC&#34;
+</span></span><span class="line"><span class="cl">font-size = 16
+</span></span><span class="line"><span class="cl">font-thicken = true
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 设置主题</span>
-</span></span><span class="line"><span class="cl"><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">&#34;bira&#34;</span>
+</span></span><span class="line"><span class="cl">window-height = 40
+</span></span><span class="line"><span class="cl">window-width = 160
+</span></span><span class="line"><span class="cl">window-padding-x = 5
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 启用插件</span>
-</span></span><span class="line"><span class="cl"><span class="nv">plugins</span><span class="o">=(</span>git z zsh-autosuggestions<span class="o">)</span>
+</span></span><span class="line"><span class="cl">theme = &#34;TokyoNight&#34;
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 命令别名</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mkdir</span><span class="o">=</span><span class="s1">&#39;mkdir -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">mv</span><span class="o">=</span><span class="s1">&#39;mv -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">cp</span><span class="o">=</span><span class="s1">&#39;cp -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">rm</span><span class="o">=</span><span class="s1">&#39;rm -v&#39;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">ln</span><span class="o">=</span><span class="s1">&#39;ln -v&#39;</span>
+</span></span><span class="line"><span class="cl">macos-titlebar-style = tabs
+</span></span><span class="line"><span class="cl">macos-option-as-alt = true
+</span></span><span class="line"><span class="cl">background-opacity = 0.95
+</span></span><span class="line"><span class="cl">background-blur = true
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 配置zsh-autosuggestions</span>
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE</span><span class="o">=</span><span class="s2">&#34;fg=#ff00ff,bg=cyan,bold,underline&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">ZSH_AUTOSUGGEST_STRATEGY</span><span class="o">=(</span><span class="nb">history</span> completion<span class="o">)</span>
+</span></span><span class="line"><span class="cl">shell-integration-features = ssh-terminfo,ssh-env,sudo
 </span></span></code></pre></td></tr></table>
 </div>
+</div><p>主字体设置为  <strong>JetBrainsMono Nerd</strong>，Ghostty 会首先尝试使用 <strong>JetBrainsMono Nerd</strong> 来渲染字符，当 Ghostty 遇到一个 <strong>JetBrainsMono Nerd</strong> 里面没有的字符，比如汉字，它会去查看配置列表里的下一个字体，即 <strong>Sarasa Term SC</strong>。</p>
+<h2 id="shell">Shell</h2>
+<p>仍然选择 <code>zsh</code> + <code>Oh My Zsh</code>，安装配置不变，请参考我以前的博客<a class="link" href="https://mahaoliang.tech/p/%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E6%BC%82%E4%BA%AE%E7%9A%84%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BB%88%E7%AB%AF/"  target="_blank" rel="noopener"
+    >《打造一个漂亮的命令行终端》</a>和 <a class="link" href="https://mahaoliang.tech/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/"  target="_blank" rel="noopener"
+    >《Zsh 的安装和配置》</a>。</p>
+<h2 id="命令行提示">命令行提示</h2>
+<p>命令行提示原先一直使用 <a class="link" href="https://github.com/romkatv/powerlevel10k"  target="_blank" rel="noopener"
+    >Powerlevel10k</a>，最近发现更好的替代者 <a class="link" href="https://starship.rs"  target="_blank" rel="noopener"
+    >Starship</a>。</p>
+<p>Powerlevel10k 已经不再更新，进入维护阶段，而 Starship 还非常活跃，同时 Starship 支持 Linux、MacOS、Windows 等多个平台，这样我可以在各个平台上获得一致的体验。</p>
+<p>先禁用 Powerlevel10k，并设置 ZSH_THEME=&ldquo;bira&rdquo;</p>
+<ul>
+<li><strong>安装</strong></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -sS https://starship.rs/install.sh <span class="p">|</span> sh
+</span></span></code></pre></td></tr></table>
 </div>
+</div><ul>
+<li><strong>主题配置</strong></li>
+</ul>
+<p>主题选择 <a class="link" href="https://starship.rs/presets/gruvbox-rainbow"  target="_blank" rel="noopener"
+    >Gruvbox Rainbow</a>，使用下面的命令安装主题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">starship preset gruvbox-rainbow -o ~/.config/starship.toml
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时，我希望对主题做一些自定义配置。打开 <code>~/.config/starship.toml</code> 文件，找到 <code>[directory]</code> 配置，修改设置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">truncation_length = 8
+</span></span><span class="line"><span class="cl">truncation_symbol = &#34;…/&#34;
+</span></span><span class="line"><span class="cl">truncate_to_repo = false
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>目录超过 8 层再截断。</p>
+<p>默认情况下，如果是 Git 仓库，路径显示会自动截断使用 Git 仓库的根目录，我想看到完整的路径，所以设置 <code>truncate_to_repo</code> 为 <code>false</code>。</p>
+<ul>
+<li><strong>激活主题</strong></li>
+</ul>
+<p>在 <code>~/.zshrc</code> 文件最后添加以下内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-zsh" data-lang="zsh"><span class="line"><span class="cl"><span class="c1"># starship</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$TERM_PROGRAM</span><span class="s2">&#34;</span> !<span class="o">=</span> <span class="s2">&#34;Apple_Terminal&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">eval</span> <span class="s2">&#34;</span><span class="k">$(</span>starship init zsh<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于 StarShip 需要真彩支持，所以只有使用非 macOS 原生 terminal 才加载 StarShip。最终的效果如下：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260113234420087.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Starship"
+	
+	
+></p>
+<p>可以参考我的 <code>Oh My Zsh</code> <a class="link" href="https://gist.github.com/mahaoliang2005/30184866be88559bbc2c0e574e489662"  target="_blank" rel="noopener"
+    >完整配置</a>。</p>
+<h2 id="vs-code-配置">VS Code 配置</h2>
+<p>由于命令行提示符使用了 <a class="link" href="https://starship.rs"  target="_blank" rel="noopener"
+    >Starship</a>，为了避免 <code>VS Code</code> 的终端出现乱码，需要设置<code>VS Code</code>的终端字体。打开配置文件 <code>Settings.json</code>中，增加或修改为如下配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="s2">&#34;terminal.integrated.fontFamily&#34;</span><span class="err">:</span> <span class="s2">&#34;JetBrainsMono Nerd Font Mono&#34;</span><span class="err">,</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>另外，推荐两个 <code>VS Code</code> 主题：</p>
+<ul>
+<li>
+<p><a class="link" href="https://github.com/catppuccin/vscode"  target="_blank" rel="noopener"
+    >Catppuccin</a>，编码时选择 <code>Catppuccin Mocha</code>，显示清晰，同时也不刺眼。</p>
+</li>
+<li>
+<p><a class="link" href="https://github.com/kepano/flexoki"  target="_blank" rel="noopener"
+    >Flexoki</a>，<a class="link" href="https://obsidian.md/"  target="_blank" rel="noopener"
+    >Obsidian</a> 创始人 <a class="link" href="https://x.com/kepano"  target="_blank" rel="noopener"
+    >@kepano</a> 创建的配色方案，宣纸的淡黄色，特别适合文字编辑。</p>
+</li>
+</ul>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260114000635610.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="Flexoki"
+	
+	
+></p>
+<h2 id="jetbrains-ide-主题">Jetbrains IDE 主题</h2>
+<p><a class="link" href="https://github.com/catppuccin/catppuccin"  target="_blank" rel="noopener"
+    >Catppuccin</a> 主题支持几乎所有的终端和代码编辑器，当然少不了 Jetbrains 的 IDE，同样可以选择 <a class="link" href="https://github.com/catppuccin/jetbrains"  target="_blank" rel="noopener"
+    >Catppuccin</a> 主题。</p>
+<h2 id="tmux-配置">tmux 配置</h2>
+<p>原先隐约知道 <a class="link" href="https://github.com/tmux/tmux"  target="_blank" rel="noopener"
+    >tmux</a> 这个工具，是为了长时间运行命令，即使断开 SSH 连接，命令也不会退出，下次连上去还可以恢复。</p>
+<p>到了 <strong>agentic coding</strong> 时代，我突然明白了 tmux 的价值。想象这个场景：在实验室 ssh 连接到 Linux 服务器上使用 Claude Code 干活，离开时给它布置一个长任务，然后从 tmux session detach。吃饭完回到宿舍，使用自己的 MacBook 再次 ssh 到 Linux 服务器，tmux session attach，恢复 Claude Code 现场，看看它干的怎么样了，是否需要下一步指导。无法切换地点，不中断开发，太有用了！</p>
+<p>对于 tmux，我同样选择了 <a class="link" href="https://github.com/kepano/flexoki"  target="_blank" rel="noopener"
+    >Flexoki</a> 主题，并增加了如下配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 设置 tmux 会话内部默认使用的终端类型为 tmux-256color
+</span></span><span class="line"><span class="cl">set -g default-terminal &#34;tmux-256color&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 强制 tmux 启用「真彩色（True Color）」支持
+</span></span><span class="line"><span class="cl">set -ag terminal-overrides &#34;,*:RGB&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># 启用 tmux 的鼠标支持
+</span></span><span class="line"><span class="cl">set -g mouse
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>打开 tmux 的配置文件 <code>~/.tmux.conf</code>，先复制 <a class="link" href="https://github.com/kepano/flexoki/blob/main/tmux/flexoki-light.tmuxtheme"  target="_blank" rel="noopener"
+    >Flexoki</a> 主题的内容，然后在末尾增加上面的配置。可以参考我的<a class="link" href="https://gist.github.com/mahaoliang2005/716cc6b052305b9ecc9e680cc258056d"  target="_blank" rel="noopener"
+    >完整配置</a>。</p>
+<p>全文完，希望对你有帮助，让我们在现代终端环境，愉快的 agentic coding！</p>
+
 </section>
 
 
@@ -598,7 +775,9 @@
         
             <a href="/tags/macos/">Macos</a>
         
-            <a href="/tags/linux/">Linux</a>
+            <a href="/tags/terminal/">Terminal</a>
+        
+            <a href="/tags/ai/">Ai</a>
         
     </section>
 
@@ -671,12 +850,12 @@
             
                 
 <article class="">
-    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
+    <a href="/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025-%E5%B9%B4-5-%E6%9C%88%E7%89%88/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
+            <h2 class="article-title">AI 工具总结（2025 年 5 月版）</h2>
         </div>
     </a>
 </article>
@@ -684,12 +863,12 @@
             
                 
 <article class="">
-    <a href="/p/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E7%BB%93%E9%A1%B9%E6%8A%A5%E5%91%8A/">
+    <a href="/p/zsh-%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">开源之夏结项报告</h2>
+            <h2 class="article-title">Zsh 的安装和配置</h2>
         </div>
     </a>
 </article>
