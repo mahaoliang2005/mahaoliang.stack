@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='在 macOS 上进行开发，经常会遇到这样的问题：不同的项目依赖不同版本的 Python、Node.js 或 Java，而 macOS 自带的系统版本往往过时且权限受限。'>
+<title>macOS 开发环境管理</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='macOS 开发环境管理'>
+<meta property='og:description' content='在 macOS 上进行开发，经常会遇到这样的问题：不同的项目依赖不同版本的 Python、Node.js 或 Java，而 macOS 自带的系统版本往往过时且权限受限。'>
+<meta property='og:url' content='https://mahaoliang.tech/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='macos' /><meta property='article:tag' content='python' /><meta property='article:tag' content='nodejs' /><meta property='article:tag' content='java' /><meta property='article:published_time' content='2026-02-13T15:28:25&#43;08:00'/><meta property='article:modified_time' content='2026-02-13T15:28:25&#43;08:00'/>
+<meta name="twitter:title" content="macOS 开发环境管理">
+<meta name="twitter:description" content="在 macOS 上进行开发，经常会遇到这样的问题：不同的项目依赖不同版本的 Python、Node.js 或 Java，而 macOS 自带的系统版本往往过时且权限受限。">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><title>bilibili</title><path clip-rule="evenodd" d="M4.977 3.561a1.31 1.31 0 111.818-1.884l2.828 2.728c.08.078.149.163.205.254h4.277a1.32 1.32 0 01.205-.254l2.828-2.728a1.31 1.31 0 011.818 1.884L17.82 4.66h.848A5.333 5.333 0 0124 9.992v7.34a5.333 5.333 0 01-5.333 5.334H5.333A5.333 5.333 0 010 17.333V9.992a5.333 5.333 0 015.333-5.333h.781L4.977 3.56zm.356 3.67a2.667 2.667 0 00-2.666 2.667v7.529a2.667 2.667 0 002.666 2.666h13.334a2.667 2.667 0 002.666-2.666v-7.53a2.667 2.667 0 00-2.666-2.666H5.333zm1.334 5.192a1.333 1.333 0 112.666 0v1.192a1.333 1.333 0 11-2.666 0v-1.192zM16 11.09c-.736 0-1.333.597-1.333 1.333v1.192a1.333 1.333 0 102.666 0v-1.192c0-.736-.597-1.333-1.333-1.333z"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:mahaoliang@gmail.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://gitee.com/mahaoliang'
+                        target="_blank"
+                        title="Gitee"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo_gitee_g_red@1x</title>
+    <g id="LOGO" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-7" transform="translate(-192.000000, -115.000000)" fill="#C71D23">
+            <path d="M228,115 C247.882251,115 264,131.117749 264,151 C264,170.882251 247.882251,187 228,187 C208.117749,187 192,170.882251 192,151 C192,131.117749 208.117749,115 228,115 Z M246.223335,131 C246.222967,131 246.2226,131 246.222232,131.001102 L221.33326,131.001102 C213.969504,131.001102 208,136.970606 208,144.334362 L208,169.222232 C208,170.204066 208.795934,171 209.777768,171 L236.000329,171 C242.627564,171 248,165.627564 248,159.000329 L248,148.778425 C248,147.796591 247.204066,147.000657 246.222232,147.000657 L225.7779,147.000657 C224.796248,147.001123 224.000389,147.796773 223.999667,148.778425 L223.998503,153.222667 C223.997802,154.155409 224.715909,154.920565 225.629522,154.994969 L225.775805,155.00042 L225.775805,155.00042 L238.222276,155.000317 C239.155019,155.000295 239.919992,155.718618 239.994164,156.63225 L240.000044,156.77807 L240.000044,156.77807 L240.000044,157.666909 C240.000044,160.612411 237.612243,163.000213 234.66674,163.000213 L217.776621,163.000213 C216.794928,163.000164 215.999101,162.204358 215.999025,161.222665 L215.998559,144.334184 C215.998337,141.462319 218.268172,139.120556 221.111731,139.005187 L221.331716,139.00088 L221.331716,139.00088 L246.21727,139.00088 C247.198674,138.999777 247.994429,138.204515 247.996141,137.223112 L247.998897,132.77887 C248.000609,131.797037 247.205169,131.000609 246.223335,131 Z" id="logo_gitee_g_red"></path>
+        </g>
+    </g>
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#系统级包管理homebrew">系统级包管理：Homebrew</a>
+      <ol>
+        <li><a href="#核心操作安装与卸载">核心操作：安装与卸载</a></li>
+        <li><a href="#进阶管理依赖与清理">进阶管理：依赖与清理</a></li>
+        <li><a href="#系统维护更新与诊断">系统维护：更新与诊断</a></li>
+      </ol>
+    </li>
+    <li><a href="#nodejs-管理">Node.js 管理</a>
+      <ol>
+        <li><a href="#nodejs-版本控制-nvm">Node.js 版本控制 (nvm)</a></li>
+        <li><a href="#npm-自身管理-升级与维护">npm 自身管理 (升级与维护)</a></li>
+        <li><a href="#全局包管理-global-packages">全局包管理 (Global Packages)</a></li>
+        <li><a href="#nvm-自身升级">nvm 自身升级</a></li>
+      </ol>
+    </li>
+    <li><a href="#python-管理uv">Python 管理：uv</a></li>
+    <li><a href="#java-sdkman">Java: SDKMAN!</a>
+      <ol>
+        <li><a href="#常用命令速查">常用命令速查</a></li>
+        <li><a href="#维护与更新">维护与更新</a></li>
+        <li><a href="#总结">总结</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/">macOS 开发环境管理</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2026-02-13</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 5 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><img src="https://cdn.mahaoliang.tech/2026/20260214211941723.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="macos"
+	
+	
+></p>
+<p>在 macOS 上进行开发，经常会遇到这样的问题：不同的项目依赖不同版本的 Python、Node.js 或 Java，而 macOS 自带的系统版本往往过时且权限受限。如果直接安装全局版本，很容易弄脏系统环境。</p>
+<p>因此，<strong>版本隔离</strong> 和 <strong>工具链管理</strong> 是每个 macOS 开发者的必修课。</p>
+<p>本文档旨在作为一份<strong>速查表 (Cheat Sheet)</strong>，汇总了 macOS 上最主流的包管理工具（Homebrew）以及各语言的专用版本管理工具（nvm, uv, sdkman）的常用命令，涵盖安装、版本切换、以及工具自身的维护更新。</p>
+<h2 id="系统级包管理homebrew">系统级包管理：Homebrew</h2>
+<p>Homebrew 是 macOS 的必备工具，主要用于管理系统级工具（如 <code>wget</code>, <code>ffmpeg</code>）和 GUI 应用（Cask）。</p>
+<p>记住，只用它装工具，<strong>不要</strong>用它直接装语言环境（如 Python, Node），否则多版本切换会很麻烦。</p>
+<h3 id="核心操作安装与卸载">核心操作：安装与卸载</h3>
+<p>最基础的增删查改。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>安装软件</strong></td>
+<td><code>brew install &lt;包名&gt;</code></td>
+<td>例如 <code>brew install wget</code></td>
+</tr>
+<tr>
+<td><strong>安装 App</strong></td>
+<td><code>brew install --cask &lt;软件名&gt;</code></td>
+<td>例如 <code>brew install --cask picgo</code></td>
+</tr>
+<tr>
+<td><strong>卸载软件</strong></td>
+<td><code>brew uninstall &lt;包名&gt;</code></td>
+<td>删除已安装的包，保留配置文件</td>
+</tr>
+<tr>
+<td><strong>彻底卸载</strong></td>
+<td><code>brew uninstall --zap &lt;软件名&gt;</code></td>
+<td><strong>(Cask 专用)</strong> 卸载应用并尝试删除相关的配置文件/偏好设置</td>
+</tr>
+<tr>
+<td><strong>查看已安装</strong></td>
+<td><code>brew list</code></td>
+<td>列出所有安装的包</td>
+</tr>
+<tr>
+<td><strong>搜索软件</strong></td>
+<td><code>brew search &lt;关键词&gt;</code></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="进阶管理依赖与清理">进阶管理：依赖与清理</h3>
+<p>随着时间推移，系统中会残留很多不再使用的“孤儿依赖”，这一部分命令用于保持系统干净。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>查看依赖树</strong></td>
+<td><code>brew deps --tree &lt;包名&gt;</code></td>
+<td><strong>推荐</strong>。以树状图显示该软件依赖了哪些库，清晰直观。</td>
+</tr>
+<tr>
+<td><strong>查看被谁依赖</strong></td>
+<td><code>brew uses --installed &lt;包名&gt;</code></td>
+<td>反向查询：查看这个包被谁用到了（防止误删重要组件）。</td>
+</tr>
+<tr>
+<td><strong>自动移除</strong></td>
+<td><code>brew autoremove</code></td>
+<td><strong>重要</strong>。自动卸载那些“作为依赖被安装但现在不再需要”的孤儿包。</td>
+</tr>
+<tr>
+<td><strong>清理缓存</strong></td>
+<td><code>brew cleanup</code></td>
+<td>删除旧版本的安装包（.dmg/.tar.gz）和临时文件，释放磁盘空间。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="系统维护更新与诊断">系统维护：更新与诊断</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>更新 Brew</strong></td>
+<td><code>brew update</code></td>
+<td>更新 Homebrew 自身和配方库（Formulae）。</td>
+</tr>
+<tr>
+<td><strong>升级软件</strong></td>
+<td><code>brew upgrade</code></td>
+<td>将已安装的所有软件升级到最新版。</td>
+</tr>
+<tr>
+<td><strong>系统体检</strong></td>
+<td><code>brew doctor</code></td>
+<td><strong>排错首选</strong>。检查系统环境、权限、路径冲突等问题，并给出修复建议。</td>
+</tr>
+<tr>
+<td><strong>查看信息</strong></td>
+<td><code>brew info &lt;包名&gt;</code></td>
+<td>查看软件的版本、安装路径、依赖关系及注意事项（Caveats）。</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="nodejs-管理">Node.js 管理</h2>
+<p>参考<a class="link" href="https://nodejs.org/en/download"  target="_blank" rel="noopener"
+    >官方文档</a>，使用 nvm 和 npm 方式安装 Node.js。<code>nvm</code> 管理 Node 版本，而 Node 版本内部管理着自己的 <code>npm</code> 版本。</p>
+<h3 id="nodejs-版本控制-nvm">Node.js 版本控制 (nvm)</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>安装版本</strong></td>
+<td><code>nvm install &lt;版本号&gt;</code></td>
+<td>例如 <code>nvm install 24</code> (最新 v24) 或 <code>nvm install --lts</code></td>
+</tr>
+<tr>
+<td><strong>切换版本</strong></td>
+<td><code>nvm use &lt;版本号&gt;</code></td>
+<td>仅在当前终端窗口生效，例如 <code>nvm use 24</code></td>
+</tr>
+<tr>
+<td><strong>设置默认</strong></td>
+<td><code>nvm alias default &lt;版本号&gt;</code></td>
+<td><strong>重要</strong>：设置新开终端时的默认 Node 版本</td>
+</tr>
+<tr>
+<td><strong>查看远程</strong></td>
+<td><code>nvm ls-remote</code></td>
+<td>列出所有可供安装的 Node 版本</td>
+</tr>
+<tr>
+<td><strong>查看本地</strong></td>
+<td><code>nvm ls</code></td>
+<td>列出本机已安装的版本</td>
+</tr>
+<tr>
+<td><strong>卸载版本</strong></td>
+<td><code>nvm uninstall &lt;版本号&gt;</code></td>
+<td>删除不再使用的版本及其全局包</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="npm-自身管理-升级与维护">npm 自身管理 (升级与维护)</h3>
+<p>当你安装 Node 时，它带有一个默认的 npm。但 npm 自身更新频率很高，可以通过手动升级。</p>
+<p><strong>注意：</strong> npm 的升级是<strong>绑定在当前 Node 版本下</strong>的。如果你切换了 Node 版本，npm 版本也会变回那个 Node 自带的版本。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>升级 npm (最新)</strong></td>
+<td><code>npm install -g npm@latest</code></td>
+<td><strong>推荐</strong>。将当前 Node 环境下的 npm 升到最新版。</td>
+</tr>
+<tr>
+<td><strong>升级 npm (指定)</strong></td>
+<td><code>npm install -g npm@10.9.3</code></td>
+<td>降级或锁定特定版本时使用。</td>
+</tr>
+<tr>
+<td><strong>查看版本</strong></td>
+<td><code>npm -v</code></td>
+<td>查看当前正在使用的 npm 版本。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="全局包管理-global-packages">全局包管理 (Global Packages)</h3>
+<p>虽然我们推荐项目依赖都装在本地 (<code>npm install</code>)，但某些 CLI 工具 (如 <code>yarn</code>, <code>pnpm</code>, <code>typescript</code>, <code>nest</code>) 可能需要全局安装。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>查看全局包</strong></td>
+<td><code>npm list -g --depth 0</code></td>
+<td>检查全局装了哪些工具，避免混乱。</td>
+</tr>
+<tr>
+<td><strong>安装全局包</strong></td>
+<td><code>npm install -g &lt;包名&gt;</code></td>
+<td><strong>无需 sudo</strong>。在 nvm 环境下，权限属于当前用户。</td>
+</tr>
+<tr>
+<td><strong>卸载全局包</strong></td>
+<td><code>npm uninstall -g &lt;包名&gt;</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>迁移全局包</strong></td>
+<td><code>nvm install &lt;新版本&gt; --reinstall-packages-from=&lt;旧版本&gt;</code></td>
+<td>安装新 Node 时，自动把旧 Node 的全局包也装一份过来。</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="nvm-自身升级">nvm 自身升级</h3>
+<p><code>nvm</code> <strong>不支持</strong> <code>nvm update</code> 这种命令。升级它本质上就是下载最新的脚本覆盖旧脚本。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>升级步骤</strong></td>
+<td><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash</code></td>
+<td><strong>必须手动指定最新版本号</strong>。运行后重启终端即可。</td>
+</tr>
+<tr>
+<td><strong>检查版本</strong></td>
+<td><code>nvm --version</code></td>
+<td>确认当前 nvm 的版本。</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>升级 nvm <strong>不会</strong> 删除你已经安装的 Node.js 版本或全局包，放心执行。</li>
+<li>请务必去 <a class="link" href="https://github.com/nvm-sh/nvm/releases"  target="_blank" rel="noopener"
+    >nvm GitHub</a> 查看最新的版本号（上面的 <code>v0.40.3</code> 只是示例）。</li>
+</ol>
+</blockquote>
+<h2 id="python-管理uv">Python 管理：uv</h2>
+<p><code>uv</code> 是一个用 Rust 编写的 Python 打包和项目管理器，它将多个 Python 工具（如 <code>pip</code>、<code>venv</code>、<code>pyenv</code> 等）的功能整合到一个工具中，提供了一个统一、高效的 Python 开发流程。</p>
+<p>我曾经写过一篇技术博客<a class="link" href="https://mahaoliang.tech/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"  target="_blank" rel="noopener"
+    >《Python 项目管理最佳实践：uv 使用指南》</a>，已经覆盖 <code>uv</code> 的常用场景，这里只强调 <code>uv</code> 自身的升级：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 更新 uv 自身到最新版</span>
+</span></span><span class="line"><span class="cl">uv self update
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="java-sdkman">Java: SDKMAN!</h2>
+<p>对于 Java 开发者，<code>SDKMAN!</code> 是管理 JDK (Java Development Kit) 以及 Maven, Gradle, Kotlin 等 JVM 生态工具的神器。它彻底解决了配置 <code>JAVA_HOME</code> 的痛苦。</p>
+<h3 id="常用命令速查">常用命令速查</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>列出可用版本</strong></td>
+<td><code>sdk list java</code></td>
+<td>查看所有厂商（Temurin, GraalVM 等）的版本</td>
+</tr>
+<tr>
+<td><strong>安装版本</strong></td>
+<td><code>sdk install java 21.0.2-tem</code></td>
+<td>安装特定版本</td>
+</tr>
+<tr>
+<td><strong>切换版本 (临时)</strong></td>
+<td><code>sdk use java 17.0.10-tem</code></td>
+<td>仅当前终端有效</td>
+</tr>
+<tr>
+<td><strong>设置默认版本</strong></td>
+<td><code>sdk default java 21.0.2-tem</code></td>
+<td>全局永久生效</td>
+</tr>
+<tr>
+<td><strong>查看当前版本</strong></td>
+<td><code>sdk current java</code></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>查找安装路径</strong></td>
+<td><code>sdk home java &lt;版本号&gt;</code></td>
+<td>如果 IDE 需要指定 JDK 路径时很有用</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="维护与更新">维护与更新</h3>
+<p>SDKMAN 拥有完善的自更新机制：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 1. 更新 SDKMAN 客户端自身</span>
+</span></span><span class="line"><span class="cl">sdk selfupdate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 更新元数据（获取最新的 Java 版本列表）</span>
+</span></span><span class="line"><span class="cl">sdk update
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="总结">总结</h3>
+<p>在 macOS 上保持环境整洁的秘诀就是：<strong>各司其职</strong>。</p>
+<ul>
+<li><strong>Brew</strong>: 管系统工具。</li>
+<li><strong>NVM</strong>: 管 Node.js。</li>
+<li><strong>uv</strong>: 管 Python。</li>
+<li><strong>SDKMAN</strong>: 管 Java。</li>
+</ul>
+<p>掌握以上命令，基本能覆盖 90% 的日常开发环境维护需求。建议将此文加入书签，随时查阅。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/macos/">Macos</a>
+        
+            <a href="/tags/python/">Python</a>
+        
+            <a href="/tags/nodejs/">Nodejs</a>
+        
+            <a href="/tags/java/">Java</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BD%BF%E7%94%A8-1password-%E5%92%8C-ssh-agent-forwarding-%E6%8F%90%E5%8D%87%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91%E4%BD%93%E9%AA%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">使用 1Password 和 SSH Agent Forwarding 提升远程开发体验</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5uv-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Python 项目管理最佳实践：uv 使用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E7%8E%B0%E4%BB%A3-python-%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">现代 Python 项目管理指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%8E-pip/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">深入理解 Python 与 pip</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤 ICP 备 2022085181 号 -2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
