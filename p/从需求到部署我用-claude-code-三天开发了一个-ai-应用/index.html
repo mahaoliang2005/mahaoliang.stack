@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完整记录 Destiny Match 项目的开发流程：需求定义 → AI 原型 → 工程化 → 生产部署 前言 最近我完成了一个有趣的 Side Project —— Destiny Match（命运匹配）。这是一个 AI 驱动的娱'>
+<title>从需求到部署：我用 Claude Code 三天开发了一个 AI 应用</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E9%83%A8%E7%BD%B2%E6%88%91%E7%94%A8-claude-code-%E4%B8%89%E5%A4%A9%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA-ai-%E5%BA%94%E7%94%A8/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='从需求到部署：我用 Claude Code 三天开发了一个 AI 应用'>
+<meta property='og:description' content='完整记录 Destiny Match 项目的开发流程：需求定义 → AI 原型 → 工程化 → 生产部署 前言 最近我完成了一个有趣的 Side Project —— Destiny Match（命运匹配）。这是一个 AI 驱动的娱'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E9%83%A8%E7%BD%B2%E6%88%91%E7%94%A8-claude-code-%E4%B8%89%E5%A4%A9%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA-ai-%E5%BA%94%E7%94%A8/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='ai' /><meta property='article:tag' content='claude code' /><meta property='article:tag' content='nodejs' /><meta property='article:published_time' content='2026-02-19T12:48:59&#43;08:00'/><meta property='article:modified_time' content='2026-02-19T12:48:59&#43;08:00'/>
+<meta name="twitter:title" content="从需求到部署：我用 Claude Code 三天开发了一个 AI 应用">
+<meta name="twitter:description" content="完整记录 Destiny Match 项目的开发流程：需求定义 → AI 原型 → 工程化 → 生产部署 前言 最近我完成了一个有趣的 Side Project —— Destiny Match（命运匹配）。这是一个 AI 驱动的娱">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><title>bilibili</title><path clip-rule="evenodd" d="M4.977 3.561a1.31 1.31 0 111.818-1.884l2.828 2.728c.08.078.149.163.205.254h4.277a1.32 1.32 0 01.205-.254l2.828-2.728a1.31 1.31 0 011.818 1.884L17.82 4.66h.848A5.333 5.333 0 0124 9.992v7.34a5.333 5.333 0 01-5.333 5.334H5.333A5.333 5.333 0 010 17.333V9.992a5.333 5.333 0 015.333-5.333h.781L4.977 3.56zm.356 3.67a2.667 2.667 0 00-2.666 2.667v7.529a2.667 2.667 0 002.666 2.666h13.334a2.667 2.667 0 002.666-2.666v-7.53a2.667 2.667 0 00-2.666-2.666H5.333zm1.334 5.192a1.333 1.333 0 112.666 0v1.192a1.333 1.333 0 11-2.666 0v-1.192zM16 11.09c-.736 0-1.333.597-1.333 1.333v1.192a1.333 1.333 0 102.666 0v-1.192c0-.736-.597-1.333-1.333-1.333z"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:mahaoliang@gmail.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://gitee.com/mahaoliang'
+                        target="_blank"
+                        title="Gitee"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo_gitee_g_red@1x</title>
+    <g id="LOGO" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-7" transform="translate(-192.000000, -115.000000)" fill="#C71D23">
+            <path d="M228,115 C247.882251,115 264,131.117749 264,151 C264,170.882251 247.882251,187 228,187 C208.117749,187 192,170.882251 192,151 C192,131.117749 208.117749,115 228,115 Z M246.223335,131 C246.222967,131 246.2226,131 246.222232,131.001102 L221.33326,131.001102 C213.969504,131.001102 208,136.970606 208,144.334362 L208,169.222232 C208,170.204066 208.795934,171 209.777768,171 L236.000329,171 C242.627564,171 248,165.627564 248,159.000329 L248,148.778425 C248,147.796591 247.204066,147.000657 246.222232,147.000657 L225.7779,147.000657 C224.796248,147.001123 224.000389,147.796773 223.999667,148.778425 L223.998503,153.222667 C223.997802,154.155409 224.715909,154.920565 225.629522,154.994969 L225.775805,155.00042 L225.775805,155.00042 L238.222276,155.000317 C239.155019,155.000295 239.919992,155.718618 239.994164,156.63225 L240.000044,156.77807 L240.000044,156.77807 L240.000044,157.666909 C240.000044,160.612411 237.612243,163.000213 234.66674,163.000213 L217.776621,163.000213 C216.794928,163.000164 215.999101,162.204358 215.999025,161.222665 L215.998559,144.334184 C215.998337,141.462319 218.268172,139.120556 221.111731,139.005187 L221.331716,139.00088 L221.331716,139.00088 L246.21727,139.00088 C247.198674,138.999777 247.994429,138.204515 247.996141,137.223112 L247.998897,132.77887 C248.000609,131.797037 247.205169,131.000609 246.223335,131 Z" id="logo_gitee_g_red"></path>
+        </g>
+    </g>
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#项目概览">项目概览</a></li>
+    <li><a href="#phase-1需求定义plan-mode">Phase 1：需求定义（Plan Mode）</a>
+      <ol>
+        <li><a href="#从一句话到完整文档">从一句话到完整文档</a></li>
+        <li><a href="#什么是-plan-mode">什么是 Plan Mode？</a></li>
+        <li><a href="#三轮对话产出三份文档">三轮对话产出三份文档</a></li>
+        <li><a href="#plan-mode-的价值">Plan Mode 的价值</a></li>
+      </ol>
+    </li>
+    <li><a href="#phase-2原型生成ai-studio">Phase 2：原型生成（AI Studio）</a>
+      <ol>
+        <li><a href="#从文档到可运行的原型">从文档到可运行的原型</a></li>
+        <li><a href="#初始原型的特征">初始原型的特征</a></li>
+        <li><a href="#原型代码的局限性">原型代码的局限性</a></li>
+      </ol>
+    </li>
+    <li><a href="#phase-3工程化claude-code-渐进增强">Phase 3：工程化（Claude Code 渐进增强）</a>
+      <ol>
+        <li><a href="#架构重构从纯前端到前后端分离">架构重构：从纯前端到前后端分离</a></li>
+        <li><a href="#关键改动详解">关键改动详解</a></li>
+        <li><a href="#遇到的坑和解决方案">遇到的坑和解决方案</a></li>
+      </ol>
+    </li>
+    <li><a href="#phase-4部署">Phase 4：部署</a>
+      <ol>
+        <li><a href="#服务器配置">服务器配置</a></li>
+        <li><a href="#nginx-配置要点">Nginx 配置要点</a></li>
+        <li><a href="#启动脚本">启动脚本</a></li>
+        <li><a href="#常用运维命令">常用运维命令</a></li>
+      </ol>
+    </li>
+    <li><a href="#成果与经验总结">成果与经验总结</a>
+      <ol>
+        <li><a href="#开发数据">开发数据</a></li>
+        <li><a href="#工作流价值">工作流价值</a></li>
+        <li><a href="#适合什么项目">适合什么项目？</a></li>
+      </ol>
+    </li>
+    <li><a href="#结语">结语</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E9%83%A8%E7%BD%B2%E6%88%91%E7%94%A8-claude-code-%E4%B8%89%E5%A4%A9%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA-ai-%E5%BA%94%E7%94%A8/">从需求到部署：我用 Claude Code 三天开发了一个 AI 应用</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2026-02-19</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 7 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <blockquote>
+<p>完整记录 Destiny Match 项目的开发流程：需求定义 → AI 原型 → 工程化 → 生产部署</p>
+</blockquote>
+<h2 id="前言">前言</h2>
+<p>最近我完成了一个有趣的 Side Project —— <strong>Destiny Match（命运匹配）</strong>。这是一个 AI 驱动的娱乐应用：用户上传自己的照片，AI 生成一张&quot;未来伴侣&quot;的照片，并给出般配度分析和缘分解读。</p>
+<p>作为一个全栈开发经验不多的工程师，我用 <strong>3 天时间</strong>完成了从需求文档到生产部署的全过程。这要归功于一套新的开发工作流：<strong>Claude Code Plan Mode + AI Studio 原型 + 渐进式工程化</strong>。</p>
+<p>这篇文章记录了整个开发流程，适合想了解 AI 辅助开发的初学者参考。</p>
+<hr>
+<h2 id="项目概览">项目概览</h2>
+<p><strong>Destiny Match</strong> 的技术栈：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>层级</th>
+<th>技术</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前端</td>
+<td>React 19 + TypeScript + Vite</td>
+<td>函数式组件 + Hooks</td>
+</tr>
+<tr>
+<td>后端</td>
+<td>Express + TypeScript</td>
+<td>RESTful API</td>
+</tr>
+<tr>
+<td>AI 图像</td>
+<td>即梦 (Dreamina)</td>
+<td>字节跳动图像生成 API</td>
+</tr>
+<tr>
+<td>AI 文本</td>
+<td>DeepSeek</td>
+<td>硅基流动提供的文本分析 API</td>
+</tr>
+<tr>
+<td>部署</td>
+<td>Nginx + Node.js</td>
+<td>手动部署，PM2 进程管理</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>核心功能</strong>：</p>
+<ul>
+<li>6 步用户流程：首页 → 隐私协议 → 照片上传 → 风格选择 → 生成中 → 结果展示</li>
+<li>4 种伴侣风格：温柔型、阳光型、知性型、神秘型</li>
+<li>分享功能：生成分享卡片（html-to-image）</li>
+<li>使用限制：每日 3 次生成（防滥用）</li>
+</ul>
+<hr>
+<h2 id="phase-1需求定义plan-mode">Phase 1：需求定义（Plan Mode）</h2>
+<h3 id="从一句话到完整文档">从一句话到完整文档</h3>
+<p>项目的起点非常简单。我在 <code>docs/ideal.md</code> 中写下了这个想法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">我想做一个 web 应用，用户上传自己的照片，然后应用进行预测，
+</span></span><span class="line"><span class="cl">生成用户未来伴侣的照片，并给出算命类型的描述，说明两人的般配度。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">这是一个趣味性的应用，并不是严肃的婚恋软件，
+</span></span><span class="line"><span class="cl">所以预测出的照片不需要匹配用户本身的相貌。
+</span></span><span class="line"><span class="cl">般配度是一种似是而非的大概描述，让人看的舒服。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来，我使用 <strong>Claude Code 的 Plan Mode</strong> 来完成需求定义。</p>
+<h3 id="什么是-plan-mode">什么是 Plan Mode？</h3>
+<p>Plan Mode 是 Claude Code 的一种工作模式，它会：</p>
+<ol>
+<li>先深入理解你的需求</li>
+<li>生成详细的实现计划</li>
+<li>等你确认后再执行</li>
+</ol>
+<p>这非常适合项目启动阶段——你可以和 AI 协作梳理思路，而不是直接写代码。</p>
+<h3 id="三轮对话产出三份文档">三轮对话产出三份文档</h3>
+<p><strong>第一轮：用户流程</strong></p>
+<p>我要求 Claude 根据 ideal.md 创建用户流程文档。经过几轮讨论，我们产出了 <code>docs/user-flow.md</code>（667 行）。</p>
+<p>这份文档包含了：</p>
+<ul>
+<li>用户旅程地图（6 个阶段的情绪曲线）</li>
+<li>Mermaid 流程图定义完整交互流程</li>
+<li>每个页面的详细布局（ASCII 图示）</li>
+<li>异常流程处理（网络错误、限流、生成失败）</li>
+</ul>
+<p>关键决策示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl"><span class="gu">### 3.1 首页 (Home)
+</span></span></span><span class="line"><span class="cl"><span class="gu">#### 页面布局
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>┌─────────────────────────────────────┐
+</span></span><span class="line"><span class="cl">│           [星空背景动效]             │
+</span></span><span class="line"><span class="cl">│                                     │
+</span></span><span class="line"><span class="cl">│            ✨ 命运匹配 ✨            │
+</span></span><span class="line"><span class="cl">│                                     │
+</span></span><span class="line"><span class="cl">│    探索你的缘分，预见未来的 TA        │
+</span></span><span class="line"><span class="cl">│                                     │
+</span></span><span class="line"><span class="cl">│         [命运之门动画]               │
+</span></span><span class="line"><span class="cl">│                                     │
+</span></span><span class="line"><span class="cl">│      ┌─────────────────┐           │
+</span></span><span class="line"><span class="cl">│      │   开启命运之门   │           │
+</span></span><span class="line"><span class="cl">│      └─────────────────┘           │
+</span></span><span class="line"><span class="cl">└─────────────────────────────────────┘
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>第二轮：功能需求</strong></p>
+<p>接着产出 <code>docs/functional-requirements.md</code>（389 行），定义了：</p>
+<ul>
+<li>4 个功能模块（用户/照片/AI 生成/结果展示）</li>
+<li>P0/P1/P2 优先级分类</li>
+<li>AI 服务选型（即梦 + DeepSeek）</li>
+</ul>
+<p><strong>第三轮：技术规范</strong></p>
+<p>最后产出 <code>docs/technical-spec.md</code>（872 行），包含：</p>
+<ul>
+<li>系统架构图</li>
+<li>数据模型定义</li>
+<li>API 接口设计</li>
+<li>第三方服务集成方案</li>
+</ul>
+<h3 id="plan-mode-的价值">Plan Mode 的价值</h3>
+<p>这个阶段花了大约 <strong>2 小时</strong>，但产出了 90KB 的文档。好处是：</p>
+<ol>
+<li><strong>思路清晰</strong>：在写代码前，所有交互细节、数据结构、API 接口都已确定</li>
+<li><strong>降低返工</strong>：后期开发时很少出现&quot;这个没考虑到&quot;的情况</li>
+<li><strong>便于沟通</strong>：如果要找合作者，这些文档可以直接用</li>
+</ol>
+<hr>
+<h2 id="phase-2原型生成ai-studio">Phase 2：原型生成（AI Studio）</h2>
+<h3 id="从文档到可运行的原型">从文档到可运行的原型</h3>
+<p>有了详细的需求文档，下一步是生成产品原型。我的流程是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">user-flow.md → https://stitch.withgoogle.com/ → AI Studio → 原型代码
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Stitch 的作用</strong>：
+将文本需求转化为视觉设计。我上传了 user-flow.md，Stitch 生成了每个页面的设计图。</p>
+<p><strong>AI Studio 的作用</strong>：
+基于设计图生成完整的前端代码（HTML + TSX）。</p>
+<h3 id="初始原型的特征">初始原型的特征</h3>
+<p>Git 提交记录显示了这次生成的痕迹：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ git show 126488a --stat
+</span></span><span class="line"><span class="cl">commit 126488acaa16275c9f00502a3fe452443ec86e18
+</span></span><span class="line"><span class="cl">Author: mahaoliang &lt;mahaoliang@gmail.com&gt;
+</span></span><span class="line"><span class="cl">Date:   Mon Feb <span class="m">16</span> 20:28:25 <span class="m">2026</span> +0800
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    Initial commit: Destiny Match - AI Powered Romance Discovery
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    Co-Authored-By: Claude Sonnet 4.5 &lt;noreply@anthropic.com&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>初始提交包含：</p>
+<ul>
+<li><strong>30 个文件</strong>，5908 行代码</li>
+<li>完整的 6 步用户流程（Home → Privacy → Upload → SelectVibe → Loading → Result）</li>
+<li>Glassmorphism 设计风格（毛玻璃效果）</li>
+<li>Tailwind CSS + Material Icons</li>
+<li>Mock AI 服务（前端直接调用，返回假数据）</li>
+</ul>
+<h3 id="原型代码的局限性">原型代码的局限性</h3>
+<p>虽然原型能跑通，但作为生产代码还有明显问题：</p>
+<ol>
+<li><strong>纯前端架构</strong>：API 密钥直接暴露在浏览器端</li>
+<li><strong>Base64 图片</strong>：用户上传的照片以 base64 存储，占用内存大</li>
+<li><strong>无持久化</strong>：数据存在 localStorage，换浏览器就丢失</li>
+<li><strong>无使用限制</strong>：任何人可以无限次调用，API 费用不可控</li>
+</ol>
+<p>这些问题在 Phase 3 逐一解决。</p>
+<hr>
+<h2 id="phase-3工程化claude-code-渐进增强">Phase 3：工程化（Claude Code 渐进增强）</h2>
+<h3 id="架构重构从纯前端到前后端分离">架构重构：从纯前端到前后端分离</h3>
+<p><strong>决策记录</strong>（来自 technical-spec.md）：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>方案</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API 密钥安全</td>
+<td>添加 Express 服务端</td>
+<td>密钥只在服务端，前端通过 API 调用</td>
+</tr>
+<tr>
+<td>图片存储</td>
+<td>文件系统 + URL</td>
+<td>避免 base64 占用内存，支持大图片</td>
+</tr>
+<tr>
+<td>使用限制</td>
+<td>文件-based 限流</td>
+<td>每个用户每日 3 次，防 API 滥用</td>
+</tr>
+<tr>
+<td>并发处理</td>
+<td>Node.js + 异步</td>
+<td>支持 100+ 并发用户</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="关键改动详解">关键改动详解</h3>
+<p><strong>改动 1：图片存储流程</strong></p>
+<p>原型阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 前端直接读 base64
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">setImage</span><span class="p">(</span><span class="nx">reader</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span> <span class="c1">// base64 字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">reader</span><span class="p">.</span><span class="nx">readAsDataURL</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生产阶段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 1. 前端上传到服务端
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nx">formData</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="nx">file</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/api/upload-image&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">body</span>: <span class="kt">formData</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="p">{</span> <span class="nx">imageUrl</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span> <span class="c1">// 返回 /images/xxx.jpg
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 2. AI 生成后保存到磁盘
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">partnerImageBuffer</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">generatePartnerImage</span><span class="p">(</span><span class="nx">imageUrl</span><span class="p">,</span> <span class="nx">vibe</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">partnerImageUrl</span> <span class="o">=</span> <span class="nx">saveImage</span><span class="p">(</span><span class="nx">partnerImageBuffer</span><span class="p">);</span> <span class="c1">// 返回 URL
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>改动 2：限流实现</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// server/src/services/usageTracker.ts
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">export</span> <span class="kr">const</span> <span class="nx">checkAndIncrementUsage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">userId</span>: <span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">today</span> <span class="o">=</span> <span class="nx">getToday</span><span class="p">();</span> <span class="c1">// &#34;2026-02-17&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="kr">const</span> <span class="nx">usage</span> <span class="o">=</span> <span class="nx">readUsage</span><span class="p">(</span><span class="nx">userId</span><span class="p">);</span> <span class="c1">// { count: 2, date: &#34;2026-02-17&#34; }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">usage</span> <span class="o">||</span> <span class="nx">usage</span><span class="p">.</span><span class="nx">date</span> <span class="o">!==</span> <span class="nx">today</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">writeUsage</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="p">{</span> <span class="nx">count</span>: <span class="kt">1</span><span class="p">,</span> <span class="nx">date</span>: <span class="kt">today</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span> <span class="nx">allowed</span>: <span class="kt">true</span><span class="p">,</span> <span class="nx">remaining</span>: <span class="kt">2</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">usage</span><span class="p">.</span><span class="nx">count</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span> <span class="nx">allowed</span>: <span class="kt">false</span><span class="p">,</span> <span class="nx">remaining</span>: <span class="kt">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">usage</span><span class="p">.</span><span class="nx">count</span><span class="o">++</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">writeUsage</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="nx">usage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="p">{</span> <span class="nx">allowed</span>: <span class="kt">true</span><span class="p">,</span> <span class="nx">remaining</span>: <span class="kt">3</span> <span class="o">-</span> <span class="nx">usage</span><span class="p">.</span><span class="nx">count</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>改动 3：AI 调用并行化</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 图像生成和文本分析并行执行，减少等待时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="p">[</span><span class="nx">partnerImageBase64</span><span class="p">,</span> <span class="nx">analysis</span><span class="p">]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">generatePartnerImage</span><span class="p">(</span><span class="nx">userImageBase64</span><span class="p">,</span> <span class="nx">vibe</span><span class="p">),</span>    <span class="c1">// 即梦 API
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">generateDestinyAnalysis</span><span class="p">(</span><span class="nx">vibe</span><span class="p">,</span> <span class="nx">score</span><span class="p">)</span>             <span class="c1">// DeepSeek API
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">]);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="遇到的坑和解决方案">遇到的坑和解决方案</h3>
+<p><strong>坑 1：即梦 API 需要公网图片地址</strong></p>
+<p>本地开发时，用户上传的图片是 <code>localhost:3000/images/xxx.jpg</code>，即梦 API 无法访问。</p>
+<p><strong>解决</strong>：使用 ngrok 暴露本地服务</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装 ngrok</span>
+</span></span><span class="line"><span class="cl">brew install ngrok
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 启动 ngrok</span>
+</span></span><span class="line"><span class="cl">ngrok http <span class="m">3002</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 修改 .env</span>
+</span></span><span class="line"><span class="cl"><span class="nv">PUBLIC_BASE_URL</span><span class="o">=</span>https://abc123.ngrok.io
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>坑 2：iPhone 的 HEIC 格式</strong></p>
+<p>iPhone 默认拍摄 HEIC 格式，浏览器无法直接预览。</p>
+<p><strong>解决</strong>：添加 heic2any 转换</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="kr">import</span> <span class="nx">heic2any</span> <span class="kr">from</span> <span class="s1">&#39;heic2any&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">convertHeicToJpeg</span> <span class="o">=</span> <span class="kr">async</span> <span class="p">(</span><span class="nx">file</span>: <span class="kt">File</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">File</span><span class="p">&gt;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="kr">type</span> <span class="o">===</span> <span class="s1">&#39;image/heic&#39;</span> <span class="o">||</span> <span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">endsWith</span><span class="p">(</span><span class="s1">&#39;.heic&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">converted</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">heic2any</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">blob</span>: <span class="kt">file</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">toType</span><span class="o">:</span> <span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nx">quality</span>: <span class="kt">0.9</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">new</span> <span class="nx">File</span><span class="p">([</span><span class="nx">converted</span><span class="p">],</span> <span class="nx">file</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;.heic&#39;</span><span class="p">,</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">),</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="kr">type</span><span class="o">:</span> <span class="s1">&#39;image/jpeg&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="nx">file</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>坑 3：分享卡片的图片跨域</strong></p>
+<p>html-to-image 生成分享卡片时，外部图片（如 Unsplash）可能跨域失败。</p>
+<p><strong>解决</strong>：服务端代理图片，统一使用同域 URL</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-typescript" data-lang="typescript"><span class="line"><span class="cl"><span class="c1">// 生成时获取图片为 base64
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">fetchImageAsBase64</span> <span class="o">=</span> <span class="kr">async</span> <span class="p">(</span><span class="nx">url</span>: <span class="kt">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="kr">const</span> <span class="nx">blob</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">response</span><span class="p">.</span><span class="nx">blob</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">reader</span><span class="p">.</span><span class="nx">onloadend</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">resolve</span><span class="p">(</span><span class="nx">reader</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">reader</span><span class="p">.</span><span class="nx">readAsDataURL</span><span class="p">(</span><span class="nx">blob</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="phase-4部署">Phase 4：部署</h2>
+<h3 id="服务器配置">服务器配置</h3>
+<p><strong>环境</strong>：Ubuntu 22.04 + Nginx + Node.js 20</p>
+<p><strong>部署架构</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">用户浏览器
+</span></span><span class="line"><span class="cl">    │
+</span></span><span class="line"><span class="cl">    ▼
+</span></span><span class="line"><span class="cl">Nginx (80/443)
+</span></span><span class="line"><span class="cl">    ├── /          → 前端静态文件 (client/dist)
+</span></span><span class="line"><span class="cl">    ├── /api/*     → 后端服务 (localhost:3001)
+</span></span><span class="line"><span class="cl">    └── /images/*  → 后端服务 (localhost:3001)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="nginx-配置要点">Nginx 配置要点</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">server</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">listen</span> <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">server_name</span> <span class="s">destiny.mahaoliang.tech</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 前端静态文件
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">root</span> <span class="s">/home/ubuntu/works/destinymatch/client/dist</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/</span> <span class="s">/index.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 后端 API 代理（长超时）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/api/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://localhost:3001/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_read_timeout</span> <span class="s">60s</span><span class="p">;</span>  <span class="c1"># AI 生成可能较慢
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="kn">client_max_body_size</span> <span class="s">10M</span><span class="p">;</span>  <span class="c1"># 大图片上传
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 图片服务代理
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kn">location</span> <span class="s">/images/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">proxy_pass</span> <span class="s">http://localhost:3001/images/</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">expires</span> <span class="s">1d</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="启动脚本">启动脚本</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 生产环境启动（加载 .env.production）</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /home/ubuntu/works/destinymatch/server
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="k">$(</span>cat .env.production <span class="p">|</span> grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span> xargs<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  nohup node dist/index.js &gt; ../logs/app.log 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">&amp;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常用运维命令">常用运维命令</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 查看日志（排错第一选择）</span>
+</span></span><span class="line"><span class="cl">tail -f /home/ubuntu/works/destinymatch/logs/app.log
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 重启服务</span>
+</span></span><span class="line"><span class="cl">pkill -f <span class="s2">&#34;node dist/index.js&#34;</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nb">cd</span> /home/ubuntu/works/destinymatch/server <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nb">export</span> <span class="k">$(</span>cat .env.production <span class="p">|</span> grep -v <span class="s1">&#39;^#&#39;</span> <span class="p">|</span> xargs<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  nohup node dist/index.js &gt; ../logs/app.log 2&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查服务状态</span>
+</span></span><span class="line"><span class="cl">ps aux <span class="p">|</span> grep <span class="s2">&#34;node dist/index.js&#34;</span>
+</span></span><span class="line"><span class="cl">curl http://localhost:3001/api/health
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="成果与经验总结">成果与经验总结</h2>
+<h3 id="开发数据">开发数据</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>开发周期</td>
+<td>3 天</td>
+</tr>
+<tr>
+<td>代码提交</td>
+<td>24 次</td>
+</tr>
+<tr>
+<td>前端代码</td>
+<td>~6000 行</td>
+</tr>
+<tr>
+<td>后端代码</td>
+<td>~2000 行</td>
+</tr>
+<tr>
+<td>文档</td>
+<td>~90KB（6 个 markdown）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="工作流价值">工作流价值</h3>
+<ol>
+<li>
+<p><strong>Plan Mode 降低返工</strong></p>
+<ul>
+<li>先写文档再写代码，需求变更减少 80%</li>
+<li>技术选型在文档阶段完成，避免中途重构</li>
+</ul>
+</li>
+<li>
+<p><strong>AI Studio 快速启动</strong></p>
+<ul>
+<li>初始原型 1 小时内可运行</li>
+<li>有代码基础后，增量修改比从零开始快</li>
+</ul>
+</li>
+<li>
+<p><strong>渐进式工程化</strong></p>
+<ul>
+<li>先跑通流程，再优化架构</li>
+<li>每个改动都有明确的理由（安全/性能/体验）</li>
+</ul>
+</li>
+</ol>
+<h3 id="适合什么项目">适合什么项目？</h3>
+<p>这种工作流最适合：</p>
+<ul>
+<li><strong>MVP 验证</strong>：快速把想法变成可演示的产品</li>
+<li><strong>Side Project</strong>：个人开发者资源有限，用 AI 补足</li>
+<li><strong>原型迭代</strong>：需要频繁调整需求的产品初期</li>
+</ul>
+<p>不适合：</p>
+<ul>
+<li><strong>大型团队协作</strong>：文档需要多人评审，AI 生成的代码风格不统一</li>
+<li><strong>强安全要求</strong>：金融、医疗等领域，AI 可能忽略合规细节</li>
+<li><strong>性能敏感</strong>：AI 倾向于写&quot;能跑&quot;的代码，而非最优实现</li>
+</ul>
+<hr>
+<h2 id="结语">结语</h2>
+<p>Destiny Match 是一个小项目，但它验证了一种新的开发范式：<strong>AI 辅助的全流程开发</strong>。</p>
+<p>从需求文档到生产部署，AI 工具在每个阶段都提供了 10 倍速的效率提升。但关键点在于——<strong>人类仍然是决策者</strong>。Plan Mode 的文档需要我确认，AI Studio 的代码需要我 review，架构调整需要我判断。</p>
+<p>AI 不会取代开发者，但会用 AI 的开发者会取代不会用的。</p>
+<hr>
+<p><strong>项目地址</strong>：https://destiny.mahaoliang.tech</p>
+<p><strong>技术文档</strong>：项目根目录 <code>docs/</code> 文件夹包含完整的设计文档，欢迎参考。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/ai/">Ai</a>
+        
+            <a href="/tags/claude-code/">Claude Code</a>
+        
+            <a href="/tags/nodejs/">Nodejs</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">macOS 开发环境管理</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025-%E5%B9%B4-5-%E6%9C%88%E7%89%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI 工具总结（2025 年 5 月版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/tmux-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Tmux 快速入门指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E5%BC%80%E6%BA%90%E4%B9%8B%E5%A4%8F%E7%BB%93%E9%A1%B9%E6%8A%A5%E5%91%8A/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">开源之夏结项报告</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤 ICP 备 2022085181 号 -2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
