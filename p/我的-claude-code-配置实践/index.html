@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='视频逐帧提取 运用脚本来完成手动工作，即 n 秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end'>
-<title>字符动画制作</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和'>
+<title>我的 Claude Code 配置实践</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='字符动画制作'>
-<meta property='og:description' content='视频逐帧提取 运用脚本来完成手动工作，即 n 秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end'>
-<meta property='og:url' content='https://mahaoliang.tech/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='我的 Claude Code 配置实践'>
+<meta property='og:description' content='2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='photo' /><meta property='article:tag' content='image' /><meta property='article:tag' content='svg' /><meta property='article:published_time' content='2023-09-08T20:06:23&#43;08:00'/><meta property='article:modified_time' content='2023-09-08T20:06:23&#43;08:00'/>
-<meta name="twitter:title" content="字符动画制作">
-<meta name="twitter:description" content="视频逐帧提取 运用脚本来完成手动工作，即 n 秒一次截屏 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 tell application &amp;#34;IINA&amp;#34; reopen activate delay 0.5 tell application &amp;#34;System Events&amp;#34; keystroke (ASCII character 32) delay 0.1 end tell repeat tell application &amp;#34;System Events&amp;#34; keystroke &amp;#34;s&amp;#34; using {command down} end">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='claude-code' /><meta property='article:tag' content='mcp' /><meta property='article:tag' content='ai' /><meta property='article:published_time' content='2026-02-23T12:00:00&#43;08:00'/><meta property='article:modified_time' content='2026-02-23T12:00:00&#43;08:00'/>
+<meta name="twitter:title" content="我的 Claude Code 配置实践">
+<meta name="twitter:description" content="2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -350,10 +350,32 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#视频逐帧提取">视频逐帧提取</a></li>
-    <li><a href="#png-转-svg再转-png">png 转 svg，再转 png</a></li>
-    <li><a href="#动画制作">动画制作</a></li>
-    <li><a href="#结尾">结尾</a></li>
+    <li><a href="#什么是-mcp">什么是 MCP</a></li>
+    <li><a href="#我的-mcp-配置">我的 MCP 配置</a>
+      <ol>
+        <li><a href="#context7---代码文档查询">context7 - 代码文档查询</a></li>
+        <li><a href="#github---github-集成">github - GitHub 集成</a></li>
+        <li><a href="#chrome-devtools---浏览器调试">chrome-devtools - 浏览器调试</a></li>
+        <li><a href="#server-fetch---网页获取">server-fetch - 网页获取</a></li>
+      </ol>
+    </li>
+    <li><a href="#推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</a></li>
+    <li><a href="#skill-配置">Skill 配置</a></li>
+    <li><a href="#插件配置">插件配置</a>
+      <ol>
+        <li><a href="#claude-hud">Claude HUD</a></li>
+        <li><a href="#frontend-design">Frontend Design</a></li>
+      </ol>
+    </li>
+    <li><a href="#配置方式对比与实践心得">配置方式对比与实践心得</a>
+      <ol>
+        <li><a href="#http-vs-stdio">HTTP vs stdio</a></li>
+        <li><a href="#api-key-管理建议">API Key 管理建议</a></li>
+        <li><a href="#权限配置注意事项">权限配置注意事项</a></li>
+      </ol>
+    </li>
+    <li><a href="#完整配置参考">完整配置参考</a></li>
+    <li><a href="#总结">总结</a></li>
   </ol>
 </nav>
         </div>
@@ -381,7 +403,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E5%AD%97%E7%AC%A6%E5%8A%A8%E7%94%BB%E5%88%B6%E4%BD%9C/">字符动画制作</a>
+            <a href="/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/">我的 Claude Code 配置实践</a>
         </h2>
     
         
@@ -403,7 +425,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2023-09-08</time>
+                <time class="article-time--published">2026-02-23</time>
             </div>
         
 
@@ -418,7 +440,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 4 分钟
                 </time>
             </div>
         
@@ -433,10 +455,86 @@
     <section class="article-content">
     
     
-    <h2 id="视频逐帧提取">视频逐帧提取</h2>
+    <p>2025 年 2 月，<a class="link" href="https://claude.com/product/claude-code"  target="_blank" rel="noopener"
+    >Claude Code</a> 发布，带来了全新的 <strong>agentic coding</strong> 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和实践经验，希望能给正在使用或准备使用 Claude Code 的开发者一些参考。</p>
+<h2 id="什么是-mcp">什么是 MCP</h2>
+<p>在介绍配置之前，先简单解释一下 <strong>MCP (Model Context Protocol)</strong>。这是 Anthropic 提出的开放协议，用于标准化 AI 助手与外部工具、数据源的连接方式。你可以把 MCP 理解为 AI 的&quot;插件系统&quot;——通过 MCP，Claude Code 可以访问数据库、操作 GitHub、控制浏览器等，极大扩展了 AI 的能力边界。</p>
+<p>MCP 服务器有两种连接方式：</p>
 <ul>
-<li>运用脚本来完成手动工作，即 n 秒一次截屏</li>
+<li><strong>HTTP</strong>：远程服务，通过 URL 连接，适合访问云端 API</li>
+<li><strong>stdio</strong>：本地进程，通过标准输入输出通信，适合本地工具</li>
 </ul>
+<h2 id="我的-mcp-配置">我的 MCP 配置</h2>
+<p>我目前配置了 4 个 MCP 服务器，涵盖代码查询、代码托管、浏览器调试和网页获取四个维度。</p>
+<h3 id="context7---代码文档查询">context7 - 代码文档查询</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;context7&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://mcp.context7.com/mcp&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;CONTEXT7_API_KEY&#34;</span><span class="p">:</span> <span class="s2">&#34;YOUR_CONTEXT7_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>作用</strong>：查询流行编程库的官方文档和代码示例。</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>查询某个库的 API 用法，比如 &ldquo;Next.js 的 Image 组件有哪些参数&rdquo;</li>
+<li>获取代码示例，了解最佳实践</li>
+<li>对比不同版本的 API 差异</li>
+</ul>
+<p><strong>获取 API Key</strong>：访问 <a class="link" href="https://context7.com/"  target="_blank" rel="noopener"
+    >Context7 官网</a> 注册获取。</p>
+<h3 id="github---github-集成">github - GitHub 集成</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;github&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.githubcopilot.com/mcp&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer YOUR_GITHUB_TOKEN&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>作用</strong>：直接在 Claude Code 中管理 GitHub 仓库、PR 和 Issues。</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>创建 PR 并添加详细描述</li>
+<li>审查代码并添加评论</li>
+<li>管理 Issues（创建、更新、关闭）</li>
+<li>查询仓库文件内容</li>
+</ul>
+<p><strong>获取 Token</strong>：在 GitHub Settings → Developer settings → Personal access tokens 中创建，需要 <code>repo</code> 和 <code>read:org</code> 权限。</p>
+<h3 id="chrome-devtools---浏览器调试">chrome-devtools - 浏览器调试</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -449,85 +547,217 @@
 </span><span class="lnt"> 8
 </span><span class="lnt"> 9
 </span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">tell application &#34;IINA&#34;
-</span></span><span class="line"><span class="cl"> reopen
-</span></span><span class="line"><span class="cl"> activate
-</span></span><span class="line"><span class="cl"> delay 0.5
-</span></span><span class="line"><span class="cl"> tell application &#34;System Events&#34;
-</span></span><span class="line"><span class="cl">  keystroke (ASCII character 32)
-</span></span><span class="line"><span class="cl">  delay 0.1
-</span></span><span class="line"><span class="cl"> end tell
-</span></span><span class="line"><span class="cl"> repeat
-</span></span><span class="line"><span class="cl">  tell application &#34;System Events&#34;
-</span></span><span class="line"><span class="cl">   keystroke &#34;s&#34; using {command down}
-</span></span><span class="line"><span class="cl">  end tell
-</span></span><span class="line"><span class="cl">  delay 0.5
-</span></span><span class="line"><span class="cl"> end repeat
-</span></span><span class="line"><span class="cl">end tell
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;chrome-devtools&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;chrome-devtools-mcp@latest&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>
-<p>这里的第三个 delay 是来控制截屏间隙的，<code>delay 0.5</code>就是 0.5 秒截一次屏。</p>
-</li>
-<li>
-<p>这个脚本只试用于 Mac 电脑，因为 command+s 是 Mac 上的快捷键。</p>
-</li>
-</ul>
-<h2 id="png-转-svg再转-png">png 转 svg，再转 png</h2>
+</div><p><strong>作用</strong>：连接 Chrome 开发者工具，进行页面调试、截图、性能分析。</p>
+<p><strong>使用场景</strong>：</p>
 <ul>
-<li>svg 就是字符矢量图，但是它不能导入视频软件来制作视频，所以还要再转回 png。</li>
+<li>前端开发时实时查看页面效果</li>
+<li>自动生成页面截图</li>
+<li>进行性能分析，优化加载速度</li>
+<li>监控网络请求</li>
 </ul>
-<ol>
-<li>copy pics to tencent server</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">scp $HOME/Pictures/Screenshots/*.png mahaoliang:/home/ubuntu/works/pics/
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>这里我是上传到服务器上搞的，</li>
-</ul>
-<ol start="2">
-<li>install app</li>
-</ol>
+<p><strong>前提条件</strong>：需要安装 Chrome 浏览器，并保持 DevTools 协议端口开放。</p>
+<h3 id="server-fetch---网页获取">server-fetch - 网页获取</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo apt-get install caca-utils
-</span></span><span class="line"><span class="cl">sudo apt-get install librsvg2-bin
-</span></span><span class="line"><span class="cl">sudo apt install imagemagick
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;server-fetch&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;uvx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;mcp-server-fetch&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="3">
-<li>run script</li>
-</ol>
+</div><p><strong>作用</strong>：抓取网页内容并提取为 Markdown。</p>
+<p><strong>使用场景</strong>：</p>
+<ul>
+<li>获取技术文档内容作为上下文</li>
+<li>抓取 API 参考页面</li>
+<li>读取在线教程和博客文章</li>
+</ul>
+<p><strong>注意</strong>：使用 <code>uvx</code> 运行，需要提前安装 <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
+    >uv</a>（Python 包管理器）。</p>
+<h2 id="推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</h2>
+<p>以下 MCP 服务器也很有价值，根据你的需求选择性配置：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>MCP 服务器</th>
+<th>用途</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Linear</strong> / <strong>Asana</strong></td>
+<td>项目管理</td>
+<td>将 AI 工作流与任务管理集成</td>
+</tr>
+<tr>
+<td><strong>Slack</strong></td>
+<td>团队通知</td>
+<td>让 Claude Code 发送进度通知</td>
+</tr>
+<tr>
+<td><strong>Supabase</strong> / <strong>Firebase</strong></td>
+<td>数据库操作</td>
+<td>直接查询和修改数据库</td>
+</tr>
+<tr>
+<td><strong>Stripe</strong></td>
+<td>支付集成</td>
+<td>测试支付流程、查询交易记录</td>
+</tr>
+<tr>
+<td><strong>Playwright</strong></td>
+<td>浏览器自动化</td>
+<td>端到端测试、自动化操作</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="skill-配置">Skill 配置</h2>
+<p>除了 MCP，Claude Code 还支持 <strong>Skill</strong>（技能），用于执行特定的高级任务。</p>
+<p>根据我的使用记录，以下 Skill 使用频率较高：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>使用次数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>drawio</strong></td>
+<td>3</td>
+<td>生成 draw.io 图表，用于架构图、流程图</td>
+</tr>
+<tr>
+<td><strong>frontend-design</strong></td>
+<td>1</td>
+<td>创建高质量前端界面</td>
+</tr>
+<tr>
+<td><strong>claude-hud:setup</strong></td>
+<td>1</td>
+<td>配置 HUD 状态栏</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>drawio</strong> 是我使用最多的 Skill，在讨论系统架构时特别有用——直接生成可编辑的图表文件，比文字描述直观得多。</p>
+<h2 id="插件配置">插件配置</h2>
+<p>我还安装了两个插件来增强体验：</p>
+<h3 id="claude-hud">Claude HUD</h3>
+<p><a class="link" href="https://github.com/4lch4/claude-hud"  target="_blank" rel="noopener"
+    >claude-hud</a> 是一个状态栏 HUD 插件，在终端底部显示：</p>
+<ul>
+<li>当前使用的工具</li>
+<li>Agent 活动状态</li>
+<li>待办事项列表</li>
+<li>会话时长</li>
+</ul>
+<p>安装命令：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./run.sh
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude config plugins add claude-hud@claude-hud
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>因为有很多张图片，所以写了一个脚本 run.sh，就是将 png-&gt;svg-&gt;png 的动作重复，命令如下：</li>
+</div><h3 id="frontend-design">Frontend Design</h3>
+<p><a class="link" href="https://github.com/claude-plugins/frontend-design"  target="_blank" rel="noopener"
+    >frontend-design</a> 是官方插件，用于创建高质量的前端界面。适合快速生成原型代码或参考实现。</p>
+<p>安装命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude config plugins add frontend-design@claude-plugins-official
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="配置方式对比与实践心得">配置方式对比与实践心得</h2>
+<h3 id="http-vs-stdio">HTTP vs stdio</h3>
+<p>两种 MCP 配置方式各有优劣：</p>
+<p><strong>HTTP 模式</strong>：</p>
+<ul>
+<li>✅ 配置简单，只需 URL 和 API Key</li>
+<li>✅ 服务稳定，无需本地环境</li>
+<li>❌ 依赖网络，有延迟</li>
+<li>❌ 需要管理 API Key 安全</li>
 </ul>
+<p><strong>stdio 模式</strong>：</p>
+<ul>
+<li>✅ 本地运行，延迟低</li>
+<li>✅ 可以访问本地资源</li>
+<li>❌ 需要配置运行环境（Node.js/Python）</li>
+<li>❌ 每次启动需要初始化进程</li>
+</ul>
+<p><strong>我的建议</strong>：</p>
+<ul>
+<li>外部服务（GitHub、Context7）用 HTTP</li>
+<li>本地工具（浏览器调试、文件操作）用 stdio</li>
+</ul>
+<h3 id="api-key-管理建议">API Key 管理建议</h3>
+<p>配置中涉及多个 API Key，安全管理很重要：</p>
+<ol>
+<li><strong>不要将 <code>.claude.json</code> 提交到 Git</strong>：添加 <code>.gitignore</code> 排除</li>
+<li><strong>使用环境变量</strong>：敏感信息可以通过环境变量注入，例如：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer ${GITHUB_TOKEN}&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li><strong>定期轮换 Token</strong>：GitHub Token 支持设置过期时间，建议启用</li>
+<li><strong>最小权限原则</strong>：给 Token 分配最小必要的权限范围</li>
+</ol>
+<h3 id="权限配置注意事项">权限配置注意事项</h3>
+<p>Claude Code 在执行 MCP 工具时会请求权限，建议：</p>
+<ul>
+<li><strong>开发初期</strong>：选择 &ldquo;Ask before each use&rdquo;，了解工具调用情况</li>
+<li><strong>熟悉后</strong>：对可信工具选择 &ldquo;Always allow&rdquo;，提升效率</li>
+<li><strong>生产环境</strong>：谨慎授权，避免误操作</li>
+</ul>
+<h2 id="完整配置参考">完整配置参考</h2>
+<p>这是我的 <code>~/.claude.json</code> 中 MCP 相关部分的完整配置（已脱敏）：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -559,98 +789,56 @@
 </span><span class="lnt">27
 </span><span class="lnt">28
 </span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># clean
-</span></span><span class="line"><span class="cl">mkdir -p &#34;${svg}&#34;
-</span></span><span class="line"><span class="cl">mkdir -p &#34;${output}&#34;
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"># 使用循环遍历目录中的每个文件
-</span></span><span class="line"><span class="cl">for file in &#34;${pics}&#34;/*.png; do
-</span></span><span class="line"><span class="cl">    # 检查文件是否是普通文件
-</span></span><span class="line"><span class="cl">    if [[ -f $file ]]; then
-</span></span><span class="line"><span class="cl">        filename=$(basename &#34;$file&#34;)
-</span></span><span class="line"><span class="cl">        filename=&#34;${filename%.*}&#34;
-</span></span><span class="line"><span class="cl">        echo &#34;processing $file&#34;
-</span></span><span class="line"><span class="cl">        # 这里可以添加你的处理逻辑
-</span></span><span class="line"><span class="cl">        img2txt -W 200 -f svg &#34;$file&#34; &gt;${svg}/&#34;${filename}&#34;.svg
-</span></span><span class="line"><span class="cl">    fi
-</span></span><span class="line"><span class="cl">done
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">for file in &#34;${svg}&#34;/*.svg; do
-</span></span><span class="line"><span class="cl">    # 检查文件是否是普通文件
-</span></span><span class="line"><span class="cl">    if [[ -f $file ]]; then
-</span></span><span class="line"><span class="cl">        filename=$(basename &#34;$file&#34;)
-</span></span><span class="line"><span class="cl">        filename=&#34;${filename%.*}&#34;
-</span></span><span class="line"><span class="cl">        echo &#34;processing $file&#34;
-</span></span><span class="line"><span class="cl">        # 这里可以添加你的处理逻辑
-</span></span><span class="line"><span class="cl">        rsvg-convert &#34;${file}&#34; &gt;${output}/&#34;${filename}&#34;.png
-</span></span><span class="line"><span class="cl">    fi
-</span></span><span class="line"><span class="cl">done
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">#convert ${output}/*.png  output.gif
-</span></span><span class="line"><span class="cl">tar -zcvf output-${timestamp}.tar.gz ${output}
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;context7&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://mcp.context7.com/mcp&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;CONTEXT7_API_KEY&#34;</span><span class="p">:</span> <span class="s2">&#34;YOUR_CONTEXT7_API_KEY&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;github&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.githubcopilot.com/mcp&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer YOUR_GITHUB_TOKEN&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;chrome-devtools&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;chrome-devtools-mcp@latest&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;server-fetch&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;uvx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;mcp-server-fetch&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>这里面<code>#convert ${output}/*.png  output.gif</code>,可以把#去掉，这样就可以直接制作字符动图了（gif）。</li>
-</ul>
-<ol start="4">
-<li>download</li>
-</ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">scp mahaoliang:/home/ubuntu/works/output.png .
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="动画制作">动画制作</h2>
+</div><h2 id="总结">总结</h2>
+<p>这套配置覆盖了我在日常开发中最常用的场景：</p>
 <ul>
-<li>我用的是苹果的 final cut pro，试用期是 90 天，假如到期了话就可以输入一下代码，重置时限：</li>
+<li><strong>查文档</strong> → Context7</li>
+<li><strong>管代码</strong> → GitHub</li>
+<li><strong>调页面</strong> → Chrome DevTools</li>
+<li><strong>抓网页</strong> → server-fetch</li>
+<li><strong>画图表</strong> → drawio Skill</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cd ~
-</span></span><span class="line"><span class="cl">cd Library/Application\ Support   
-</span></span><span class="line"><span class="cl">ll -a
-</span></span><span class="line"><span class="cl">rm .ffuserdata
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>将所有图片依次导入软件，建立复合片段，再调整速度就好了。</li>
-</ul>
-<p><img src="https://cdn.mahaoliang.tech/images/202309082216720.png"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<h2 id="结尾">结尾</h2>
-<p>最后送大家一个 GIF</p>
-<p><img src="https://cdn.mahaoliang.tech/images/202309082257419.gif"
-	
-	
-	
-	loading="lazy"
-	
-		alt="图片不见啦"
-	
-	
-></p>
-<p>视频 <a class="link" href="https://cdn.mahaoliang.tech/images/202309082303161.mp4"  target="_blank" rel="noopener"
-    >https://cdn.mahaoliang.tech/images/202309082303161.mp4</a></p>
+<p>MCP 生态系统正在快速发展，新的服务器每天都在涌现。建议先从核心需求出发，逐步扩展配置，找到最适合自己工作流的组合。</p>
+<p>如果你还没有尝试过 Claude Code，现在是个好时机。2026 年的 AI 编程工具已经今非昔比，熟练掌握它们，将极大提升开发效率。</p>
 
 </section>
 
@@ -659,11 +847,11 @@
     
     <section class="article-tags">
         
-            <a href="/tags/photo/">Photo</a>
+            <a href="/tags/claude-code/">Claude Code</a>
         
-            <a href="/tags/image/">Image</a>
+            <a href="/tags/mcp/">Mcp</a>
         
-            <a href="/tags/svg/">Svg</a>
+            <a href="/tags/ai/">Ai</a>
         
     </section>
 
@@ -697,19 +885,6 @@
             
                 
 <article class="">
-    <a href="/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/">
-        
-        
-
-        <div class="article-details">
-            <h2 class="article-title">我的 Claude Code 配置实践</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="">
     <a href="/p/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E9%83%A8%E7%BD%B2%E6%88%91%E7%94%A8-claude-code-%E4%B8%89%E5%A4%A9%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA-ai-%E5%BA%94%E7%94%A8/">
         
         
@@ -723,12 +898,12 @@
             
                 
 <article class="">
-    <a href="/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/">
+    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">macOS 开发环境管理</h2>
+            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
         </div>
     </a>
 </article>
@@ -736,12 +911,25 @@
             
                 
 <article class="">
-    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
+    <a href="/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025-%E5%B9%B4-5-%E6%9C%88%E7%89%88/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
+            <h2 class="article-title">AI 工具总结（2025 年 5 月版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/macos-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">macOS 开发环境管理</h2>
         </div>
     </a>
 </article>
