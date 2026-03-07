@@ -359,7 +359,6 @@
         <li><a href="#server-fetch---网页获取">server-fetch - 网页获取</a></li>
       </ol>
     </li>
-    <li><a href="#推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</a></li>
     <li><a href="#skill-配置">Skill 配置</a></li>
     <li><a href="#插件配置">插件配置</a>
       <ol>
@@ -602,44 +601,6 @@
 </ul>
 <p><strong>注意</strong>：使用 <code>uvx</code> 运行，需要提前安装 <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
     >uv</a>（Python 包管理器）。</p>
-<h2 id="推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</h2>
-<p>以下 MCP 服务器也很有价值，根据你的需求选择性配置：</p>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>MCP 服务器</th>
-<th>用途</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Linear</strong> / <strong>Asana</strong></td>
-<td>项目管理</td>
-<td>将 AI 工作流与任务管理集成</td>
-</tr>
-<tr>
-<td><strong>Slack</strong></td>
-<td>团队通知</td>
-<td>让 Claude Code 发送进度通知</td>
-</tr>
-<tr>
-<td><strong>Supabase</strong> / <strong>Firebase</strong></td>
-<td>数据库操作</td>
-<td>直接查询和修改数据库</td>
-</tr>
-<tr>
-<td><strong>Stripe</strong></td>
-<td>支付集成</td>
-<td>测试支付流程、查询交易记录</td>
-</tr>
-<tr>
-<td><strong>Playwright</strong></td>
-<td>浏览器自动化</td>
-<td>端到端测试、自动化操作</td>
-</tr>
-</tbody>
-</table></div>
 <h2 id="skill-配置">Skill 配置</h2>
 <p>除了 MCP，Claude Code 还支持 <strong>Skill</strong>（技能），用于执行特定的高级任务。</p>
 <p>根据我的使用记录，以下 Skill 使用频率较高：</p>
@@ -658,6 +619,11 @@
 <td>生成 draw.io 图表，用于架构图、流程图</td>
 </tr>
 <tr>
+<td><strong>felo</strong></td>
+<td>3</td>
+<td>实时网络搜索，获取最新信息和资讯</td>
+</tr>
+<tr>
 <td><strong>frontend-design</strong></td>
 <td>1</td>
 <td>创建高质量前端界面</td>
@@ -667,9 +633,15 @@
 <td>1</td>
 <td>配置 HUD 状态栏</td>
 </tr>
+<tr>
+<td><strong>cover-image-prompts</strong></td>
+<td>1</td>
+<td>生成文章配图和封面图的 AI 绘图提示词</td>
+</tr>
 </tbody>
 </table></div>
 <p><strong>drawio</strong> 是我使用最多的 Skill，在讨论系统架构时特别有用——直接生成可编辑的图表文件，比文字描述直观得多。</p>
+<p><strong>felo</strong> 的使用场景很广泛——需要获取实时信息时（如最新技术动态、新闻事件、趋势数据），Claude 的知识可能已过时，这时通过 felo 进行实时搜索能补充最新上下文。</p>
 <h2 id="插件配置">插件配置</h2>
 <p>我还安装了两个插件来增强体验：</p>
 <h3 id="claude-hud">Claude HUD</h3>
@@ -836,6 +808,8 @@
 <li><strong>调页面</strong> → Chrome DevTools</li>
 <li><strong>抓网页</strong> → server-fetch</li>
 <li><strong>画图表</strong> → drawio Skill</li>
+<li><strong>搜资讯</strong> → felo Skill</li>
+<li><strong>配图片</strong> → cover-image-prompts Skill</li>
 </ul>
 <p>MCP 生态系统正在快速发展，新的服务器每天都在涌现。建议先从核心需求出发，逐步扩展配置，找到最适合自己工作流的组合。</p>
 <p>如果你还没有尝试过 Claude Code，现在是个好时机。2026 年的 AI 编程工具已经今非昔比，熟练掌握它们，将极大提升开发效率。</p>
