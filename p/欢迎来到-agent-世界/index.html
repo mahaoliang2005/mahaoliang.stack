@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和'>
-<title>我的 Claude Code 配置实践</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='OpenAI 联合创始人 Andrej Karpathy 前阵子感叹：从 2025 年 12 月开始，软件开发发生了根本性变化。编程从“写代码”变成了“编排 Agent”。 AI 已经能够自己建环境、查 Lo'>
+<title>欢迎来到 Agent 世界</title>
 
-<link rel='canonical' href='https://mahaoliang.tech/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/'>
+<link rel='canonical' href='https://mahaoliang.tech/p/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0-agent-%E4%B8%96%E7%95%8C/'>
 
-<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='我的 Claude Code 配置实践'>
-<meta property='og:description' content='2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和'>
-<meta property='og:url' content='https://mahaoliang.tech/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/'>
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='欢迎来到 Agent 世界'>
+<meta property='og:description' content='OpenAI 联合创始人 Andrej Karpathy 前阵子感叹：从 2025 年 12 月开始，软件开发发生了根本性变化。编程从“写代码”变成了“编排 Agent”。 AI 已经能够自己建环境、查 Lo'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0-agent-%E4%B8%96%E7%95%8C/'>
 <meta property='og:site_name' content='mahaoliang.tech'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='claude-code' /><meta property='article:tag' content='mcp' /><meta property='article:tag' content='ai' /><meta property='article:published_time' content='2026-02-23T12:00:00&#43;08:00'/><meta property='article:modified_time' content='2026-02-23T12:00:00&#43;08:00'/>
-<meta name="twitter:title" content="我的 Claude Code 配置实践">
-<meta name="twitter:description" content="2025 年 2 月，Claude Code 发布，带来了全新的 agentic coding 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='claude-code' /><meta property='article:tag' content='mcp' /><meta property='article:tag' content='ai' /><meta property='article:tag' content='skills' /><meta property='article:published_time' content='2026-03-07T15:38:03&#43;08:00'/><meta property='article:modified_time' content='2026-03-07T15:38:03&#43;08:00'/>
+<meta name="twitter:title" content="欢迎来到 Agent 世界">
+<meta name="twitter:description" content="OpenAI 联合创始人 Andrej Karpathy 前阵子感叹：从 2025 年 12 月开始，软件开发发生了根本性变化。编程从“写代码”变成了“编排 Agent”。 AI 已经能够自己建环境、查 Lo">
     <link rel="shortcut icon" href="/favicon.png" />
 
   
@@ -350,32 +350,19 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#什么是-mcp">什么是 MCP</a></li>
-    <li><a href="#我的-mcp-配置">我的 MCP 配置</a>
+    <li><a href="#大模型到底在干什么">大模型到底在干什么？</a></li>
+    <li><a href="#大模型连接外部世界function-calling">大模型连接外部世界：Function Calling</a></li>
+    <li><a href="#mcp-让-agent-连上外面的世界">MCP 让 Agent 连上外面的世界</a></li>
+    <li><a href="#skills可共享的能力模块按需加载">Skills：可共享的能力模块，按需加载</a></li>
+    <li><a href="#agent-的运行机制循环与状态的结合">Agent 的运行机制：循环与状态的结合</a></li>
+    <li><a href="#不到-20-行代码看清-agent-是如何跑起来的">不到 20 行代码，看清 Agent 是如何跑起来的</a>
       <ol>
-        <li><a href="#context7---代码文档查询">context7 - 代码文档查询</a></li>
-        <li><a href="#github---github-集成">github - GitHub 集成</a></li>
-        <li><a href="#chrome-devtools---浏览器调试">chrome-devtools - 浏览器调试</a></li>
-        <li><a href="#server-fetch---网页获取">server-fetch - 网页获取</a></li>
+        <li><a href="#核心代码模型工具与循环的组装">核心代码：模型、工具与循环的组装</a></li>
+        <li><a href="#运行日志与原理解读">运行日志与原理解读</a></li>
+        <li><a href="#claude-code-底层也是这样吗">Claude Code 底层也是这样吗？</a></li>
       </ol>
     </li>
-    <li><a href="#推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</a></li>
-    <li><a href="#skill-配置">Skill 配置</a></li>
-    <li><a href="#插件配置">插件配置</a>
-      <ol>
-        <li><a href="#claude-hud">Claude HUD</a></li>
-        <li><a href="#frontend-design">Frontend Design</a></li>
-      </ol>
-    </li>
-    <li><a href="#配置方式对比与实践心得">配置方式对比与实践心得</a>
-      <ol>
-        <li><a href="#http-vs-stdio">HTTP vs stdio</a></li>
-        <li><a href="#api-key-管理建议">API Key 管理建议</a></li>
-        <li><a href="#权限配置注意事项">权限配置注意事项</a></li>
-      </ol>
-    </li>
-    <li><a href="#完整配置参考">完整配置参考</a></li>
-    <li><a href="#总结">总结</a></li>
+    <li><a href="#结语">结语</a></li>
   </ol>
 </nav>
         </div>
@@ -403,7 +390,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/">我的 Claude Code 配置实践</a>
+            <a href="/p/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0-agent-%E4%B8%96%E7%95%8C/">欢迎来到 Agent 世界</a>
         </h2>
     
         
@@ -425,7 +412,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2026-02-23</time>
+                <time class="article-time--published">2026-03-07</time>
             </div>
         
 
@@ -440,7 +427,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 4 分钟
+                    阅读时长: 10 分钟
                 </time>
             </div>
         
@@ -455,309 +442,155 @@
     <section class="article-content">
     
     
-    <p>2025 年 2 月，<a class="link" href="https://claude.com/product/claude-code"  target="_blank" rel="noopener"
-    >Claude Code</a> 发布，带来了全新的 <strong>agentic coding</strong> 体验。经过一年的发展，Claude Code 已经成为我日常开发中不可或缺的工具。本文分享我的 Claude Code 配置和实践经验，希望能给正在使用或准备使用 Claude Code 的开发者一些参考。</p>
-<h2 id="什么是-mcp">什么是 MCP</h2>
-<p>在介绍配置之前，先简单解释一下 <strong>MCP (Model Context Protocol)</strong>。这是 Anthropic 提出的开放协议，用于标准化 AI 助手与外部工具、数据源的连接方式。你可以把 MCP 理解为 AI 的&quot;插件系统&quot;——通过 MCP，Claude Code 可以访问数据库、操作 GitHub、控制浏览器等，极大扩展了 AI 的能力边界。</p>
-<p>MCP 服务器有两种连接方式：</p>
-<ul>
-<li><strong>HTTP</strong>：远程服务，通过 URL 连接，适合访问云端 API</li>
-<li><strong>stdio</strong>：本地进程，通过标准输入输出通信，适合本地工具</li>
-</ul>
-<h2 id="我的-mcp-配置">我的 MCP 配置</h2>
-<p>我目前配置了 4 个 MCP 服务器，涵盖代码查询、代码托管、浏览器调试和网页获取四个维度。</p>
-<h3 id="context7---代码文档查询">context7 - 代码文档查询</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;context7&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://mcp.context7.com/mcp&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;CONTEXT7_API_KEY&#34;</span><span class="p">:</span> <span class="s2">&#34;YOUR_CONTEXT7_API_KEY&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>作用</strong>：查询流行编程库的官方文档和代码示例。</p>
-<p><strong>使用场景</strong>：</p>
-<ul>
-<li>查询某个库的 API 用法，比如 &ldquo;Next.js 的 Image 组件有哪些参数&rdquo;</li>
-<li>获取代码示例，了解最佳实践</li>
-<li>对比不同版本的 API 差异</li>
-</ul>
-<p><strong>获取 API Key</strong>：访问 <a class="link" href="https://context7.com/"  target="_blank" rel="noopener"
-    >Context7 官网</a> 注册获取。</p>
-<h3 id="github---github-集成">github - GitHub 集成</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;github&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.githubcopilot.com/mcp&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer YOUR_GITHUB_TOKEN&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>作用</strong>：直接在 Claude Code 中管理 GitHub 仓库、PR 和 Issues。</p>
-<p><strong>使用场景</strong>：</p>
-<ul>
-<li>创建 PR 并添加详细描述</li>
-<li>审查代码并添加评论</li>
-<li>管理 Issues（创建、更新、关闭）</li>
-<li>查询仓库文件内容</li>
-</ul>
-<p><strong>获取 Token</strong>：在 GitHub Settings → Developer settings → Personal access tokens 中创建，需要 <code>repo</code> 和 <code>read:org</code> 权限。</p>
-<h3 id="chrome-devtools---浏览器调试">chrome-devtools - 浏览器调试</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;chrome-devtools&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;chrome-devtools-mcp@latest&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">],</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>作用</strong>：连接 Chrome 开发者工具，进行页面调试、截图、性能分析。</p>
-<p><strong>使用场景</strong>：</p>
-<ul>
-<li>前端开发时实时查看页面效果</li>
-<li>自动生成页面截图</li>
-<li>进行性能分析，优化加载速度</li>
-<li>监控网络请求</li>
-</ul>
-<p><strong>前提条件</strong>：需要安装 Chrome 浏览器，并保持 DevTools 协议端口开放。</p>
-<h3 id="server-fetch---网页获取">server-fetch - 网页获取</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;server-fetch&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;uvx&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">      <span class="s2">&#34;mcp-server-fetch&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">]</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><strong>作用</strong>：抓取网页内容并提取为 Markdown。</p>
-<p><strong>使用场景</strong>：</p>
-<ul>
-<li>获取技术文档内容作为上下文</li>
-<li>抓取 API 参考页面</li>
-<li>读取在线教程和博客文章</li>
-</ul>
-<p><strong>注意</strong>：使用 <code>uvx</code> 运行，需要提前安装 <a class="link" href="https://github.com/astral-sh/uv"  target="_blank" rel="noopener"
-    >uv</a>（Python 包管理器）。</p>
-<h2 id="推荐但暂未配置的-mcp">推荐但暂未配置的 MCP</h2>
-<p>以下 MCP 服务器也很有价值，根据你的需求选择性配置：</p>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>MCP 服务器</th>
-<th>用途</th>
-<th>适用场景</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Linear</strong> / <strong>Asana</strong></td>
-<td>项目管理</td>
-<td>将 AI 工作流与任务管理集成</td>
-</tr>
-<tr>
-<td><strong>Slack</strong></td>
-<td>团队通知</td>
-<td>让 Claude Code 发送进度通知</td>
-</tr>
-<tr>
-<td><strong>Supabase</strong> / <strong>Firebase</strong></td>
-<td>数据库操作</td>
-<td>直接查询和修改数据库</td>
-</tr>
-<tr>
-<td><strong>Stripe</strong></td>
-<td>支付集成</td>
-<td>测试支付流程、查询交易记录</td>
-</tr>
-<tr>
-<td><strong>Playwright</strong></td>
-<td>浏览器自动化</td>
-<td>端到端测试、自动化操作</td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="skill-配置">Skill 配置</h2>
-<p>除了 MCP，Claude Code 还支持 <strong>Skill</strong>（技能），用于执行特定的高级任务。</p>
-<p>根据我的使用记录，以下 Skill 使用频率较高：</p>
-<div class="table-wrapper"><table>
-<thead>
-<tr>
-<th>Skill</th>
-<th>使用次数</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>drawio</strong></td>
-<td>3</td>
-<td>生成 draw.io 图表，用于架构图、流程图</td>
-</tr>
-<tr>
-<td><strong>frontend-design</strong></td>
-<td>1</td>
-<td>创建高质量前端界面</td>
-</tr>
-<tr>
-<td><strong>claude-hud:setup</strong></td>
-<td>1</td>
-<td>配置 HUD 状态栏</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>drawio</strong> 是我使用最多的 Skill，在讨论系统架构时特别有用——直接生成可编辑的图表文件，比文字描述直观得多。</p>
-<h2 id="插件配置">插件配置</h2>
-<p>我还安装了两个插件来增强体验：</p>
-<h3 id="claude-hud">Claude HUD</h3>
-<p><a class="link" href="https://github.com/4lch4/claude-hud"  target="_blank" rel="noopener"
-    >claude-hud</a> 是一个状态栏 HUD 插件，在终端底部显示：</p>
-<ul>
-<li>当前使用的工具</li>
-<li>Agent 活动状态</li>
-<li>待办事项列表</li>
-<li>会话时长</li>
-</ul>
-<p>安装命令：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude config plugins add claude-hud@claude-hud
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="frontend-design">Frontend Design</h3>
-<p><a class="link" href="https://github.com/claude-plugins/frontend-design"  target="_blank" rel="noopener"
-    >frontend-design</a> 是官方插件，用于创建高质量的前端界面。适合快速生成原型代码或参考实现。</p>
-<p>安装命令：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">claude config plugins add frontend-design@claude-plugins-official
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="配置方式对比与实践心得">配置方式对比与实践心得</h2>
-<h3 id="http-vs-stdio">HTTP vs stdio</h3>
-<p>两种 MCP 配置方式各有优劣：</p>
-<p><strong>HTTP 模式</strong>：</p>
-<ul>
-<li>✅ 配置简单，只需 URL 和 API Key</li>
-<li>✅ 服务稳定，无需本地环境</li>
-<li>❌ 依赖网络，有延迟</li>
-<li>❌ 需要管理 API Key 安全</li>
-</ul>
-<p><strong>stdio 模式</strong>：</p>
-<ul>
-<li>✅ 本地运行，延迟低</li>
-<li>✅ 可以访问本地资源</li>
-<li>❌ 需要配置运行环境（Node.js/Python）</li>
-<li>❌ 每次启动需要初始化进程</li>
-</ul>
-<p><strong>我的建议</strong>：</p>
-<ul>
-<li>外部服务（GitHub、Context7）用 HTTP</li>
-<li>本地工具（浏览器调试、文件操作）用 stdio</li>
-</ul>
-<h3 id="api-key-管理建议">API Key 管理建议</h3>
-<p>配置中涉及多个 API Key，安全管理很重要：</p>
+    <p><img src="https://cdn.mahaoliang.tech/2026/20260307164642787.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="title"
+	
+	
+></p>
+<p>OpenAI 联合创始人 <a class="link" href="https://x.com/karpathy"  target="_blank" rel="noopener"
+    >Andrej Karpathy</a> 前阵子<a class="link" href="https://x.com/karpathy/status/2026731645169185220"  target="_blank" rel="noopener"
+    >感叹</a>：从 2025 年 12 月开始，软件开发发生了根本性变化。<strong>编程从“写代码”变成了“编排 Agent”。</strong> AI 已经能够自己建环境、查 Log、修 bug，全方位实现自主编程。</p>
+<p>这种变化正在真实发生。OpenAI 应用 CTO 和 Codex 工程负责人在一次访谈中<a class="link" href="https://baoyu.io/blog/2026-02-21/the-pragmatic-summit-inside-openai"  target="_blank" rel="noopener"
+    >表示</a>：OpenAI 内部工程师的真实状态，交代完任务，合上电脑去开会，后台服务器会自动并行处理完毕。支付巨头 Stripe 的内部程序 <a class="link" href="https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents"  target="_blank" rel="noopener"
+    >Minions</a>，更是每周全自动提交上千个代码修改。</p>
+<p>这已不再是大厂专属。借助爆火的开源项目 OpenClaw，只需建一个普通文本文档（Markdown），写清“任务”和“可用工具”，一个全自动执行任务的程序就能跑起来。</p>
+<p>这意味着，<strong>交互的本质已经改变：从“一问答”的指令执行，变成了“目标导向”的任务交付。</strong></p>
+<p>如果你还在对话框里等 AI 回复一段文本，再手动复制去执行，那你已经落后了。现在的模式是：你只管给出目标，程序自己拆解步骤、调用软件、检查质量并交付成品。这种能自主循环、自动完成任务的软件架构，就是 <strong>Agent</strong>。</p>
+<p>今天我们不谈玄幻概念，只用最直白的语言，一层层拆解 Agent 在底层到底是如何运作的。</p>
+<h2 id="大模型到底在干什么">大模型到底在干什么？</h2>
+<p>要弄懂 Agent，必须先了解大语言模型（LLM）。</p>
+<p><strong>大模型的本质只有一个：根据概率预测下一个 Token（字符）。</strong></p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307154328983.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="LLM"
+	
+	
+></p>
+<p>它没有意识，也没有主动思考能力，最底层的功能仅仅是“文本补全”。程序给它发送一段文本（Prompt），它计算出接下来哪个字出现的概率最高，就输出哪个字。比如输入“床前明月”，它预测下一个字是“光”。这就是大模型的全部逻辑。</p>
+<p><strong>我们看到的“聊天机器人”，只是对“文本补全”做了一层格式包装。</strong></p>
+<p>理解了这一点，一个问题就浮现了出来：如果大模型只会“接收文本、输出文本”，那它是如何去联网查天气、修改文件、执行代码的？</p>
+<p>为了解决这个问题，工程师们设计了<strong>大模型连接到外部世界的核心机制：Function Calling（函数调用）。</strong></p>
+<h2 id="大模型连接外部世界function-calling">大模型连接外部世界：Function Calling</h2>
+<p>大模型本身无法执行任何代码。所谓“模型调用了工具”，本质上是一种巧妙的文本格式约定。</p>
+<p><strong>Function Calling 的核心是：要求大模型输出一段特定格式的代码文本（通常是 JSON 格式），然后由你电脑上的本地程序去拦截并执行这段代码。</strong></p>
+<p>在这个机制下，我们在给模型发送用户问题时，会同时附带一份“工具说明书”（用纯文本写明：你现在拥有一个查天气的函数，需要输入城市名称）。</p>
+<p>一旦模型通过概率计算，判断当前的任务需要用到这个工具，它就不会再输出普通的自然语言回复，而是输出一段结构化的数据文本。</p>
+<p>让我们通过一个真实的数据流向，来看看“大模型连接外部世界”到底是怎么完成的：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307154556086.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="function calling"
+	
+	
+></p>
+<p>看明白了吗？大模型从来没有真正触碰过外部网络。它只是写了一张格式严谨的“派工单”（JSON 文本），真正的执行者，永远是外部的传统程序代码。这就是大模型走向外部世界的基础。</p>
+<h2 id="mcp-让-agent-连上外面的世界">MCP 让 Agent 连上外面的世界</h2>
+<p><code>Function Calling</code> 解决了“如何让模型触发操作”的底层逻辑，但在实际工程中，它带来了一个巨大的痛点。</p>
+<p>如果你想让 Agent 读取 GitHub 的代码、查阅 Notion 的文档、操作本地的数据库，按照传统方式，程序员必须为这 3 个完全不同的软件，分别编写 3 套复杂的对接代码。这不仅繁琐，而且难以扩展。</p>
+<p><strong>为了消除这种重复开发，行业推出了标准化的交互协议：MCP（模型上下文协议）。MCP 的核心目的，就是让 Agent 真正无缝地连上外面的世界。</strong></p>
+<p>MCP 的本质是一套标准化的数据交换格式。所有的外部软件（数据库、企业文档、云服务）只要按照统一的规范提供接口，Agent 就可以直接调取它们的数据。</p>
+<p><strong>MCP 意义在于实现了工具的“即插即用”。</strong></p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307154659154.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="mcp"
+	
+	
+></p>
+<p>有了 MCP，散落在外部世界的数据和功能，都可以被统一转换为标准文本，直接灌入 Agent 的上下文中。</p>
+<p>然而，连上外面的世界仅仅是拥有了操作能力。Agent 要完成如“前端开发”或“财务审计”这样复杂的专业任务，还需要专业的业务知识和操作流程。这就需要用到另一个核心工程机制：Skills（技能）。</p>
+<h2 id="skills可共享的能力模块按需加载">Skills：可共享的能力模块，按需加载</h2>
+<p>如果把所有领域的专业规范和工具，在程序启动时全部发给大模型，会导致输入的文本量过大，，甚至超出上下文限制。</p>
+<p>为了解决这个问题，工程师引入了 Skills 机制。</p>
+<p><strong>Skills 的本质是可以共享的技能包。它们是预先定义好的能力模块，供 Agent 按需加载。</strong> 开发者将特定领域的专业规范、执行步骤预先写在一个独立的文本文件（如 SKILL.md）中。</p>
+<p>它的运行机制非常高效：</p>
 <ol>
-<li><strong>不要将 <code>.claude.json</code> 提交到 Git</strong>：添加 <code>.gitignore</code> 排除</li>
-<li><strong>使用环境变量</strong>：敏感信息可以通过环境变量注入，例如：
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer ${GITHUB_TOKEN}&#34;</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li><strong>定期轮换 Token</strong>：GitHub Token 支持设置过期时间，建议启用</li>
-<li><strong>最小权限原则</strong>：给 Token 分配最小必要的权限范围</li>
+<li>初始状态下，程序只告诉模型它拥有一个 <code>load_skill</code>（加载技能）的基础工具。</li>
+<li>当模型判断出当前任务是“数据分析”时，它输出 JSON 指令按需加载“数据分析”技能包。</li>
+<li>本地程序去读取该文件，将其包含的分析规范和代码示例全部追加到当前上下文中。</li>
+<li>模型获得了专业的指令集，随即开始精准执行任务。</li>
 </ol>
-<h3 id="权限配置注意事项">权限配置注意事项</h3>
-<p>Claude Code 在执行 MCP 工具时会请求权限，建议：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307154938077.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="skill"
+	
+	
+></p>
+<p><strong>MCP 与 Skills 的竞合关系</strong></p>
+<p>在 Agent 架构中，MCP 和 Skills 解决的是同一类问题：如何整合多个系统来完成复杂任务。但它们采用了不同的工程路线，构成了明确的竞争与合作关系。</p>
 <ul>
-<li><strong>开发初期</strong>：选择 &ldquo;Ask before each use&rdquo;，了解工具调用情况</li>
-<li><strong>熟悉后</strong>：对可信工具选择 &ldquo;Always allow&rdquo;，提升效率</li>
-<li><strong>生产环境</strong>：谨慎授权，避免误操作</li>
+<li><strong>MCP 侧重“接口协议化”</strong>：它需要部署专门的服务器程序，把模型指令翻译成外部系统的 API 请求。这种方式高度结构化，但开发成本高。</li>
+<li><strong>Skills 侧重“流程文本化”</strong>：它极度轻量，直接在文本中写明规范，让模型自己生成命令行脚本（如 bash 执行代码）去请求外部系统。它将业务流转的逻辑交给了大模型自身的代码生成能力。</li>
 </ul>
-<h2 id="完整配置参考">完整配置参考</h2>
-<p>这是我的 <code>~/.claude.json</code> 中 MCP 相关部分的完整配置（已脱敏）：</p>
+<p>如果 MCP 服务器已经在代码里写死了所有复杂的业务流程，那么就不再需要 Skills 去指导模型；反之，如果你给 Agent 配置了详尽的 Skills 技能包，让模型自己写脚本去完成系统调度，那么厚重的 MCP 协议层就变得多余。</p>
+<p>在最理想的架构中，两者是合作的：<strong>MCP 让 Agent 连上外面的世界（提供底层数据和基础功能），而 Skills 为 Agent 按需加载业务能力（指导它如何使用这些数据和功能去完成具体任务）。</strong></p>
+<h2 id="agent-的运行机制循环与状态的结合">Agent 的运行机制：循环与状态的结合</h2>
+<p>既然大模型只会文本预测，工具调用全靠 JSON 转换，那么 Agent 所谓的“自主完成任务”，到底是怎么实现的？</p>
+<p>用一个最简练的公式来总结：<strong>Agent = 模型 + 工具 + 循环 + 状态</strong>。</p>
+<p><strong>Agent 的核心正是“循环 + 状态”</strong>。我们可以将它的运转逻辑拆解为以下部分：</p>
+<ul>
+<li><strong>模型（理解与决策）</strong>：负责阅读当前状态，理解复杂局面并预测下一步。</li>
+<li><strong>工具（外部交互）</strong>：将模型的预测指令转化为真实的系统操作。</li>
+<li><strong>循环（规划 → 执行 → 观察 → 修正）</strong>：外层包裹的控制流代码，它赋予了 Agent 持续推进任务和动态纠错的生命力。</li>
+<li><strong>状态（记忆、进度、上下文）</strong>：完整保存所有的历史记录与真实反馈，确保模型在循环中始终不偏离最终目标。</li>
+</ul>
+<p>在代码层面，Agent 就是一个<strong>不断运转的死循环</strong>，不断重复以下四个步骤：</p>
+<ol>
+<li><strong>读取状态</strong>：程序将用户的原始输入，以及过去累积的所有操作记录（即任务进度和上下文记忆），发送给模型。</li>
+<li><strong>规划与决策（模型）</strong>：模型基于最新的全局状态，推断下一步该做什么（规划），输出相应的 JSON 工具指令。</li>
+<li><strong>执行操作（工具）</strong>：本地程序拦截 JSON，运行真正的外部工具（执行），并获取真实结果。</li>
+<li><strong>观察与修正（循环）</strong>：本地程序将执行结果转换为纯文本，追加到历史状态中。然后重头开始新一轮推断（一旦报错，模型便能基于新状态进行修正）。</li>
+</ol>
+<p>这个循环何时终止？只有当模型判断任务已经彻底完成，不再输出 JSON 工具指令，而是输出代表最终结果的普通自然语言文本时，Agent 才会触发 break 跳出循环，达成最终目标。</p>
+<p>为了让你更直观地理解 Agent，我们可以对比一下传统编程、工作流与 Agent 在执行路径上的根本差异：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307155059252.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="agent_workflow"
+	
+	
+></p>
+<p><strong>传统编程</strong>，程序员必须提前预测所有可能发生的情况，硬编码写死所有的 <code>if/else</code> 逻辑。遇到没写过的新错误，程序直接崩溃。</p>
+<p><strong>工作流 (Workflow)</strong>，由人工预先在界面上连线，规定好“A 节点执行完必须执行 B 节点”。路径是单向且固定的。</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307155146280.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="agent"
+	
+	
+></p>
+<p><strong>Agent 架构</strong>，执行路径是在运行中<strong>动态生成</strong>的。程序本身没有写任何业务逻辑，它只负责传递状态和执行工具。下一步该干什么、遇到报错该怎么修正，全部由大模型基于不断累积的“状态”，在“循环”中实时推断并自主决定。</p>
+<p>大模型负责理解与决策，工具负责执行操作，状态负责记录记忆与进度，而正是 <strong>“规划 → 执行 → 观察 → 修正”</strong> 的这个循环机制将它们完美粘合，诞生了真正的智能体。</p>
+<h2 id="不到-20-行代码看清-agent-是如何跑起来的">不到 20 行代码，看清 Agent 是如何跑起来的</h2>
+<p>前面讲了这么多概念，在实际写代码时，Agent 到底长什么样？</p>
+<p>我们用行业标准的 LangChain 框架，编写一个真实的 Agent 程序。任务是：“买 3 台基础款 iPhone，先查价格，然后算总价，最后下单”。</p>
+<h3 id="核心代码模型工具与循环的组装">核心代码：模型、工具与循环的组装</h3>
+<p>我们略去外部工具内部的具体逻辑代码，只看最核心的 Agent 构建部分。你只需要几行代码，就能把前文所说的机制完全跑起来：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -788,57 +621,68 @@
 </span><span class="lnt">26
 </span><span class="lnt">27
 </span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;context7&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://mcp.context7.com/mcp&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;CONTEXT7_API_KEY&#34;</span><span class="p">:</span> <span class="s2">&#34;YOUR_CONTEXT7_API_KEY&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;github&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;http&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://api.githubcopilot.com/mcp&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;headers&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="nt">&#34;Authorization&#34;</span><span class="p">:</span> <span class="s2">&#34;Bearer YOUR_GITHUB_TOKEN&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;chrome-devtools&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;chrome-devtools-mcp@latest&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">],</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">},</span>
-</span></span><span class="line"><span class="cl">    <span class="nt">&#34;server-fetch&#34;</span><span class="p">:</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;uvx&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;mcp-server-fetch&#34;</span>
-</span></span><span class="line"><span class="cl">      <span class="p">]</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_anthropic</span> <span class="kn">import</span> <span class="n">ChatAnthropic</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langchain_core.tools</span> <span class="kn">import</span> <span class="n">tool</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">langgraph.prebuilt</span> <span class="kn">import</span> <span class="n">create_react_agent</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 1. 准备工具：我们预先写好 3 个外部交互函数 (具体逻辑省略)</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">search_products</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;搜索商品价格信息&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span> 
+</span></span><span class="line"><span class="cl"><span class="nd">@tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="n">expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;执行数学计算&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@tool</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">create_order</span><span class="p">(</span><span class="n">product</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">unit_price</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;创建订单&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 2. 定义模型：这就是负责理解与决策的“大脑”</span>
+</span></span><span class="line"><span class="cl"><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatAnthropic</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;kimi-for-coding&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 3. 组装 Agent：将模型和工具绑定，底层会自动包裹一层循环结构</span>
+</span></span><span class="line"><span class="cl"><span class="n">agent</span> <span class="o">=</span> <span class="n">create_react_agent</span><span class="p">(</span><span class="n">llm</span><span class="p">,</span> <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">search_products</span><span class="p">,</span> <span class="n">calculate</span><span class="p">,</span> <span class="n">create_order</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 4. 触发运行：输入初始目标，启动规划与执行的循环</span>
+</span></span><span class="line"><span class="cl"><span class="n">user_input</span> <span class="o">=</span> <span class="s2">&#34;买 3 台基础款 iPhone，先查价格，然后算总价，最后下单&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">agent</span><span class="o">.</span><span class="n">stream</span><span class="p">({</span><span class="s2">&#34;messages&#34;</span><span class="p">:</span> <span class="p">[(</span><span class="s2">&#34;user&#34;</span><span class="p">,</span> <span class="n">user_input</span><span class="p">)]}):</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="c1"># 这里会连续打印出模型与工具交互的真实日志</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h2 id="总结">总结</h2>
-<p>这套配置覆盖了我在日常开发中最常用的场景：</p>
-<ul>
-<li><strong>查文档</strong> → Context7</li>
-<li><strong>管代码</strong> → GitHub</li>
-<li><strong>调页面</strong> → Chrome DevTools</li>
-<li><strong>抓网页</strong> → server-fetch</li>
-<li><strong>画图表</strong> → drawio Skill</li>
-</ul>
-<p>MCP 生态系统正在快速发展，新的服务器每天都在涌现。建议先从核心需求出发，逐步扩展配置，找到最适合自己工作流的组合。</p>
-<p>如果你还没有尝试过 Claude Code，现在是个好时机。2026 年的 AI 编程工具已经今非昔比，熟练掌握它们，将极大提升开发效率。</p>
+</div><h3 id="运行日志与原理解读">运行日志与原理解读</h3>
+<p>当我们运行这段代码，程序并没有像传统代码那样直接出结果，而是通过底层的循环，自动跑了 <strong>5 轮</strong>。</p>
+<p>我们用一张交互图，将这段真实生成的后台日志翻译出来：</p>
+<p><img src="https://cdn.mahaoliang.tech/2026/20260307155252096.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="agent"
+	
+	
+></p>
+<p>回顾这 5 轮真实的交互过程，我们可以清晰地看到 Agent 是如何一步步推进任务的。</p>
+<p>代码中并没有设定“先查价、再计算、最后下单”的固定流程。第一轮搜索由于条件过于苛刻导致失败，但程序并没有因此报错退出。相反，失败的反馈信息被原封不动地记入了上下文状态中（<strong>观察</strong>）。模型在第二轮读取到这段“失败记忆”后，自动调整了搜索参数（<strong>修正</strong>），成功获取了价格。</p>
+<p>拿到单价后，模型结合“买 3 台”的初始目标，在第三轮顺理成章地推断出需要执行乘法计算（<strong>规划与执行</strong>）。直到第四轮所有前置条件（商品、数量、总价）全部集齐，它才最终下达了创建订单的指令。</p>
+<p>这就是 Agent 架构的魅力所在。它跳出了传统代码的线性执行逻辑，通过“模型推断 -&gt; 工具反馈 -&gt; 状态累积”的持续循环，实现了在不确定环境下的动态决策和自我纠错。</p>
+<h3 id="claude-code-底层也是这样吗">Claude Code 底层也是这样吗？</h3>
+<p>前面我们用不到 20 行代码跑通了一个玩具级的 Agent。其实目前最流行的 Agent 编程工具<strong>Claude Code</strong>，它的底层也是这种逻辑。</p>
+<p>Claude Code 从诞生以来，尽管经历了多次重磅迭代，加入了诸如 Sub-agents（子代理）等复杂特性，但它的核心架构，完全符合我们今天拆解的所有概念：</p>
+<ol>
+<li><strong>Agentic Loop（核心循环）</strong>：Claude Code 的运转核心就是一个“循环”。程序在“收集上下文（读状态） → 采取行动（调工具） → 验证结果（观察反馈）”这三个阶段中不断打转，逻辑和我们上面的 5 轮推演如出一辙。</li>
+<li><strong>MCP（连接本地与外部）</strong>：它为什么能自动读取你的本地代码、跑测试脚本甚至操作 GitHub？因为它底层集成了一套完整的 MCP 客户端，将你电脑终端里的所有指令，变成了模型随时可调用的标准工具。</li>
+<li><strong>Skills（按需加载技能）</strong>：当面对极其复杂的商业项目时，它并不会把几万行的项目规范全部塞进模型的上下文里。它利用 Skills 机制，仅仅在需要时才真正加载专业指令。</li>
+</ol>
+<h2 id="结语">结语</h2>
+<p>在没有理清底层机制之前，很多人对 Agent 的理解停留在表面：以为它是更聪明的对话机器人。</p>
+<p>现在你了解了，<strong>Agent 的本质，就是将大模型的文本预测能力，放置在一个自动化循环的程序框架内，并赋予其读写外部世界数据的权限。</strong></p>
+<p>忘掉传统的“一问一答”模式。从现在开始，尝试在工作中明确你的<strong>终点目标</strong>，梳理好你手头的<strong>数字工具</strong>，把它们一起交给你的 Agent 程序，让它进入循环，自主为你交付最终的成品。</p>
+<p>欢迎来到 Agent 世界。</p>
 
 </section>
 
@@ -852,6 +696,8 @@
             <a href="/tags/mcp/">Mcp</a>
         
             <a href="/tags/ai/">Ai</a>
+        
+            <a href="/tags/skills/">Skills</a>
         
     </section>
 
@@ -885,12 +731,12 @@
             
                 
 <article class="">
-    <a href="/p/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0-agent-%E4%B8%96%E7%95%8C/">
+    <a href="/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/">
         
         
 
         <div class="article-details">
-            <h2 class="article-title">欢迎来到 Agent 世界</h2>
+            <h2 class="article-title">我的 Claude Code 配置实践</h2>
         </div>
     </a>
 </article>
