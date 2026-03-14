@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='在上个月的文章《我的 Claude Code 配置实践》中，我分享了自己配置 MCP 服务器的经验。但经过这段时间的深度使用，我发现了一个关键问题：MCP 服务器非常占用 c'>
+<title>优化 Claude Code Context 使用：轻量级工具替代方案</title>
+
+<link rel='canonical' href='https://mahaoliang.tech/p/%E4%BC%98%E5%8C%96-claude-code-context-%E4%BD%BF%E7%94%A8%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%B7%A5%E5%85%B7%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/'>
+
+<link rel="stylesheet" href="/scss/style.min.770ba8406666c7454bd4815f8d62ef6807a898b1a3313aa1ebcc12add3f80b36.css"><meta property='og:title' content='优化 Claude Code Context 使用：轻量级工具替代方案'>
+<meta property='og:description' content='在上个月的文章《我的 Claude Code 配置实践》中，我分享了自己配置 MCP 服务器的经验。但经过这段时间的深度使用，我发现了一个关键问题：MCP 服务器非常占用 c'>
+<meta property='og:url' content='https://mahaoliang.tech/p/%E4%BC%98%E5%8C%96-claude-code-context-%E4%BD%BF%E7%94%A8%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%B7%A5%E5%85%B7%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/'>
+<meta property='og:site_name' content='mahaoliang.tech'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='claude-code' /><meta property='article:tag' content='mcp' /><meta property='article:tag' content='skill' /><meta property='article:tag' content='ai' /><meta property='article:tag' content='optimization' /><meta property='article:published_time' content='2026-03-14T12:00:00&#43;08:00'/><meta property='article:modified_time' content='2026-03-14T12:00:00&#43;08:00'/>
+<meta name="twitter:title" content="优化 Claude Code Context 使用：轻量级工具替代方案">
+<meta name="twitter:description" content="在上个月的文章《我的 Claude Code 配置实践》中，我分享了自己配置 MCP 服务器的经验。但经过这段时间的深度使用，我发现了一个关键问题：MCP 服务器非常占用 c">
+    <link rel="shortcut icon" href="/favicon.png" />
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWTLVW9ZPS"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-VWTLVW9ZPS');
+        }
+      </script>
+    
+  
+
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/mahaoliang_hua507f931c6be309c8566e66a5c545e52_175025_300x0_resize_q75_box.jpg" width="300"
+                            height="308" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">mahaoliang.tech</a></h1>
+            <h2 class="site-description">让花成花，让树成树</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://space.bilibili.com/391943000'
+                        target="_blank"
+                        title="Bilibili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg fill="currentColor" fill-rule="evenodd" height="1em" style="flex:none;line-height:1" viewBox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><title>bilibili</title><path clip-rule="evenodd" d="M4.977 3.561a1.31 1.31 0 111.818-1.884l2.828 2.728c.08.078.149.163.205.254h4.277a1.32 1.32 0 01.205-.254l2.828-2.728a1.31 1.31 0 011.818 1.884L17.82 4.66h.848A5.333 5.333 0 0124 9.992v7.34a5.333 5.333 0 01-5.333 5.334H5.333A5.333 5.333 0 010 17.333V9.992a5.333 5.333 0 015.333-5.333h.781L4.977 3.56zm.356 3.67a2.667 2.667 0 00-2.666 2.667v7.529a2.667 2.667 0 002.666 2.666h13.334a2.667 2.667 0 002.666-2.666v-7.53a2.667 2.667 0 00-2.666-2.666H5.333zm1.334 5.192a1.333 1.333 0 112.666 0v1.192a1.333 1.333 0 11-2.666 0v-1.192zM16 11.09c-.736 0-1.333.597-1.333 1.333v1.192a1.333 1.333 0 102.666 0v-1.192c0-.736-.597-1.333-1.333-1.333z"></path></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:mahaoliang@gmail.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="5" width="18" height="14" rx="2" />
+  <polyline points="3 7 12 13 21 7" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://www.facebook.com/mahaoliang'
+                        target="_blank"
+                        title="facebook"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-facebook" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://gitee.com/mahaoliang'
+                        target="_blank"
+                        title="Gitee"
+                        rel="me"
+                    >
+                        
+                        
+                            <?xml version="1.0" encoding="UTF-8"?>
+<svg width="72px" height="72px" viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo_gitee_g_red@1x</title>
+    <g id="LOGO" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard-7" transform="translate(-192.000000, -115.000000)" fill="#C71D23">
+            <path d="M228,115 C247.882251,115 264,131.117749 264,151 C264,170.882251 247.882251,187 228,187 C208.117749,187 192,170.882251 192,151 C192,131.117749 208.117749,115 228,115 Z M246.223335,131 C246.222967,131 246.2226,131 246.222232,131.001102 L221.33326,131.001102 C213.969504,131.001102 208,136.970606 208,144.334362 L208,169.222232 C208,170.204066 208.795934,171 209.777768,171 L236.000329,171 C242.627564,171 248,165.627564 248,159.000329 L248,148.778425 C248,147.796591 247.204066,147.000657 246.222232,147.000657 L225.7779,147.000657 C224.796248,147.001123 224.000389,147.796773 223.999667,148.778425 L223.998503,153.222667 C223.997802,154.155409 224.715909,154.920565 225.629522,154.994969 L225.775805,155.00042 L225.775805,155.00042 L238.222276,155.000317 C239.155019,155.000295 239.919992,155.718618 239.994164,156.63225 L240.000044,156.77807 L240.000044,156.77807 L240.000044,157.666909 C240.000044,160.612411 237.612243,163.000213 234.66674,163.000213 L217.776621,163.000213 C216.794928,163.000164 215.999101,162.204358 215.999025,161.222665 L215.998559,144.334184 C215.998337,141.462319 218.268172,139.120556 221.111731,139.005187 L221.331716,139.00088 L221.331716,139.00088 L246.21727,139.00088 C247.198674,138.999777 247.994429,138.204515 247.996141,137.223112 L247.998897,132.77887 C248.000609,131.797037 247.205169,131.000609 246.223335,131 Z" id="logo_gitee_g_red"></path>
+        </g>
+    </g>
+</svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/mahaoliang2005'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="https://mahaoliang.tech/" selected>中文</option>
+                        
+                            <option value="https://mahaoliang.tech/en/" >English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#问题分析mcp-的-context-成本">问题分析：MCP 的 Context 成本</a></li>
+    <li><a href="#方案一chrome-devtools-mcp--agent-browser-skill">方案一：chrome-devtools MCP → agent-browser Skill</a>
+      <ol>
+        <li><a href="#为什么选择迁移">为什么选择迁移</a></li>
+        <li><a href="#安装与配置">安装与配置</a></li>
+        <li><a href="#使用对比">使用对比</a></li>
+        <li><a href="#功能增益">功能增益</a></li>
+      </ol>
+    </li>
+    <li><a href="#方案二github-mcp--gh-cli">方案二：GitHub MCP → gh CLI</a>
+      <ol>
+        <li><a href="#为什么选择迁移-1">为什么选择迁移</a></li>
+        <li><a href="#安装与配置-1">安装与配置</a></li>
+        <li><a href="#常用命令对照表">常用命令对照表</a></li>
+        <li><a href="#在-claude-code-中使用-gh-的最佳实践">在 Claude Code 中使用 gh 的最佳实践</a></li>
+      </ol>
+    </li>
+    <li><a href="#配置对比">配置对比</a>
+      <ol>
+        <li><a href="#优化前部分-mcp-配置">优化前（部分 MCP 配置）</a></li>
+        <li><a href="#优化后">优化后</a></li>
+      </ol>
+    </li>
+    <li><a href="#实践心得">实践心得</a>
+      <ol>
+        <li><a href="#什么场景适合保留-mcp">什么场景适合保留 MCP</a></li>
+        <li><a href="#什么场景适合使用-skill">什么场景适合使用 Skill</a></li>
+        <li><a href="#什么场景适合使用-cli">什么场景适合使用 CLI</a></li>
+        <li><a href="#混合使用策略">混合使用策略</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/tech/" >
+                Tech
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E4%BC%98%E5%8C%96-claude-code-context-%E4%BD%BF%E7%94%A8%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%B7%A5%E5%85%B7%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/">优化 Claude Code Context 使用：轻量级工具替代方案</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2026-03-14</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><img src="https://cdn.mahaoliang.tech/2026/20260314120538228.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="title"
+	
+	
+></p>
+<p>在上个月的文章《我的 Claude Code 配置实践》中，我分享了自己配置 MCP 服务器的经验。但经过这段时间的深度使用，我发现了一个关键问题：<strong>MCP 服务器非常占用 context</strong>。在调研官方文档和工程实践后，我决定将部分 MCP 配置迁移到更轻量级的 Skill 和 CLI 工具上。本文记录这次优化的过程和心得。</p>
+<h2 id="问题分析mcp-的-context-成本">问题分析：MCP 的 Context 成本</h2>
+<p>根据 <a class="link" href="https://docs.anthropic.com/en/docs/claude-code/features-overview"  target="_blank" rel="noopener"
+    >Claude Code 官方文档</a>，<strong>MCP 服务器在每个请求中都会加载其工具定义和 JSON 架构</strong>。这意味着即使你没有调用某个 MCP 工具，它仍然会消耗宝贵的上下文窗口。</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>扩展类型</th>
+<th>典型 Token 消耗</th>
+<th>加载方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCP 服务器</td>
+<td>8,000 - 50,000+</td>
+<td>每个请求自动加载</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>500 - 2,000</td>
+<td>按需调用</td>
+</tr>
+<tr>
+<td>CLI 工具</td>
+<td>0（不占用 context）</td>
+<td>通过 Bash 调用</td>
+</tr>
+</tbody>
+</table></div>
+<p>当你配置了多个 MCP 服务器时，这个问题会更加明显。比如同时启用 <code>chrome-devtools</code> 和 <code>github</code> 两个 MCP，每次请求可能就要消耗数万个 token 的上下文空间，留给实际代码分析和对话的空间就被压缩了。</p>
+<h2 id="方案一chrome-devtools-mcp--agent-browser-skill">方案一：chrome-devtools MCP → agent-browser Skill</h2>
+<h3 id="为什么选择迁移">为什么选择迁移</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>agent-browser Skill</th>
+<th>Chrome DevTools MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Token 消耗</strong></td>
+<td>减少 <strong>93%</strong> (500-800 vs 8,000-50,000+)</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>视觉回归测试</strong></td>
+<td>支持快照对比、像素级差异检测</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td><strong>网络请求拦截</strong></td>
+<td>支持拦截、模拟、阻塞</td>
+<td>仅监控</td>
+</tr>
+<tr>
+<td><strong>安装方式</strong></td>
+<td><code>npx skills add vercel-labs/agent-browser</code></td>
+<td>JSON 配置</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="安装与配置">安装与配置</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装 agent-browser Skill</span>
+</span></span><span class="line"><span class="cl">npx skills add vercel-labs/agent-browser
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>安装完成后，Claude Code 会自动识别这个 Skill，无需在配置文件中手动添加。</p>
+<h3 id="使用对比">使用对比</h3>
+<p><strong>Chrome DevTools MCP 的方式：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 需要 MCP 服务器在后台运行
+</span></span><span class="line"><span class="cl"># 通过复杂的 JSON-RPC 调用
+</span></span><span class="line"><span class="cl"># Token 消耗大
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>agent-browser Skill 的方式：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># 直接使用自然语言指令
+</span></span><span class="line"><span class="cl">&#34;打开 https://example.com 并截图&#34;
+</span></span><span class="line"><span class="cl">&#34;点击登录按钮&#34;
+</span></span><span class="line"><span class="cl">&#34;截取当前页面的视觉快照用于对比&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="功能增益">功能增益</h3>
+<p>除了更低的 context 成本，<code>agent-browser</code> 还带来了额外能力：</p>
+<ol>
+<li><strong>视觉回归测试</strong>：可以对比两个版本的页面截图，检测像素级差异</li>
+<li><strong>网络请求拦截</strong>：可以拦截、修改或模拟网络请求，而不仅仅是监控</li>
+<li><strong>更适合 AI 的 API</strong>：针对 AI agent 的使用场景设计，操作更直观</li>
+</ol>
+<h2 id="方案二github-mcp--gh-cli">方案二：GitHub MCP → gh CLI</h2>
+<h3 id="为什么选择迁移-1">为什么选择迁移</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>gh CLI</th>
+<th>GitHub MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Token 效率</strong></td>
+<td>~1,365 tokens（便宜 10-32 倍）</td>
+<td>~44,026 tokens</td>
+</tr>
+<tr>
+<td><strong>可靠性</strong></td>
+<td>100%（本地运行）</td>
+<td>72%（连接超时问题）</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>~$3.20/月（10,000 次操作）</td>
+<td>~$55.20/月</td>
+</tr>
+<tr>
+<td><strong>安装方式</strong></td>
+<td><code>brew install gh &amp;&amp; gh auth login</code></td>
+<td>JSON 配置 + Token</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="安装与配置-1">安装与配置</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装 GitHub CLI</span>
+</span></span><span class="line"><span class="cl">brew install gh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 认证登录</span>
+</span></span><span class="line"><span class="cl">gh auth login
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 按照提示选择：</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - GitHub.com</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - HTTPS</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># - 使用浏览器登录（推荐）或 Token 登录</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="常用命令对照表">常用命令对照表</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>GitHub MCP</th>
+<th>gh CLI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看 PR 列表</td>
+<td>MCP 调用</td>
+<td><code>gh pr list</code></td>
+</tr>
+<tr>
+<td>查看 PR 详情</td>
+<td>MCP 调用</td>
+<td><code>gh pr view 123</code></td>
+</tr>
+<tr>
+<td>创建 PR</td>
+<td>MCP 调用</td>
+<td><code>gh pr create</code></td>
+</tr>
+<tr>
+<td>合并 PR</td>
+<td>MCP 调用</td>
+<td><code>gh pr merge 123</code></td>
+</tr>
+<tr>
+<td>查看 Issues</td>
+<td>MCP 调用</td>
+<td><code>gh issue list</code></td>
+</tr>
+<tr>
+<td>Fork 仓库</td>
+<td>MCP 调用</td>
+<td><code>gh repo fork</code></td>
+</tr>
+<tr>
+<td>Clone 仓库</td>
+<td>MCP 调用</td>
+<td><code>gh repo clone owner/repo</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="在-claude-code-中使用-gh-的最佳实践">在 Claude Code 中使用 gh 的最佳实践</h3>
+<p><strong>直接调用：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">用户：查看一下我的 open PR
+</span></span><span class="line"><span class="cl">Claude：我来帮你查看当前的 PR 列表。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude 会直接执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gh pr list
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>结合其他命令：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">用户：创建一个新的 PR，标题是&#34;修复登录问题&#34;
+</span></span><span class="line"><span class="cl">Claude：我来帮你创建 PR。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Claude 会执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gh pr create --title <span class="s2">&#34;修复登录问题&#34;</span> --body <span class="s2">&#34;</span><span class="k">$(</span>cat <span class="s">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s">## 修复内容
+</span></span></span><span class="line"><span class="cl"><span class="s">- 修复登录验证逻辑
+</span></span></span><span class="line"><span class="cl"><span class="s">- 更新错误提示信息
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl"><span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="配置对比">配置对比</h2>
+<h3 id="优化前部分-mcp-配置">优化前（部分 MCP 配置）</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;github&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;-y&#34;</span><span class="p">,</span> <span class="s2">&#34;@anthropic-ai/mcp-github&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;env&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;GITHUB_TOKEN&#34;</span><span class="p">:</span> <span class="s2">&#34;ghp_xxxxx&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;chrome-devtools&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;stdio&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;command&#34;</span><span class="p">:</span> <span class="s2">&#34;npx&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;-y&#34;</span><span class="p">,</span> <span class="s2">&#34;@anthropic-ai/mcp-chrome-devtools&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="优化后">优化后</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;mcpServers&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// chrome-devtools MCP 已移除
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// github MCP 已移除
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// 其他保留的 MCP...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>agent-browser</code>：通过 <code>npx skills add</code> 安装，不占用 MCP 配置</li>
+<li><code>gh</code>：通过 <code>brew install gh</code> 安装，通过 Bash 调用</li>
+</ul>
+<h2 id="实践心得">实践心得</h2>
+<h3 id="什么场景适合保留-mcp">什么场景适合保留 MCP</h3>
+<ol>
+<li><strong>需要结构化数据返回</strong>：MCP 返回的是结构化数据，Claude 可以更好地理解和处理</li>
+<li><strong>需要与 IDE 深度集成</strong>：比如 context7 查询文档，返回的内容直接用于代码补全</li>
+<li><strong>复杂的多步骤操作</strong>：MCP 可以维护状态，适合复杂的工具链调用</li>
+</ol>
+<h3 id="什么场景适合使用-skill">什么场景适合使用 Skill</h3>
+<ol>
+<li><strong>浏览器自动化</strong>：<code>agent-browser</code> 专为 AI 设计，功能更强、成本更低</li>
+<li><strong>特定领域的专业工具</strong>：Skill 通常针对特定场景优化</li>
+<li><strong>需要视觉/截图能力</strong>：Skill 在这方面有明显优势</li>
+</ol>
+<h3 id="什么场景适合使用-cli">什么场景适合使用 CLI</h3>
+<ol>
+<li><strong>简单直接的操作</strong>：如 <code>gh pr list</code>、<code>git status</code> 等单次调用</li>
+<li><strong>成本敏感的场景</strong>：CLI 不占用 context，成本最低</li>
+<li><strong>可靠性要求高的场景</strong>：本地 CLI 不会遇到 MCP 连接超时问题</li>
+</ol>
+<h3 id="混合使用策略">混合使用策略</h3>
+<p>我的最终配置策略：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th>工具类型</th>
+<th>保留/新增</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>context7 MCP</td>
+<td>保留</td>
+<td>文档查询，需要结构化数据</td>
+</tr>
+<tr>
+<td>agent-browser Skill</td>
+<td>新增</td>
+<td>浏览器自动化</td>
+</tr>
+<tr>
+<td>gh CLI</td>
+<td>新增</td>
+<td>GitHub 操作</td>
+</tr>
+<tr>
+<td>chrome-devtools MCP</td>
+<td>移除</td>
+<td>被 agent-browser 替代</td>
+</tr>
+<tr>
+<td>github MCP</td>
+<td>移除</td>
+<td>被 gh CLI 替代</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="总结">总结</h2>
+<p>通过这次优化，我获得了显著的改进：</p>
+<ul>
+<li><strong>Token 消耗</strong>：预计减少 50-80%，尤其是浏览器和 GitHub 相关操作</li>
+<li><strong>响应速度</strong>：减少了 MCP 加载时间，Claude 的响应更快</li>
+<li><strong>可靠性提升</strong>：避免了 MCP 连接失败的问题</li>
+<li><strong>成本降低</strong>：如果使用 API 调用，月度成本从 $50+ 降低到 $5 以下</li>
+</ul>
+<p>更重要的是，这次优化让我重新思考了工具选择的原则：<strong>不是功能越多越好，而是要在功能、成本和可靠性之间找到平衡</strong>。MCP 是一个优秀的协议，但并不意味着所有操作都要通过 MCP 完成。Skill 和 CLI 在很多场景下是更轻量、更高效的选择。</p>
+<p>未来我计划继续关注 Claude Code 生态的发展，探索更多轻量级工具，同时保持配置的简洁和高效。</p>
+<hr>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a class="link" href="https://agent-browser.dev"  target="_blank" rel="noopener"
+    >agent-browser 文档</a></li>
+<li><a class="link" href="https://cli.github.com"  target="_blank" rel="noopener"
+    >GitHub CLI 文档</a></li>
+<li><a class="link" href="https://docs.anthropic.com/en/docs/claude-code/features-overview"  target="_blank" rel="noopener"
+    >Claude Code 官方文档</a></li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/claude-code/">Claude Code</a>
+        
+            <a href="/tags/mcp/">Mcp</a>
+        
+            <a href="/tags/skill/">Skill</a>
+        
+            <a href="/tags/ai/">Ai</a>
+        
+            <a href="/tags/optimization/">Optimization</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0-agent-%E4%B8%96%E7%95%8C/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">欢迎来到 Agent 世界</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%88%91%E7%9A%84-claude-code-%E9%85%8D%E7%BD%AE%E5%AE%9E%E8%B7%B5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">我的 Claude Code 配置实践</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E4%BB%8E%E9%9C%80%E6%B1%82%E5%88%B0%E9%83%A8%E7%BD%B2%E6%88%91%E7%94%A8-claude-code-%E4%B8%89%E5%A4%A9%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E4%B8%AA-ai-%E5%BA%94%E7%94%A8/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">从需求到部署：我用 Claude Code 三天开发了一个 AI 应用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/%E6%89%93%E9%80%A0%E7%BB%88%E7%AB%AF%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%832026-agentic-coding-%E7%89%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">打造终端开发环境（2026 agentic coding 版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ai-%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%932025-%E5%B9%B4-5-%E6%9C%88%E7%89%88/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI 工具总结（2025 年 5 月版）</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <div class="disqus-container">
+    <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "mahaoliang-tech" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+<style>
+    .disqus-container {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+</style>
+
+<script>
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (typeof DISQUS == 'object') {
+            DISQUS.reset({
+                reload: true
+            });
+        }
+    })
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2022 - 
+        
+        2026 mahaoliang.tech
+    </section>
+    
+    <section class="powerby">
+        
+            <a target="_blank" href= "https://beian.miit.gov.cn">粤 ICP 备 2022085181 号 -2</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.19.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
